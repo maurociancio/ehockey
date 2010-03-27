@@ -1,4 +1,4 @@
-package ar.noxit.ehockey;
+package ar.noxit.ehockey.main;
 
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
