@@ -289,5 +289,15 @@
             <name>noxit maven repo</name>
             <url>http://repo.noxit.com.ar/svn/mavenrepo/trunk/repo/</url>
         </repository>
+        <repository>
+            <id>jboss</id>
+            <url>http://repository.jboss.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 </project>
