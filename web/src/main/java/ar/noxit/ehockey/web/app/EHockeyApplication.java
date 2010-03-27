@@ -1,6 +1,6 @@
 package ar.noxit.ehockey.web.app;
 
-import ar.noxit.ehockey.HomePage;
+import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.StartJetty;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;

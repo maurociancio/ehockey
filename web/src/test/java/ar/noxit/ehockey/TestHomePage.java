@@ -1,5 +1,6 @@
 package ar.noxit.ehockey;
 
+import ar.noxit.ehockey.web.pages.HomePage;
 import junit.framework.TestCase;
 import org.apache.wicket.util.tester.WicketTester;
 
