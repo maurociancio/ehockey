@@ -1,30 +1,31 @@
 package ar.noxit.ehockey;
 
 import ar.noxit.ehockey.web.pages.HomePage;
-import junit.framework.TestCase;
 import org.apache.wicket.util.tester.WicketTester;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Simple test using the WicketTester
  */
-public class TestHomePage extends TestCase
-{
-	private WicketTester tester;
+public class TestHomePage {
 
-	public void setUp()
-	{
-		tester = new WicketTester();
-	}
+    private WicketTester tester;
 
-	public void testRenderMyPage()
-	{
-		//start and render the test page
-		tester.startPage(HomePage.class);
+    @BeforeMethod
+    public void setUp() {
+        tester = new WicketTester();
+    }
 
-		//assert rendered page class
-		tester.assertRenderedPage(HomePage.class);
+    @Test
+    public void testRenderMyPage() {
+        // start and render the test page
+        tester.startPage(HomePage.class);
 
-		//assert rendered label component
-		tester.assertLabel("message", "If you see this message wicket is properly configured and running");
-	}
+        // assert rendered page class
+        tester.assertRenderedPage(HomePage.class);
+
+        // assert rendered label component
+        tester.assertLabel("message", "If you see this message wicket is properly configured and running");
+    }
 }
