@@ -16,6 +16,11 @@
           or "deployment". If no configuration is found, "development" is the default.
     -->
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:ehockey.xml</param-value>
+    </context-param>
+
     <filter>
         <filter-name>OpenEntityManagerInViewFilter</filter-name>
         <filter-class>
