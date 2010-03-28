@@ -1,6 +1,6 @@
 package ar.noxit.ehockey;
 
-import ar.noxit.ehockey.web.pages.HomePage;
+import ar.noxit.ehockey.web.pages.ExamplePage;
 import org.apache.wicket.util.tester.WicketTester;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,12 +20,9 @@ public class TestHomePage {
     @Test
     public void testRenderMyPage() {
         // start and render the test page
-        tester.startPage(HomePage.class);
+        tester.startPage(ExamplePage.class);
 
         // assert rendered page class
-        tester.assertRenderedPage(HomePage.class);
-
-        // assert rendered label component
-        tester.assertLabel("message", "If you see this message wicket is properly configured and running");
+        tester.assertRenderedPage(ExamplePage.class);
     }
 }
