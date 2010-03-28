@@ -251,6 +251,10 @@
                     <exclude>**/*.java</exclude>
                 </excludes>
             </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/config/${config.dir}</directory>
+            </resource>
         </resources>
         <testResources>
             <testResource>
