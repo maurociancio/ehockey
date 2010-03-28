@@ -8,6 +8,23 @@
     <version>1.0-SNAPSHOT</version>
     <name>ehockey</name>
     <description></description>
+
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <config.dir>test</config.dir>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <properties>
+                <config.dir>prod</config.dir>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <!--  WICKET DEPENDENCIES -->
 
@@ -267,6 +284,7 @@
         <wicket.version>1.4.7</wicket.version>
         <jetty.version>6.1.4</jetty.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <config.dir>dev</config.dir>
     </properties>
 
     <reporting>
