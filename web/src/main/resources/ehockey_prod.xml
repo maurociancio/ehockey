@@ -4,5 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<import resource="ehockey_prod.xml"/>
+	<import resource="prod/wicket.xml"/>
+	<import resource="dev/dao.xml"/>
 </beans>

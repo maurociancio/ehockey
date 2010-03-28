@@ -4,5 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<import resource="ehockey_prod.xml"/>
+    <bean id="wicketApplication" class="ar.noxit.ehockey.web.app.EHockeyApplication" >
+        <constructor-arg value="deployment"/>
+    </bean>
 </beans>
