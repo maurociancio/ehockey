@@ -6,4 +6,5 @@
 
 	<import resource="prod/wicket.xml"/>
 	<import resource="dev/dao.xml"/>
+	<import resource="global.xml"/>
 </beans>

@@ -18,6 +18,18 @@
     <!-- CONFIGURAR ENTITY MANAGER FACTORY -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="ehockey"/>
+        <property name="jpaProperties">
+            <value>
+                hibernate.show_sql                = ${hibernate.show_sql}
+                hibernate.hbm2ddl.auto            = ${hibernate.hbm2ddl.auto}
+
+                hibernate.dialect                 = ${hibernate.dialect}
+                hibernate.connection.driver_class = ${hibernate.connection.driver_class}
+                hibernate.connection.url          = ${hibernate.connection.url}
+                hibernate.connection.password     = ${hibernate.connection.password}
+                hibernate.connection.username     = ${hibernate.connection.username}
+            </value>
+        </property>
     </bean>
 
     <!-- TRANSACTION MANAGER  -->
