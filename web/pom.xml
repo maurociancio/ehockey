@@ -355,5 +355,9 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>wpt-release</id>
+            <url>http://wicketpagetest.sourceforge.net/m2-repo/releases</url>
+        </repository>
     </repositories>
 </project>
