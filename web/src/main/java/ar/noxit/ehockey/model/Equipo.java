@@ -2,23 +2,21 @@ package ar.noxit.ehockey.model;
 
 public class Equipo {
 
-    private String nombre;
+    private Club club;
+    private ListaBuenaFe listaBuenaFe;
 
-    /**
-     * Dummy equipo
-     * 
-     * @param nombre
-     */
-    public Equipo(String nombre) {
-        this.nombre = nombre;
+    public Equipo(Club club) {
+        this.club = club;
     }
 
-    public String getNombre() {
-        return nombre;
+    public ListaBuenaFe getListaBuenaFe() {
+        if (listaBuenaFe == null) {
+            listaBuenaFe = new ListaBuenaFe(this);
+        }
+        return listaBuenaFe;
     }
 
-    public boolean equals(Object o) {
-        Equipo equipo = (Equipo) o;
-        return equipo.getNombre() == this.nombre;
+    public Club getClub() {
+        return club;
     }
 }
