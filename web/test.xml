@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ehockey by packages" parallel="false">
+  <test verbose="2" name="ar.noxit.ehockey" annotations="JDK">
+    <packages>
+      <package name="ar.noxit.ehockey.model"/>
+      <package name="ar.noxit.ehockey.web"/>
+    </packages>
+  </test>
+</suite>
