@@ -35,4 +35,9 @@ public class ListaBuenaFeTest {
     public void testAgregarJugadorFalla() {
         lista.agregarJugador(null);
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCrearListadoSinEquipo() {
+        new ListaBuenaFe(null);
+    }
 }
