@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ListaBuenaFeTest {
-
+    
     private ListaBuenaFe lista;
     private Equipo equipo;
     private Club club;
@@ -53,4 +53,10 @@ public class ListaBuenaFeTest {
     public void testCrearListadoSinEquipo() {
         new ListaBuenaFe(null);
     }
+
+    @Test
+    public void testObtenerEquipo() {
+        assertEquals(equipo, lista.getEquipo());
+    }
+
 }
