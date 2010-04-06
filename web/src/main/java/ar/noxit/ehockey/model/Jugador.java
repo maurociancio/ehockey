@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.model;
 
+import org.apache.commons.lang.Validate;
+
 /**
  * Jugador
  * 
@@ -34,8 +36,14 @@ public class Jugador {
      *            del jugador
      * @param nombre
      *            del jugador
+     * @throws IllegalArgumentException
+     *             si ficha, apellido o nombre son null
      */
     public Jugador(String ficha, String apellido, String nombre) {
+        Validate.notNull(ficha, "ficha no puede ser null");
+        Validate.notNull(apellido, "apellido no puede ser null");
+        Validate.notNull(nombre, "nombre no puede ser null");
+
         this.ficha = ficha;
         this.apellido = apellido;
         this.nombre = nombre;
