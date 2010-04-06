@@ -28,6 +28,8 @@ public class ListaBuenaFeTest {
 
         assertTrue(lista.tieneJugador(jugador));
         assertEquals(lista.iterator().next(), jugador);
+
+        assertEquals(equipo, lista.getEquipo());
     }
 
     @Test(expectedExceptions = JugadorYaPerteneceAListaException.class)
