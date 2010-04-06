@@ -2,7 +2,6 @@ package ar.noxit.ehockey.model;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -27,4 +26,13 @@ public class ListaBuenaFeTest {
         assertTrue(lista.tieneJugador(jugador));
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBuscarJugadorFalla() {
+        lista.tieneJugador(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAgregarJugadorFalla() {
+        lista.agregarJugador(null);
+    }
 }
