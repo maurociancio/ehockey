@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.model;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeMethod;
@@ -21,9 +22,11 @@ public class ListaBuenaFeTest {
     @Test
     public void testAgregarJugador() {
         assertFalse(lista.iterator().hasNext());
-        Jugador jugador = new Jugador();
+        Jugador jugador = new Jugador("ficha", "apellido", "nombre");
         lista.agregarJugador(jugador);
+
         assertTrue(lista.tieneJugador(jugador));
+        assertEquals(lista.iterator().next(), jugador);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
