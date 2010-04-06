@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,14 +43,17 @@ public class ListaBuenaFe {
      * 
      * @param jugador
      *            a ser agregado a la lista de buena fe
+     * @throws JugadorYaPerteneceAListaException
+     *             se lanza si el jugador ya pertence a esta lista de buena fe
      * @throws IllegalArgumentException
      *             si el jugador pasado es null
      */
-    public void agregarJugador(Jugador jugador) {
+    public void agregarJugador(Jugador jugador) throws JugadorYaPerteneceAListaException {
         Validate.notNull(jugador, "jugador no puede ser null");
 
-        // TODO resolver que se hace si el jugador ya existe. Pero hay que
-        // ckeckearlo
+        if (jugadores.contains(jugador)) {
+            throw new JugadorYaPerteneceAListaException("el jugador ya está en la lista de buena fe");
+        }
         jugadores.add(jugador);
     }
 
