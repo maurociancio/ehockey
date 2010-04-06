@@ -5,9 +5,21 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.Validate;
 
+/**
+ * Lista de Buena Fe
+ * 
+ * @author Mauro Ciancio
+ * 
+ */
 public class ListaBuenaFe {
 
+    /**
+     * Lista de jugadores en esta lista de buena fe.
+     */
     private List<Jugador> jugadores = new ArrayList<Jugador>();
+    /**
+     * Equipo a la que pertenece esta lista de buena fe.
+     */
     private Equipo equipo;
 
     /**
@@ -16,8 +28,12 @@ public class ListaBuenaFe {
      * 
      * @param equipo
      *            equipo al que pertenece esta lista de buena fe.
+     * @throws IllegalArgumentException
+     *             si el equipo es null
      */
     public ListaBuenaFe(Equipo equipo) {
+        Validate.notNull(equipo, "el equipo no puede ser null");
+
         this.equipo = equipo;
     }
 
@@ -37,6 +53,11 @@ public class ListaBuenaFe {
         jugadores.add(jugador);
     }
 
+    /**
+     * Devuelve un iterador con los jugadores de esta lista de buena fe.
+     * 
+     * @return iterador de jugadores que estan en esta lista de buena fe.
+     */
     public Iterator<Jugador> iterator() {
         return jugadores.iterator();
     }
@@ -54,6 +75,11 @@ public class ListaBuenaFe {
         return jugadores.contains(jugador);
     }
 
+    /**
+     * Equipo al que pertence esta lista de buena fe.
+     * 
+     * @return equipo
+     */
     public Equipo getEquipo() {
         return equipo;
     }
