@@ -86,9 +86,19 @@ public class Jugador {
     }
 
     /**
+     * Este método no debería ser usado por los clientes
+     * 
+     * @param id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
      * Constructor default para la persistencia. No debe ser llamado por los
      * clientes
      */
     protected Jugador() {
     }
+
 }
