@@ -1,7 +1,7 @@
 package ar.noxit.ehockey.web.app;
 
 import ar.noxit.ehockey.main.StartJetty;
-import ar.noxit.ehockey.web.pages.ExamplePage;
+import ar.noxit.ehockey.web.pages.HomePage;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -37,7 +37,7 @@ public class EHockeyApplication extends WebApplication {
      */
     @Override
     public Class<? extends WebPage> getHomePage() {
-        return ExamplePage.class;
+        return HomePage.class;
     }
 
     @Override
