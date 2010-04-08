@@ -12,14 +12,18 @@ public class EquipoService implements IEquiposService {
     @Override
     public List<Equipo> getAll() {
         List<Equipo> equipos = new ArrayList<Equipo>();
-        Equipo equipo = new Equipo("equipo", new Club("CLUB"));
-        equipo.setId(1);
+        Equipo equipo = createEquipo();
         equipos.add(equipo);
         return equipos;
     }
 
     @Override
     public Equipo get(Integer id) throws NoxitException {
+        Equipo equipo = createEquipo();
+        return equipo;
+    }
+
+    private Equipo createEquipo() {
         Equipo equipo = new Equipo("equipo", new Club("CLUB"));
         equipo.setId(1);
         return equipo;
