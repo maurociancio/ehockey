@@ -1,15 +1,34 @@
 package ar.noxit.ehockey.model;
 
+import org.apache.commons.lang.Validate;
+
 public class Equipo {
 
-    private Club club;
-    private ListaBuenaFe listaBuenaFe;
-    private String nombre;
     private Integer id;
+    private String nombre;
 
-    public Equipo(String nombre, Club club) {
+    private Division division;
+    private Sector sector;
+    private Club club;
+
+    private ListaBuenaFe listaBuenaFe;
+
+    /**
+     * No debe ser usado por los clientes
+     * 
+     * @param nombre
+     * @param club
+     */
+    public Equipo(String nombre, Club club, Division division, Sector sector) {
+        Validate.notNull(nombre, "nombre no puede ser null");
+        Validate.notNull(club, "club no puede ser null");
+        Validate.notNull(division, "division no puede ser null");
+        Validate.notNull(sector, "sector no puede ser null");
+
         this.club = club;
         this.nombre = nombre;
+        this.division = division;
+        this.sector = sector;
     }
 
     public ListaBuenaFe getListaBuenaFe() {
@@ -17,6 +36,21 @@ public class Equipo {
             listaBuenaFe = new ListaBuenaFe(this);
         }
         return listaBuenaFe;
+    }
+
+    public Division getDivision() {
+        return division;
+    }
+
+    public Sector getSector() {
+        return sector;
+    }
+
+    /**
+     * No debe ser llamados por los clientes
+     */
+    public void eliminar() {
+        this.club = null;
     }
 
     public String getNombre() {

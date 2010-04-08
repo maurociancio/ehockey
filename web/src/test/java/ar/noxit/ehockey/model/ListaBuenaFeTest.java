@@ -16,14 +16,14 @@ public class ListaBuenaFeTest {
     @BeforeMethod
     public void setUp() {
         this.club = new Club("Geba");
-        this.equipo = new Equipo("equipo", club);
+        this.equipo = club.crearNuevoEquipo("equipo", new Division("d"), new Sector("s"));
         this.lista = equipo.getListaBuenaFe();
     }
 
     @Test
     public void testAgregarJugador() throws JugadorYaPerteneceAListaException {
         assertFalse(lista.iterator().hasNext());
-        Jugador jugador = new Jugador("ficha", "apellido", "nombre");
+        Jugador jugador = new Jugador("apellido", "nombre", new Sector("s"), new Division("d"));
         lista.agregarJugador(jugador);
 
         assertTrue(lista.tieneJugador(jugador));
@@ -34,7 +34,7 @@ public class ListaBuenaFeTest {
 
     @Test(expectedExceptions = JugadorYaPerteneceAListaException.class)
     public void testAgregarJugador2Veces() throws JugadorYaPerteneceAListaException {
-        Jugador jugador = new Jugador("ficha", "apellido", "nombre");
+        Jugador jugador = new Jugador("apellido", "nombre", new Sector("s"), new Division("d"));
         lista.agregarJugador(jugador);
         lista.agregarJugador(jugador);
     }
@@ -58,5 +58,4 @@ public class ListaBuenaFeTest {
     public void testObtenerEquipo() {
         assertEquals(equipo, lista.getEquipo());
     }
-
 }

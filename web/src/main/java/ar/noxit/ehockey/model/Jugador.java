@@ -1,6 +1,8 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.SinClubException;
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 
 /**
  * Jugador
@@ -11,13 +13,9 @@ import org.apache.commons.lang.Validate;
 public class Jugador {
 
     /**
-     * Id del Jugador
+     * Ficha del Jugador
      */
-    private Integer id;
-    /**
-     * Ficha del jugador
-     */
-    private String ficha;
+    private Integer ficha;
     /**
      * Apellido del jugador
      */
@@ -27,11 +25,20 @@ public class Jugador {
      */
     private String nombre;
 
+    private String tipoDocumento;
+    private String numeroDocumento;
+    private LocalDate fechaNacimiento;
+    private String telefono;
+    private LocalDate fechaAlta; // #TODO
+    private String letraJugador;
+
+    private Division division;
+    private Club club;
+    private Sector sector;
+
     /**
      * Construye un nuevo jugador
      * 
-     * @param ficha
-     *            del jugador
      * @param apellido
      *            del jugador
      * @param nombre
@@ -39,14 +46,16 @@ public class Jugador {
      * @throws IllegalArgumentException
      *             si ficha, apellido o nombre son null
      */
-    public Jugador(String ficha, String apellido, String nombre) {
-        Validate.notNull(ficha, "ficha no puede ser null");
+    public Jugador(String apellido, String nombre, Sector sector, Division division) {
         Validate.notNull(apellido, "apellido no puede ser null");
         Validate.notNull(nombre, "nombre no puede ser null");
+        Validate.notNull(division, "division no puede ser null");
+        Validate.notNull(sector, "sector no puede ser null");
 
-        this.ficha = ficha;
         this.apellido = apellido;
         this.nombre = nombre;
+        this.sector = sector;
+        this.division = division;
     }
 
     /**
@@ -54,8 +63,40 @@ public class Jugador {
      * 
      * @return id
      */
-    public Integer getId() {
-        return id;
+    public Integer getFicha() {
+        return ficha;
+    }
+
+    public Club getClub() throws SinClubException {
+        if (club == null) {
+            throw new SinClubException("el jugador no tiene club");
+        }
+        return club;
+    }
+
+    public void asignarClub(Club club) {
+        Validate.notNull(club);
+
+        if (club != this.club) {
+            Club oldClub = this.club;
+            this.club = null;
+            if (oldClub != null) {
+                oldClub.borrarJugador(this);
+            }
+
+            this.club = club;
+            if (!club.contiene(this)) {
+                club.agregarJugador(this);
+            }
+        }
+    }
+
+    public void liberar() {
+        Club clubViejo = this.club;
+        this.club = null;
+        if (clubViejo != null && clubViejo.contiene(this)) {
+            clubViejo.borrarJugador(this);
+        }
     }
 
     /**
@@ -68,15 +109,6 @@ public class Jugador {
     }
 
     /**
-     * Obtiene la ficha del jugador
-     * 
-     * @return ficha
-     */
-    public String getFicha() {
-        return ficha;
-    }
-
-    /**
      * Obtiene el nombre del jugador
      * 
      * @return nombre
@@ -85,13 +117,21 @@ public class Jugador {
         return nombre;
     }
 
+    public Sector getSector() {
+        return sector;
+    }
+
+    public Division getDivision() {
+        return division;
+    }
+
     /**
      * Este método no debería ser usado por los clientes
      * 
      * @param id
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setFicha(Integer id) {
+        this.ficha = id;
     }
 
     /**
@@ -100,5 +140,4 @@ public class Jugador {
      */
     protected Jugador() {
     }
-
 }

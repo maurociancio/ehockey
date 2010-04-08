@@ -8,26 +8,40 @@ public class JugadorTest {
     @Test
     public void testCrearJugador() {
         // crear jugador
-        Jugador jugador = new Jugador("F0001", "Apellido", "Nombre");
+        Sector sector = new Sector("sector");
+        Division division = new Division("division");
+        Jugador jugador = new Jugador("Apellido", "Nombre", sector, division);
 
         // verificar atributos
         assertEquals(jugador.getApellido(), "Apellido");
         assertEquals(jugador.getNombre(), "Nombre");
-        assertEquals(jugador.getFicha(), "F0001");
+        assertEquals(jugador.getDivision(), division);
+        assertEquals(jugador.getSector(), sector);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCrearJugadorConNull1() {
-        new Jugador("F0001", "Apellido", null);
+        Sector sector = new Sector("sector");
+        new Jugador("Apellido", "Nombre", sector, null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCrearJugadorConNull2() {
-        new Jugador(null, "Apellido", "nombre");
+        Division division = new Division("division");
+        new Jugador("Apellido", "Nombre", null, division);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCrearJugadorConNull3() {
-        new Jugador("F0001", null, "nombre");
+        Sector sector = new Sector("sector");
+        Division division = new Division("division");
+        new Jugador("Apellido", null, sector, division);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCrearJugadorConNull4() {
+        Sector sector = new Sector("sector");
+        Division division = new Division("division");
+        new Jugador(null, "Nombre", sector, division);
     }
 }

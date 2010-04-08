@@ -2,8 +2,10 @@ package ar.noxit.ehockey.service.impl;
 
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.model.Club;
+import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
@@ -28,9 +30,12 @@ public class EquipoService implements IEquiposService {
 
     private Equipo createEquipo() {
         try {
-            Equipo equipo = new Equipo("equipo", new Club("CLUB"));
-            Jugador jugador = new Jugador("ficha", "riquelme", "roman");
-            jugador.setId(1);
+            Club club = new Club("CLUB");
+            Sector sector = new Sector("s");
+            Division d = new Division("d");
+            Equipo equipo = club.crearNuevoEquipo("equipo", d, sector);
+            Jugador jugador = new Jugador("riquelme", "roman", sector, d);
+            jugador.setFicha(1);
             equipo.getListaBuenaFe().agregarJugador(jugador);
             equipo.setId(1);
             return equipo;

@@ -86,13 +86,13 @@ public class HomePage extends AbstractContentPage {
 
         @Override
         public IModel<Jugador> model(Jugador object) {
-            final Integer id = object.getId();
+            final Integer id = object.getFicha();
             return new LoadableDetachableModel<Jugador>(object) {
 
                 @Override
                 protected Jugador load() {
                     for (Jugador j : loadList()) {
-                        if (j.getId().equals(id)) {
+                        if (j.getFicha().equals(id)) {
                             return j;
                         }
                     }

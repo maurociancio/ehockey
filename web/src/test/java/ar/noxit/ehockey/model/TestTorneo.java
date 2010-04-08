@@ -1,4 +1,4 @@
-package ar.noxit.ehockey.web.model;
+package ar.noxit.ehockey.model;
 
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
