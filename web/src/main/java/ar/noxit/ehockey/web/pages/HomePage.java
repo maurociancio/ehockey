@@ -14,5 +14,6 @@ public class HomePage extends AbstractHeaderPage {
                 return "Hola, hoy es: " + new Date().toString();
             }
         }));
+        add(new SidebarPanel("sidebar"));
     }
 }
