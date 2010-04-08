@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ListaBuenaFeTest {
-    
+
     private ListaBuenaFe lista;
     private Equipo equipo;
     private Club club;
@@ -16,7 +16,7 @@ public class ListaBuenaFeTest {
     @BeforeMethod
     public void setUp() {
         this.club = new Club("Geba");
-        this.equipo = new Equipo(club);
+        this.equipo = new Equipo("equipo", club);
         this.lista = equipo.getListaBuenaFe();
     }
 
