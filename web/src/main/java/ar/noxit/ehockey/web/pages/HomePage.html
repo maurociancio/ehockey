@@ -1,10 +1,15 @@
 <wicket:extend>
     <!-- Content -->
     <div id="content">
-        <h2 id="content-title"><span wicket:id="titulo"/></h2>
+        <h2 id="content-title">Planilla de Buena Fe</h2>
 
         <div id="content-in">
-            <p>hola</p>
+            <p>Listado de Equipos:</p>
+            <div wicket:id="feedback"/>
+            <form wicket:id="equipos">
+                <select wicket:id="equipos"></select>
+                <input type="submit" value="Ver Lista" />
+            </form>
         </div> <!-- /content-in -->
 
     </div> <!-- /content -->
