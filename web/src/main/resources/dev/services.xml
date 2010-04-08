@@ -4,8 +4,5 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<import resource="dev/wicket.xml"/>
-	<import resource="dev/dao.xml"/>
-	<import resource="dev/services.xml"/>
-	<import resource="global.xml"/>
+    <bean id="equiposService" class="ar.noxit.ehockey.service.impl.EquipoService" />
 </beans>
