@@ -23,6 +23,9 @@ public class Partido {
         if (planillaPrecargada == null) {
             planillaPrecargada = new Planilla(local, visitante);
         }
+        if (!planillaPrecargada.fuePrecargada()) {
+            planillaPrecargada.precargarPlanilla();
+        }
         return planillaPrecargada;
     }
 }
