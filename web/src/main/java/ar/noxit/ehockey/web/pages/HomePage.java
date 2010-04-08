@@ -4,7 +4,7 @@ import java.util.Date;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 
-public class HomePage extends AbstractHeaderPage {
+public class HomePage extends AbstractContentPage {
 
     public HomePage() {
         add(new Label("titulo", new AbstractReadOnlyModel<String>() {
@@ -14,6 +14,5 @@ public class HomePage extends AbstractHeaderPage {
                 return "Hola, hoy es: " + new Date().toString();
             }
         }));
-        add(new SidebarPanel("sidebar"));
     }
 }
