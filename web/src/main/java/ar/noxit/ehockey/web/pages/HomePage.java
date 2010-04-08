@@ -21,6 +21,7 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class HomePage extends AbstractContentPage {
@@ -47,13 +48,15 @@ public class HomePage extends AbstractContentPage {
             @Override
             protected void populateItem(Item<Jugador> item) {
                 final IModel<Jugador> model = item.getModel();
+
+                item.add(new Label("ficha", new PropertyModel<String>(model, "ficha")).setRenderBodyOnly(true));
                 item.add(new Label("nya", new AbstractReadOnlyModel<String>() {
 
                     @Override
                     public String getObject() {
                         return model.getObject().getApellido() + " " + model.getObject().getNombre();
                     }
-                }));
+                }).setRenderBodyOnly(true));
             }
         });
     }
