@@ -1,9 +1,10 @@
 package ar.noxit.ehockey.web.app;
 
 import ar.noxit.ehockey.main.StartJetty;
+import ar.noxit.ehockey.web.pages.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.HomePage;
-import ar.noxit.ehockey.web.pages.ListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.PartidoPage;
+import ar.noxit.ehockey.web.pages.VerListaBuenaFePage;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -33,7 +34,8 @@ public class EHockeyApplication extends WebApplication {
 
         addComponentInstantiationListener(new SpringComponentInjector(this));
 
-        mountBookmarkablePage("/listabuenafe", ListaBuenaFePage.class);
+        mountBookmarkablePage("/listabuenafe/ver", VerListaBuenaFePage.class);
+        mountBookmarkablePage("/listabuenafe/editar", EditarListaBuenaFePage.class);
         mountBookmarkablePage("/partidos", PartidoPage.class);
     }
 

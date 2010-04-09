@@ -16,8 +16,12 @@
                     <value>ar.noxit.ehockey.web.pages.HomePage</value>
                 </entry>
                 <entry>
-                    <key><value>Lista de Buena Fe</value></key>
-                    <value>ar.noxit.ehockey.web.pages.ListaBuenaFePage</value>
+                    <key><value>Ver Lista de Buena Fe</value></key>
+                    <value>ar.noxit.ehockey.web.pages.VerListaBuenaFePage</value>
+                </entry>
+                <entry>
+                    <key><value>Editar Lista de Buena Fe</value></key>
+                    <value>ar.noxit.ehockey.web.pages.EditarListaBuenaFePage</value>
                 </entry>
                 <entry>
                     <key><value>Partidos</value></key>
