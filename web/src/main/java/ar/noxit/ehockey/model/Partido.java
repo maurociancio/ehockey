@@ -42,9 +42,9 @@ public class Partido {
         if (planillaFinal == null) {
             crearPlanillas();
         }
-        return planillaFinal;  
+        return planillaFinal;
     }
-    
+
     /**
      * Cierra la planilla final para que ya no se pueda editar.
      */

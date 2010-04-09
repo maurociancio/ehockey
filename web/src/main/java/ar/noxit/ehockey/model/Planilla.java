@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
+
+import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
+import ar.noxit.ehockey.exception.PlanillaNoModificableException;
+
 public class Planilla {
     protected int id;
-    
+
     protected Equipo local;
     protected Equipo visitante;
 
@@ -64,6 +69,25 @@ public class Planilla {
         while (it.hasNext()) {
             jugadoresV.add(it.next());
         }
+    }
+
+    private void agregarJugador(Jugador jugador, List<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
+        Validate.notNull(jugador, "jugador no puede ser null");
+
+        if (jugadores.contains(jugador)) {
+            throw new JugadorYaPerteneceAListaException("el jugador ya está en la lista de buena fe");
+        }
+        jugadores.add(jugador);
+    }
+
+    public void agregarJugadorLocal(Jugador jugador) throws PlanillaNoModificableException,
+            JugadorYaPerteneceAListaException {
+        agregarJugador(jugador, this.jugadoresL);
+    }
+
+    public void agregarJugadorVisitante(Jugador jugador) throws PlanillaNoModificableException,
+            JugadorYaPerteneceAListaException {
+        agregarJugador(jugador, this.jugadoresV);
     }
 
     /**
