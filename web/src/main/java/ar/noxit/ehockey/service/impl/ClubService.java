@@ -35,9 +35,9 @@ public class ClubService implements IClubService {
     }
 
     @Override
-    public List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> seleccionados) {
+    public List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> idJugadores) {
         ArrayList<Jugador> arrayList = new ArrayList<Jugador>();
-        if (seleccionados != null && !seleccionados.isEmpty()) {
+        if (idJugadores != null && !idJugadores.isEmpty()) {
             Jugador e = getJ();
             arrayList.add(e);
         }

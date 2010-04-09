@@ -12,5 +12,5 @@ public interface IClubService {
 
     List<Club> getAll();
 
-    List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> seleccionados);
+    List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> idJugadores);
 }
