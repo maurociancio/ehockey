@@ -5,29 +5,29 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Planilla {
-    boolean precargada = false;
+    protected int id;
+    
+    protected Equipo local;
+    protected Equipo visitante;
 
-    Equipo local;
-    Equipo visitante;
+    protected String dTL;
+    protected String capitanL;
+    protected String pFisicoL;
+    protected String medicoL;
+    protected String juezDeMesaL;
+    protected String arbitroL;
 
-    String dTL;
-    String capitanL;
-    String pFisicoL;
-    String medicoL;
-    String juezDeMesaL;
-    String arbitroL;
+    protected String dTV;
+    protected String capitanV;
+    protected String pFisicoV;
+    protected String medicoV;
+    protected String juezDeMesaV;
+    protected String arbitroV;
 
-    String dTV;
-    String capitanV;
-    String pFisicoV;
-    String medicoV;
-    String juezDeMesaV;
-    String arbitroV;
+    protected String observaciones;
 
-    String observaciones;
-
-    List<Jugador> jugadoresL = new ArrayList<Jugador>();
-    List<Jugador> jugadoresV = new ArrayList<Jugador>();
+    protected List<Jugador> jugadoresL = new ArrayList<Jugador>();
+    protected List<Jugador> jugadoresV = new ArrayList<Jugador>();
 
     // TODO definir el atributo fecha
     // TODO definir el resto de los atributos que son: Torneo, Rueda, Partido,
@@ -39,6 +39,11 @@ public class Planilla {
     public Planilla(Equipo local, Equipo visitante) {
         this.local = local;
         this.visitante = visitante;
+        precargarPlanilla();
+    }
+
+    protected Planilla() {
+
     }
 
     /**
@@ -46,7 +51,7 @@ public class Planilla {
      * Se pierde la información que ya esté cargada. Debería precargarse por
      * única vez.
      */
-    public void precargarPlanilla() {
+    private void precargarPlanilla() {
         jugadoresL.clear();
         jugadoresV.clear();
 
@@ -59,16 +64,16 @@ public class Planilla {
         while (it.hasNext()) {
             jugadoresV.add(it.next());
         }
-        precargada = true;
     }
 
     /**
-     * Indica si en algún momento se precargó la planilla. Se debería utilizar
-     * para no modificar una planilla ya cargada.
+     * Cierra una planilla para que no pueda modificarse más. Tener en cuenta
+     * que la planilla cerrada es la que devuelve.
      * 
-     * @return verdadero si la planilla ya fue cargada.
+     * @return una planilla que es igual a esta pero que no puede ser
+     *         modificada.
      */
-    public boolean fuePrecargada() {
-        return precargada;
+    public Planilla finalizarPlanilla() {
+        return new PlanillaFinal(this);
     }
 }
