@@ -8,5 +8,22 @@
         <constructor-arg value="development"/>
     </bean>
 
-    <bean id="menuItemProvider" class="ar.noxit.ehockey.configuration.MenuItemProvider" />
+    <bean id="menuItemProvider" class="ar.noxit.ehockey.configuration.MenuItemProvider">
+        <property name="items">
+            <map>
+                <entry>
+                    <key><value>Home</value></key>
+                    <value>ar.noxit.ehockey.web.pages.HomePage</value>
+                </entry>
+                <entry>
+                    <key><value>Lista de Buena Fe</value></key>
+                    <value>ar.noxit.ehockey.web.pages.ListaBuenaFePage</value>
+                </entry>
+                <entry>
+                    <key><value>Partidos</value></key>
+                    <value>ar.noxit.ehockey.web.pages.PartidoPage</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
 </beans>
