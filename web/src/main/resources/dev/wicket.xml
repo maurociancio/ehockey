@@ -7,4 +7,6 @@
     <bean id="wicketApplication" class="ar.noxit.ehockey.web.app.EHockeyApplication" >
         <constructor-arg value="development"/>
     </bean>
+
+    <bean id="menuItemProvider" class="ar.noxit.ehockey.configuration.MenuItemProvider" />
 </beans>

@@ -35,7 +35,7 @@ Layout
 
 #nav {background-color:#D9D9D9;}
 #nav ul li a {color:#555;}
-#nav ul li#nav-active a {color:#000;}
+#nav ul li.nav-active a {color:#000;}
 #nav ul li a:hover {color:#000;}
 
 #cols {background-color:#FFF;}

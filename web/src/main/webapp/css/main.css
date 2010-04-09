@@ -107,7 +107,7 @@ ul.ul-style01 ul li {background:url("../design/ul-style01-sub.gif") 0 5px no-rep
         #nav ul {margin:0; padding:0; list-style:none;}
         #nav ul li {display:inline; margin:0; padding:0;}
         #nav ul li a {display:block; float:left; padding:12px 15px 12px 14px; background:url("../design/nav-link.gif") 100% 0 repeat-y; text-decoration:underline;}
-        #nav ul li#nav-active a {font-weight:bold; text-decoration:none;}
+        #nav ul li.nav-active a {font-weight:bold; text-decoration:none;}
 
     #cols {background:url("../design/cols.gif") 0 0 repeat-y;}
 

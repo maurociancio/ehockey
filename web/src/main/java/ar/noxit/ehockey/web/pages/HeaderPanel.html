@@ -20,11 +20,12 @@
     <div id="nav">
 
         <ul class="box">
-            <li id="nav-active"><a href="#">Homepage</a></li> <!-- Active page (highlighted) -->
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Contact</a></li>
+            <li wicket:id="links">
+                <a wicket:id="link">
+                    <span wicket:id="titulo"/>
+                </a>
+            </li>
+            <!-- id="nav-active"-->
         </ul>
 
         <hr class="noscreen" />
