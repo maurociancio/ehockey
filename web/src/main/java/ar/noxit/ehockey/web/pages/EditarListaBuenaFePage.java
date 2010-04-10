@@ -1,13 +1,8 @@
 package ar.noxit.ehockey.web.pages;
 
-import ar.noxit.ehockey.model.Club;
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.model.IdLDM;
-import ar.noxit.web.wicket.model.LDM;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -17,13 +12,24 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.service.IClubService;
+import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.web.wicket.model.IdLDM;
+import ar.noxit.web.wicket.model.LDM;
+
 public class EditarListaBuenaFePage extends AbstractContentPage {
 
     private static final IChoiceRenderer<Jugador> JUGADORRENDERER = new JugadorRenderer();
-    private static final IChoiceRenderer<Club> CLUBRENDERER = new ClubRenderer();
+    private static final IChoiceRenderer<Equipo> EQUIPORENDERER = new EquipoRenderer();
     @SpringBean
     private IClubService clubService;
-    private Integer clubId;
+    @SpringBean
+    private IEquiposService equiposService;
+    
+    private Integer equipoId;
 
     public EditarListaBuenaFePage() {
         // editar lista
@@ -40,7 +46,15 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
 
             @Override
             public List<Jugador> getObject() {
-                return clubService.getJugadoresPorClub(clubId, seleccionados);
+                Equipo equipo;
+                try {
+                    equipo = equiposService.get(equipoId);
+                    return clubService.getJugadoresPorClub(equipo.getClub().getId(), seleccionados);
+                } catch (NoxitException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return null;
             }
 
             @Override
@@ -75,38 +89,38 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
             }
         };
 
-        IModel<Club> clubModel = new SelectedClubModel(new PropertyModel<Integer>(this, "clubId"));
-        form.add(new DropDownChoice<Club>("clubes",
-                clubModel,
-                new TodosClubesModel(),
-                CLUBRENDERER)
+        IModel<Equipo> equipoModel = new SelectedEquipoModel(new PropertyModel<Integer>(this, "equipoId"));
+        form.add(new DropDownChoice<Equipo>("equipos",
+                equipoModel,
+                new TodosEquiposModel(),
+                EQUIPORENDERER)
                 .setRequired(true));
 
         add(form);
     }
 
-    private class TodosClubesModel extends LDM<List<Club>> {
+    private class TodosEquiposModel extends LDM<List<Equipo>> {
 
         @Override
-        protected List<Club> doLoad() throws NoxitException {
-            return clubService.getAll();
+        protected List<Equipo> doLoad() throws NoxitException {
+            return equiposService.getAll();
         }
     }
 
-    private final class SelectedClubModel extends IdLDM<Club, Integer> {
+    private final class SelectedEquipoModel extends IdLDM<Equipo, Integer> {
 
-        private SelectedClubModel(IModel<Integer> idModel) {
+        private SelectedEquipoModel(IModel<Integer> idModel) {
             super(idModel);
         }
 
         @Override
-        protected Club doLoad(Integer id) throws NoxitException {
-            return clubService.getClub(id);
+        protected Equipo doLoad(Integer id) throws NoxitException {
+            return equiposService.get(id);
         }
 
         @Override
-        protected Integer getObjectId(Club club) {
-            return club.getId();
+        protected Integer getObjectId(Equipo equipo) {
+            return equipo.getId();
         }
     }
 
@@ -131,15 +145,15 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         }
     }
 
-    private static class ClubRenderer implements IChoiceRenderer<Club> {
+    private static class EquipoRenderer implements IChoiceRenderer<Equipo> {
 
         @Override
-        public Object getDisplayValue(Club object) {
+        public Object getDisplayValue(Equipo object) {
             return object.getNombre();
         }
 
         @Override
-        public String getIdValue(Club object, int index) {
+        public String getIdValue(Equipo object, int index) {
             return object.getId().toString();
         }
     }
