@@ -127,4 +127,8 @@ public class Club {
     public List<Jugador> getJugadores() {
         return jugadores;
     }
+
+    public List<Equipo> getEquipos() {
+        return equipos;
+    }
 }
