@@ -9,5 +9,11 @@
         </id>
         <property name="apellido" not-null="true"/>
         <property name="nombre" not-null="true"/>
+        <property name="tipoDocumento"/>
+        <property name="numeroDocumento"/>
+        <property name="fechaNacimiento" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+        <property name="telefono"/>
+        <property name="fechaAlta" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
+        <property name="letraJugador"/>
     </class>
 </hibernate-mapping>
