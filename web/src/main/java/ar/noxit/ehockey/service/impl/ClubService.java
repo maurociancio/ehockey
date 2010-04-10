@@ -1,14 +1,13 @@
 package ar.noxit.ehockey.service.impl;
 
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
+import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Sector;
-import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.exceptions.NoxitRuntimeException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +16,7 @@ public class ClubService implements IClubService {
     @Override
     public List<Jugador> getJugadoresPorClub(Integer clubId) {
         List<Jugador> jugadoresOriginal = getClub(clubId).getJugadores();
-        List<Jugador> jugadores = new ArrayList<Jugador>();
-        jugadores.addAll(jugadoresOriginal);
-        
-        return jugadores;
+        return new ArrayList<Jugador>(jugadoresOriginal);
     }
 
     @Override
@@ -30,7 +26,7 @@ public class ClubService implements IClubService {
 
     @Override
     public List<Club> getAll() {
-        ArrayList<Club> list = new ArrayList<Club>();
+        List<Club> list = new ArrayList<Club>();
         list.add(getClub());
         return list;
     }
@@ -44,12 +40,12 @@ public class ClubService implements IClubService {
 
     @Override
     public List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> idJugadores) {
-        ArrayList<Jugador> arrayList = new ArrayList<Jugador>();
+        List<Jugador> list = new ArrayList<Jugador>();
         if (idJugadores != null && !idJugadores.isEmpty()) {
             Jugador e = getJ();
-            arrayList.add(e);
+            list.add(e);
         }
-        return arrayList;
+        return list;
     }
 
     private Jugador getJ() {
@@ -62,15 +58,14 @@ public class ClubService implements IClubService {
     public List<Equipo> getEquiposPorClub(Integer clubId) {
         List<Equipo> equipos = new ArrayList<Equipo>();
         equipos.addAll(getClub(clubId).getEquipos());
-        
-        //MOCKEANDO AGREGO UN EQUIPO FABRICADO
+
+        // MOCKEANDO AGREGO UN EQUIPO FABRICADO
         equipos.add(createEquipo());
-        /////////////////////////////////////
-        
+        // ///////////////////////////////////
+
         return equipos;
     }
-    
-    
+
     private Equipo createEquipo() {
         try {
             Club club = new Club("CLUB");
