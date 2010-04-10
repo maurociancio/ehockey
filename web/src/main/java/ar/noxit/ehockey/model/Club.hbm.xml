@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping default-access="field">
+    <class name="ar.noxit.ehockey.model.Club" table="clubes">
+        <id name="id" column="id" >
+            <generator class="increment"/>
+        </id>
+        <property name="nombreCompleto" not-null="true"/>
+        <property name="nombre"/>
+        <property name="direccion"/>
+        <property name="codigoPostal"/>
+        <property name="provincia"/>
+        <property name="email"/>
+        <property name="telefono"/>
+        <property name="web"/>
+        <property name="observaciones"/>
+        <property name="activo"/>
+    </class>
+</hibernate-mapping>

@@ -27,6 +27,7 @@
         <property name="mappingResources">
             <list>
                 <value>ar/noxit/ehockey/model/Jugador.hbm.xml</value>
+                <value>ar/noxit/ehockey/model/Club.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">
