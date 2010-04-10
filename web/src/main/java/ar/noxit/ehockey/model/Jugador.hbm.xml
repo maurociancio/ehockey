@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping default-access="field">
-    <class name="ar.noxit.ehockey.model.Jugador" table="jugadores">
+    <class name="ar.noxit.ehockey.model.Jugador" entity-name="Jugador" table="jugadores">
         <id name="ficha" column="ficha" >
             <generator class="increment"/>
         </id>
@@ -15,5 +15,9 @@
         <property name="telefono"/>
         <property name="fechaAlta" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
         <property name="letraJugador"/>
+        <set name="club" inverse="true">
+            <key column="jugador_id"/>
+            <one-to-many class="Club"/>
+        </set>
     </class>
 </hibernate-mapping>

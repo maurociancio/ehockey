@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping default-access="field">
-    <class name="ar.noxit.ehockey.model.Club" table="clubes">
+    <class name="ar.noxit.ehockey.model.Club" entity-name="Club" table="clubes">
         <id name="id" column="id" >
             <generator class="increment"/>
         </id>
@@ -17,5 +17,11 @@
         <property name="web"/>
         <property name="observaciones"/>
         <property name="activo"/>
+        <set name="jugadores" table="jugadores_por_club">
+            <key column="club_id"/>
+            <many-to-many column="jugador_id"
+                unique="true"
+                class="Jugador"/>
+        </set>
     </class>
 </hibernate-mapping>
