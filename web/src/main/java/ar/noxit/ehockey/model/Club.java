@@ -123,4 +123,8 @@ public class Club {
 
     protected Club() {
     }
+    
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
 }

@@ -12,7 +12,11 @@ public class ClubService implements IClubService {
 
     @Override
     public List<Jugador> getJugadoresPorClub(Integer clubId) {
-        return getJugadoresPorClub(clubId, null);
+        List<Jugador> jugadoresOriginal = getClub(clubId).getJugadores();
+        List<Jugador> jugadores = new ArrayList<Jugador>();
+        jugadores.addAll(jugadoresOriginal);
+        
+        return jugadores;
     }
 
     @Override
