@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans default-autowire="autodetect"
-    xmlns="http://www.springframework.org/schema/beans" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop" 
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="
-           http://www.springframework.org/schema/beans 
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/aop 
-           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-           http://www.springframework.org/schema/tx 
-           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-           http://www.springframework.org/schema/context 
-           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+<beans
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <!-- CONFIGURAR ENTITY MANAGER FACTORY -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="ehockey"/>
-        <property name="jpaProperties">
+    <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${hibernate.connection.driver_class}"/>
+        <property name="url" value="${hibernate.connection.url}"/>
+        <property name="username" value="${hibernate.connection.username}"/>
+        <property name="password" value="${hibernate.connection.password}"/>
+    </bean>
+
+    <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" scope="singleton">
+        <property name="dataSource" ref="myDataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>ar/noxit/ehockey/model/Jugador.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
             <value>
+                hibernate.dialect                 = ${hibernate.dialect}
                 hibernate.show_sql                = ${hibernate.show_sql}
                 hibernate.hbm2ddl.auto            = ${hibernate.hbm2ddl.auto}
-
-                hibernate.dialect                 = ${hibernate.dialect}
-                hibernate.connection.driver_class = ${hibernate.connection.driver_class}
-                hibernate.connection.url          = ${hibernate.connection.url}
-                hibernate.connection.password     = ${hibernate.connection.password}
-                hibernate.connection.username     = ${hibernate.connection.username}
             </value>
         </property>
     </bean>
 
     <!-- TRANSACTION MANAGER  -->
     <tx:annotation-driven transaction-manager="txManager" />
-    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory">
-            <ref bean="entityManagerFactory" />
+    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref bean="mySessionFactory" />
         </property>
     </bean>
-
-    <!-- INYECTAR ENTITY MANAGER -->
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 </beans>
