@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="wicketApplication" class="ar.noxit.ehockey.web.app.EHockeyApplication" >
+    <bean id="wicketApplication" class="ar.noxit.ehockey.web.app.EHockeyApplication">
         <constructor-arg value="development"/>
     </bean>
 
@@ -12,20 +12,34 @@
         <property name="items">
             <map>
                 <entry>
-                    <key><value>Home</value></key>
+                    <key>
+                        <value>Home</value>
+                    </key>
                     <value>ar.noxit.ehockey.web.pages.HomePage</value>
                 </entry>
                 <entry>
-                    <key><value>Ver Lista de Buena Fe</value></key>
+                    <key>
+                        <value>Ver Lista de Buena Fe</value>
+                    </key>
                     <value>ar.noxit.ehockey.web.pages.VerListaBuenaFePage</value>
                 </entry>
                 <entry>
-                    <key><value>Editar Lista de Buena Fe</value></key>
+                    <key>
+                        <value>Editar Lista de Buena Fe</value>
+                    </key>
                     <value>ar.noxit.ehockey.web.pages.EditarListaBuenaFePage</value>
                 </entry>
                 <entry>
-                    <key><value>Partidos</value></key>
+                    <key>
+                        <value>Partidos</value>
+                    </key>
                     <value>ar.noxit.ehockey.web.pages.PartidoPage</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>Planilla</value>
+                    </key>
+                    <value>ar.noxit.ehockey.web.pages.planilla.PlanillaPage</value>
                 </entry>
             </map>
         </property>
