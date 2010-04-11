@@ -90,8 +90,5 @@ public class PlanillaPage extends AbstractContentPage {
                 item.add(new Label("numerosVisitantes", it));
             }
         });
-
-        add(new Label("goleadoresLocales", "Goleadores"));
-        add(new Label("goleadoresVisitantes", "Goleadores"));
     }
 }
