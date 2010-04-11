@@ -84,9 +84,8 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
             }
         };
 
-        IModel<Equipo> equipoModel = new SelectedEquipoModel(new PropertyModel<Integer>(this, "equipoId"));
         form.add(new DropDownChoice<Equipo>("equipos",
-                equipoModel,
+                new SelectedEquipoModel(new PropertyModel<Integer>(this, "equipoId")),
                 new TodosEquiposModel(),
                 EQUIPORENDERER)
                 .setRequired(true));
