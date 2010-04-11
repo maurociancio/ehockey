@@ -14,6 +14,7 @@ import org.apache.commons.lang.Validate;
  */
 public class ListaBuenaFe {
 
+    private Integer id;
     /**
      * Lista de jugadores en esta lista de buena fe.
      */
@@ -86,5 +87,29 @@ public class ListaBuenaFe {
      */
     public Equipo getEquipo() {
         return equipo;
+    }
+
+    public void reemplazarJugadores(List<Jugador> jugadores) {
+        Validate.notNull(jugadores);
+
+        List<Jugador> seVan = new ArrayList<Jugador>(this.jugadores);
+        seVan.removeAll(jugadores);
+
+        List<Jugador> seAgregan = new ArrayList<Jugador>(jugadores);
+        seAgregan.removeAll(this.jugadores);
+
+        for (Jugador jugador : seVan) {
+            this.jugadores.remove(jugador);
+        }
+        for (Jugador jugador : seAgregan) {
+            this.jugadores.add(jugador);
+        }
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    protected ListaBuenaFe() {
     }
 }

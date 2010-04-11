@@ -25,6 +25,7 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
     private IEquiposService equiposService;
     private Integer equipoId;
     private Integer clubId;
+    private List<Integer> seleccionados = new ArrayList<Integer>();
 
     public EditarListaBuenaFePage() {
         // editar lista
@@ -32,6 +33,11 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
 
             @Override
             protected void onSubmit() {
+                try {
+                    equiposService.asignarListaBuenaFe(equipoId, seleccionados);
+                } catch (NoxitException e) {
+                    throw new NoxitRuntimeException(e);
+                }
             }
         };
 
@@ -64,8 +70,6 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
     }
 
     private final class JugadoresSeleccionadosModel implements IModel<List<Jugador>> {
-
-        private List<Integer> seleccionados = new ArrayList<Integer>();
 
         @Override
         public List<Jugador> getObject() {

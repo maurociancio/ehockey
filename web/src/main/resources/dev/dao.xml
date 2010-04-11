@@ -29,6 +29,7 @@
                 <value>ar/noxit/ehockey/model/Jugador.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Club.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Equipo.hbm.xml</value>
+                <value>ar/noxit/ehockey/model/ListaBuenaFe.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">

@@ -6,6 +6,7 @@
 
     <bean id="equiposService" class="ar.noxit.ehockey.service.impl.EquipoService" >
         <property name="equipoDao" ref="equipoDao"/>
+        <property name="jugadorDao" ref="jugadorDao"/>
     </bean>
     <bean id="clubService" class="ar.noxit.ehockey.service.impl.ClubService" >
         <property name="clubDao" ref="clubDao"/>
