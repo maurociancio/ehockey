@@ -125,6 +125,9 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
 
         @Override
         protected Integer getObjectId(Equipo equipo) {
+            if (equipo == null) {
+                return null;
+            }
             return equipo.getId();
         }
     }

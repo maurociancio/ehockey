@@ -1,7 +1,9 @@
 package ar.noxit.ehockey.web.pages;
 
+import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
@@ -10,6 +12,8 @@ import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -28,6 +32,7 @@ public class VerListaBuenaFePage extends AbstractContentPage {
 
     @SpringBean
     private IEquiposService equiposService;
+    private boolean filaResaltada = true;
 
     public VerListaBuenaFePage() {
         add(new FeedbackPanel("feedback"));
@@ -57,6 +62,19 @@ public class VerListaBuenaFePage extends AbstractContentPage {
                         return model.getObject().getApellido() + " " + model.getObject().getNombre();
                     }
                 }).setRenderBodyOnly(true));
+
+                //para que alterne el color de las filas
+                item.add(new AttributeModifier("class", true, new AbstractReadOnlyModel<String>() {
+
+                    @Override
+                    public String getObject() {                        
+                        filaResaltada = !filaResaltada;
+                        if (filaResaltada) {
+                            return "alt";
+                        }
+                        return "";
+                    }
+                }));
             }
         });
     }
@@ -81,6 +99,19 @@ public class VerListaBuenaFePage extends AbstractContentPage {
                 Jugador next = it.next();
                 j.add(next);
             }
+            
+            //TODO PARA PROBAR BORRAR ESTO
+            Jugador jug = new Jugador("Riquelme", "Roman", new Sector("caballero"), new Division("div"));
+            j.add(jug);
+            jug = new Jugador("Pepe", "Biondi", new Sector("caballero"), new Division("div"));
+            j.add(jug);
+            jug = new Jugador("Putin", "Puton", new Sector("caballero"), new Division("div"));
+            j.add(jug);
+            jug = new Jugador("Lalala", "Ohsi", new Sector("caballero"), new Division("div"));
+            j.add(jug);
+            //////////////
+            
+            
             return j;
         }
 
