@@ -1,6 +1,5 @@
 package ar.noxit.ehockey.service.impl;
 
-import ar.noxit.exceptions.persistence.PersistenceException;
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Equipo;

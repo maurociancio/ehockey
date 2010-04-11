@@ -80,8 +80,8 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         @Override
         public void setObject(List<Jugador> object) {
             seleccionados.clear();
-            for (Jugador j : object) {
-                seleccionados.add(j.getFicha());
+            for (Jugador jugador : object) {
+                seleccionados.add(jugador.getFicha());
             }
         }
 
