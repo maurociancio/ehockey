@@ -159,12 +159,14 @@ dl#news dd span.date {
     text-align: center;
     border:1px solid #36569d;
     border-collapse:collapse;
+    table-layout: fixed;
 }
 .planillaPartidoPie {
     width:95%;
     text-align: left;
     border:1px solid #36569d;
     border-collapse:collapse;
+    table-layout: fixed;
 }
 .planillaPartidoCabecera td, .planillaPartidoCabecera th, .planillaPartidoPie td {
     border:1px solid #36569d;
