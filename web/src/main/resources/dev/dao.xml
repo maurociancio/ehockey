@@ -42,8 +42,8 @@
     </bean>
 
     <!-- TRANSACTION MANAGER  -->
-    <tx:annotation-driven transaction-manager="txManager" />
-    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory">
             <ref bean="sessionFactory" />
         </property>
