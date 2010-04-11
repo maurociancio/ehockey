@@ -1,9 +1,16 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.ehockey.web.pages.AbstractContentPage;
 
 public class PlanillaPage extends AbstractContentPage {
@@ -11,6 +18,8 @@ public class PlanillaPage extends AbstractContentPage {
     private String FEDERACION = "Federación de Hockey - FIUBA - 75.47";
     private String LOCAL = "Local";
     private String VISITANTE = "Visitante";
+    @SpringBean
+    private IEquiposService equipoService;
 
     public PlanillaPage() {
         super();
@@ -30,5 +39,21 @@ public class PlanillaPage extends AbstractContentPage {
         add(new Label("visitante", this.VISITANTE));
         add(new Label("nombreLocal", "Belgrano"));
         add(new Label("nombreVisitante", "GEBA"));
+
+        List<String> lista = new ArrayList<String>();
+        lista.add("PEPE");
+        lista.add("PEPE2");
+        lista.add("PEPE3");
+        add(new ListView<String>("fichasJugadoresLocales", lista) {
+
+            @Override
+            protected void populateItem(ListItem<String> item) {
+                String it = item.getModelObject();
+                item.add(new Label("fichasLocales", it));
+            }
+        });
+        
+        add(new Label("goleadoresLocales", "Goleadores"));
+        add(new Label("goleadoresVisitantes", "Goleadores"));
     }
 }
