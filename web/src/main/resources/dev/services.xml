@@ -4,6 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="equiposService" class="ar.noxit.ehockey.service.impl.EquipoService" />
-    <bean id="clubService" class="ar.noxit.ehockey.service.impl.ClubService" />
+    <bean id="equiposService" class="ar.noxit.ehockey.service.impl.EquipoService" >
+        <property name="equipoDao" ref="equipoDao"/>
+    </bean>
+    <bean id="clubService" class="ar.noxit.ehockey.service.impl.ClubService" >
+        <property name="clubDao" ref="clubDao"/>
+    </bean>
 </beans>

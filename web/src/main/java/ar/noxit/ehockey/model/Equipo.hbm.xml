@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping default-access="field">
+    <class name="ar.noxit.ehockey.model.Equipo" entity-name="Equipo" table="equipos">
+        <id name="id" column="id" >
+            <generator class="increment"/>
+        </id>
+        <property name="nombre" not-null="true"/>
+        <join table="equipos_por_club" inverse="true" optional="true">
+            <key column="equipo_id" unique="true"/>
+            <many-to-one name="club" column="club_id" not-null="true" class="Club"/>
+        </join>
+    </class>
+</hibernate-mapping>

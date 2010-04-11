@@ -22,12 +22,13 @@
         <property name="password" value="${hibernate.connection.password}"/>
     </bean>
 
-    <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" scope="singleton">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" scope="singleton">
         <property name="dataSource" ref="myDataSource"/>
         <property name="mappingResources">
             <list>
                 <value>ar/noxit/ehockey/model/Jugador.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Club.hbm.xml</value>
+                <value>ar/noxit/ehockey/model/Equipo.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -43,7 +44,14 @@
     <tx:annotation-driven transaction-manager="txManager" />
     <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory">
-            <ref bean="mySessionFactory" />
+            <ref bean="sessionFactory" />
         </property>
+    </bean>
+
+    <bean id="clubDao" class="ar.noxit.ehockey.dao.impl.ClubDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="equipoDao" class="ar.noxit.ehockey.dao.impl.EquipoDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>

@@ -1,35 +1,33 @@
 package ar.noxit.ehockey.web.pages;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.wicket.extensions.markup.html.form.palette.Palette;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.model.LDM;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.extensions.markup.html.form.palette.Palette;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class EditarListaBuenaFePage extends AbstractContentPage {
 
-    private static final IChoiceRenderer<Jugador> JUGADORRENDERER = new JugadorRenderer();
-    private static final IChoiceRenderer<Equipo> EQUIPORENDERER = new EquipoRenderer();
     @SpringBean
     private IClubService clubService;
     @SpringBean
     private IEquiposService equiposService;
-    
+    private static final IChoiceRenderer<Jugador> JUGADORRENDERER = new JugadorRenderer();
+    private static final IChoiceRenderer<Equipo> EQUIPORENDERER = new EquipoRenderer();
     private Integer equipoId;
+    private Integer clubId;
 
     public EditarListaBuenaFePage() {
         // editar lista
@@ -40,21 +38,18 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
             }
         };
 
-        IModel<List<Jugador>> j = new IModel<List<Jugador>>() {
+        IModel<List<Jugador>> modelJugador = new IModel<List<Jugador>>() {
 
             private List<Integer> seleccionados = new ArrayList<Integer>();
 
             @Override
             public List<Jugador> getObject() {
-                Equipo equipo;
                 try {
-                    equipo = equiposService.get(equipoId);
+                    Equipo equipo = equiposService.get(equipoId);
                     return clubService.getJugadoresPorClub(equipo.getClub().getId(), seleccionados);
                 } catch (NoxitException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    throw new NoxitRuntimeException(e);
                 }
-                return null;
             }
 
             @Override
@@ -71,7 +66,7 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         };
 
         formInclusion.add(new Palette<Jugador>("palette",
-                j,
+                modelJugador,
                 new TodosJugadoresPorClubModel(),
                 JUGADORRENDERER,
                 10,
@@ -114,6 +109,16 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         }
 
         @Override
+        public void setObject(Equipo object) {
+            super.setObject(object);
+            if (object != null) {
+                clubId = object.getClub().getId();
+            } else {
+                clubId = null;
+            }
+        }
+
+        @Override
         protected Equipo doLoad(Integer id) throws NoxitException {
             return equiposService.get(id);
         }
@@ -124,11 +129,11 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         }
     }
 
-    private class TodosJugadoresPorClubModel extends LoadableDetachableModel<List<Jugador>> {
+    private class TodosJugadoresPorClubModel extends LDM<List<Jugador>> {
 
         @Override
-        protected List<Jugador> load() {
-            return clubService.getJugadoresPorClub(1);
+        protected List<Jugador> doLoad() throws NoxitException {
+            return clubService.getJugadoresPorClub(clubId);
         }
     }
 

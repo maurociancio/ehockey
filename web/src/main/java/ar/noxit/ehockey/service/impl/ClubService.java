@@ -1,84 +1,62 @@
 package ar.noxit.ehockey.service.impl;
 
-import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
+import ar.noxit.exceptions.persistence.PersistenceException;
+import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.model.Club;
-import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.exceptions.NoxitException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 public class ClubService implements IClubService {
 
+    private IClubDao clubDao;
+
     @Override
-    public List<Jugador> getJugadoresPorClub(Integer clubId) {
-        List<Jugador> jugadoresOriginal = getClub(clubId).getJugadores();
-        return new ArrayList<Jugador>(jugadoresOriginal);
+    @Transactional(readOnly = true)
+    public List<Jugador> getJugadoresPorClub(Integer clubId) throws NoxitException {
+        Club club = clubDao.get(clubId);
+        return new ArrayList<Jugador>(club.getJugadores());
     }
 
     @Override
-    public Club getClub(Integer id) {
-        return getClub();
+    @Transactional(readOnly = true)
+    public Club getClub(Integer id) throws NoxitException {
+        return clubDao.get(id);
     }
 
     @Override
-    public List<Club> getAll() {
-        List<Club> list = new ArrayList<Club>();
-        list.add(getClub());
-        return list;
-    }
-
-    private Club getClub() {
-        Club club = new Club("club1");
-        club.setId(1);
-        club.agregarJugador(getJ());
-        return club;
+    @Transactional(readOnly = true)
+    public List<Club> getAll() throws NoxitException {
+        return clubDao.getAll();
     }
 
     @Override
-    public List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> idJugadores) {
-        List<Jugador> list = new ArrayList<Jugador>();
-        if (idJugadores != null && !idJugadores.isEmpty()) {
-            Jugador e = getJ();
-            list.add(e);
+    public List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> idJugadores) throws NoxitException {
+        Club club = clubDao.get(clubId);
+
+        List<Jugador> list = new ArrayList<Jugador>(club.getJugadores());
+        Iterator<Jugador> it = list.iterator();
+        while (it.hasNext()) {
+            Jugador next = it.next();
+            if (!idJugadores.contains(next.getFicha())) {
+                it.remove();
+            }
         }
         return list;
     }
 
-    private Jugador getJ() {
-        Jugador e = new Jugador("a", "n", new Sector("s"), new Division("s"));
-        e.setFicha(1);
-        return e;
-    }
-
     @Override
-    public List<Equipo> getEquiposPorClub(Integer clubId) {
-        List<Equipo> equipos = new ArrayList<Equipo>();
-        equipos.addAll(getClub(clubId).getEquipos());
-
-        // MOCKEANDO AGREGO UN EQUIPO FABRICADO
-        equipos.add(createEquipo());
-        // ///////////////////////////////////
-
-        return equipos;
+    public List<Equipo> getEquiposPorClub(Integer clubId) throws NoxitException {
+        Club club = clubDao.get(clubId);
+        return new ArrayList<Equipo>(club.getEquipos());
     }
 
-    private Equipo createEquipo() {
-        try {
-            Club club = new Club("CLUB");
-            Sector sector = new Sector("s");
-            Division d = new Division("d");
-            Equipo equipo = club.crearNuevoEquipo("equipo", d, sector);
-            Jugador jugador = new Jugador("riquelme", "roman", sector, d);
-            jugador.setFicha(1);
-            equipo.getListaBuenaFe().agregarJugador(jugador);
-            equipo.setId(1);
-            return equipo;
-        } catch (JugadorYaPerteneceAListaException e) {
-            throw new NoxitRuntimeException(e);
-        }
+    public void setClubDao(IClubDao clubDao) {
+        this.clubDao = clubDao;
     }
 }

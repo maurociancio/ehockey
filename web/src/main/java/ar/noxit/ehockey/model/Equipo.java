@@ -93,4 +93,7 @@ public class Equipo {
             return false;
         return true;
     }
+
+    protected Equipo() {
+    }
 }

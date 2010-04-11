@@ -2,9 +2,9 @@ package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.EquipoInexistenteException;
 import ar.noxit.ehockey.exception.SinClubException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang.Validate;
 
 public class Club {
@@ -24,8 +24,8 @@ public class Club {
 
     private boolean activo;
 
-    private List<Equipo> equipos = new ArrayList<Equipo>();
-    private List<Jugador> jugadores = new ArrayList<Jugador>();
+    private Set<Equipo> equipos = new HashSet<Equipo>();
+    private Set<Jugador> jugadores = new HashSet<Jugador>();
 
     public Club(String nombreCompleto) {
         Validate.notNull(nombreCompleto, "nombre completo no puede ser null");
@@ -121,14 +121,14 @@ public class Club {
         return true;
     }
 
-    protected Club() {
-    }
-    
-    public List<Jugador> getJugadores() {
+    public Set<Jugador> getJugadores() {
         return jugadores;
     }
 
-    public List<Equipo> getEquipos() {
+    public Set<Equipo> getEquipos() {
         return equipos;
+    }
+
+    protected Club() {
     }
 }

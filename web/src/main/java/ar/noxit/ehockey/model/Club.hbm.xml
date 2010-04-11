@@ -16,12 +16,14 @@
         <property name="telefono"/>
         <property name="web"/>
         <property name="observaciones"/>
-        <property name="activo"/>
-        <set name="jugadores" table="jugadores_por_club">
+        <property name="activo" not-null="true"/>
+        <set name="jugadores" table="jugadores_por_club" access="field">
             <key column="club_id"/>
-            <many-to-many column="jugador_id"
-                unique="true"
-                class="Jugador"/>
+            <many-to-many column="jugador_id" unique="true" class="Jugador"/>
+        </set>
+        <set name="equipos" table="equipos_por_club">
+            <key column="club_id"/>
+            <many-to-many column="equipo_id" unique="true" class="Equipo"/>
         </set>
     </class>
 </hibernate-mapping>

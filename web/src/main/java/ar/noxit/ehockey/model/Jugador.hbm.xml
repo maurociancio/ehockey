@@ -15,9 +15,9 @@
         <property name="telefono"/>
         <property name="fechaAlta" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
         <property name="letraJugador"/>
-        <set name="club" inverse="true">
-            <key column="jugador_id"/>
-            <one-to-many class="Club"/>
-        </set>
+        <join table="jugadores_por_club" inverse="true" optional="true">
+            <key column="jugador_id" unique="true"/>
+            <many-to-one name="club" column="club_id" not-null="true" class="Club"/>
+        </join>
     </class>
 </hibernate-mapping>
