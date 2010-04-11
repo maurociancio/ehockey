@@ -7,41 +7,47 @@
 	<div id="cabeceraPlanilla">
 	<table class="planillaPartidoCabecera">
 		<tr>
-			<td colspan="8"><span wicket:id="federacion" /></td>
+			<td colspan="30"><span wicket:id="federacion" /></td>
 		</tr>
 		<tr>
-			<td colspan="4"><span>Torneo</span> <span>Rueda</span> <span>Fecha</span>
+			<td colspan="9"><span>Torneo</span> <span>Rueda</span> <span>Fecha</span>
 			<span>Partido</span></td>
-			<td colspan="4"><span> Sector </span> <span> Categoria </span> <span>
-			Division</span> <span> Zona </span></td>
+			<td colspan="21"><span> Sector </span> <span> Categoria </span>
+			<span> Division</span> <span> Zona </span></td>
 		</tr>
 		<tr>
-			<td colspan="4"><span wicket:id="torneo" /> <span
+			<td colspan="9"><span wicket:id="torneo" /> <span
 				wicket:id="rueda" /> <span wicket:id="fecha" /> <span
 				wicket:id="partido" /></td>
-			<td colspan="4"><span wicket:id="sector" /> <span
+			<td colspan="21"><span wicket:id="sector" /> <span
 				wicket:id="categoria" /> <span wicket:id="division" /> <span
 				wicket:id="zona" /></td>
 		</tr>
 		<tr>
-			<td class="alineadosIzquierda"><span> Local </span></td>
-			<td><span>Dia</span><br />
-			<span wicket:id="dia" /></td>
-			<td><span>Mes</span><br />
-			<span wicket:id="mes" /></td>
-			<td><span>Año</span><br />
-			<span wicket:id="año" /></td>
-			<td colspan="2"><span> Resultado </span></td>
-			<td><span>Lugar</span><br />
-			<span wicket:id="lugar" /></td>
-			<td class="alineadoDerecha"><span> Visitante </span></td>
+			<td colspan="6" rowspan="2" class="alineadosIzquierda"><span> Local </span></td>
+			<td colspan="2"><span>Dia</span></td>
+			<td colspan="2"><span>Mes</span></td>
+			<td colspan="2"><span>Año</span></td>
+			<td colspan="6"><span> Resultado </span></td>
+			<td colspan="6"><span>Lugar</span></td>
+			<td colspan="6" rowspan="2" class="alineadoDerecha"><span> Visitante
+			</span></td>
 		</tr>
-
 		<tr>
-			<td colspan="3" class="alineadosIzquierda"><span
+			<td colspan="2"><span wicket:id="dia" /></td>
+			<td colspan="2"><span wicket:id="mes" /></td>
+			<td colspan="2"><span wicket:id="año" /></td>
+			<td colspan="2"><span>L</span></td>
+			<td colspan="2"><span>E</span></td>
+			<td colspan="2"><span>V</span></td>
+			<td colspan="6"><span wicket:id="lugar" /></td>
+		</tr>
+		<tr>
+			<td colspan="12" class="alineadosIzquierda"><span
 				wicket:id="nombreLocal" /></td>
-			<td colspan="2"><span>L | E | V</span></td>
-			<td colspan="3" class="alineadosDerecha"><span
+			<td colspan="3" />
+			<td colspan="3" />
+			<td colspan="12" class="alineadosDerecha"><span
 				wicket:id="nombreVisitante" /></td>
 		</tr>
 	</table>
@@ -92,6 +98,7 @@
 				<span wicket:id="numerosVisitantes">numeros</span>
 			</ul>
 			</td>
+			<td />
 		</tr>
 	</table>
 	</div>
