@@ -1,33 +1,31 @@
 <wicket:panel>
-    <!-- Header -->
-    <div id="header">
+	<!-- Header -->
+	<div id="header"><!-- Your logo -->
+	<h1 id="logo"><a class="italicas">e<span class="italicas">hockey</span></a></h1>
+	<hr class="noscreen" />
 
-        <!-- Your logo -->
-        <h1 id="logo"><a href="#">Your <span>website</span> name</a></h1>
-        <hr class="noscreen" />
+	<!-- Your slogan -->
+	<div id="slogan">Confederación Argentina de Hockey</div>
+	<hr class="noscreen" />
 
-        <!-- Your slogan -->
-        <div id="slogan">Your slogan here</div>
-        <hr class="noscreen" />
+	<!-- Hidden navigation -->
+	<p class="noscreen noprint"><em>Quick links: <a
+		href="#content">content</a>, <a href="#nav">navigation</a>.</em></p>
+	<hr class="noscreen" />
 
-        <!-- Hidden navigation -->
-        <p class="noscreen noprint"><em>Quick links: <a href="#content">content</a>, <a href="#nav">navigation</a>.</em></p>
-        <hr class="noscreen" />
+	</div>
+	<!-- /header -->
 
-    </div> <!-- /header -->
+	<!-- Navigation -->
+	<div id="nav">
 
-    <!-- Navigation -->
-    <div id="nav">
+	<ul class="box">
+		<li wicket:id="links"><a wicket:id="link"> <span
+			wicket:id="titulo" /></a></li>
+		<!-- id="nav-active"-->
+	</ul>
 
-        <ul class="box">
-            <li wicket:id="links">
-                <a wicket:id="link">
-                    <span wicket:id="titulo"/>
-                </a>
-            </li>
-            <!-- id="nav-active"-->
-        </ul>
-
-        <hr class="noscreen" />
-    </div> <!-- /nav -->
+	<hr class="noscreen" />
+	</div>
+	<!-- /nav -->
 </wicket:panel>
