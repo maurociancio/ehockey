@@ -2,8 +2,10 @@ package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -18,7 +20,7 @@ public class ListaBuenaFe {
     /**
      * Lista de jugadores en esta lista de buena fe.
      */
-    private List<Jugador> jugadores = new ArrayList<Jugador>();
+    private Set<Jugador> jugadores = new HashSet<Jugador>();
     /**
      * Equipo a la que pertenece esta lista de buena fe.
      */
