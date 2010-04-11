@@ -16,8 +16,6 @@ import ar.noxit.ehockey.web.pages.AbstractContentPage;
 public class PlanillaPage extends AbstractContentPage {
 
     private String FEDERACION = "Federación de Hockey - FIUBA - 75.47";
-    private String LOCAL = "Local";
-    private String VISITANTE = "Visitante";
     @SpringBean
     private IEquiposService equipoService;
 
@@ -32,11 +30,9 @@ public class PlanillaPage extends AbstractContentPage {
         add(new Label("categoria", "Categoria"));
         add(new Label("division", "Division"));
         add(new Label("zona", "Zona"));
-        add(new Label("local", this.LOCAL));
         add(new Label("diamesaño", new Date().toString()));
         add(new Label("resultado", "Resultado"));
         add(new Label("lugar", "Lugar"));
-        add(new Label("visitante", this.VISITANTE));
         add(new Label("nombreLocal", "Belgrano"));
         add(new Label("nombreVisitante", "GEBA"));
 
@@ -52,7 +48,49 @@ public class PlanillaPage extends AbstractContentPage {
                 item.add(new Label("fichasLocales", it));
             }
         });
-        
+
+        add(new ListView<String>("jugadoresLocales", lista) {
+
+            @Override
+            protected void populateItem(ListItem<String> item) {
+                String it = item.getModelObject();
+                item.add(new Label("locales", it));
+            }
+        });
+
+        add(new ListView<String>("numerosJugadoresLocales", lista) {
+
+            @Override
+            protected void populateItem(ListItem<String> item) {
+                String it = item.getModelObject();
+                item.add(new Label("numerosLocales", it));
+            }
+        });
+        add(new ListView<String>("fichasJugadoresVisitantes", lista) {
+
+            @Override
+            protected void populateItem(ListItem<String> item) {
+                String it = item.getModelObject();
+                item.add(new Label("fichasVisitantes", it));
+            }
+        });
+        add(new ListView<String>("jugadoresVisitantes", lista) {
+
+            @Override
+            protected void populateItem(ListItem<String> item) {
+                String it = item.getModelObject();
+                item.add(new Label("visitantes", it));
+            }
+        });
+        add(new ListView<String>("numerosJugadoresVisitantes", lista) {
+
+            @Override
+            protected void populateItem(ListItem<String> item) {
+                String it = item.getModelObject();
+                item.add(new Label("numerosVisitantes", it));
+            }
+        });
+
         add(new Label("goleadoresLocales", "Goleadores"));
         add(new Label("goleadoresVisitantes", "Goleadores"));
     }

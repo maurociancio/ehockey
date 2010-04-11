@@ -15,11 +15,11 @@
 			<span wicket:id="division" /> <span wicket:id="zona" /></td>
 		</tr>
 		<tr>
-			<td><span wicket:id="local" /></td>
+			<td><span> Local </span></td>
 			<td><span wicket:id="diamesaño" /></td>
 			<td><span wicket:id="resultado" /></td>
 			<td><span wicket:id="lugar" /></td>
-			<td><span wicket:id="visitante" /></td>
+			<td><span> Visitante </span></td>
 		</tr>
 
 		<tr>
@@ -48,25 +48,46 @@
 				<li><span wicket:id="fichasLocales">fichas</span></li>
 			</ul>
 			</td>
-			<!--  <td wicket:id="jugadoresLocales"><span wicket:id="Locales">nombres</span></td>
-			<td wicket:id="numerosJugadoresLocales"><span wicket:id="numerosLocales">numeros</span></td>
-			<td wicket:id="fichasJugadoresVisitantes"><span wicket:id="fichasVisitantes">fichas</span></td>
-			<td wicket:id="jugadoresVisitantes"><span wicket:id="Visitantes">fichas</span></td>
-			<td wicket:id="numerosJugadoresVisitantes"><span wicket:id="numerosVisitantes">numeros</span></td>-->
+			<td>
+			<ul wicket:id="jugadoresLocales">
+				<span wicket:id="locales">nombres</span>
+			</ul>
+			</td>
+			<td>
+			<ul wicket:id="numerosJugadoresLocales">
+				<span wicket:id="numerosLocales">numeros</span>
+			</ul>
+			</td>
+			<td></td>
+			<td>
+			<ul wicket:id="fichasJugadoresVisitantes">
+				<span wicket:id="fichasVisitantes">fichas</span>
+			</ul>
+			</td>
+			<td>
+			<ul wicket:id="jugadoresVisitantes">
+				<span wicket:id="visitantes">fichas</span>
+			</ul>
+			</td>
+			<td>
+			<ul wicket:id="numerosJugadoresVisitantes">
+				<span wicket:id="numerosVisitantes">numeros</span>
+			</ul>
+			</td>
 		</tr>
 	</table>
 	</div>
 	<div id="piePlanilla">
-		<table>
+	<table>
 		<tr>
-			<td wicket:id="goleadoresLocales"> </td>
-			<td wicket:id="goleadoresVisitantes"> </td>
+			<td wicket:id="goleadoresLocales"></td>
+			<td wicket:id="goleadoresVisitantes"></td>
 		</tr>
-		</table>
+	</table>
 	</div>
 
-	
-	
+
+
 	</div>
 	</div>
 </wicket:extend>
