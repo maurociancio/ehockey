@@ -31,7 +31,7 @@ public class PlanillaPage extends AbstractContentPage {
         add(new Label("division", "Division"));
         add(new Label("zona", "Zona"));
         add(new Label("diamesaño", new Date().toString()));
-        add(new Label("lugar", "Lugar"));
+        add(new Label("lugar", "Paseo Colón"));
         add(new Label("nombreLocal", "Belgrano"));
         add(new Label("nombreVisitante", "GEBA"));
 
