@@ -13,7 +13,6 @@ import java.util.List;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -24,8 +23,6 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
     private IClubService clubService;
     @SpringBean
     private IEquiposService equiposService;
-    private static final IChoiceRenderer<Jugador> JUGADORRENDERER = new JugadorRenderer();
-    private static final IChoiceRenderer<Equipo> EQUIPORENDERER = new EquipoRenderer();
     private Integer equipoId;
     private Integer clubId;
 
@@ -38,37 +35,10 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
             }
         };
 
-        IModel<List<Jugador>> modelJugador = new IModel<List<Jugador>>() {
-
-            private List<Integer> seleccionados = new ArrayList<Integer>();
-
-            @Override
-            public List<Jugador> getObject() {
-                try {
-                    Equipo equipo = equiposService.get(equipoId);
-                    return clubService.getJugadoresPorClub(equipo.getClub().getId(), seleccionados);
-                } catch (NoxitException e) {
-                    throw new NoxitRuntimeException(e);
-                }
-            }
-
-            @Override
-            public void setObject(List<Jugador> object) {
-                seleccionados.clear();
-                for (Jugador j : object) {
-                    seleccionados.add(j.getFicha());
-                }
-            }
-
-            @Override
-            public void detach() {
-            }
-        };
-
         formInclusion.add(new Palette<Jugador>("palette",
-                modelJugador,
+                new JugadoresSeleccionadosModel(),
                 new TodosJugadoresPorClubModel(),
-                JUGADORRENDERER,
+                JugadorRenderer.get(),
                 10,
                 false));
 
@@ -87,10 +57,37 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         form.add(new DropDownChoice<Equipo>("equipos",
                 new SelectedEquipoModel(new PropertyModel<Integer>(this, "equipoId")),
                 new TodosEquiposModel(),
-                EQUIPORENDERER)
+                EquipoRenderer.get())
                 .setRequired(true));
 
         add(form);
+    }
+
+    private final class JugadoresSeleccionadosModel implements IModel<List<Jugador>> {
+
+        private List<Integer> seleccionados = new ArrayList<Integer>();
+
+        @Override
+        public List<Jugador> getObject() {
+            try {
+                Equipo equipo = equiposService.get(equipoId);
+                return clubService.getJugadoresPorClub(equipo.getClub().getId(), seleccionados);
+            } catch (NoxitException e) {
+                throw new NoxitRuntimeException(e);
+            }
+        }
+
+        @Override
+        public void setObject(List<Jugador> object) {
+            seleccionados.clear();
+            for (Jugador j : object) {
+                seleccionados.add(j.getFicha());
+            }
+        }
+
+        @Override
+        public void detach() {
+        }
     }
 
     private class TodosEquiposModel extends LDM<List<Equipo>> {
@@ -133,32 +130,6 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         @Override
         protected List<Jugador> doLoad() throws NoxitException {
             return clubService.getJugadoresPorClub(clubId);
-        }
-    }
-
-    private static class JugadorRenderer implements IChoiceRenderer<Jugador> {
-
-        @Override
-        public Object getDisplayValue(Jugador object) {
-            return object.getApellido() + " " + object.getNombre();
-        }
-
-        @Override
-        public String getIdValue(Jugador object, int index) {
-            return object.getFicha().toString();
-        }
-    }
-
-    private static class EquipoRenderer implements IChoiceRenderer<Equipo> {
-
-        @Override
-        public Object getDisplayValue(Equipo object) {
-            return object.getNombre();
-        }
-
-        @Override
-        public String getIdValue(Equipo object, int index) {
-            return object.getId().toString();
         }
     }
 }
