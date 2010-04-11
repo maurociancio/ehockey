@@ -54,4 +54,7 @@
     <bean id="equipoDao" class="ar.noxit.ehockey.dao.impl.EquipoDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="jugadorDao" class="ar.noxit.ehockey.dao.impl.JugadorDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>
