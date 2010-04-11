@@ -9,9 +9,6 @@
         </id>
         <property name="nombre" not-null="true"/>
         <many-to-one name="listaBuenaFe" column="lista_buena_fe_id" unique="true" entity-name="ListaBuenaFe" cascade="all"/>
-        <join table="equipos_por_club" inverse="true" optional="true">
-            <key column="equipo_id" unique="true"/>
-            <many-to-one name="club" column="club_id" not-null="true" class="Club"/>
-        </join>
+        <many-to-one name="club" entity-name="Club" column="club_id" not-null="true"/>
     </class>
 </hibernate-mapping>

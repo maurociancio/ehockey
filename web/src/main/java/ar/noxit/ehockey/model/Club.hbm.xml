@@ -17,13 +17,13 @@
         <property name="web"/>
         <property name="observaciones"/>
         <property name="activo" not-null="true"/>
-        <set name="jugadores" table="jugadores_por_club" access="field">
-            <key column="club_id"/>
-            <many-to-many column="jugador_id" unique="true" class="Jugador"/>
+        <set name="jugadores" inverse="true">
+            <key column="club_id" not-null="true"/>
+            <one-to-many entity-name="Jugador"/>
         </set>
-        <set name="equipos" table="equipos_por_club">
-            <key column="club_id"/>
-            <many-to-many column="equipo_id" unique="true" class="Equipo"/>
+        <set name="equipos" inverse="true">
+            <key column="club_id" not-null="true"/>
+            <one-to-many entity-name="Equipo"/>
         </set>
     </class>
 </hibernate-mapping>
