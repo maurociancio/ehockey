@@ -86,11 +86,11 @@ Page: VerListaBuenaFe
     text-align:left;
     padding-top:5px;
     padding-bottom:4px;
-    background-color:#A7C942;
-    color:#fff;
+    background-color:#000;
+    color:#02AAFC;
 }
 
-#listaBuenaFe tr.alt td {
+#listaBuenaFe tr.odd td {
     color:#000;
     background-color:#EAF2D3;
 }

@@ -1,5 +1,24 @@
 package ar.noxit.ehockey.web.pages;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.OddEvenItem;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
@@ -9,30 +28,11 @@ import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.model.LDM;
 import ar.noxit.web.wicket.provider.DataProvider;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class VerListaBuenaFePage extends AbstractContentPage {
 
     @SpringBean
     private IEquiposService equiposService;
-    private boolean filaResaltada = true;
 
     public VerListaBuenaFePage() {
         add(new FeedbackPanel("feedback"));
@@ -51,6 +51,11 @@ public class VerListaBuenaFePage extends AbstractContentPage {
         add(new DataView<Jugador>("jugadores", new JugadoresDataProvider(equipo)) {
 
             @Override
+            protected Item<Jugador> newItem(String id, int index, IModel<Jugador> model) {
+                return new OddEvenItem<Jugador>(id, index, model);
+            }
+            
+            @Override
             protected void populateItem(Item<Jugador> item) {
                 final IModel<Jugador> model = item.getModel();
 
@@ -62,19 +67,6 @@ public class VerListaBuenaFePage extends AbstractContentPage {
                         return model.getObject().getApellido() + " " + model.getObject().getNombre();
                     }
                 }).setRenderBodyOnly(true));
-
-                //para que alterne el color de las filas
-                item.add(new AttributeModifier("class", true, new AbstractReadOnlyModel<String>() {
-
-                    @Override
-                    public String getObject() {                        
-                        filaResaltada = !filaResaltada;
-                        if (filaResaltada) {
-                            return "alt";
-                        }
-                        return "";
-                    }
-                }));
             }
         });
     }
