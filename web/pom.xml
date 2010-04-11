@@ -229,6 +229,10 @@
                     <groupId>org.hibernate</groupId>
                     <artifactId>hibernate</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>antlr</groupId>
+                    <artifactId>antlr</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
