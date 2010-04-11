@@ -2,6 +2,7 @@ package ar.noxit.ehockey.web.pages;
 
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.ListaBuenaFe;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.exceptions.NoxitException;
@@ -9,6 +10,7 @@ import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.model.LDM;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -52,16 +54,24 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         add(formInclusion);
 
         // seleccionar club
-        Form<Void> form = new Form<Void>("form") {
+        final IModel<Equipo> equipoSeleccionado = new SelectedEquipoModel(new PropertyModel<Integer>(this, "equipoId"));
+        Form<Equipo> form = new Form<Equipo>("form") {
 
             @Override
             protected void onSubmit() {
                 formInclusion.setVisible(true);
+
+                seleccionados.clear();
+                ListaBuenaFe listaBuenaFe = equipoSeleccionado.getObject().getListaBuenaFe();
+                Iterator<Jugador> it = listaBuenaFe.iterator();
+                while (it.hasNext()) {
+                    seleccionados.add(it.next().getFicha());
+                }
             }
         };
 
         form.add(new DropDownChoice<Equipo>("equipos",
-                new SelectedEquipoModel(new PropertyModel<Integer>(this, "equipoId")),
+                equipoSeleccionado,
                 new TodosEquiposModel(),
                 EquipoRenderer.get())
                 .setRequired(true));
