@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans
-       xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/aop
@@ -22,7 +21,8 @@
         <property name="password" value="${hibernate.connection.password}"/>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" scope="singleton">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+        scope="singleton">
         <property name="dataSource" ref="myDataSource"/>
         <property name="mappingResources">
             <list>
@@ -33,19 +33,17 @@
             </list>
         </property>
         <property name="hibernateProperties">
-            <value>
-                hibernate.dialect                 = ${hibernate.dialect}
-                hibernate.show_sql                = ${hibernate.show_sql}
-                hibernate.hbm2ddl.auto            = ${hibernate.hbm2ddl.auto}
-            </value>
+            <value> hibernate.dialect = ${hibernate.dialect} hibernate.show_sql =
+                ${hibernate.show_sql} hibernate.hbm2ddl.auto = ${hibernate.hbm2ddl.auto} </value>
         </property>
     </bean>
 
     <!-- TRANSACTION MANAGER  -->
-    <tx:annotation-driven transaction-manager="transactionManager" />
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory">
-            <ref bean="sessionFactory" />
+            <ref bean="sessionFactory"/>
         </property>
     </bean>
 
@@ -54,6 +52,7 @@
     </bean>
 
     <bean id="clubDao" class="ar.noxit.ehockey.dao.impl.ClubDao" parent="baseDao"/>
-    <bean id="equipoDao" class="ar.noxit.ehockey.dao.impl.EquipoDao"  parent="baseDao"/>
-    <bean id="jugadorDao" class="ar.noxit.ehockey.dao.impl.JugadorDao"  parent="baseDao"/>
+    <bean id="equipoDao" class="ar.noxit.ehockey.dao.impl.EquipoDao" parent="baseDao"/>
+    <bean id="jugadorDao" class="ar.noxit.ehockey.dao.impl.JugadorDao" parent="baseDao"/>
+    <bean id="partidoDao" class="ar.noxit.ehockey.dao.impl.PartidoDao" parent="baseDao"/>
 </beans>
