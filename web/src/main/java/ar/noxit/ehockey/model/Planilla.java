@@ -57,6 +57,7 @@ public class Planilla {
      * única vez.
      */
     private void precargarPlanilla() {
+        //TODO Hacer que no se carguen los jugadores inhabilitados. Ver si verificar aca o hacer un iterador en lista de buena fe que devuelva los habilitados.
         jugadoresL.clear();
         jugadoresV.clear();
 
