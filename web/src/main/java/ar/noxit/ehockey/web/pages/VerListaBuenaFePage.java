@@ -1,9 +1,15 @@
 package ar.noxit.ehockey.web.pages;
 
+import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.web.wicket.model.IdLDM;
+import ar.noxit.web.wicket.model.LDM;
+import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -18,16 +24,6 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-
-import ar.noxit.ehockey.model.Division;
-import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.Sector;
-import ar.noxit.ehockey.service.IEquiposService;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.model.IdLDM;
-import ar.noxit.web.wicket.model.LDM;
-import ar.noxit.web.wicket.provider.DataProvider;
 
 public class VerListaBuenaFePage extends AbstractContentPage {
 
@@ -54,7 +50,7 @@ public class VerListaBuenaFePage extends AbstractContentPage {
             protected Item<Jugador> newItem(String id, int index, IModel<Jugador> model) {
                 return new OddEvenItem<Jugador>(id, index, model);
             }
-            
+
             @Override
             protected void populateItem(Item<Jugador> item) {
                 final IModel<Jugador> model = item.getModel();
@@ -91,19 +87,6 @@ public class VerListaBuenaFePage extends AbstractContentPage {
                 Jugador next = it.next();
                 j.add(next);
             }
-            
-            //TODO PARA PROBAR BORRAR ESTO
-            Jugador jug = new Jugador("Riquelme", "Roman", new Sector("caballero"), new Division("div"));
-            j.add(jug);
-            jug = new Jugador("Pepe", "Biondi", new Sector("caballero"), new Division("div"));
-            j.add(jug);
-            jug = new Jugador("Putin", "Puton", new Sector("caballero"), new Division("div"));
-            j.add(jug);
-            jug = new Jugador("Lalala", "Ohsi", new Sector("caballero"), new Division("div"));
-            j.add(jug);
-            //////////////
-            
-            
             return j;
         }
 
