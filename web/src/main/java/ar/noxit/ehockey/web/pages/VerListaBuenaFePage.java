@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.web.pages;
 
+import static ar.noxit.utils.Collections.toList;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IEquiposService;
@@ -8,12 +9,10 @@ import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.model.LDM;
 import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.OddEvenItem;
@@ -39,7 +38,7 @@ public class VerListaBuenaFePage extends AbstractContentPage {
         form.add(new DropDownChoice<Equipo>("equipos",
                 equipo,
                 new EquiposListModel(),
-                new EquipoRenderer())
+                EquipoRenderer.get())
                 .setRequired(true));
 
         add(form);
@@ -81,13 +80,7 @@ public class VerListaBuenaFePage extends AbstractContentPage {
             if (equipoObj == null) {
                 return new ArrayList<Jugador>();
             }
-            List<Jugador> j = new ArrayList<Jugador>();
-            Iterator<Jugador> it = equipoObj.getListaBuenaFe().iterator();
-            while (it.hasNext()) {
-                Jugador next = it.next();
-                j.add(next);
-            }
-            return j;
+            return toList(equipoObj.getListaBuenaFe().iterator());
         }
 
         @Override
@@ -97,9 +90,9 @@ public class VerListaBuenaFePage extends AbstractContentPage {
 
                 @Override
                 protected Jugador load() {
-                    for (Jugador j : loadList()) {
-                        if (j.getFicha().equals(id)) {
-                            return j;
+                    for (Jugador jugador : loadList()) {
+                        if (jugador.getFicha().equals(id)) {
+                            return jugador;
                         }
                     }
                     return null;
@@ -111,19 +104,6 @@ public class VerListaBuenaFePage extends AbstractContentPage {
         public void detach() {
             super.detach();
             equipo.detach();
-        }
-    }
-
-    private class EquipoRenderer implements IChoiceRenderer<Equipo> {
-
-        @Override
-        public Object getDisplayValue(Equipo object) {
-            return object.getNombre();
-        }
-
-        @Override
-        public String getIdValue(Equipo object, int index) {
-            return object.getId().toString();
         }
     }
 
