@@ -2,6 +2,9 @@ package ar.noxit.ehockey.dao;
 
 import ar.noxit.dataaccessobject.IDao;
 import ar.noxit.ehockey.model.Jugador;
+import java.util.List;
 
 public interface IJugadorDao extends IDao<Jugador, Integer> {
+
+    List<Jugador> getJugadoresFromClub(Integer clubId, List<Integer> fichasJugadores);
 }
