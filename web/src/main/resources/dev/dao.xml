@@ -48,13 +48,11 @@
         </property>
     </bean>
 
-    <bean id="clubDao" class="ar.noxit.ehockey.dao.impl.ClubDao">
+    <bean id="baseDao" class="ar.noxit.dataaccessobject.hibernate.HibernateDao" abstract="true">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    <bean id="equipoDao" class="ar.noxit.ehockey.dao.impl.EquipoDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    <bean id="jugadorDao" class="ar.noxit.ehockey.dao.impl.JugadorDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+
+    <bean id="clubDao" class="ar.noxit.ehockey.dao.impl.ClubDao" parent="baseDao"/>
+    <bean id="equipoDao" class="ar.noxit.ehockey.dao.impl.EquipoDao"  parent="baseDao"/>
+    <bean id="jugadorDao" class="ar.noxit.ehockey.dao.impl.JugadorDao"  parent="baseDao"/>
 </beans>
