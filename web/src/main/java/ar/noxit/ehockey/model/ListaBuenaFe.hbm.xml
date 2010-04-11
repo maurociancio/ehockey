@@ -9,7 +9,7 @@
         </id>
         <set name="jugadores" table="jugadores_en_lista_buena_fe">
             <key column="lista_buena_fe_id"/>
-            <many-to-many entity-name="Jugador" unique="true" column="jugador_id"/>
+            <many-to-many entity-name="Jugador" column="jugador_id"/>
         </set>
         <one-to-one name="equipo" property-ref="listaBuenaFe" entity-name="Equipo"/>
     </class>
