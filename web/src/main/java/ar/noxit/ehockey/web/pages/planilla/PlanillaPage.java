@@ -1,19 +1,18 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.LocalDateTime;
 
 import ar.noxit.ehockey.service.IEquiposService;
-import ar.noxit.ehockey.web.pages.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.AbstractHeaderPage;
 
-public class PlanillaPage extends AbstractContentPage {
+public class PlanillaPage extends AbstractHeaderPage {
 
     private String FEDERACION = "Federación de Hockey - FIUBA - 75.47";
     @SpringBean
@@ -30,7 +29,9 @@ public class PlanillaPage extends AbstractContentPage {
         add(new Label("categoria", "Categoria"));
         add(new Label("division", "Division"));
         add(new Label("zona", "Zona"));
-        add(new Label("diamesaño", new Date().toString()));
+        add(new Label("dia", new LocalDateTime().dayOfMonth().getAsShortText()));
+        add(new Label("mes", new LocalDateTime().monthOfYear().getAsShortText()));
+        add(new Label("año", new LocalDateTime().year().getAsShortText()));
         add(new Label("lugar", "Paseo Colón"));
         add(new Label("nombreLocal", "Belgrano"));
         add(new Label("nombreVisitante", "GEBA"));

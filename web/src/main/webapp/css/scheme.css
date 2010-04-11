@@ -65,10 +65,10 @@ table.table-style01 tr.bg td {
 #nav ul li a:hover {
     color:#000;
 }
-#cols {
+.cols {
     background-color:#FFF;
 }
-#content #content-title {
+.content .content-title {
     background-color:#000;
     color:#02AAFC;
 }
