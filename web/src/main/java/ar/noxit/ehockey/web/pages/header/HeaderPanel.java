@@ -1,4 +1,4 @@
-package ar.noxit.ehockey.web.pages;
+package ar.noxit.ehockey.web.pages.header;
 
 import java.util.List;
 import org.apache.wicket.AttributeModifier;

@@ -1,4 +1,4 @@
-package ar.noxit.ehockey.web.pages;
+package ar.noxit.ehockey.web.pages.base;
 
 import org.apache.wicket.markup.html.WebPage;
 

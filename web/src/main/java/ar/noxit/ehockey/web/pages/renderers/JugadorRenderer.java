@@ -1,4 +1,4 @@
-package ar.noxit.ehockey.web.pages;
+package ar.noxit.ehockey.web.pages.renderers;
 
 import ar.noxit.ehockey.model.Jugador;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;

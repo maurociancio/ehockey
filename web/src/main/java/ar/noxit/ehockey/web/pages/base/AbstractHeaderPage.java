@@ -1,4 +1,9 @@
-package ar.noxit.ehockey.web.pages;
+package ar.noxit.ehockey.web.pages.base;
+
+import ar.noxit.ehockey.web.pages.footer.FooterPanel;
+import ar.noxit.ehockey.web.pages.header.HeaderPanel;
+import ar.noxit.ehockey.web.pages.header.IMenuItem;
+import ar.noxit.ehockey.web.pages.header.IMenuSelection;
 
 public abstract class AbstractHeaderPage extends AbstractBasePage implements IMenuSelection {
 

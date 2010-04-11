@@ -42,7 +42,9 @@ public class ClubTest {
     @Test
     public void testRelacionarJugadores2() throws SinClubException {
         Club club = new Club("club");
+        club.setId(1);
         Club club2 = new Club("club");
+        club.setId(2);
         Jugador j = new Jugador("ap", "no", new Sector("s"), new Division("d"));
 
         club.agregarJugador(j);

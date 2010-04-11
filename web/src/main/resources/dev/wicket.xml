@@ -21,19 +21,19 @@
                     <key>
                         <value>Ver Lista de Buena Fe</value>
                     </key>
-                    <value>ar.noxit.ehockey.web.pages.VerListaBuenaFePage</value>
+                    <value>ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage</value>
                 </entry>
                 <entry>
                     <key>
                         <value>Editar Lista de Buena Fe</value>
                     </key>
-                    <value>ar.noxit.ehockey.web.pages.EditarListaBuenaFePage</value>
+                    <value>ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage</value>
                 </entry>
                 <entry>
                     <key>
                         <value>Partidos</value>
                     </key>
-                    <value>ar.noxit.ehockey.web.pages.PartidoPage</value>
+                    <value>ar.noxit.ehockey.web.pages.partido.PartidoPage</value>
                 </entry>
                 <entry>
                     <key>

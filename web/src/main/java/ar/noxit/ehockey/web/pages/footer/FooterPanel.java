@@ -1,4 +1,4 @@
-package ar.noxit.ehockey.web.pages;
+package ar.noxit.ehockey.web.pages.footer;
 
 import org.apache.wicket.markup.html.panel.Panel;
 

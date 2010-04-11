@@ -1,6 +1,6 @@
 package ar.noxit.ehockey.configuration;
 
-import ar.noxit.ehockey.web.pages.IMenuItem;
+import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import org.apache.wicket.Page;
 
 public class MenuItem implements IMenuItem {

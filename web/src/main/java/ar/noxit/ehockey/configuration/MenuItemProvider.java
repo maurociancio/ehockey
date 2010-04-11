@@ -1,7 +1,7 @@
 package ar.noxit.ehockey.configuration;
 
-import ar.noxit.ehockey.web.pages.IMenuItem;
-import ar.noxit.ehockey.web.pages.IMenuItemProvider;
+import ar.noxit.ehockey.web.pages.header.IMenuItem;
+import ar.noxit.ehockey.web.pages.header.IMenuItemProvider;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

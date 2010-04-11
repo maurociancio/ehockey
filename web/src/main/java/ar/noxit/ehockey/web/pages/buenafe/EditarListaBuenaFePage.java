@@ -1,5 +1,8 @@
-package ar.noxit.ehockey.web.pages;
+package ar.noxit.ehockey.web.pages.buenafe;
 
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
+import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.ListaBuenaFe;
