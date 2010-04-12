@@ -16,6 +16,10 @@
         <constructor-arg index="1" value="8100"/>
     </bean>
 
+    <bean id="pdfConversionService" class="ar.noxit.ehockey.service.impl.ConversionService">
+        <property name="openOfficeConnection" ref="openOfficeConnection"></property>
+    </bean>
+
 <!--    <aop:config>-->
 <!--        <aop:aspect id="myAspect" ref="connectionStarter">-->
 <!--            <aop:pointcut id="injectOpenOfficeConnection"-->

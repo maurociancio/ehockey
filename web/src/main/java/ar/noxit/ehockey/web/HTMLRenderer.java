@@ -28,7 +28,13 @@ public class HTMLRenderer {
         servletSession.setTemporary(true);
 
         MockHttpServletRequest servletRequest = new MockHttpServletRequest(
-                application, servletSession, context);
+                application, servletSession, context) {
+
+            @Override
+            public String getContextPath() {
+                return "/";
+            }
+        };
         MockHttpServletResponse servletResponse = new MockHttpServletResponse(
                 servletRequest);
 

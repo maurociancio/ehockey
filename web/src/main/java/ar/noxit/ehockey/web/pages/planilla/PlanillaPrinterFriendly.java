@@ -5,6 +5,7 @@ import ar.noxit.ehockey.web.pages.base.AbstractColorLessBasePage;
 public class PlanillaPrinterFriendly extends AbstractColorLessBasePage {
 
     public PlanillaPrinterFriendly() {
-        add(new PlanillaPanel());
+        // add(new PlanillaPanel());
+        // #TODO
     }
 }
