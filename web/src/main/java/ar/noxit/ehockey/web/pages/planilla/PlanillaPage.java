@@ -34,6 +34,6 @@ public class PlanillaPage extends AbstractHeaderPage {
             }
         }));
 
-        add(new PlanillaPanel(new PlanillaModel(partido)));
+        add(new PlanillaPanel("panelPlanilla", new PlanillaModel(partido)));
     }
 }

@@ -16,8 +16,8 @@ public class PlanillaPanel extends Panel {
 
     private String FEDERACION = "Federación de Hockey - FIUBA - 75.47";
 
-    public PlanillaPanel(IModel<? extends Planilla> planillaModel) {
-        super("panelPlanilla");
+    public PlanillaPanel(String id, IModel<? extends Planilla> planillaModel) {
+        super(id);
 
         add(new Label("federacion", this.FEDERACION));
         add(new Label("torneo", "Torneo"));

@@ -17,6 +17,6 @@ public class PlanillaPrinterFriendly extends AbstractColorLessBasePage {
     public PlanillaPrinterFriendly(PageParameters pageParameters) {
         Integer partidoId = pageParameters.getAsInteger("partido");
         IModel<Partido> partidoModel = new PartidoModel(new Model<Integer>(partidoId), partidoService);
-        add(new PlanillaPanel(new PlanillaModel(partidoModel)));
+        add(new PlanillaPanel("panelPlanilla", new PlanillaModel(partidoModel)));
     }
 }
