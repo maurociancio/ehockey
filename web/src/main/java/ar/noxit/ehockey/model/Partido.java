@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.model;
 
+import org.apache.commons.lang.Validate;
+
 public class Partido {
 
     Integer id;
@@ -17,6 +19,8 @@ public class Partido {
     }
     
     public Partido(Equipo local, Equipo visitante) {
+        Validate.notNull(local, "No se puede crear un partido sin equipos");
+        Validate.notNull(visitante, "No se puede crear un partido sin equipos");
         this.local = local;
         this.visitante = visitante;
     }

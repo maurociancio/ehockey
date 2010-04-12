@@ -57,7 +57,9 @@ public class Planilla {
      * única vez.
      */
     private void precargarPlanilla() {
-        //TODO Hacer que no se carguen los jugadores inhabilitados. Ver si verificar aca o hacer un iterador en lista de buena fe que devuelva los habilitados.
+        // TODO Hacer que no se carguen los jugadores inhabilitados. Ver si
+        // verificar aca o hacer un iterador en lista de buena fe que devuelva
+        // los habilitados.
         jugadoresL.clear();
         jugadoresV.clear();
 
@@ -101,19 +103,19 @@ public class Planilla {
     public Planilla finalizarPlanilla() {
         return new PlanillaFinal(this);
     }
-    
+
     public Equipo getLocal() {
         return local;
     }
-    
+
     public Equipo getVisitante() {
         return visitante;
     }
-    
+
     public List<Jugador> getJugadoresL() {
         return jugadoresL;
     }
-    
+
     public List<Jugador> getJugadoresV() {
         return jugadoresV;
     }

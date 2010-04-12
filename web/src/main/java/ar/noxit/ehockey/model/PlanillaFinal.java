@@ -1,12 +1,16 @@
 package ar.noxit.ehockey.model;
 
+import org.apache.commons.lang.Validate;
+
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 
 public class PlanillaFinal extends Planilla {
-    
+
     public PlanillaFinal(Planilla original) {
         super();
+
+        Validate.notNull(original, "La planilla no puede ser null");
 
         id = original.id;
 
