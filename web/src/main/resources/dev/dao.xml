@@ -34,15 +34,17 @@
             </list>
         </property>
         <property name="hibernateProperties">
-            <value> hibernate.dialect = ${hibernate.dialect} hibernate.show_sql =
-                ${hibernate.show_sql} hibernate.hbm2ddl.auto = ${hibernate.hbm2ddl.auto} </value>
+            <value> 
+                hibernate.dialect = ${hibernate.dialect} 
+                hibernate.show_sql = ${hibernate.show_sql} 
+                hibernate.hbm2ddl.auto = ${hibernate.hbm2ddl.auto} 
+            </value>
         </property>
     </bean>
 
     <!-- TRANSACTION MANAGER  -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory">
             <ref bean="sessionFactory"/>
         </property>
