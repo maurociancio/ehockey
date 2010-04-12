@@ -12,6 +12,10 @@ public class Partido {
     
     private Integer fechaDelTorneo;
 
+    protected Partido() {
+        
+    }
+    
     public Partido(Equipo local, Equipo visitante) {
         this.local = local;
         this.visitante = visitante;
@@ -55,5 +59,21 @@ public class Partido {
      */
     public void finalizarPlanilla() {
         planillaFinal = planillaFinal.finalizarPlanilla();
+    }
+    
+    public Equipo getLocal() {
+        return local;
+    }
+    
+    public Equipo getVisitante() {
+        return visitante;
+    }
+    
+    public Integer getFechaDelTorneo() {
+        return fechaDelTorneo;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

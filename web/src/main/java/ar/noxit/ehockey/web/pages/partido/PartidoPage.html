@@ -2,5 +2,17 @@
     <!-- Content -->
     <div class="content">
         <h2 class="content-title">Partidos</h2>
+        
+        <div class="content-in">
+            <p>Listado de Partidos:</p>
+            <div wicket:id="feedback"/>
+            <form wicket:id="partidos">
+                <select wicket:id="partidos"></select>
+                <input type="submit" value="Ver planilla" />
+            </form>
+
+            <div wicket:id="panelPlanilla" />
+            
+        </div> <!-- /content-in -->
     </div> <!-- /content -->
 </wicket:extend>

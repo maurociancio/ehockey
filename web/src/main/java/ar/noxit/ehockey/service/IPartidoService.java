@@ -10,5 +10,4 @@ public interface IPartidoService {
     public List<Partido> getAll() throws NoxitException;
 
     Partido get(Integer id) throws NoxitException;
-
 }
