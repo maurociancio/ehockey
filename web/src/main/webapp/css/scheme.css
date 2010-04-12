@@ -155,7 +155,7 @@ dl#news dd span.date {
 }
 /* * Planilla * */
 .planillaPartidoCabecera {
-    width:95%;
+    width:100%;
     text-align: center;
     border:1px solid #36569d;
     border-collapse:collapse;
