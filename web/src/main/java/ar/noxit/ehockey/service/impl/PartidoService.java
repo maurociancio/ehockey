@@ -25,4 +25,9 @@ public class PartidoService implements IPartidoService {
     public Partido get(Integer id) throws NoxitException {
         return partidoDao.get(id);
     }
+
+    public void setPartidoDao(IPartidoDao partidoDao) {
+        this.partidoDao = partidoDao;
+    }
+
 }
