@@ -25,9 +25,12 @@ body, div, span, p, a, img, ul, ol, li, caption, table, thead, tbody, tfoot, tr,
 }
 body {
     padding-bottom:20px;
-    background:url("../design/bg.gif") 0 0 repeat-x;
+    
     font:0.8em/1.5 "arial",sans-serif;
     text-align:center;
+}
+.body_fondo {
+    background:url("../design/bg.gif") 0 0 repeat-x;
 }
 h1, h2, h3, h4, h5, h6 {
     margin:15px 0 10px 0;
