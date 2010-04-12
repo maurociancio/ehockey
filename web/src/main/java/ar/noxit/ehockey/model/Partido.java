@@ -2,11 +2,15 @@ package ar.noxit.ehockey.model;
 
 public class Partido {
 
+    Integer id;
+    
     private Equipo local;
     private Equipo visitante;
 
     private Planilla planillaPrecargada;
     private Planilla planillaFinal;
+    
+    private Integer fechaDelTorneo;
 
     public Partido(Equipo local, Equipo visitante) {
         this.local = local;
