@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="documentConverter" class="com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter">
+        <constructor-arg ref="openOfficeConnection"/>
+    </bean>
+
+    <bean id="openOfficeConnection" class="com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection" >
+        <constructor-arg index="0" value="localhost"/>
+        <constructor-arg index="1" value="8100"/>
+    </bean>
+
+<!--    <aop:config>-->
+<!--        <aop:aspect id="myAspect" ref="connectionStarter">-->
+<!--            <aop:pointcut id="injectOpenOfficeConnection"-->
+<!--                expression="ar.noxit.ehockey.service.impl.ConversionService.convertir"/>-->
+<!--            <aop:around pointcut-ref="theExecutionOfSomeFooServiceMethod"-->
+<!--                method="profile"/>-->
+<!--        </aop:aspect>-->
+<!--    </aop:config>-->
+<!--    <bean id="connectionStarter" class="ar.noxit.ehockey.configuration.OpenOfficeConnectionStarter"/>-->
+</beans>
