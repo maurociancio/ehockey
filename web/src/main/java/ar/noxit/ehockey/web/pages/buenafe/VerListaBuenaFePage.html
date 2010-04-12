@@ -11,16 +11,18 @@
                 <input type="submit" value="Ver Lista" />
             </form>
 
-            <table class="listaBuenaFe">
-                <tr>
-                    <th>Ficha</th>
-                    <th>Nombre y Apellido</th>
-                </tr>
-                <tr wicket:id="jugadores">
-                    <td><span wicket:id="ficha"></span></td>
-                    <td><span wicket:id="nya"></span></td>
-                </tr>
-            </table>
+            <wicket:enclosure child="jugadores">
+                <table class="listaBuenaFe">
+                    <tr>
+                        <th>Ficha</th>
+                        <th>Nombre y Apellido</th>
+                    </tr>
+                    <tr wicket:id="jugadores">
+                        <td><span wicket:id="ficha"></span></td>
+                        <td><span wicket:id="nya"></span></td>
+                    </tr>
+                </table>
+            </wicket:enclosure>
         </div> <!-- /content-in -->
 
     </div> <!-- /content -->

@@ -1,16 +1,15 @@
 package ar.noxit.ehockey.web.pages.buenafe;
 
 import static ar.noxit.utils.Collections.toList;
-import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
-import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.model.LDM;
 import ar.noxit.web.wicket.provider.DataProvider;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -36,7 +35,7 @@ public class VerListaBuenaFePage extends AbstractContentPage {
 
         Form<Void> form = new Form<Void>("equipos");
 
-        IModel<Equipo> equipo = new EquipoModel(new Model<Integer>());
+        final IModel<Equipo> equipo = new EquipoModel(new Model<Integer>());
         form.add(new DropDownChoice<Equipo>("equipos",
                 equipo,
                 new EquiposListModel(),
@@ -65,6 +64,11 @@ public class VerListaBuenaFePage extends AbstractContentPage {
                     }
                 }).setRenderBodyOnly(true));
             }
+
+            @Override
+            public boolean isVisible() {
+                return equipo.getObject() != null;
+            }
         });
     }
 
@@ -79,9 +83,6 @@ public class VerListaBuenaFePage extends AbstractContentPage {
         @Override
         protected List<Jugador> loadList() {
             Equipo equipoObj = equipo.getObject();
-            if (equipoObj == null) {
-                return new ArrayList<Jugador>();
-            }
             return toList(equipoObj.getListaBuenaFe().iterator());
         }
 
