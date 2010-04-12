@@ -35,12 +35,6 @@
                     </key>
                     <value>ar.noxit.ehockey.web.pages.partido.PartidoPage</value>
                 </entry>
-                <entry>
-                    <key>
-                        <value>Planilla</value>
-                    </key>
-                    <value>ar.noxit.ehockey.web.pages.planilla.PlanillaPage</value>
-                </entry>
             </map>
         </property>
     </bean>
