@@ -1,19 +1,24 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.joda.time.LocalDateTime;
+
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Planilla;
 
 public class PlanillaPanel extends Panel {
 
     private String FEDERACION = "Federación de Hockey - FIUBA - 75.47";
 
-    public PlanillaPanel() {
+    public PlanillaPanel(IModel<? extends Planilla> planillaModel) {
         super("panelPlanilla");
         add(new Label("federacion", this.FEDERACION));
         add(new Label("torneo", "Torneo"));
@@ -28,13 +33,14 @@ public class PlanillaPanel extends Panel {
         add(new Label("mes", new LocalDateTime().monthOfYear().getAsShortText()));
         add(new Label("año", new LocalDateTime().year().getAsShortText()));
         add(new Label("lugar", "Paseo Colón"));
-        add(new Label("nombreLocal", "Belgrano"));
-        add(new Label("nombreVisitante", "GEBA"));
+        add(new Label("nombreLocal", planillaModel.getObject().getLocal().getNombre()));
+        add(new Label("nombreVisitante", planillaModel.getObject().getVisitante().getNombre()));
 
         List<String> lista = new ArrayList<String>();
-        lista.add("PEPE");
-        lista.add("PEPE2");
-        lista.add("PEPE3");
+        Iterator<Jugador> it = planillaModel.getObject().getJugadoresL().iterator();
+        while (it.hasNext()) {
+            lista.add(it.next().getFicha().toString());
+        }
         add(new ListView<String>("fichasJugadoresLocales", lista) {
 
             @Override

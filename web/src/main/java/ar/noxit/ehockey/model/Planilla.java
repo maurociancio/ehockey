@@ -101,4 +101,20 @@ public class Planilla {
     public Planilla finalizarPlanilla() {
         return new PlanillaFinal(this);
     }
+    
+    public Equipo getLocal() {
+        return local;
+    }
+    
+    public Equipo getVisitante() {
+        return visitante;
+    }
+    
+    public List<Jugador> getJugadoresL() {
+        return jugadoresL;
+    }
+    
+    public List<Jugador> getJugadoresV() {
+        return jugadoresV;
+    }
 }
