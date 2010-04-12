@@ -373,6 +373,14 @@
                     <formats>
                         <format>html</format>
                     </formats>
+                  <instrumentation>
+                      <ignores>
+                          <ignore>ar.noxit.ehockey.main.*</ignore>
+                      </ignores>
+                      <excludes>
+                          <exclude>ar/noxit/ehockey/main/*.class</exclude>
+                       </excludes>
+                  </instrumentation>
                 </configuration>
             </plugin>
         </plugins>
