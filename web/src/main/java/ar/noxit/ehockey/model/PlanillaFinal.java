@@ -4,7 +4,7 @@ import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 
 public class PlanillaFinal extends Planilla {
-
+    
     public PlanillaFinal(Planilla original) {
         super();
 

@@ -34,4 +34,10 @@ public class PlanillaPage extends AbstractHeaderPage {
 
         add(new PlanillaPanel(planillaModel));
     }
+    
+    public PlanillaPage() {
+        super();
+        add(new PlanillaPanel());
+    }
+    
 }

@@ -140,4 +140,8 @@ public class Jugador {
      */
     protected Jugador() {
     }
+    
+    public String getLetraJugador() {
+        return letraJugador;
+    }
 }

@@ -1,7 +1,6 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -9,6 +8,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.PropertyModel;
 import org.joda.time.LocalDateTime;
 
 import ar.noxit.ehockey.model.Jugador;
@@ -17,9 +18,13 @@ import ar.noxit.ehockey.model.Planilla;
 public class PlanillaPanel extends Panel {
 
     private String FEDERACION = "Federación de Hockey - FIUBA - 75.47";
+    IModel<? extends Planilla> planillaModel;
 
     public PlanillaPanel(IModel<? extends Planilla> planillaModel) {
         super("panelPlanilla");
+        
+        this.planillaModel = planillaModel;
+        
         add(new Label("federacion", this.FEDERACION));
         add(new Label("torneo", "Torneo"));
         add(new Label("rueda", "Rueda"));
@@ -36,61 +41,147 @@ public class PlanillaPanel extends Panel {
         add(new Label("nombreLocal", planillaModel.getObject().getLocal().getNombre()));
         add(new Label("nombreVisitante", planillaModel.getObject().getVisitante().getNombre()));
 
-        List<String> lista = new ArrayList<String>();
-        Iterator<Jugador> it = planillaModel.getObject().getJugadoresL().iterator();
-        while (it.hasNext()) {
-            lista.add(it.next().getFicha().toString());
-        }
-        add(new ListView<String>("fichasJugadoresLocales", lista) {
+        IModel<List<Jugador>> modelLocal = new JugadorLocalModelItem();
+        IModel<List<Jugador>> modelVisitante = new JugadorVisitanteModelItem();
+        add(new ListView<Jugador>("fichasJugadoresLocales", modelLocal) {
 
             @Override
-            protected void populateItem(ListItem<String> item) {
-                String it = item.getModelObject();
-                item.add(new Label("fichasLocales", it));
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("fichasLocales", new PropertyModel<Integer>(item.getModel(), "ficha")));
+            }
+
+        });
+
+        add(new ListView<Jugador>("jugadoresLocales", modelLocal) {
+
+            @Override
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("locales", new PropertyModel<String>(item.getModel(), "nombre")));
             }
         });
 
-        add(new ListView<String>("jugadoresLocales", lista) {
+        add(new ListView<Jugador>("numerosJugadoresLocales", modelLocal) {
 
             @Override
-            protected void populateItem(ListItem<String> item) {
-                String it = item.getModelObject();
-                item.add(new Label("locales", it));
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("numerosLocales", new PropertyModel<String>(item.getModel(), "letraJugador")));
             }
         });
-
-        add(new ListView<String>("numerosJugadoresLocales", lista) {
+        
+        add(new ListView<Jugador>("fichasJugadoresVisitantes", modelVisitante) {
 
             @Override
-            protected void populateItem(ListItem<String> item) {
-                String it = item.getModelObject();
-                item.add(new Label("numerosLocales", it));
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("fichasVisitantes", new PropertyModel<Integer>(item.getModel(), "ficha")));
             }
         });
-        add(new ListView<String>("fichasJugadoresVisitantes", lista) {
+        
+        add(new ListView<Jugador>("jugadoresVisitantes", modelVisitante) {
 
             @Override
-            protected void populateItem(ListItem<String> item) {
-                String it = item.getModelObject();
-                item.add(new Label("fichasVisitantes", it));
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("visitantes", new PropertyModel<String>(item.getModel(), "nombre")));
             }
         });
-        add(new ListView<String>("jugadoresVisitantes", lista) {
+        
+        add(new ListView<Jugador>("numerosJugadoresVisitantes", modelVisitante) {
 
             @Override
-            protected void populateItem(ListItem<String> item) {
-                String it = item.getModelObject();
-                item.add(new Label("visitantes", it));
-            }
-        });
-        add(new ListView<String>("numerosJugadoresVisitantes", lista) {
-
-            @Override
-            protected void populateItem(ListItem<String> item) {
-                String it = item.getModelObject();
-                item.add(new Label("numerosVisitantes", it));
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("numerosVisitantes", new PropertyModel<String>(item.getModel(), "letraJugador")));
             }
         });
     }
+    
+    
+    public PlanillaPanel() {
+        super("panelPlanilla");
+        
+        
+        add(new Label("federacion", this.FEDERACION));
+        add(new Label("torneo", "Torneo"));
+        add(new Label("rueda", "Rueda"));
+        add(new Label("fecha", "Fecha"));
+        add(new Label("partido", "Partido"));
+        add(new Label("sector", "Sector"));
+        add(new Label("categoria", "Categoria"));
+        add(new Label("division", "Division"));
+        add(new Label("zona", "Zona"));
+        add(new Label("dia", new LocalDateTime().dayOfMonth().getAsShortText()));
+        add(new Label("mes", new LocalDateTime().monthOfYear().getAsShortText()));
+        add(new Label("año", new LocalDateTime().year().getAsShortText()));
+        add(new Label("lugar", "Paseo Colón"));
+        add(new Label("nombreLocal", ""));
+        add(new Label("nombreVisitante", ""));
 
+        List<Jugador> local = new ArrayList<Jugador>();
+        List<Jugador> visitante = new ArrayList<Jugador>();
+        add(new ListView<Jugador>("fichasJugadoresLocales", local) {
+
+            @Override
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("fichasLocales", ""));
+            }
+
+        });
+
+        add(new ListView<Jugador>("jugadoresLocales", local) {
+
+            @Override
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("locales", ""));
+            }
+        });
+
+        add(new ListView<Jugador>("numerosJugadoresLocales", local) {
+
+            @Override
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("numerosLocales", ""));
+            }
+        });
+        
+        add(new ListView<Jugador>("fichasJugadoresVisitantes", visitante) {
+
+            @Override
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("fichasVisitantes", ""));
+            }
+        });
+        
+        add(new ListView<Jugador>("jugadoresVisitantes", visitante) {
+
+            @Override
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("visitantes", ""));
+            }
+        });
+        
+        add(new ListView<Jugador>("numerosJugadoresVisitantes", visitante) {
+
+            @Override
+            protected void populateItem(ListItem<Jugador> item) {
+                item.add(new Label("numerosVisitantes", ""));
+            }
+        });
+    }
+    
+
+    private class JugadorLocalModelItem extends LoadableDetachableModel<List<Jugador>> {
+
+        @Override
+        protected List<Jugador> load() {
+            return planillaModel.getObject().getJugadoresL();
+        }
+        
+    }
+    
+    private class JugadorVisitanteModelItem extends LoadableDetachableModel<List<Jugador>> {
+
+        @Override
+        protected List<Jugador> load() {
+            return planillaModel.getObject().getJugadoresV();
+        }
+        
+    }
 }
