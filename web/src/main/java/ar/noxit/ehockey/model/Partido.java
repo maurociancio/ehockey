@@ -4,20 +4,16 @@ import org.apache.commons.lang.Validate;
 
 public class Partido {
 
-    Integer id;
-    
+    private Integer id;
+
     private Equipo local;
     private Equipo visitante;
 
     private Planilla planillaPrecargada;
     private Planilla planillaFinal;
-    
+
     private Integer fechaDelTorneo;
 
-    protected Partido() {
-        
-    }
-    
     public Partido(Equipo local, Equipo visitante) {
         Validate.notNull(local, "No se puede crear un partido sin equipos");
         Validate.notNull(visitante, "No se puede crear un partido sin equipos");
@@ -64,20 +60,23 @@ public class Partido {
     public void finalizarPlanilla() {
         planillaFinal = planillaFinal.finalizarPlanilla();
     }
-    
+
     public Equipo getLocal() {
         return local;
     }
-    
+
     public Equipo getVisitante() {
         return visitante;
     }
-    
+
     public Integer getFechaDelTorneo() {
         return fechaDelTorneo;
     }
 
     public Integer getId() {
         return id;
+    }
+
+    protected Partido() {
     }
 }
