@@ -23,7 +23,8 @@ public class ListaBuenaFeTest {
     @Test
     public void testAgregarJugador() throws JugadorYaPerteneceAListaException {
         assertFalse(lista.iterator().hasNext());
-        Jugador jugador = new Jugador("apellido", "nombre", new Sector("s"), new Division("d"));
+        Club club = new Club("club");
+        Jugador jugador = club.crearNuevoJugador("apellido", "nombre", new Sector("s"), new Division("d"));
         lista.agregarJugador(jugador);
 
         assertTrue(lista.tieneJugador(jugador));
@@ -34,7 +35,8 @@ public class ListaBuenaFeTest {
 
     @Test(expectedExceptions = JugadorYaPerteneceAListaException.class)
     public void testAgregarJugador2Veces() throws JugadorYaPerteneceAListaException {
-        Jugador jugador = new Jugador("apellido", "nombre", new Sector("s"), new Division("d"));
+        Club club = new Club("club");
+        Jugador jugador = club.crearNuevoJugador("apellido", "nombre", new Sector("s"), new Division("d"));
         lista.agregarJugador(jugador);
         lista.agregarJugador(jugador);
     }

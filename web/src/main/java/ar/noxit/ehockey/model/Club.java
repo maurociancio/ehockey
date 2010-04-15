@@ -39,6 +39,12 @@ public class Club {
         return equipo;
     }
 
+    public Jugador crearNuevoJugador(String apellido, String nombre, Sector sector, Division division) {
+        Jugador jugador = new Jugador(apellido, nombre, this, sector, division);
+        agregarJugador(jugador);
+        return jugador;
+    }
+
     public void borrarEquipo(Equipo equipo) throws EquipoInexistenteException {
         Validate.notNull(equipo);
 
