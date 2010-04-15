@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.model;
 
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
 
 public class Partido {
 
@@ -13,12 +14,18 @@ public class Partido {
     private Planilla planillaFinal;
 
     private Integer fechaDelTorneo;
+    private LocalDateTime inicio;
 
-    public Partido(Equipo local, Equipo visitante) {
+    public Partido(Equipo local, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio) {
         Validate.notNull(local, "No se puede crear un partido sin equipos");
         Validate.notNull(visitante, "No se puede crear un partido sin equipos");
+        Validate.notNull(fechaDelTorneo, "La fecha del partido no puede ser null");
+        Validate.notNull(inicio, "la fecha de inicio no puede ser null");
+
         this.local = local;
         this.visitante = visitante;
+        this.fechaDelTorneo = fechaDelTorneo;
+        this.inicio = inicio;
     }
 
     private void crearPlanillas() {
@@ -71,6 +78,10 @@ public class Partido {
 
     public Integer getFechaDelTorneo() {
         return fechaDelTorneo;
+    }
+
+    public LocalDateTime getInicio() {
+        return inicio;
     }
 
     public Integer getId() {
