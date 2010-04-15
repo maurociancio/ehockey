@@ -9,6 +9,8 @@
         </id>
         <property name="nombre" not-null="true"/>
         <many-to-one name="listaBuenaFe" column="lista_buena_fe_id" unique="true" entity-name="ListaBuenaFe" cascade="all"/>
-        <many-to-one name="club" entity-name="Club" column="club_id" not-null="true"/>
+        <many-to-one name="club" entity-name="Club" column="club_id" not-null="true" cascade="all"/>
+        <many-to-one name="sector" entity-name="Sector" column="sector_id" not-null="true" cascade="all"/>
+        <many-to-one name="division" entity-name="Division" column="division_id" not-null="true" cascade="all"/>
     </class>
 </hibernate-mapping>
