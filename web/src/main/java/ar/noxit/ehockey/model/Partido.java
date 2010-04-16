@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 
@@ -16,11 +17,17 @@ public class Partido {
     private Integer fechaDelTorneo;
     private LocalDateTime inicio;
 
-    public Partido(Equipo local, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio) {
+    public Partido(Equipo local, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio)
+            throws EquiposInvalidosException {
+
         Validate.notNull(local, "No se puede crear un partido sin equipos");
         Validate.notNull(visitante, "No se puede crear un partido sin equipos");
         Validate.notNull(fechaDelTorneo, "La fecha del partido no puede ser null");
         Validate.notNull(inicio, "la fecha de inicio no puede ser null");
+
+        if (local.equals(visitante)) {
+            throw new EquiposInvalidosException("equipo local y visitante no pueden ser el mismo");
+        }
 
         this.local = local;
         this.visitante = visitante;
