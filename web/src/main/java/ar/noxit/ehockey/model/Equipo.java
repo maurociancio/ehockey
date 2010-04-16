@@ -1,6 +1,8 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
 
 public class Equipo {
 
@@ -36,6 +38,12 @@ public class Equipo {
             listaBuenaFe = new ListaBuenaFe(this);
         }
         return listaBuenaFe;
+    }
+
+    public Partido jugarContra(Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio)
+            throws EquiposInvalidosException {
+
+        return new Partido(this, visitante, fechaDelTorneo, inicio);
     }
 
     public Division getDivision() {
