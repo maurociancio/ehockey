@@ -41,9 +41,7 @@ public class ClubTest {
     @Test
     public void testRelacionarJugadores2() throws SinClubException {
         Club club = new Club("club");
-        club.setId(1);
-        Club club2 = new Club("club");
-        club.setId(2);
+        Club club2 = new Club("club2");
         Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"));
 
         club2.agregarJugador(j);
@@ -56,7 +54,7 @@ public class ClubTest {
     @Test
     public void testRelacionarJugadores3() throws SinClubException {
         Club club = new Club("club");
-        Club club2 = new Club("club");
+        Club club2 = new Club("club2");
         Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"));
 
         j.asignarClub(club2);

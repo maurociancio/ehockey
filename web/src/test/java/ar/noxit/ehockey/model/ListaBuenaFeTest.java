@@ -3,7 +3,9 @@ package ar.noxit.ehockey.model;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import ar.noxit.ehockey.exception.ClubNoCoincideException;
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
+import ar.noxit.ehockey.exception.ReglaNegocioException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -21,9 +23,9 @@ public class ListaBuenaFeTest {
     }
 
     @Test
-    public void testAgregarJugador() throws JugadorYaPerteneceAListaException {
+    public void testAgregarJugador() throws ReglaNegocioException {
         assertFalse(lista.iterator().hasNext());
-        Club club = new Club("club");
+
         Jugador jugador = club.crearNuevoJugador("apellido", "nombre", new Sector("s"), new Division("d"));
         lista.agregarJugador(jugador);
 
@@ -33,9 +35,15 @@ public class ListaBuenaFeTest {
         assertEquals(equipo, lista.getEquipo());
     }
 
+    @Test(expectedExceptions = ClubNoCoincideException.class)
+    public void testAgregarJugadorDeOtroClub() throws ReglaNegocioException {
+        Club otroClub = new Club("otro");
+        Jugador jugador = otroClub.crearNuevoJugador("lala", "lala", new Sector("s"), new Division("s"));
+        lista.agregarJugador(jugador);
+    }
+
     @Test(expectedExceptions = JugadorYaPerteneceAListaException.class)
-    public void testAgregarJugador2Veces() throws JugadorYaPerteneceAListaException {
-        Club club = new Club("club");
+    public void testAgregarJugador2Veces() throws ReglaNegocioException {
         Jugador jugador = club.crearNuevoJugador("apellido", "nombre", new Sector("s"), new Division("d"));
         lista.agregarJugador(jugador);
         lista.agregarJugador(jugador);
@@ -47,7 +55,7 @@ public class ListaBuenaFeTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testAgregarJugadorFalla() throws JugadorYaPerteneceAListaException {
+    public void testAgregarJugadorFalla() throws ReglaNegocioException {
         lista.agregarJugador(null);
     }
 
