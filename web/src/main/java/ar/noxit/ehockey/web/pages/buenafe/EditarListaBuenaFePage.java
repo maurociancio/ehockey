@@ -6,12 +6,12 @@ import ar.noxit.ehockey.model.ListaBuenaFe;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
 import ar.noxit.ehockey.web.pages.models.TodosEquiposModel;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
-import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.model.LDM;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -58,7 +58,9 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         add(formInclusion);
 
         // seleccionar club
-        final IModel<Equipo> equipoSeleccionado = new SelectedEquipoModel(new PropertyModel<Integer>(this, "equipoId"));
+        final IModel<Equipo> equipoSeleccionado = new ClubSelectedEquipoModel(
+                new PropertyModel<Integer>(this, "equipoId"),
+                equiposService);
         Form<Equipo> form = new Form<Equipo>("form") {
 
             @Override
@@ -108,10 +110,10 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
         }
     }
 
-    private final class SelectedEquipoModel extends IdLDM<Equipo, Integer> {
+    private final class ClubSelectedEquipoModel extends SelectedEquipoModel {
 
-        private SelectedEquipoModel(IModel<Integer> idModel) {
-            super(idModel);
+        private ClubSelectedEquipoModel(IModel<Integer> idModel, IEquiposService equiposService) {
+            super(idModel, equiposService);
         }
 
         @Override
@@ -122,19 +124,6 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
             } else {
                 clubId = null;
             }
-        }
-
-        @Override
-        protected Equipo doLoad(Integer id) throws NoxitException {
-            return equiposService.get(id);
-        }
-
-        @Override
-        protected Integer getObjectId(Equipo equipo) {
-            if (equipo == null) {
-                return null;
-            }
-            return equipo.getId();
         }
     }
 
