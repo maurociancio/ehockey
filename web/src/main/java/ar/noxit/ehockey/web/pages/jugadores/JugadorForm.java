@@ -6,6 +6,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -51,6 +52,16 @@ public abstract class JugadorForm extends Panel {
                 new PropertyModel<String>(jugador, "nombre")));
         form.add(new RequiredTextField<String>("apellido",
                 new PropertyModel<String>(jugador, "apellido")));
+        form.add(new TextField<String>("tipodoc", new PropertyModel<String>(
+                jugador, "tipoDocumento")));
+        form.add(new TextField<String>("numerodoc", new PropertyModel<String>(
+                jugador, "numeroDocumento")));
+        form.add(new TextField<String>("fechanac", new PropertyModel<String>(
+                jugador, "fechaNacimiento")));
+        form.add(new TextField<String>("telefono", new PropertyModel<String>(
+                jugador, "telefono")));
+        form.add(new TextField<String>("fechaalta", new PropertyModel<String>(
+                jugador, "fechaAlta")));
         form.add(new DropDownChoice<Club>("club", new PropertyModel<Club>(
                 jugador, "club"), new ClubListModel(clubService),
                 new ClubRenderer()).setRequired(true));
@@ -62,6 +73,8 @@ public abstract class JugadorForm extends Panel {
                 new PropertyModel<Sector>(jugador, "sector"),
                 new SectorListModel(sectorService), new SectorRenderer())
                 .setRequired(true));
+        form.add(new TextField<String>("letra", new PropertyModel<String>(
+                jugador, "letraJugador")));
         add(form);
         add(new FeedbackPanel("feedback"));
     }
