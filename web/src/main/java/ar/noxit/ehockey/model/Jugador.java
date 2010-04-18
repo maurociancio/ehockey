@@ -152,4 +152,12 @@ public class Jugador implements Serializable {
     public String getLetraJugador() {
         return letraJugador;
     }
+
+    public String getTipoDocumento() {
+        return this.tipoDocumento;
+    }
+
+    public String getDocumento() {
+        return this.numeroDocumento;
+    }
 }
