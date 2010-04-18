@@ -11,8 +11,10 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.LocalDate;
 
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
@@ -60,8 +62,8 @@ public abstract class JugadorForm extends Panel {
                 jugador, "fechaNacimiento")));
         form.add(new TextField<String>("telefono", new PropertyModel<String>(
                 jugador, "telefono")));
-        form.add(new TextField<String>("fechaalta", new PropertyModel<String>(
-                jugador, "fechaAlta")));
+        form.add(new TextField<String>("fechaalta", new Model<String>(
+                new LocalDate().toString("dd-MM-yyyy"))).setEnabled(false));
         form.add(new DropDownChoice<Club>("club", new PropertyModel<Club>(
                 jugador, "club"), new ClubListModel(clubService),
                 new ClubRenderer()).setRequired(true));
