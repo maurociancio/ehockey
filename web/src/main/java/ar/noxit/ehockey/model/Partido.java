@@ -11,19 +11,22 @@ public class Partido {
     private Equipo local;
     private Equipo visitante;
 
+    private Torneo torneo;
+
     private Planilla planillaPrecargada;
     private Planilla planillaFinal;
 
     private Integer fechaDelTorneo;
     private LocalDateTime inicio;
 
-    public Partido(Equipo local, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio)
+    public Partido(Torneo torneo, Equipo local, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio)
             throws EquiposInvalidosException {
 
         Validate.notNull(local, "No se puede crear un partido sin equipos");
         Validate.notNull(visitante, "No se puede crear un partido sin equipos");
         Validate.notNull(fechaDelTorneo, "La fecha del partido no puede ser null");
         Validate.notNull(inicio, "la fecha de inicio no puede ser null");
+        Validate.notNull(torneo, "el torneo no puede ser null");
 
         if (local.equals(visitante)) {
             throw new EquiposInvalidosException("equipo local y visitante no pueden ser el mismo");
@@ -33,6 +36,7 @@ public class Partido {
         this.visitante = visitante;
         this.fechaDelTorneo = fechaDelTorneo;
         this.inicio = inicio;
+        this.torneo = torneo;
     }
 
     private void crearPlanillas() {
@@ -77,6 +81,10 @@ public class Partido {
 
     public Equipo getLocal() {
         return local;
+    }
+
+    public Torneo getTorneo() {
+        return torneo;
     }
 
     public Equipo getVisitante() {
