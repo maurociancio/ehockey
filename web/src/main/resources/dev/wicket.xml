@@ -39,7 +39,7 @@
                     <key>
                         <value>Jugadores</value>
                     </key>
-                    <value>ar.noxit.ehockey.web.pages.jugadores.JugadorAltaPage</value>
+                    <value>ar.noxit.ehockey.web.pages.jugadores.JugadorPage</value>
                 </entry>
             </map>
         </property>

@@ -3,7 +3,6 @@ package ar.noxit.ehockey.web.pages.jugadores;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
