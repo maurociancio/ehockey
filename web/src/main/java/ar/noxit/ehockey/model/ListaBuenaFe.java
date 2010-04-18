@@ -1,6 +1,8 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.ClubNoCoincideException;
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
+import ar.noxit.ehockey.exception.SinClubException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -48,11 +50,25 @@ public class ListaBuenaFe {
      *            a ser agregado a la lista de buena fe
      * @throws JugadorYaPerteneceAListaException
      *             se lanza si el jugador ya pertence a esta lista de buena fe
+     * @throws ClubNoCoincideException
+     *             lanzada si el club del jugador no es igual al club de esta
+     *             lista de buena fe
      * @throws IllegalArgumentException
      *             si el jugador pasado es null
      */
-    public void agregarJugador(Jugador jugador) throws JugadorYaPerteneceAListaException {
+    public void agregarJugador(Jugador jugador) throws JugadorYaPerteneceAListaException, ClubNoCoincideException {
         Validate.notNull(jugador, "jugador no puede ser null");
+
+        try {
+            Club club = jugador.getClub();
+
+            if (!club.equals(this.equipo.getClub())) {
+                throw new ClubNoCoincideException(
+                        "el club del jugador no es igual al club del equipo de esta lista de buena fe");
+            }
+        } catch (SinClubException e) {
+            throw new ClubNoCoincideException(e);
+        }
 
         if (jugadores.contains(jugador)) {
             throw new JugadorYaPerteneceAListaException("el jugador ya está en la lista de buena fe");
