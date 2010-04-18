@@ -1,0 +1,44 @@
+<wicket:panel>
+	<div wicket:id="feedback"></div>
+
+	<form name="form" wicket:id="agregar_jugador">
+	<fieldset><legend>Datos personales</legend>
+	<table border="0">
+		<thead>
+			<tr>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="labelcell">Nombre:</td>
+				<td class="fieldcell"><input type="text" wicket:id="nombre"
+					name="nombre" /></td>
+			</tr>
+			<tr>
+				<td class="labelcell">Apellido:</td>
+				<td class="fieldcell"><input type="text" wicket:id="apellido" /></td>
+			</tr>
+			<tr>
+				<td class="labelcell">Club:</td>
+				<td class="fieldcell"><select wicket:id="club" /></td>
+			</tr>
+			<tr>
+				<td class="labelcell">División:</td>
+				<td class="fieldcell"><select wicket:id="division" /></td>
+			</tr>
+			<tr>
+				<td class="labelcell">Sector:</td>
+				<td class="fieldcell"><select wicket:id="sector" /></td>
+			</tr>
+		</tbody>
+	</table>
+	</fieldset>
+
+	<br />
+	<input type="submit" value="Enviar" /></form>
+	<script language="javascript" type="text/javascript">
+        document.form.nombre.focus();
+    </script>
+</wicket:panel>
