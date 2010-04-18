@@ -1,8 +1,11 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.SinClubException;
+import java.io.Serializable;
+
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
+
+import ar.noxit.ehockey.exception.SinClubException;
 
 /**
  * Jugador
@@ -10,7 +13,7 @@ import org.joda.time.LocalDate;
  * @author Mauro Ciancio
  * 
  */
-public class Jugador {
+public class Jugador implements Serializable {
 
     /**
      * Ficha del Jugador
@@ -46,7 +49,8 @@ public class Jugador {
      * @throws IllegalArgumentException
      *             si ficha, apellido o nombre son null
      */
-    public Jugador(String apellido, String nombre, Club club, Sector sector, Division division) {
+    public Jugador(String apellido, String nombre, Club club, Sector sector,
+            Division division) {
         Validate.notNull(apellido, "apellido no puede ser null");
         Validate.notNull(nombre, "nombre no puede ser null");
         Validate.notNull(division, "division no puede ser null");
@@ -70,9 +74,10 @@ public class Jugador {
     }
 
     public Club getClub() throws SinClubException {
-        if (club == null) {
-            throw new SinClubException("el jugador no tiene club");
-        }
+        /*
+         * if (club == null) { throw new
+         * SinClubException("el jugador no tiene club"); }
+         */
         return club;
     }
 
@@ -138,9 +143,10 @@ public class Jugador {
 
     /**
      * Constructor default para la persistencia. No debe ser llamado por los
-     * clientes
+     * clientes Es necesario que sea publico para utilizar este objeto de modelo
+     * como de transito
      */
-    protected Jugador() {
+    public Jugador() {
     }
 
     public String getLetraJugador() {
