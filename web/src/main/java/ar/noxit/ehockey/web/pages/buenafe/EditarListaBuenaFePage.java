@@ -1,13 +1,14 @@
 package ar.noxit.ehockey.web.pages.buenafe;
 
-import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
-import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
-import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.ListaBuenaFe;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.models.TodosEquiposModel;
+import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
+import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.IdLDM;
@@ -75,7 +76,7 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
 
         form.add(new DropDownChoice<Equipo>("equipos",
                 equipoSeleccionado,
-                new TodosEquiposModel(),
+                new TodosEquiposModel(equiposService),
                 EquipoRenderer.get())
                 .setRequired(true));
 
@@ -104,14 +105,6 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
 
         @Override
         public void detach() {
-        }
-    }
-
-    private class TodosEquiposModel extends LDM<List<Equipo>> {
-
-        @Override
-        protected List<Equipo> doLoad() throws NoxitException {
-            return equiposService.getAll();
         }
     }
 
