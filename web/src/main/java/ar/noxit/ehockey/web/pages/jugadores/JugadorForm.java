@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -21,6 +20,9 @@ import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.ISectorService;
+import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
+import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
+import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 
@@ -87,18 +89,6 @@ public abstract class JugadorForm extends Panel {
         }
     }
 
-    private final class ClubRenderer implements IChoiceRenderer<Club> {
-        @Override
-        public Object getDisplayValue(Club arg0) {
-            return arg0.getNombre();
-        }
-
-        @Override
-        public String getIdValue(Club arg0, int arg1) {
-            return arg0.getId().toString();
-        }
-    }
-
     private class DivisionListModel extends
             LoadableDetachableModel<List<Division>> {
 
@@ -121,18 +111,6 @@ public abstract class JugadorForm extends Panel {
         }
     }
 
-    public final class DivisionRenderer implements IChoiceRenderer<Division> {
-        @Override
-        public Object getDisplayValue(Division arg0) {
-            return arg0.getNombre();
-        }
-
-        @Override
-        public String getIdValue(Division arg0, int arg1) {
-            return arg0.getId().toString();
-        }
-    }
-
     private class SectorListModel extends LoadableDetachableModel<List<Sector>> {
 
         private ISectorService sectorService;
@@ -151,18 +129,6 @@ public abstract class JugadorForm extends Panel {
                 // @todo
                 throw new NoxitRuntimeException(ex);
             }
-        }
-    }
-
-    public final class SectorRenderer implements IChoiceRenderer<Sector> {
-        @Override
-        public Object getDisplayValue(Sector arg0) {
-            return arg0.getSector();
-        }
-
-        @Override
-        public String getIdValue(Sector arg0, int arg1) {
-            return arg0.getId().toString();
         }
     }
 
