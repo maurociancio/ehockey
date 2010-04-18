@@ -35,6 +35,12 @@
                     </key>
                     <value>ar.noxit.ehockey.web.pages.partido.PartidoPage</value>
                 </entry>
+                <entry>
+                    <key>
+                        <value>Jugadores</value>
+                    </key>
+                    <value>ar.noxit.ehockey.web.pages.jugadores.JugadorAltaPage</value>
+                </entry>
             </map>
         </property>
     </bean>
