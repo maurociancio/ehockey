@@ -3,6 +3,7 @@ package ar.noxit.ehockey.web.pages.jugadores;
 import java.util.Iterator;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
@@ -26,10 +27,17 @@ public class JugadorVerPage extends AbstractContentPage {
         add(new DataView<Jugador>("jugadores", new JugadorDataProvider(
                 this.jugadorService)) {
             public void populateItem(final Item<Jugador> item) {
-                Jugador jugador = item.getModelObject();
-                item.add(new Label("nombreyapellido", new Model<String>(jugador
+                final Jugador jugador = item.getModelObject();
+                item.add(new Link<AbstractContentPage>("editarjugador") {
+                    @Override
+                    public void onClick() {
+                        // Aqui debe cambiar de panel
+                        // new JugadorModificarPage(new
+                        // Model<Jugador>(jugador));
+                    }
+                }.add(new Label("nombreyapellido", new Model<String>(jugador
                         .getApellido()
-                        + ", " + jugador.getNombre())));
+                        + ", " + jugador.getNombre()))));
                 item.add(new Label("tipodocumento", new Model<String>(jugador
                         .getTipoDocumento())));
                 item.add(new Label("documento", new Model<String>(jugador
