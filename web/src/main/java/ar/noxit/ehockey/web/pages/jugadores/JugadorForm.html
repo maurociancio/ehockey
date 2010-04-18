@@ -1,4 +1,5 @@
 <wicket:panel>
+	<div id="cabeceraPlanilla">
 	<div wicket:id="feedback"></div>
 
 	<form name="form" wicket:id="agregar_jugador">
@@ -12,25 +13,25 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td class="labelcell">Nombre:</td>
-				<td class="fieldcell"><input type="text" wicket:id="nombre"
+				<td >Nombre:</td>
+				<td ><input type="text" wicket:id="nombre"
 					name="nombre" /></td>
 			</tr>
 			<tr>
-				<td class="labelcell">Apellido:</td>
-				<td class="fieldcell"><input type="text" wicket:id="apellido" /></td>
+				<td >Apellido:</td>
+				<td ><input type="text" wicket:id="apellido" /></td>
 			</tr>
 			<tr>
-				<td class="labelcell">Club:</td>
-				<td class="fieldcell"><select wicket:id="club" /></td>
+				<td >Club:</td>
+				<td ><select wicket:id="club" /></td>
 			</tr>
 			<tr>
-				<td class="labelcell">División:</td>
-				<td class="fieldcell"><select wicket:id="division" /></td>
+				<td >División:</td>
+				<td ><select wicket:id="division" /></td>
 			</tr>
 			<tr>
-				<td class="labelcell">Sector:</td>
-				<td class="fieldcell"><select wicket:id="sector" /></td>
+				<td >Sector:</td>
+				<td ><select wicket:id="sector" /></td>
 			</tr>
 		</tbody>
 	</table>
@@ -40,5 +41,5 @@
 	<input type="submit" value="Enviar" /></form>
 	<script language="javascript" type="text/javascript">
         document.form.nombre.focus();
-    </script>
+    </script></div>
 </wicket:panel>
