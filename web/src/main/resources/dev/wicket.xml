@@ -35,6 +35,12 @@
                     </key>
                     <value>ar.noxit.ehockey.web.pages.partido.PartidoPage</value>
                 </entry>
+                <entry>
+                    <key>
+                        <value>Torneos</value>
+                    </key>
+                    <value>ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage</value>
+                </entry>
             </map>
         </property>
     </bean>
