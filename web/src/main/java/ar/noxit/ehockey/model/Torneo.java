@@ -1,36 +1,27 @@
 package ar.noxit.ehockey.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import org.apache.commons.lang.Validate;
 
 public class Torneo {
 
-    private List<Division> divisiones = new ArrayList<Division>();
+    private String nombre;
+    private Set<Partido> partidos;
 
-    public Torneo() {
+    public Torneo(String nombre) {
+        Validate.notNull(nombre, "nombre no puede ser null");
+
+        this.nombre = nombre;
+        this.partidos = new HashSet<Partido>();
     }
 
-    public int getCantidadDivisiones() {
-        return this.divisiones.size();
+    public String getNombre() {
+        return nombre;
     }
 
-    public void agregarDivision(Division division) {
-        this.divisiones.add(division);
+    public Iterator<Partido> iteradorPartidos() {
+        return partidos.iterator();
     }
-
-    public boolean existeDivision(Division division) {
-        return this.divisiones.contains(division);
-    }
-
-    public Division getDivision(String division) {
-        Division div = null;
-        for (Division each : divisiones) {
-            if (each.getNombre().equals(division)) {
-                div = each;
-                break;
-            }
-        }
-        return div;
-    }
-
 }
