@@ -15,4 +15,13 @@
     <bean id="partidoService" class="ar.noxit.ehockey.service.impl.PartidoService">
         <property name="partidoDao" ref="partidoDao"/>
     </bean>
+    <bean id="jugadorService" class="ar.noxit.ehockey.service.impl.JugadorService">
+        <property name="jugadorDao" ref="jugadorDao"/>
+    </bean>
+    <bean id="divisionService" class="ar.noxit.ehockey.service.impl.DivisionService">
+        <property name="divisionDao" ref="divisionDao"/>
+    </bean>
+    <bean id="sectorService" class="ar.noxit.ehockey.service.impl.SectorService">
+        <property name="sectorDao" ref="sectorDao"/>
+    </bean>
 </beans>
