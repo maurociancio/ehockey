@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
+import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
@@ -18,9 +20,12 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class NuevoTorneoWizard extends Wizard {
 
+    @SpringBean
+    private IEquiposService equiposService;
     private String nombre;
 
     public NuevoTorneoWizard(String id) {
@@ -68,9 +73,16 @@ public class NuevoTorneoWizard extends Wizard {
                 @Override
                 protected void populateItem(ListItem<PartidoInfo> item) {
                     IModel<PartidoInfo> model = item.getModel();
-                    item.add(new Label("local", new PropertyModel<Integer>(model, "equipoLocalId")));
-                    item.add(new Label("visitante", new PropertyModel<Integer>(model, "equipoVisitanteId")));
+
+                    item.add(new Label("local", getEquipoModel(model, "equipoLocalId")));
+                    item.add(new Label("visitante", getEquipoModel(model, "equipoVisitanteId")));
                     item.add(new Label("numero", new PropertyModel<Integer>(model, "numeroFecha")));
+                }
+
+                private IModel<String> getEquipoModel(IModel<PartidoInfo> model, String expression) {
+                    return new PropertyModel<String>(
+                            new SelectedEquipoModel(new PropertyModel<Integer>(model, expression), equiposService),
+                            "nombre");
                 }
             });
             add(wmc);
