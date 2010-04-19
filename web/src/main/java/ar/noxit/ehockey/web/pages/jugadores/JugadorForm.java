@@ -8,6 +8,7 @@ import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -44,11 +45,12 @@ public abstract class JugadorForm extends Panel {
     @SpringBean
     private ISectorService sectorService;
 
-    public JugadorForm(String id, final IModel<Jugador> jugador) {
+    public JugadorForm(String id, final IModel<JugadorPlano> jugador) {
         super(id);
         Validate.notNull(jugador);
 
-        Form<Jugador> form = new Form<Jugador>("agregar_jugador", jugador) {
+        Form<JugadorPlano> form = new Form<JugadorPlano>("agregar_jugador",
+                jugador) {
 
             @Override
             protected void onSubmit() {
@@ -76,39 +78,41 @@ public abstract class JugadorForm extends Panel {
                 jugador, "telefono")));
         form.add(new TextField<String>("fechaalta", new Model<String>(
                 new LocalDate().toString("dd/MM/yyyy"))).setEnabled(false));
-        form.add(new DropDownChoice<Club>("club", new PropertyModel<Club>(
-                jugador, "club"), new ClubListModel(clubService),
-                new ClubRenderer()).setRequired(true));
-        form.add(new DropDownChoice<Division>("division",
-                new PropertyModel<Division>(jugador, "division"),
-                new DivisionListModel(divisionService), new DivisionRenderer())
+        form.add(new DropDownChoice<ClubPlano>("club",
+                new PropertyModel<ClubPlano>(jugador, "club"),
+                new ClubPlanoListModel(clubService), new ClubPlanoRenderer())
                 .setRequired(true));
-        form.add(new DropDownChoice<Sector>("sector",
-                new PropertyModel<Sector>(jugador, "sector"),
-                new SectorListModel(sectorService), new SectorRenderer())
-                .setRequired(true));
+        form.add(new DropDownChoice<DivisionPlano>("division",
+                new PropertyModel<DivisionPlano>(jugador, "division"),
+                new DivisionPlanoListModel(divisionService),
+                new DivisionPlanoRenderer()).setRequired(true));
+        form.add(new DropDownChoice<SectorPlano>("sector",
+                new PropertyModel<SectorPlano>(jugador, "sector"),
+                new SectorPlanoListModel(sectorService),
+                new SectorPlanoRenderer()).setRequired(true));
         form.add(new TextField<String>("letra", new PropertyModel<String>(
                 jugador, "letraJugador")));
         add(form);
         add(new FeedbackPanel("feedback"));
     }
 
-    protected abstract void onSubmit(IModel<Jugador> jugador);
+    protected abstract void onSubmit(IModel<JugadorPlano> jugador);
 
-    private class ClubListModel extends LoadableDetachableModel<List<Club>> {
+    private class ClubPlanoListModel extends
+            LoadableDetachableModel<List<ClubPlano>> {
 
         private IClubService clubService;
 
-        public ClubListModel(IClubService jugadorService) {
+        public ClubPlanoListModel(IClubService jugadorService) {
             Validate.notNull(jugadorService);
 
             this.clubService = jugadorService;
         }
 
         @Override
-        protected List<Club> load() {
+        protected List<ClubPlano> load() {
             try {
-                return clubService.getAll();
+                return clubService.getAllPlano();
             } catch (NoxitException ex) {
                 // #TODO
                 throw new NoxitRuntimeException(ex);
@@ -116,21 +120,33 @@ public abstract class JugadorForm extends Panel {
         }
     }
 
-    private class DivisionListModel extends
-            LoadableDetachableModel<List<Division>> {
+    public class ClubPlanoRenderer implements IChoiceRenderer<ClubPlano> {
+        @Override
+        public Object getDisplayValue(ClubPlano arg0) {
+            return arg0.getNombre();
+        }
+
+        @Override
+        public String getIdValue(ClubPlano arg0, int arg1) {
+            return arg0.getNombre();
+        }
+    }
+
+    private class DivisionPlanoListModel extends
+            LoadableDetachableModel<List<DivisionPlano>> {
 
         private IDivisionService divisionService;
 
-        public DivisionListModel(IDivisionService divisionService) {
+        public DivisionPlanoListModel(IDivisionService divisionService) {
             Validate.notNull(divisionService);
 
             this.divisionService = divisionService;
         }
 
         @Override
-        protected List<Division> load() {
+        protected List<DivisionPlano> load() {
             try {
-                return divisionService.getAll();
+                return divisionService.getAllPlano();
             } catch (NoxitException ex) {
                 // #TODO
                 throw new NoxitRuntimeException(ex);
@@ -138,24 +154,50 @@ public abstract class JugadorForm extends Panel {
         }
     }
 
-    private class SectorListModel extends LoadableDetachableModel<List<Sector>> {
+    private class DivisionPlanoRenderer implements
+            IChoiceRenderer<DivisionPlano> {
+        @Override
+        public Object getDisplayValue(DivisionPlano arg0) {
+            return arg0.getDivision();
+        }
+
+        @Override
+        public String getIdValue(DivisionPlano arg0, int arg1) {
+            return arg0.getDivision();
+        }
+    }
+
+    private class SectorPlanoListModel extends
+            LoadableDetachableModel<List<SectorPlano>> {
 
         private ISectorService sectorService;
 
-        public SectorListModel(ISectorService sectorService) {
+        public SectorPlanoListModel(ISectorService sectorService) {
             Validate.notNull(sectorService);
 
             this.sectorService = sectorService;
         }
 
         @Override
-        protected List<Sector> load() {
+        protected List<SectorPlano> load() {
             try {
-                return sectorService.getAll();
+                return sectorService.getAllPlano();
             } catch (NoxitException ex) {
                 // #TODO
                 throw new NoxitRuntimeException(ex);
             }
+        }
+    }
+
+    public class SectorPlanoRenderer implements IChoiceRenderer<SectorPlano> {
+        @Override
+        public Object getDisplayValue(SectorPlano arg0) {
+            return arg0.getSector();
+        }
+
+        @Override
+        public String getIdValue(SectorPlano arg0, int arg1) {
+            return arg0.getSector();
         }
     }
 

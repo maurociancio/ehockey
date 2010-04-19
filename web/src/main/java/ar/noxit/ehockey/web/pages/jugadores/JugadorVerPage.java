@@ -24,16 +24,15 @@ public class JugadorVerPage extends AbstractContentPage {
 
     public JugadorVerPage() {
 
-        add(new DataView<Jugador>("jugadores", new JugadorDataProvider(
+        add(new DataView<JugadorPlano>("jugadores", new JugadorDataProvider(
                 this.jugadorService)) {
-            public void populateItem(final Item<Jugador> item) {
-                final Jugador jugador = item.getModelObject();
+            public void populateItem(final Item<JugadorPlano> item) {
+                final JugadorPlano jugador = item.getModelObject();
                 item.add(new Link<AbstractContentPage>("editarjugador") {
                     @Override
                     public void onClick() {
-                        // Aqui debe cambiar de panel
-                        // new JugadorModificarPage(new
-                        // Model<Jugador>(jugador));
+                        setResponsePage(new JugadorModificarPage(
+                                new Model<JugadorPlano>(jugador)));
                     }
                 }.add(new Label("nombreyapellido", new Model<String>(jugador
                         .getApellido()
@@ -41,12 +40,12 @@ public class JugadorVerPage extends AbstractContentPage {
                 item.add(new Label("tipodocumento", new Model<String>(jugador
                         .getTipoDocumento())));
                 item.add(new Label("documento", new Model<String>(jugador
-                        .getDocumento())));
+                        .getNumeroDocumento())));
             }
         });
     }
 
-    private class JugadorDataProvider implements IDataProvider<Jugador> {
+    private class JugadorDataProvider implements IDataProvider<JugadorPlano> {
 
         private IJugadorService jugadorService;
 
@@ -55,10 +54,10 @@ public class JugadorVerPage extends AbstractContentPage {
         }
 
         @Override
-        public Iterator<? extends Jugador> iterator(int first, int count) {
+        public Iterator<? extends JugadorPlano> iterator(int first, int count) {
             try {
-                return jugadorService.getAll().subList(first, first + count)
-                        .iterator();
+                return jugadorService.getAllPlano().subList(first,
+                        first + count).iterator();
 
             } catch (NoxitException e) {
                 throw new NoxitRuntimeException(e);
@@ -66,8 +65,8 @@ public class JugadorVerPage extends AbstractContentPage {
         }
 
         @Override
-        public IModel<Jugador> model(Jugador object) {
-            return new Model<Jugador>(object);
+        public IModel<JugadorPlano> model(JugadorPlano object) {
+            return new Model<JugadorPlano>(object);
         }
 
         @Override
