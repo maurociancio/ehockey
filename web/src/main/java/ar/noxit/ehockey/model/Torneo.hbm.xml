@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping default-access="field">
+    <class name="ar.noxit.ehockey.model.Torneo" entity-name="Torneo" table="torneos">
+        <id name="id" column="id" >
+            <generator class="increment"/>
+        </id>
+        <property name="nombre" not-null="true"/>
+        <set name="partidos" table="partidos_por_torneo" cascade="all">
+            <key column="torneo_id"/>
+            <many-to-many entity-name="Partido" column="partido_id"/>
+        </set>
+    </class>
+</hibernate-mapping>

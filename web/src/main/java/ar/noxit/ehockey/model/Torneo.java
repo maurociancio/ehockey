@@ -9,6 +9,7 @@ import org.apache.commons.lang.Validate;
 
 public class Torneo {
 
+    private Integer id;
     private String nombre;
     private Set<Partido> partidos;
 
