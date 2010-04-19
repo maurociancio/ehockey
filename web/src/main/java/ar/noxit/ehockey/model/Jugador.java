@@ -1,7 +1,5 @@
 package ar.noxit.ehockey.model;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 
@@ -13,7 +11,7 @@ import ar.noxit.ehockey.exception.SinClubException;
  * @author Mauro Ciancio
  * 
  */
-public class Jugador implements Serializable {
+public class Jugador {
 
     /**
      * Ficha del Jugador
@@ -74,10 +72,9 @@ public class Jugador implements Serializable {
     }
 
     public Club getClub() throws SinClubException {
-        /*
-         * if (club == null) { throw new
-         * SinClubException("el jugador no tiene club"); }
-         */
+        if (club == null) {
+            throw new SinClubException("el jugador no tiene club");
+        }
         return club;
     }
 
@@ -143,10 +140,9 @@ public class Jugador implements Serializable {
 
     /**
      * Constructor default para la persistencia. No debe ser llamado por los
-     * clientes Es necesario que sea publico para utilizar este objeto de modelo
-     * como de transito
+     * clientes
      */
-    public Jugador() {
+    protected Jugador() {
     }
 
     public String getLetraJugador() {
@@ -160,4 +156,41 @@ public class Jugador implements Serializable {
     public String getDocumento() {
         return this.numeroDocumento;
     }
+
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setFechaAlta(LocalDate fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    public void setLetraJugador(String letraJugador) {
+        this.letraJugador = letraJugador;
+    }
+
+    public LocalDate getFechaAlta() {
+        return this.fechaAlta;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return this.fechaNacimiento;
+    }
+
+    public String getTelefono() {
+        return this.telefono;
+    }
+
 }

@@ -19,8 +19,7 @@ public class ClubTest {
         assertEquals(club.getNombre(), "club");
     }
 
-    // Test <->
-    // #TODO Ver si se puede evitar crear un jugador si club
+    @Test
     public void testRelacionarJugadores() throws SinClubException {
         Club club = new Club("club");
         Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"),
