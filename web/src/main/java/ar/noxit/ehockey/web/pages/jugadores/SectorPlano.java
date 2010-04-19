@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class SectorPlano implements Serializable {
 
+    private Integer id;
     private String sector;
 
     public String getSector() {
@@ -13,6 +14,14 @@ public class SectorPlano implements Serializable {
 
     public void setSector(String sector) {
         this.sector = sector;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }

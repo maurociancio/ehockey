@@ -128,7 +128,7 @@ public abstract class JugadorForm extends Panel {
 
         @Override
         public String getIdValue(ClubPlano arg0, int arg1) {
-            return arg0.getNombre();
+            return arg0.getId().toString();
         }
     }
 
@@ -163,7 +163,7 @@ public abstract class JugadorForm extends Panel {
 
         @Override
         public String getIdValue(DivisionPlano arg0, int arg1) {
-            return arg0.getDivision();
+            return arg0.getId().toString();
         }
     }
 
@@ -197,7 +197,7 @@ public abstract class JugadorForm extends Panel {
 
         @Override
         public String getIdValue(SectorPlano arg0, int arg1) {
-            return arg0.getSector();
+            return arg0.getId().toString();
         }
     }
 

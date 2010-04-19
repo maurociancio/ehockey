@@ -26,7 +26,7 @@ public class JugadorPlano implements Serializable {
     private String numeroDocumento;
     private LocalDate fechaNacimiento;
     private String telefono;
-    private LocalDate fechaAlta; // #TODO
+    private LocalDate fechaAlta;
     private String letraJugador;
 
     private DivisionPlano division;
@@ -118,6 +118,7 @@ public class JugadorPlano implements Serializable {
 
     public void setDivision(Division division) {
         this.division = new DivisionPlano();
+        this.division.setId(division.getId());
         this.division.setDivision(division.getNombre());
     }
 
@@ -131,6 +132,7 @@ public class JugadorPlano implements Serializable {
 
     public void setClub(Club club) {
         this.club = new ClubPlano();
+        this.club.setId(club.getId());
         this.club.setNombre(club.getNombre());
     }
 
@@ -144,6 +146,7 @@ public class JugadorPlano implements Serializable {
 
     public void setSector(Sector sector) {
         this.sector = new SectorPlano();
+        this.sector.setId(sector.getId());
         this.sector.setSector(sector.getSector());
     }
 
