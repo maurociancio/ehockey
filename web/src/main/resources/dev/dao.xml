@@ -60,4 +60,5 @@
     <bean id="equipoDao" class="ar.noxit.ehockey.dao.impl.EquipoDao"  parent="baseDao"/>
     <bean id="jugadorDao" class="ar.noxit.ehockey.dao.impl.JugadorDao"  parent="baseDao"/>
     <bean id="partidoDao" class="ar.noxit.ehockey.dao.impl.PartidoDao"  parent="baseDao"/>
+    <bean id="torneoDao" class="ar.noxit.ehockey.dao.impl.TorneoDao"  parent="baseDao"/>
 </beans>
