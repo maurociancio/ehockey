@@ -1,7 +1,10 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
-import ar.noxit.ehockey.service.transfer.PartidoInfo;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.exceptions.NoxitException;
 import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.ITorneoService;
+import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,8 @@ public class NuevoTorneoWizard extends Wizard {
 
     @SpringBean
     private IEquiposService equiposService;
+    @SpringBean
+    private ITorneoService torneoService;
     private String nombre;
     private IModel<? extends List<PartidoInfo>> partidos = new Model<ArrayList<PartidoInfo>>(
             new ArrayList<PartidoInfo>());
@@ -40,8 +45,13 @@ public class NuevoTorneoWizard extends Wizard {
             public void finish() {
                 super.finish();
 
-                List<PartidoInfo> partidosInfo = partidos.getObject();
-                // #todo guardar torneo con: partidosInfo y nombre
+                try {
+                    List<PartidoInfo> partidosInfo = partidos.getObject();
+                    torneoService.crearTorneo(nombre, partidosInfo);
+                } catch (NoxitException e) {
+                    throw new NoxitRuntimeException(e);
+                    // #TODO
+                }
             }
         };
 
