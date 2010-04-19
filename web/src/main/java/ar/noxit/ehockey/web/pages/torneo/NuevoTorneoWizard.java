@@ -1,6 +1,5 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
-import ar.noxit.ehockey.web.pages.renderers.PartidoInfoRenderer;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
@@ -11,8 +10,11 @@ import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClo
 import org.apache.wicket.extensions.wizard.Wizard;
 import org.apache.wicket.extensions.wizard.WizardModel;
 import org.apache.wicket.extensions.wizard.WizardStep;
-import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -55,17 +57,23 @@ public class NuevoTorneoWizard extends Wizard {
             setTitleModel(Model.of("Partidos del Torneo"));
             setSummaryModel(Model.of("Defina los partidos que habrá en este torneo"));
 
+            final WebMarkupContainer wmc = new WebMarkupContainer("partidos");
+            wmc.setOutputMarkupId(true);
+
             final IModel<? extends List<PartidoInfo>> partidos = new Model<ArrayList<PartidoInfo>>(
                     new ArrayList<PartidoInfo>());
 
-            final DropDownChoice<PartidoInfo> partidosComponent =
-                    new DropDownChoice<PartidoInfo>("partidos",
-                    new Model<PartidoInfo>(),
-                    partidos,
-                    new PartidoInfoRenderer());
-            partidosComponent.setNullValid(true);
-            partidosComponent.setOutputMarkupId(true);
-            add(partidosComponent);
+            wmc.add(new ListView<PartidoInfo>("partidos", partidos) {
+
+                @Override
+                protected void populateItem(ListItem<PartidoInfo> item) {
+                    IModel<PartidoInfo> model = item.getModel();
+                    item.add(new Label("local", new PropertyModel<Integer>(model, "equipoLocalId")));
+                    item.add(new Label("visitante", new PropertyModel<Integer>(model, "equipoVisitanteId")));
+                    item.add(new Label("numero", new PropertyModel<Integer>(model, "numeroFecha")));
+                }
+            });
+            add(wmc);
 
             // modal window
             final ModalWindow modalWindow = new ModalWindow("modal");
@@ -75,7 +83,7 @@ public class NuevoTorneoWizard extends Wizard {
 
                 @Override
                 public void onClose(AjaxRequestTarget target) {
-                    target.addComponent(partidosComponent);
+                    target.addComponent(wmc);
                 }
             });
             add(modalWindow);
