@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
+import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
 import java.util.ArrayList;

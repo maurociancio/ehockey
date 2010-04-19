@@ -1,4 +1,4 @@
-package ar.noxit.ehockey.web.pages.torneo;
+package ar.noxit.ehockey.service.transfer;
 
 import java.io.Serializable;
 
