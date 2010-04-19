@@ -33,6 +33,7 @@ public class DivisionService implements IDivisionService {
 
     private DivisionPlano aplanar(Division division) {
         DivisionPlano div = new DivisionPlano();
+        div.setId(division.getId());
         div.setDivision(division.getNombre());
         return div;
     }

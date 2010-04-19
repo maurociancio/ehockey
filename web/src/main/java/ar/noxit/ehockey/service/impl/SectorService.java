@@ -29,6 +29,7 @@ public class SectorService implements ISectorService {
 
     private SectorPlano aplanar(Sector sector) {
         SectorPlano sec = new SectorPlano();
+        sec.setId(sector.getId());
         sec.setSector(sector.getSector());
         return sec;
     }

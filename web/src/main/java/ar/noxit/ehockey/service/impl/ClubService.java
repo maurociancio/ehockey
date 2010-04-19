@@ -63,6 +63,7 @@ public class ClubService implements IClubService {
 
     private ClubPlano aplanar(Club club) {
         ClubPlano clb = new ClubPlano();
+        clb.setId(club.getId());
         clb.setNombre(club.getNombre());
         return clb;
     }
