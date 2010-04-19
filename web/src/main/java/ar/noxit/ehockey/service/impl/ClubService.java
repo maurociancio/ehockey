@@ -6,6 +6,7 @@ import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IClubService;
+import ar.noxit.ehockey.web.pages.jugadores.ClubPlano;
 import ar.noxit.exceptions.NoxitException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,8 @@ public class ClubService implements IClubService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Jugador> getJugadoresPorClub(Integer clubId) throws NoxitException {
+    public List<Jugador> getJugadoresPorClub(Integer clubId)
+            throws NoxitException {
         Club club = clubDao.get(clubId);
         return new ArrayList<Jugador>(club.getJugadores());
     }
@@ -37,7 +39,8 @@ public class ClubService implements IClubService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> idJugadores) throws NoxitException {
+    public List<Jugador> getJugadoresPorClub(Integer clubId,
+            List<Integer> idJugadores) throws NoxitException {
         return jugadorDao.getJugadoresFromClub(clubId, idJugadores);
     }
 
@@ -46,6 +49,22 @@ public class ClubService implements IClubService {
     public List<Equipo> getEquiposPorClub(Integer clubId) throws NoxitException {
         Club club = clubDao.get(clubId);
         return new ArrayList<Equipo>(club.getEquipos());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClubPlano> getAllPlano() throws NoxitException {
+        List<ClubPlano> clubes = new ArrayList<ClubPlano>();
+        for (Club each : clubDao.getAll()) {
+            clubes.add(aplanar(each));
+        }
+        return clubes;
+    }
+
+    private ClubPlano aplanar(Club club) {
+        ClubPlano clb = new ClubPlano();
+        clb.setNombre(club.getNombre());
+        return clb;
     }
 
     public void setClubDao(IClubDao clubDao) {
