@@ -27,6 +27,8 @@ public class NuevoTorneoWizard extends Wizard {
     @SpringBean
     private IEquiposService equiposService;
     private String nombre;
+    private IModel<? extends List<PartidoInfo>> partidos = new Model<ArrayList<PartidoInfo>>(
+            new ArrayList<PartidoInfo>());
 
     public NuevoTorneoWizard(String id) {
         super(id);
@@ -37,7 +39,8 @@ public class NuevoTorneoWizard extends Wizard {
             public void finish() {
                 super.finish();
 
-                // #TODO grabar el torneo
+                List<PartidoInfo> partidosInfo = partidos.getObject();
+                // #todo guardar torneo con: partidosInfo y nombre
             }
         };
 
@@ -64,9 +67,6 @@ public class NuevoTorneoWizard extends Wizard {
 
             final WebMarkupContainer wmc = new WebMarkupContainer("partidos");
             wmc.setOutputMarkupId(true);
-
-            final IModel<? extends List<PartidoInfo>> partidos = new Model<ArrayList<PartidoInfo>>(
-                    new ArrayList<PartidoInfo>());
 
             wmc.add(new ListView<PartidoInfo>("partidos", partidos) {
 
