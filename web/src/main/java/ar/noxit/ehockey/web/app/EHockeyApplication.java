@@ -6,6 +6,7 @@ import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.partido.PartidoPage;
 import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
+import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -38,6 +39,7 @@ public class EHockeyApplication extends WebApplication {
         mountBookmarkablePage("/listabuenafe/ver", VerListaBuenaFePage.class);
         mountBookmarkablePage("/listabuenafe/editar", EditarListaBuenaFePage.class);
         mountBookmarkablePage("/partidos", PartidoPage.class);
+        mountBookmarkablePage("/torneos", TorneoPage.class);
         mountBookmarkablePage("/torneos/crear", NuevoTorneoPage.class);
     }
 

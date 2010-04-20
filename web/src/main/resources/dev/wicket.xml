@@ -39,7 +39,7 @@
                     <key>
                         <value>Torneos</value>
                     </key>
-                    <value>ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage</value>
+                    <value>ar.noxit.ehockey.web.pages.torneo.TorneoPage</value>
                 </entry>
             </map>
         </property>
