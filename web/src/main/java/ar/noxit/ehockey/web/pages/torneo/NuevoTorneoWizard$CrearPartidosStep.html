@@ -10,6 +10,7 @@
                 <td>Equipo Visitante</td>
                 <td>Número de Fecha</td>
                 <td>Fecha Partido</td>
+                <td>Acciones</td>
             </tr>
             <tr wicket:id="partidos">
                 <td>
@@ -21,9 +22,17 @@
                 <td>
                     <span wicket:id="numero"/>
                 </td>
+                <td>
+                    Fecha
+                </td>
+                <td>
+                    <a wicket:id="borrar">
+                        <img src="design/cancel.png" width="20" height="20"/>
+                    </a>
+                </td>
             </tr>
             <tr wicket:id="sin_partidos">
-                <td colspan="4">Aun no hay partidos agregados</td>
+                <td colspan="5">Aun no hay partidos agregados</td>
             </tr>
         </table>
     </div>

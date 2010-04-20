@@ -88,6 +88,7 @@ public class NuevoTorneoWizard extends Wizard {
                     item.add(new Label("local", getEquipoModel(model, "equipoLocalId")));
                     item.add(new Label("visitante", getEquipoModel(model, "equipoVisitanteId")));
                     item.add(new Label("numero", new PropertyModel<Integer>(model, "numeroFecha")));
+                    item.add(removeLink("borrar", item));
                 }
 
                 private IModel<String> getEquipoModel(IModel<PartidoInfo> model, String expression) {
