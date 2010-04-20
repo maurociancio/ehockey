@@ -5,11 +5,15 @@ import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.partido.PartidoPage;
+import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
+import ar.noxit.ehockey.web.pages.planilla.PlanillaPrinterFriendly;
 import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
+import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 /**
@@ -36,11 +40,14 @@ public class EHockeyApplication extends WebApplication {
 
         addComponentInstantiationListener(new SpringComponentInjector(this));
 
-        mountBookmarkablePage("/listabuenafe/ver", VerListaBuenaFePage.class);
-        mountBookmarkablePage("/listabuenafe/editar", EditarListaBuenaFePage.class);
-        mountBookmarkablePage("/partidos", PartidoPage.class);
-        mountBookmarkablePage("/torneos", TorneoPage.class);
-        mountBookmarkablePage("/torneos/crear", NuevoTorneoPage.class);
+        mount(new HybridUrlCodingStrategy("/listabuenafe/ver", VerListaBuenaFePage.class, false));
+        mount(new HybridUrlCodingStrategy("/listabuenafe/editar", EditarListaBuenaFePage.class, false));
+        mount(new HybridUrlCodingStrategy("/partidos", PartidoPage.class, false));
+        mount(new HybridUrlCodingStrategy("/planillas", PlanillaPage.class, false));
+        mount(new MixedParamHybridUrlCodingStrategy("/planillas/print", PlanillaPrinterFriendly.class, false,
+                new String[] { "partido" }));
+        mount(new HybridUrlCodingStrategy("/torneos", TorneoPage.class, false));
+        mount(new HybridUrlCodingStrategy("/torneos/crear", NuevoTorneoPage.class, false));
     }
 
     /**
