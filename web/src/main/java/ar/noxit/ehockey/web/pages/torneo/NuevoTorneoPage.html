@@ -4,9 +4,13 @@
         <h2 class="content-title">Crear un nuevo Torneo</h2>
         
         <div class="content-in">
-            Utilize el siguiente asistente para crear un nuevo torneo:
-
-            <div wicket:id="wizard"/>
+            <wicket:enclosure>
+                Utilize el siguiente asistente para crear un nuevo torneo:
+                <div wicket:id="wizard"/>
+            </wicket:enclosure>
+            <wicket:enclosure>
+                <span wicket:id="mensaje"/>
+            </wicket:enclosure>
         </div> <!-- /content-in -->
     </div> <!-- /content -->
 </wicket:extend>

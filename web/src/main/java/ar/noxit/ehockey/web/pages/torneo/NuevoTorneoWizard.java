@@ -50,6 +50,7 @@ public class NuevoTorneoWizard extends Wizard {
                 try {
                     List<PartidoInfo> partidosInfo = partidos.getObject();
                     torneoService.crearTorneo(nombre, partidosInfo);
+                    setResponsePage(new NuevoTorneoPage(Model.of("Torneo creado correctamente.")));
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                     // #TODO
