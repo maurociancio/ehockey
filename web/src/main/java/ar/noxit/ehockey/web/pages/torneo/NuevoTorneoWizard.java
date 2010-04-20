@@ -56,6 +56,13 @@ public class NuevoTorneoWizard extends Wizard {
                     // #TODO
                 }
             }
+
+            @Override
+            public void cancel() {
+                super.cancel();
+
+                setResponsePage(new NuevoTorneoPage(Model.of("Se canceló la creación del torneo.")));
+            }
         };
 
         wizardModel.add(new NombreTorneoStep());
