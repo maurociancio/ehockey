@@ -6,6 +6,7 @@ import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
@@ -25,6 +26,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.LocalDateTime;
 
 public class NuevoTorneoWizard extends Wizard {
 
@@ -88,6 +90,8 @@ public class NuevoTorneoWizard extends Wizard {
                     item.add(new Label("local", getEquipoModel(model, "equipoLocalId")));
                     item.add(new Label("visitante", getEquipoModel(model, "equipoVisitanteId")));
                     item.add(new Label("numero", new PropertyModel<Integer>(model, "numeroFecha")));
+                    item.add(new Label("fecha", new LocalDateTimeFormatModel(new PropertyModel<LocalDateTime>(model,
+                            "fecha"))));
                     item.add(removeLink("borrar", item));
                 }
 

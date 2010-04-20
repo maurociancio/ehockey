@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.service.transfer;
 
+import org.joda.time.LocalDateTime;
 import java.io.Serializable;
 
 public class PartidoInfo implements Serializable {
@@ -7,6 +8,7 @@ public class PartidoInfo implements Serializable {
     private Integer equipoLocalId;
     private Integer equipoVisitanteId;
     private Integer numeroFecha;
+    private LocalDateTime fecha;
 
     public PartidoInfo() {
     }
@@ -33,5 +35,13 @@ public class PartidoInfo implements Serializable {
 
     public void setNumeroFecha(Integer numeroFecha) {
         this.numeroFecha = numeroFecha;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 }
