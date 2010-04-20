@@ -1,11 +1,11 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
-import ar.noxit.exceptions.NoxitRuntimeException;
-import ar.noxit.exceptions.NoxitException;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
@@ -94,6 +94,13 @@ public class NuevoTorneoWizard extends Wizard {
                     return new PropertyModel<String>(
                             new SelectedEquipoModel(new PropertyModel<Integer>(model, expression), equiposService),
                             "nombre");
+                }
+            });
+            wmc.add(new WebMarkupContainer("sin_partidos") {
+
+                @Override
+                public boolean isVisible() {
+                    return partidos.getObject().isEmpty();
                 }
             });
             add(wmc);

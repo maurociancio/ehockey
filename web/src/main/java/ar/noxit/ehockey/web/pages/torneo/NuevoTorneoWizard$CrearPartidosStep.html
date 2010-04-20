@@ -3,8 +3,8 @@
     <p  style="margin: 15px;">
         Partidos del torneo:
     </p>
-    <div wicket:id="partidos">
-        <table>
+    <div wicket:id="partidos" style="margin: 15px;">
+        <table class="table-style01">
             <tr>
                 <td>Equipo Local</td>
                 <td>Equipo Visitante</td>
@@ -21,6 +21,9 @@
                 <td>
                     <span wicket:id="numero"/>
                 </td>
+            </tr>
+            <tr wicket:id="sin_partidos">
+                <td colspan="4">Aun no hay partidos agregados</td>
             </tr>
         </table>
     </div>
