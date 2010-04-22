@@ -18,5 +18,7 @@
     <bean id="torneoService" class="ar.noxit.ehockey.service.impl.TorneoService">
         <property name="equipoDao" ref="equipoDao"/>
         <property name="torneoDao" ref="torneoDao"/>
+        <property name="dateTimeProvider" ref="dateTimeProvider"/>
     </bean>
+    <bean id="dateTimeProvider" class="ar.noxit.ehockey.service.impl.DateTimeProvider"/>
 </beans>

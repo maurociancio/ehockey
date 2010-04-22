@@ -4,6 +4,7 @@ import ar.noxit.ehockey.dao.IEquipoDao;
 import ar.noxit.ehockey.dao.ITorneoDao;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Torneo;
+import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.exceptions.NoxitException;
@@ -16,6 +17,7 @@ public class TorneoService implements ITorneoService {
 
     private IEquipoDao equipoDao;
     private ITorneoDao torneoDao;
+    private IDateTimeProvider dateTimeProvider;
 
     @Override
     @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
@@ -46,5 +48,9 @@ public class TorneoService implements ITorneoService {
 
     public void setTorneoDao(ITorneoDao torneoDao) {
         this.torneoDao = torneoDao;
+    }
+
+    public void setDateTimeProvider(IDateTimeProvider dateTimeProvider) {
+        this.dateTimeProvider = dateTimeProvider;
     }
 }
