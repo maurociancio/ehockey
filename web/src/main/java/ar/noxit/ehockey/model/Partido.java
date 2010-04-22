@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
+import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 
@@ -37,6 +38,7 @@ public class Partido {
         this.fechaDelTorneo = fechaDelTorneo;
         this.inicio = inicio;
         this.torneo = torneo;
+        this.jugado = false;
     }
 
     private void crearPlanillas() {
@@ -74,9 +76,20 @@ public class Partido {
 
     /**
      * Cierra la planilla final para que ya no se pueda editar.
+     * 
+     * @throws PartidoYaTerminadoException
+     *             si el partido ya esta terminado
      */
-    public void finalizarPlanilla() {
+    public void finalizarPlanilla() throws PartidoYaTerminadoException {
+        if (this.jugado) {
+            throw new PartidoYaTerminadoException("el partido ya está terminado");
+        }
         planillaFinal = planillaFinal.finalizarPlanilla();
+        this.jugado = true;
+    }
+
+    public boolean isJugado() {
+        return jugado;
     }
 
     public Equipo getLocal() {
