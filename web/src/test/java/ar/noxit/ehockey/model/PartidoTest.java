@@ -2,6 +2,7 @@ package ar.noxit.ehockey.model;
 
 import static org.testng.Assert.assertEquals;
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
+import ar.noxit.ehockey.exception.ReglaNegocioException;
 import org.joda.time.LocalDateTime;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,25 +23,25 @@ public class PartidoTest {
     }
 
     @Test
-    public void testCreacionPartido() throws EquiposInvalidosException {
+    public void testCreacionPartido() throws ReglaNegocioException {
         Equipo equipo1 = club.crearNuevoEquipo("Equipo1", division, sector);
         Equipo equipo2 = club.crearNuevoEquipo("Equipo2", division, sector);
 
         LocalDateTime inicio = new LocalDateTime();
-        Partido partido = equipo1.jugarContra(torneo, equipo2, 1, inicio);
+        Partido partido = equipo1.jugarContra(torneo, equipo2, 1, inicio.plusDays(1), inicio);
 
         assertEquals(partido.getFechaDelTorneo(), new Integer(1));
-        assertEquals(partido.getInicio(), inicio);
+        assertEquals(partido.getInicio(), inicio.plusDays(1));
         assertEquals(partido.getLocal(), equipo1);
         assertEquals(partido.getVisitante(), equipo2);
         assertEquals(partido.getId(), null);
     }
 
     @Test(expectedExceptions = EquiposInvalidosException.class)
-    public void testPartidoMismoLocalYVisitante() throws EquiposInvalidosException {
+    public void testPartidoMismoLocalYVisitante() throws ReglaNegocioException {
         Equipo equipo = club.crearNuevoEquipo("Equipo1", division, sector);
-        LocalDateTime inicio = new LocalDateTime();
 
-        equipo.jugarContra(torneo, equipo, 1, inicio);
+        LocalDateTime inicio = new LocalDateTime();
+        equipo.jugarContra(torneo, equipo, 1, inicio.plusDays(1), inicio);
     }
 }

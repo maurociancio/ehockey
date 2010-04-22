@@ -26,6 +26,8 @@ public class TorneoService implements ITorneoService {
         Validate.notNull(partidos, "partidos no puede ser null");
         Validate.noNullElements(partidos, "ningun elemento de la colección puede ser null");
 
+        LocalDateTime now = dateTimeProvider.getLocalDateTime();
+
         Torneo torneo = new Torneo(nombre);
         for (PartidoInfo info : partidos) {
             Integer localId = info.getEquipoLocalId();
@@ -36,7 +38,7 @@ public class TorneoService implements ITorneoService {
             Equipo local = equipoDao.get(localId);
             Equipo visitante = equipoDao.get(visitanteId);
 
-            local.jugarContra(torneo, visitante, numeroFecha, fecha);
+            local.jugarContra(torneo, visitante, numeroFecha, fecha, now);
         }
 
         torneoDao.save(torneo);

@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
 import ar.noxit.ehockey.exception.TorneoNoCoincideException;
@@ -43,11 +44,11 @@ public class Equipo {
         return listaBuenaFe;
     }
 
-    public Partido jugarContra(Torneo torneo, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio)
-            throws EquiposInvalidosException {
+    public Partido jugarContra(Torneo torneo, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio,
+            LocalDateTime now) throws EquiposInvalidosException, FechaInvalidaException {
 
         try {
-            Partido partido = new Partido(torneo, this, visitante, fechaDelTorneo, inicio);
+            Partido partido = new Partido(torneo, this, visitante, fechaDelTorneo, inicio, now);
             torneo.agregarPartido(partido);
             return partido;
         } catch (TorneoNoCoincideException e) {

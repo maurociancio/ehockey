@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import org.apache.commons.lang.Validate;
@@ -20,17 +21,24 @@ public class Partido {
     private Integer fechaDelTorneo;
     private LocalDateTime inicio;
 
-    public Partido(Torneo torneo, Equipo local, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio)
-            throws EquiposInvalidosException {
+    private boolean jugado;
+
+    public Partido(Torneo torneo, Equipo local, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio,
+            LocalDateTime now) throws EquiposInvalidosException, FechaInvalidaException {
 
         Validate.notNull(local, "No se puede crear un partido sin equipos");
         Validate.notNull(visitante, "No se puede crear un partido sin equipos");
         Validate.notNull(fechaDelTorneo, "La fecha del partido no puede ser null");
         Validate.notNull(inicio, "la fecha de inicio no puede ser null");
         Validate.notNull(torneo, "el torneo no puede ser null");
+        Validate.notNull(now, "el instante actual no puede ser null");
 
         if (local.equals(visitante)) {
             throw new EquiposInvalidosException("equipo local y visitante no pueden ser el mismo");
+        }
+
+        if (!inicio.isAfter(now)) {
+            throw new FechaInvalidaException("la fecha de inicio del partido es anterior a la fecha actual");
         }
 
         this.local = local;
