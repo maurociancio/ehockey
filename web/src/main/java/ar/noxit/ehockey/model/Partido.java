@@ -37,9 +37,7 @@ public class Partido {
             throw new EquiposInvalidosException("equipo local y visitante no pueden ser el mismo");
         }
 
-        if (!inicio.isAfter(now)) {
-            throw new FechaInvalidaException("la fecha de inicio del partido es anterior a la fecha actual");
-        }
+        validarFechaInicio(inicio, now);
 
         this.local = local;
         this.visitante = visitante;
@@ -89,11 +87,34 @@ public class Partido {
      *             si el partido ya esta terminado
      */
     public void finalizarPlanilla() throws PartidoYaTerminadoException {
+        validarPartidoNoJugador();
+
+        planillaFinal = planillaFinal.finalizarPlanilla();
+        this.jugado = true;
+    }
+
+    public void reprogramar(LocalDateTime nuevaFecha, LocalDateTime now)
+            throws FechaInvalidaException, PartidoYaTerminadoException {
+
+        Validate.notNull(nuevaFecha, "la nueva fecha no puede ser null");
+        Validate.notNull(now, "la fecha actual no puede ser null");
+
+        validarPartidoNoJugador();
+        validarFechaInicio(nuevaFecha, now);
+
+        this.inicio = nuevaFecha;
+    }
+
+    private void validarPartidoNoJugador() throws PartidoYaTerminadoException {
         if (this.jugado) {
             throw new PartidoYaTerminadoException("el partido ya está terminado");
         }
-        planillaFinal = planillaFinal.finalizarPlanilla();
-        this.jugado = true;
+    }
+
+    private void validarFechaInicio(LocalDateTime inicio, LocalDateTime now) throws FechaInvalidaException {
+        if (!inicio.isAfter(now)) {
+            throw new FechaInvalidaException("la fecha de inicio del partido es anterior a la fecha actual");
+        }
     }
 
     public boolean isJugado() {
