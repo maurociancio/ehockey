@@ -8,8 +8,8 @@ import ar.noxit.exceptions.NoxitException;
 
 public interface ISectorService {
 
-    public List<Sector> getAll() throws NoxitException;
+    public Sector get(Integer id) throws NoxitException;
 
-    public List<SectorPlano> getAllPlano() throws NoxitException;
+    public List<Sector> getAll() throws NoxitException;
 
 }

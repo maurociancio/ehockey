@@ -27,7 +27,7 @@ public class ClubService implements IClubService {
 
     @Override
     @Transactional(readOnly = true)
-    public Club getClub(Integer id) throws NoxitException {
+    public Club get(Integer id) throws NoxitException {
         return clubDao.get(id);
     }
 

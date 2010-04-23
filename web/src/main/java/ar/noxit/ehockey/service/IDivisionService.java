@@ -8,8 +8,7 @@ import ar.noxit.exceptions.NoxitException;
 
 public interface IDivisionService {
 
-    List<Division> getAll() throws NoxitException;
+    public Division get(Integer id) throws NoxitException;
 
-    public List<DivisionPlano> getAllPlano() throws NoxitException;
-
+    public List<Division> getAll() throws NoxitException;
 }

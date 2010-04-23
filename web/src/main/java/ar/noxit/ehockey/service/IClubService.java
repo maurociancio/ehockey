@@ -11,7 +11,7 @@ public interface IClubService {
 
     List<Jugador> getJugadoresPorClub(Integer clubId) throws NoxitException;
 
-    Club getClub(Integer id) throws NoxitException;
+    public Club get(Integer id) throws NoxitException;
 
     List<Club> getAll() throws NoxitException;
 
@@ -21,4 +21,5 @@ public interface IClubService {
     List<Equipo> getEquiposPorClub(Integer clubId) throws NoxitException;
 
     public List<ClubPlano> getAllPlano() throws NoxitException;
+
 }

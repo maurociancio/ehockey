@@ -14,17 +14,13 @@ public class SectorService implements ISectorService {
     private ISectorDao sectorDao;
 
     @Override
-    public List<Sector> getAll() throws NoxitException {
-        return sectorDao.getAll();
+    public Sector get(Integer id) throws NoxitException {
+        return sectorDao.get(id);
     }
 
     @Override
-    public List<SectorPlano> getAllPlano() throws NoxitException {
-        List<SectorPlano> sectores = new ArrayList<SectorPlano>();
-        for (Sector each : sectorDao.getAll()) {
-            sectores.add(aplanar(each));
-        }
-        return sectores;
+    public List<Sector> getAll() throws NoxitException {
+        return sectorDao.getAll();
     }
 
     private SectorPlano aplanar(Sector sector) {
@@ -37,5 +33,4 @@ public class SectorService implements ISectorService {
     public void setSectorDao(ISectorDao sectorDao) {
         this.sectorDao = sectorDao;
     }
-
 }

@@ -8,9 +8,9 @@ import ar.noxit.exceptions.NoxitException;
 
 public interface IJugadorService {
 
-    public void add(Jugador jugador) throws NoxitException;
+    public void add(JugadorPlano jugadorPlano) throws NoxitException;
 
-    public void update(Jugador jugador) throws NoxitException;
+    public void update(JugadorPlano jugadorPlano) throws NoxitException;
 
     public void remove(Jugador jugador) throws NoxitException;
 
@@ -18,7 +18,5 @@ public interface IJugadorService {
 
     public Jugador get(Integer id) throws NoxitException;
 
-    public void convertAdd(JugadorPlano jugador) throws NoxitException;
-
-    public List<JugadorPlano> getAllPlano() throws NoxitException;
+    public JugadorPlano aplanar(Jugador jugador);
 }

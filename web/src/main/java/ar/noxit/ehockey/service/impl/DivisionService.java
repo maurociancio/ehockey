@@ -18,17 +18,14 @@ public class DivisionService implements IDivisionService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Division> getAll() throws NoxitException {
-        return divisionDao.getAll();
+    public Division get(Integer id) throws NoxitException {
+        return divisionDao.get(id);
     }
 
     @Override
-    public List<DivisionPlano> getAllPlano() throws NoxitException {
-        List<DivisionPlano> divisiones = new ArrayList<DivisionPlano>();
-        for (Division each : divisionDao.getAll()) {
-            divisiones.add(aplanar(each));
-        }
-        return divisiones;
+    @Transactional(readOnly = true)
+    public List<Division> getAll() throws NoxitException {
+        return divisionDao.getAll();
     }
 
     private DivisionPlano aplanar(Division division) {

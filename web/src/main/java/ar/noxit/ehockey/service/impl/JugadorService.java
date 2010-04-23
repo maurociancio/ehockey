@@ -1,39 +1,48 @@
 package ar.noxit.ehockey.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.noxit.ehockey.dao.IClubDao;
+import ar.noxit.ehockey.dao.IDivisionDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
+import ar.noxit.ehockey.dao.ISectorDao;
 import ar.noxit.ehockey.exception.SinClubException;
-import ar.noxit.ehockey.model.Club;
-import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.service.IJugadorService;
-import ar.noxit.ehockey.web.pages.jugadores.ClubPlano;
-import ar.noxit.ehockey.web.pages.jugadores.DivisionPlano;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorPlano;
-import ar.noxit.ehockey.web.pages.jugadores.SectorPlano;
 import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.exceptions.persistence.PersistenceException;
 
 public class JugadorService implements IJugadorService {
 
     private IJugadorDao jugadorDao;
+    private IClubDao clubDao;
+    private IDivisionDao divisionDao;
+    private ISectorDao sectorDao;
 
     @Override
-    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
-    public void add(Jugador jugador) throws NoxitException {
-        if (jugador == null) {
-            throw new IllegalArgumentException();
-        }
+    @Transactional
+    public void add(JugadorPlano jugadorPlano) throws NoxitException {
+        jugadorDao.save(ensamblar(jugadorPlano));
+    }
+
+    @Override
+    @Transactional
+    public void update(JugadorPlano jugadorPlano) throws NoxitException {
+        Jugador jugador = jugadorDao.get(jugadorPlano.getFicha());
+        jugador.setClub(clubDao.get(jugadorPlano.getClubId()));
+        jugador.setDivision(divisionDao.get(jugadorPlano.getDivisionId()));
+        jugador.setSector(sectorDao.get(jugadorPlano.getSectorId()));
+        jugador.setApellido(jugadorPlano.getApellido());
+        jugador.setNombre(jugadorPlano.getNombre());
+        ensamblar(jugadorPlano);
         jugadorDao.save(jugador);
     }
 
     @Override
-    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
+    @Transactional
     public void remove(Jugador jugador) throws NoxitException {
         if (jugador == null) {
             throw new IllegalArgumentException();
@@ -42,80 +51,72 @@ public class JugadorService implements IJugadorService {
     }
 
     @Override
-    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
-    public void update(Jugador jugador) throws NoxitException {
-        if (jugador == null) {
-            throw new IllegalArgumentException();
-        }
-        jugadorDao.get(jugador.getFicha());
-    }
-
-    @Override
-    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
+    @Transactional(readOnly = true)
     public Jugador get(Integer id) throws NoxitException {
         return jugadorDao.get(id);
     }
 
     @Override
-    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
+    @Transactional(readOnly = true)
     public List<Jugador> getAll() throws NoxitException {
         return jugadorDao.getAll();
     }
 
-    @Override
-    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
-    public void convertAdd(JugadorPlano jugador) throws NoxitException {
-        Jugador jdr = assembly(jugador);
-        jugadorDao.save(jdr);
-
-    }
-
-    @Override
-    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
-    public List<JugadorPlano> getAllPlano() throws NoxitException {
-        List<JugadorPlano> jugadores = new ArrayList<JugadorPlano>();
-        for (Jugador each : jugadorDao.getAll()) {
-            jugadores.add(aplanar(each));
-        }
-        return jugadores;
-    }
-
-    private Jugador assembly(JugadorPlano jugador) {
-        Jugador jdr = new Jugador(jugador.getApellido(), jugador.getNombre(),
-                new Club(jugador.getClub().getNombre()), new Sector(jugador
-                        .getSector().getSector()), new Division(jugador
-                        .getDivision().getDivision()));
-        jdr.setFechaAlta(jugador.getFechaAlta());
-        jdr.setFechaNacimiento(jugador.getFechaNacimiento());
-        jdr.setLetraJugador(jugador.getLetraJugador());
-        jdr.setNumeroDocumento(jugador.getNumeroDocumento());
-        jdr.setTipoDocumento(jugador.getTipoDocumento());
-        jdr.setTelefono(jugador.getTelefono());
-        return jdr;
-    }
-
-    private JugadorPlano aplanar(Jugador jugador) {
-        JugadorPlano jdr = new JugadorPlano();
-        jdr.setApellido(jugador.getApellido());
-        try {
-            jdr.setClub(jugador.getClub());
-        } catch (SinClubException e) {
-            throw new NoxitRuntimeException(e);
-        }
-        jdr.setDivision(jugador.getDivision());
-        jdr.setFechaAlta(jugador.getFechaAlta());
-        jdr.setFechaNacimiento(jugador.getFechaNacimiento());
-        jdr.setFicha(jugador.getFicha());
-        jdr.setLetraJugador(jugador.getLetraJugador());
-        jdr.setNombre(jugador.getNombre());
-        jdr.setNumeroDocumento(jugador.getDocumento());
-        jdr.setSector(jugador.getSector());
-        jdr.setTelefono(jugador.getTelefono());
-        jdr.setTipoDocumento(jugador.getTipoDocumento());
-        return jdr;
-    }
-
     public void setJugadorDao(IJugadorDao jugadorDao) {
         this.jugadorDao = jugadorDao;
+    }
+
+    public void setClubDao(IClubDao clubDao) {
+        this.clubDao = clubDao;
+    }
+
+    public void setDivisionDao(IDivisionDao divisionDao) {
+        this.divisionDao = divisionDao;
+    }
+
+    public void setSectorDao(ISectorDao sectorDao) {
+        this.sectorDao = sectorDao;
+    }
+
+    private Jugador ensamblar(JugadorPlano jugadorPlano)
+            throws PersistenceException {
+        Jugador jugador = clubDao.get(jugadorPlano.getClubId())
+                .crearNuevoJugador(jugadorPlano.getApellido(),
+                        jugadorPlano.getNombre(),
+                        sectorDao.get(jugadorPlano.getSectorId()),
+                        divisionDao.get(jugadorPlano.getDivisionId()));
+        setearDatos(jugadorPlano, jugador);
+        return jugador;
+    }
+
+    private void setearDatos(JugadorPlano jugadorPlano, Jugador jugador) {
+        jugador.setFechaAlta(jugadorPlano.getFechaAlta());
+        jugador.setFechaNacimiento(jugadorPlano.getFechaNacimiento());
+        jugador.setLetraJugador(jugadorPlano.getLetraJugador());
+        jugador.setNumeroDocumento(jugadorPlano.getNumeroDocumento());
+        jugador.setTelefono(jugadorPlano.getTelefono());
+        jugador.setTipoDocumento(jugadorPlano.getTipoDocumento());
+    }
+
+    public JugadorPlano aplanar(Jugador jugador) {
+        JugadorPlano jugadorPlano = new JugadorPlano();
+        jugadorPlano.setApellido(jugador.getApellido());
+        try {
+            jugadorPlano.setClubId(jugador.getClub().getId());
+        } catch (SinClubException e) {
+            jugadorPlano.setClubId(null);
+        }
+        jugadorPlano.setDivisionId(jugador.getDivision().getId());
+        jugadorPlano.setFechaAlta(jugador.getFechaAlta());
+        jugadorPlano.setFechaNacimiento(jugador.getFechaNacimiento());
+        jugadorPlano.setFicha(jugador.getFicha());
+        jugadorPlano.setLetraJugador(jugador.getLetraJugador());
+        jugadorPlano.setNombre(jugador.getNombre());
+        jugadorPlano.setNumeroDocumento(jugador.getDocumento());
+        jugadorPlano.setSectorId(jugador.getSector().getId());
+        jugadorPlano.setTelefono(jugador.getTelefono());
+        jugadorPlano.setTipoDocumento(jugador.getTipoDocumento());
+        return jugadorPlano;
+
     }
 }
