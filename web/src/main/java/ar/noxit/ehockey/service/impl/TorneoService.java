@@ -44,6 +44,18 @@ public class TorneoService implements ITorneoService {
         torneoDao.save(torneo);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Torneo get(Integer id) throws NoxitException {
+        return torneoDao.get(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Torneo> getAll() throws NoxitException {
+        return torneoDao.getAll();
+    }
+
     public void setEquipoDao(IEquipoDao equipoDao) {
         this.equipoDao = equipoDao;
     }
