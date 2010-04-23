@@ -29,9 +29,9 @@ public class JugadorPlano implements Serializable {
     private LocalDate fechaAlta;
     private String letraJugador;
 
-    private DivisionPlano division;
-    private ClubPlano club;
-    private SectorPlano sector;
+    private Integer divisionId;
+    private Integer clubId;
+    private Integer sectorId;
 
     public JugadorPlano() {
     }
@@ -108,46 +108,27 @@ public class JugadorPlano implements Serializable {
         this.letraJugador = letraJugador;
     }
 
-    public DivisionPlano getDivision() {
-        return division;
+    public Integer getClubId() {
+        return clubId;
     }
 
-    public void setDivision(DivisionPlano division) {
-        this.division = division;
+    public void setClubId(Integer clubId) {
+        this.clubId = clubId;
     }
 
-    public void setDivision(Division division) {
-        this.division = new DivisionPlano();
-        this.division.setId(division.getId());
-        this.division.setDivision(division.getNombre());
+    public Integer getDivisionId() {
+        return divisionId;
     }
 
-    public ClubPlano getClub() {
-        return club;
+    public void setDivisionId(Integer divisionId) {
+        this.divisionId = divisionId;
     }
 
-    public void setClub(ClubPlano club) {
-        this.club = club;
+    public Integer getSectorId() {
+        return sectorId;
     }
 
-    public void setClub(Club club) {
-        this.club = new ClubPlano();
-        this.club.setId(club.getId());
-        this.club.setNombre(club.getNombre());
+    public void setSectorId(Integer sectorId) {
+        this.sectorId = sectorId;
     }
-
-    public SectorPlano getSector() {
-        return sector;
-    }
-
-    public void setSector(SectorPlano sector) {
-        this.sector = sector;
-    }
-
-    public void setSector(Sector sector) {
-        this.sector = new SectorPlano();
-        this.sector.setId(sector.getId());
-        this.sector.setSector(sector.getSector());
-    }
-
 }

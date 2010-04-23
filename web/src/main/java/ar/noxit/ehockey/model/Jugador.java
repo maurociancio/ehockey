@@ -140,7 +140,7 @@ public class Jugador {
 
     /**
      * Constructor default para la persistencia. No debe ser llamado por los
-     * clientes
+     * clientes.
      */
     protected Jugador() {
     }
@@ -191,6 +191,30 @@ public class Jugador {
 
     public String getTelefono() {
         return this.telefono;
+    }
+
+    public void setClub(Club club) {
+        Validate.notNull(club);
+        if (!(club == this.club)) {
+            this.liberar();
+            club.agregarJugador(this);
+        }
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setDivision(Division division) {
+        this.division = division;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
     }
 
 }
