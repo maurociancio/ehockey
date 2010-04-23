@@ -5,7 +5,6 @@ import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
 import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NuevoTorneoWizard extends Wizard {
 
@@ -34,6 +35,7 @@ public class NuevoTorneoWizard extends Wizard {
     private IEquiposService equiposService;
     @SpringBean
     private ITorneoService torneoService;
+    private static final Logger logger = LoggerFactory.getLogger(NuevoTorneoWizard.class);
     private String nombre;
     private IModel<? extends List<PartidoInfo>> partidos = new Model<ArrayList<PartidoInfo>>(
             new ArrayList<PartidoInfo>());
@@ -52,8 +54,8 @@ public class NuevoTorneoWizard extends Wizard {
                     torneoService.crearTorneo(nombre, partidosInfo);
                     setResponsePage(new NuevoTorneoPage(Model.of("Torneo creado correctamente.")));
                 } catch (NoxitException e) {
-                    throw new NoxitRuntimeException(e);
-                    // #TODO
+                    logger.debug("Excepción creando torneo", e);
+                    error(e);
                 }
             }
 
