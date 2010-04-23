@@ -1,6 +1,5 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
-import org.apache.wicket.spring.injection.annot.SpringBean;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.exceptions.NoxitException;
@@ -13,6 +12,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class ListadoTorneoPage extends BaseTorneoPage {
 
@@ -21,7 +21,9 @@ public class ListadoTorneoPage extends BaseTorneoPage {
 
     public ListadoTorneoPage() {
         List<IColumn<Torneo>> columns = new ArrayList<IColumn<Torneo>>();
+
         columns.add(new PropertyColumn<Torneo>(Model.of("Nombre de Torneo"), "nombre"));
+        columns.add(new PropertyColumn<Torneo>(Model.of("Cantidad de Partidos"), "cantidadPartidos"));
 
         add(new DefaultDataTable<Torneo>("listado", columns, new TorneosDataProvider(), 20));
     }

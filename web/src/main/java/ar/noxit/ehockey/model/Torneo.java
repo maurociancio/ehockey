@@ -20,6 +20,10 @@ public class Torneo {
         this.partidos = new HashSet<Partido>();
     }
 
+    public int getCantidadPartidos() {
+        return partidos.size();
+    }
+
     public String getNombre() {
         return nombre;
     }
