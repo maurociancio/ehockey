@@ -41,4 +41,11 @@ public class Torneo {
 
         this.partidos.add(partido);
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Torneo() {
+    }
 }
