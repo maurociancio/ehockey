@@ -7,6 +7,7 @@ import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.partido.PartidoPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrinterFriendly;
+import ar.noxit.ehockey.web.pages.torneo.ListadoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import org.apache.commons.lang.Validate;
@@ -48,6 +49,7 @@ public class EHockeyApplication extends WebApplication {
                 new String[] { "partido" }));
         mount(new HybridUrlCodingStrategy("/torneos", TorneoPage.class, false));
         mount(new HybridUrlCodingStrategy("/torneos/crear", NuevoTorneoPage.class, false));
+        mount(new HybridUrlCodingStrategy("/torneos/listado", ListadoTorneoPage.class, false));
     }
 
     /**
