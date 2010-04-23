@@ -21,4 +21,5 @@
         <property name="dateTimeProvider" ref="dateTimeProvider"/>
     </bean>
     <bean id="dateTimeProvider" class="ar.noxit.ehockey.service.impl.DateTimeProvider"/>
+    <bean id="exceptionConverter" class="ar.noxit.ehockey.service.impl.ExceptionConverter"/>
 </beans>
