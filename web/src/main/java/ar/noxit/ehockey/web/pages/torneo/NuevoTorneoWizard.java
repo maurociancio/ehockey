@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
 import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
@@ -35,6 +36,8 @@ public class NuevoTorneoWizard extends Wizard {
     private IEquiposService equiposService;
     @SpringBean
     private ITorneoService torneoService;
+    @SpringBean
+    private IExceptionConverter exceptionConverter;
     private static final Logger logger = LoggerFactory.getLogger(NuevoTorneoWizard.class);
     private String nombre;
     private IModel<? extends List<PartidoInfo>> partidos = new Model<ArrayList<PartidoInfo>>(
@@ -55,7 +58,7 @@ public class NuevoTorneoWizard extends Wizard {
                     setResponsePage(new NuevoTorneoPage(Model.of("Torneo creado correctamente.")));
                 } catch (NoxitException e) {
                     logger.debug("Excepción creando torneo", e);
-                    error(e);
+                    error(exceptionConverter.convert(e));
                 }
             }
 
