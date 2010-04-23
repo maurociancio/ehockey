@@ -11,5 +11,7 @@ public class JugadorPage extends AbstractContentPage {
                 JugadorAltaPage.class));
         add(new BookmarkablePageLink<AbstractContentPage>("verjugadores",
                 JugadorVerPage.class));
+        add(new BookmarkablePageLink<AbstractContentPage>("bajajugadores",
+                JugadorBajaPage.class));
     }
 }
