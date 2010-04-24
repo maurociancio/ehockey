@@ -10,9 +10,15 @@ import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.Validate;
+import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
@@ -29,6 +35,14 @@ public class VerPartidosPage extends BaseTorneoPage {
             @Override
             protected String getLabelString(Partido object) {
                 return object.isJugado() ? "Si" : "No";
+            }
+        });
+        columns.add(new AbstractColumn<Partido>(Model.of("Reprogramar")) {
+
+            @Override
+            public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
+                    IModel<Partido> rowModel) {
+                cellItem.add(new ReprogramarPartidoPanel(componentId, rowModel));
             }
         });
 
@@ -66,6 +80,32 @@ public class VerPartidosPage extends BaseTorneoPage {
                     return null;
                 }
             };
+        }
+    }
+
+    private final class ReprogramarPartidoPanel extends Panel {
+
+        public ReprogramarPartidoPanel(String id, final IModel<Partido> partido) {
+            super(id);
+            add(new Link<Void>("reprogramar") {
+
+                @Override
+                public void onClick() {
+                    // #TODO implementar reprogramacion
+                }
+
+                @Override
+                public boolean isVisible() {
+                    return !partido.getObject().isJugado();
+                }
+            });
+            add(new WebMarkupContainer("no_reprogramar") {
+
+                @Override
+                public boolean isVisible() {
+                    return partido.getObject().isJugado();
+                }
+            });
         }
     }
 }
