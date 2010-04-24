@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang.Validate;
@@ -7,6 +8,7 @@ import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -60,8 +62,14 @@ public abstract class JugadorForm extends Panel {
                 new PropertyModel<String>(jugador, "nombre")));
         form.add(new RequiredTextField<String>("apellido",
                 new PropertyModel<String>(jugador, "apellido")));
-        form.add(new TextField<String>("tipodoc", new PropertyModel<String>(
-                jugador, "tipoDocumento")));
+
+        // form.add(new TextField<String>("tipodoc", new
+        // PropertyModel<String>(jugador, "tipoDocumento")));
+
+        form.add(new RadioChoice<String>("tipodoc", new PropertyModel<String>(
+                jugador, "tipoDocumento"), Arrays.asList(new String[] { "DNI",
+                "LC", "LE" })));
+
         form.add(new TextField<String>("numerodoc", new PropertyModel<String>(
                 jugador, "numeroDocumento")));
 
