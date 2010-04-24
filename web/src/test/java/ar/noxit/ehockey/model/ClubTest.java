@@ -22,7 +22,8 @@ public class ClubTest {
     @Test
     public void testRelacionarJugadores() throws SinClubException {
         Club club = new Club("club");
-        Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"));
+        Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"),
+                new Division("d"));
 
         assertEquals(j.getClub(), club);
         assertTrue(club.contiene(j));
@@ -41,7 +42,7 @@ public class ClubTest {
     @Test
     public void testRelacionarJugadores2() throws SinClubException {
         Club club = new Club("club");
-        Club club2 = new Club("club2");
+        Club club2 = new Club("club");
         Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"));
 
         club2.agregarJugador(j);
@@ -67,7 +68,8 @@ public class ClubTest {
     @Test
     public void testRelacionarEquipos() throws EquipoInexistenteException {
         Club club = new Club("club");
-        Equipo equipo = club.crearNuevoEquipo("equipo", new Division("d"), new Sector("s"));
+        Equipo equipo = club.crearNuevoEquipo("equipo", new Division("d"),
+                new Sector("s"));
 
         assertEquals(club, equipo.getClub());
         assertEquals(club.iteratorEquipos().next(), equipo);

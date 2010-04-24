@@ -1,6 +1,8 @@
 package ar.noxit.ehockey.model;
 
 import static org.testng.Assert.assertEquals;
+
+import org.joda.time.LocalDate;
 import org.testng.annotations.Test;
 
 public class JugadorTest {
@@ -10,7 +12,8 @@ public class JugadorTest {
         // crear jugador
         Sector sector = new Sector("sector");
         Division division = new Division("division");
-        Jugador jugador = new Jugador("Apellido", "Nombre", new Club("club"), sector, division);
+        Jugador jugador = new Jugador("Apellido", "Nombre", new Club("club"),
+                sector, division);
 
         // verificar atributos
         assertEquals(jugador.getApellido(), "Apellido");
@@ -50,5 +53,14 @@ public class JugadorTest {
         Division division = new Division("division");
         Sector sector = new Sector("s");
         new Jugador("Apellido", "Nombre", null, sector, division);
+    }
+
+    @Test
+    public void testFechaCreacionJugador() {
+        Division division = new Division("division");
+        Sector sector = new Sector("s");
+        Jugador jugador = new Jugador("Apellido", "Nombre", new Club("c"),
+                sector, division);
+        assertEquals(jugador.getFechaAlta(), new LocalDate());
     }
 }

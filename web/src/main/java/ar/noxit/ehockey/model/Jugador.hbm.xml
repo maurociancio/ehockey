@@ -15,8 +15,8 @@
         <property name="telefono"/>
         <property name="fechaAlta" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
         <property name="letraJugador"/>
-        <many-to-one name="club" entity-name="Club" column="club_id" not-null="true" cascade="all"/>
-        <many-to-one name="division" entity-name="Division" column="division_id" not-null="true" cascade="all"/>
-        <many-to-one name="sector" entity-name="Sector" column="sector_id" not-null="true" cascade="all"/>
+        <many-to-one name="club" entity-name="Club" column="club_id" not-null="true" cascade="save-update,persist"/>
+        <many-to-one name="division" entity-name="Division" column="division_id" not-null="true" cascade="save-update,persist"/>
+        <many-to-one name="sector" entity-name="Sector" column="sector_id" not-null="true" cascade="save-update,persist"/>
     </class>
 </hibernate-mapping>

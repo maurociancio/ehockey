@@ -22,4 +22,16 @@
     </bean>
     <bean id="dateTimeProvider" class="ar.noxit.ehockey.service.impl.DateTimeProvider"/>
     <bean id="exceptionConverter" class="ar.noxit.ehockey.service.impl.ExceptionConverter"/>
+    <bean id="jugadorService" class="ar.noxit.ehockey.service.impl.JugadorService">
+        <property name="jugadorDao" ref="jugadorDao"/>
+        <property name="clubDao" ref="clubDao"/>
+        <property name="divisionDao" ref="divisionDao"/>
+        <property name="sectorDao" ref="sectorDao"/>
+    </bean>
+    <bean id="divisionService" class="ar.noxit.ehockey.service.impl.DivisionService">
+        <property name="divisionDao" ref="divisionDao"/>
+    </bean>
+    <bean id="sectorService" class="ar.noxit.ehockey.service.impl.SectorService">
+        <property name="sectorDao" ref="sectorDao"/>
+    </bean>
 </beans>

@@ -1,8 +1,9 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.SinClubException;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
+
+import ar.noxit.ehockey.exception.SinClubException;
 
 /**
  * Jugador
@@ -29,7 +30,7 @@ public class Jugador {
     private String numeroDocumento;
     private LocalDate fechaNacimiento;
     private String telefono;
-    private LocalDate fechaAlta; // #TODO
+    private LocalDate fechaAlta;
     private String letraJugador;
 
     private Division division;
@@ -46,7 +47,8 @@ public class Jugador {
      * @throws IllegalArgumentException
      *             si ficha, apellido o nombre son null
      */
-    public Jugador(String apellido, String nombre, Club club, Sector sector, Division division) {
+    public Jugador(String apellido, String nombre, Club club, Sector sector,
+            Division division) {
         Validate.notNull(apellido, "apellido no puede ser null");
         Validate.notNull(nombre, "nombre no puede ser null");
         Validate.notNull(division, "division no puede ser null");
@@ -58,6 +60,7 @@ public class Jugador {
         this.sector = sector;
         this.division = division;
         this.club = club;
+        this.fechaAlta = new LocalDate();
     }
 
     /**
@@ -138,7 +141,7 @@ public class Jugador {
 
     /**
      * Constructor default para la persistencia. No debe ser llamado por los
-     * clientes
+     * clientes.
      */
     protected Jugador() {
     }
@@ -146,4 +149,73 @@ public class Jugador {
     public String getLetraJugador() {
         return letraJugador;
     }
+
+    public String getTipoDocumento() {
+        return this.tipoDocumento;
+    }
+
+    public String getDocumento() {
+        return this.numeroDocumento;
+    }
+
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setFechaAlta(LocalDate fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    public void setLetraJugador(String letraJugador) {
+        this.letraJugador = letraJugador;
+    }
+
+    public LocalDate getFechaAlta() {
+        return this.fechaAlta;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return this.fechaNacimiento;
+    }
+
+    public String getTelefono() {
+        return this.telefono;
+    }
+
+    public void setClub(Club club) {
+        Validate.notNull(club);
+        if (!(club == this.club)) {
+            this.liberar();
+            club.agregarJugador(this);
+        }
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setDivision(Division division) {
+        this.division = division;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
+    }
+
 }
