@@ -117,6 +117,5 @@ public class JugadorService implements IJugadorService {
         jugadorPlano.setTelefono(jugador.getTelefono());
         jugadorPlano.setTipoDocumento(jugador.getTipoDocumento());
         return jugadorPlano;
-
     }
 }

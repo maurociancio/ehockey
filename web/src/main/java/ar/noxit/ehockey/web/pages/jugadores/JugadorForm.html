@@ -12,11 +12,11 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>Nombre:</td>
+				<td>Nombre:(*)</td>
 				<td><input type="text" wicket:id="nombre" name="nombre" /></td>
 			</tr>
 			<tr>
-				<td>Apellido:</td>
+				<td>Apellido:(*)</td>
 				<td><input type="text" wicket:id="apellido" /></td>
 			</tr>
 			<tr>
@@ -28,7 +28,8 @@
 				<td><input type="text" wicket:id="numerodoc" /></td>
 			</tr>
 			<tr>
-				<td>Fecha de Nacimiento:</td>
+				<td>Fecha de Nacimiento: <br />
+				(dd/mm/aaaa)</td>
 				<td><input type="text" wicket:id="fechanac" /></td>
 			</tr>
 			<tr>
@@ -48,19 +49,15 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>Fecha de Alta:</td>
-				<td><input type="text" wicket:id="fechaalta" /></td>
-			</tr>
-			<tr>
-				<td>Club:</td>
+				<td>Club:(*)</td>
 				<td><select wicket:id="club" /></td>
 			</tr>
 			<tr>
-				<td>División:</td>
+				<td>División:(*)</td>
 				<td><select wicket:id="division" /></td>
 			</tr>
 			<tr>
-				<td>Sector:</td>
+				<td>Sector:(*)</td>
 				<td><select wicket:id="sector" /></td>
 			</tr>
 			<tr>
@@ -70,8 +67,7 @@
 		</tbody>
 	</table>
 	</fieldset>
-
-	<br />
+	<span>(*): Campos Requeridos</span> <br />
 	<input type="submit" value="Enviar" /></form>
 	<script language="javascript" type="text/javascript">
         document.form.nombre.focus();

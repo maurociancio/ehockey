@@ -14,7 +14,6 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDate;
@@ -63,9 +62,6 @@ public abstract class JugadorForm extends Panel {
         form.add(new RequiredTextField<String>("apellido",
                 new PropertyModel<String>(jugador, "apellido")));
 
-        // form.add(new TextField<String>("tipodoc", new
-        // PropertyModel<String>(jugador, "tipoDocumento")));
-
         form.add(new RadioChoice<String>("tipodoc", new PropertyModel<String>(
                 jugador, "tipoDocumento"), Arrays.asList(new String[] { "DNI",
                 "LC", "LE" })));
@@ -82,9 +78,6 @@ public abstract class JugadorForm extends Panel {
 
         form.add(new TextField<String>("telefono", new PropertyModel<String>(
                 jugador, "telefono")));
-
-        form.add(new TextField<String>("fechaalta", new Model<String>(
-                new LocalDate().toString("dd/MM/yyyy"))).setEnabled(false));
 
         form.add(new DropDownChoice<Club>("club", new IdClubModel(
                 new PropertyModel<Integer>(jugador, "clubId"), clubService),
@@ -121,8 +114,8 @@ public abstract class JugadorForm extends Panel {
             LocalDate fecha = delegate.getObject();
             if (fecha == null)
                 return null;
-            return new Date(fecha.getYear(), fecha.getMonthOfYear(), fecha
-                    .getDayOfMonth());
+            return new Date(fecha.getYear() - 1900, fecha.getMonthOfYear() - 1,
+                    fecha.getDayOfMonth());
         }
 
         @Override

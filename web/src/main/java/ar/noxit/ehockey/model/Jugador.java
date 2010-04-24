@@ -30,7 +30,7 @@ public class Jugador {
     private String numeroDocumento;
     private LocalDate fechaNacimiento;
     private String telefono;
-    private LocalDate fechaAlta; // #TODO
+    private LocalDate fechaAlta;
     private String letraJugador;
 
     private Division division;
@@ -60,6 +60,7 @@ public class Jugador {
         this.sector = sector;
         this.division = division;
         this.club = club;
+        this.fechaAlta = new LocalDate();
     }
 
     /**
