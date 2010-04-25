@@ -58,30 +58,6 @@ public class Torneo {
         return new TablaPosiciones(this);
     }
 
-    public Iterator<Partido> getPartidosByDivision(Division division) {
-        List<Partido> lista = new ArrayList<Partido>();
-        for (Iterator<Partido> it = partidos.iterator(); it.hasNext();) {
-            Partido partido = it.next();
-            if (partido.getLocal().getDivision().equals(division)
-                    && partido.getVisitante().getDivision().equals(division)) {
-                lista.add(partido);
-            }
-        }
-        return lista.iterator();
-    }
-
-    public Iterator<Partido> getPartidosBySector(Sector sector) {
-        List<Partido> lista = new ArrayList<Partido>();
-        for (Iterator<Partido> it = partidos.iterator(); it.hasNext();) {
-            Partido partido = it.next();
-            if (partido.getLocal().getSector().equals(sector)
-                    && partido.getVisitante().getSector().equals(sector)) {
-                lista.add(partido);
-            }
-        }
-        return lista.iterator();
-    }
-
     public Integer getId() {
         return id;
     }
