@@ -1,53 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="wicketApplication" class="ar.noxit.ehockey.web.app.EHockeyApplication">
-        <constructor-arg value="development"/>
-    </bean>
+	<bean id="wicketApplication" class="ar.noxit.ehockey.web.app.EHockeyApplication">
+		<constructor-arg value="development" />
+	</bean>
 
-    <bean id="menuItemProvider" class="ar.noxit.ehockey.configuration.MenuItemProvider">
-        <property name="items">
-            <map>
-                <entry>
-                    <key>
-                        <value>Home</value>
-                    </key>
-                    <value>ar.noxit.ehockey.web.pages.HomePage</value>
-                </entry>
-                <entry>
-                    <key>
-                        <value>Ver Lista de Buena Fe</value>
-                    </key>
-                    <value>ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage</value>
-                </entry>
-                <entry>
-                    <key>
-                        <value>Editar Lista de Buena Fe</value>
-                    </key>
-                    <value>ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage</value>
-                </entry>
-                <entry>
-                    <key>
-                        <value>Partidos</value>
-                    </key>
-                    <value>ar.noxit.ehockey.web.pages.partido.PartidoPage</value>
-                </entry>
-                <entry>
-                    <key>
-                        <value>Torneos</value>
-                    </key>
-                    <value>ar.noxit.ehockey.web.pages.torneo.TorneoPage</value>
-                </entry>
-                <entry>
-                    <key>
-                        <value>Jugadores</value>
-                    </key>
-                    <value>ar.noxit.ehockey.web.pages.jugadores.JugadorPage</value>
-                </entry>
-            </map>
-        </property>
-    </bean>
+	<bean id="menuItemProvider" class="ar.noxit.ehockey.configuration.MenuItemProvider">
+		<property name="items">
+			<map>
+				<entry>
+					<key>
+						<value>Home</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.HomePage</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Ver Lista de Buena Fe</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage
+					</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Editar Lista de Buena Fe</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage
+					</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Partidos</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.partido.PartidoPage</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Torneos</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.torneo.TorneoPage</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Jugadores</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.jugadores.JugadorPage</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Tabla Posiciones</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage </value>
+				</entry>
+			</map>
+		</property>
+	</bean>
 </beans>

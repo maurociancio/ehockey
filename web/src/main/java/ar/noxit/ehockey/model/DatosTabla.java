@@ -1,10 +1,13 @@
 package ar.noxit.ehockey.model;
 
-public class DatosTabla {
+import java.io.Serializable;
+
+public class DatosTabla implements Serializable {
 
     public static int PUNTOSPARTIDOGANADO = 3;
     public static int PUNTOSPARTIDOEMPATADO = 1;
 
+    private String nombre;
     private int partidosJugados;
     private int partidosGanados;
     private int partidosEmpatados;
@@ -12,13 +15,18 @@ public class DatosTabla {
     private int golesFavor;
     private int golesContra;
 
-    public DatosTabla() {
+    public DatosTabla(String equipo) {
+        this.nombre = equipo;
         this.partidosJugados = 0;
         this.partidosGanados = 0;
         this.partidosEmpatados = 0;
         this.partidosPerdidos = 0;
         this.golesFavor = 0;
         this.golesContra = 0;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public int getGolesContra() {

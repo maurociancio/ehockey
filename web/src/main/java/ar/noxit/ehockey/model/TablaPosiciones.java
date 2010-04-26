@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -31,8 +32,12 @@ public class TablaPosiciones {
 
     public DatosTabla getDatosTabla(Equipo equipo) {
         if (!tabla.containsKey(equipo))
-            return new DatosTabla();
+            return new DatosTabla(equipo.getNombre());
         return tabla.get(equipo);
+    }
+
+    public Collection<DatosTabla> getDatosTabla() {
+        return tabla.values();
     }
 
     public TablaPosiciones calcularTabla() {
@@ -56,8 +61,8 @@ public class TablaPosiciones {
         if (tabla.containsKey(equipo)) {
             tabla.get(equipo).jugarPartido(golesFavor, golesContra);
         } else {
-            tabla.put(equipo, new DatosTabla().jugarPartido(golesFavor,
-                    golesContra));
+            tabla.put(equipo, new DatosTabla(equipo.getNombre()).jugarPartido(
+                    golesFavor, golesContra));
         }
     }
 
