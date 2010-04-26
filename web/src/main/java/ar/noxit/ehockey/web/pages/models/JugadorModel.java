@@ -1,4 +1,4 @@
-package ar.noxit.ehockey.web.pages.jugadores;
+package ar.noxit.ehockey.web.pages.models;
 
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;

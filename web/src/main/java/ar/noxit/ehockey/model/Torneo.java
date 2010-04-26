@@ -1,11 +1,15 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
-import ar.noxit.ehockey.exception.TorneoNoCoincideException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.lang.Validate;
+
+import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
+import ar.noxit.ehockey.exception.TorneoNoCoincideException;
 
 public class Torneo {
 
@@ -32,18 +36,26 @@ public class Torneo {
         return partidos.iterator();
     }
 
-    public void agregarPartido(Partido partido) throws TorneoNoCoincideException, PartidoYaPerteneceATorneoExcepcion {
+    public void agregarPartido(Partido partido)
+            throws TorneoNoCoincideException,
+            PartidoYaPerteneceATorneoExcepcion {
         Validate.notNull(partido, "el partido no puede ser null");
 
         if (!this.equals(partido.getTorneo())) {
-            throw new TorneoNoCoincideException("el torneo del partido no coincide con this");
+            throw new TorneoNoCoincideException(
+                    "el torneo del partido no coincide con this");
         }
 
         if (partidos.contains(partido)) {
-            throw new PartidoYaPerteneceATorneoExcepcion("el partido ya está agregado");
+            throw new PartidoYaPerteneceATorneoExcepcion(
+                    "el partido ya está agregado");
         }
 
         this.partidos.add(partido);
+    }
+
+    public TablaPosiciones crearTablaPosiciones() {
+        return new TablaPosiciones(this);
     }
 
     public Integer getId() {

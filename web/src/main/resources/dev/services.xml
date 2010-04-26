@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="equiposService" class="ar.noxit.ehockey.service.impl.EquipoService">
@@ -34,5 +34,11 @@
     </bean>
     <bean id="sectorService" class="ar.noxit.ehockey.service.impl.SectorService">
         <property name="sectorDao" ref="sectorDao"/>
+    </bean>
+    <bean id="tablaPosicionesService" class="ar.noxit.ehockey.service.impl.TablaPosicionesService">
+        <property name="torneoDao" ref="torneoDao" />
+        <property name="equipoDao" ref="equipoDao" />
+        <property name="divisionDao" ref="divisionDao" />
+        <property name="sectorDao" ref="sectorDao" />
     </bean>
 </beans>
