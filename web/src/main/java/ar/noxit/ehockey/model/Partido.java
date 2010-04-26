@@ -2,6 +2,8 @@ package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
+import ar.noxit.ehockey.exception.PartidoNoJugadoPorEquipoException;
+import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
@@ -23,18 +25,24 @@ public class Partido {
 
     private boolean jugado;
 
-    public Partido(Torneo torneo, Equipo local, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio,
-            LocalDateTime now) throws EquiposInvalidosException, FechaInvalidaException {
+    private Integer golesLocal;
+    private Integer golesVisitante;
+
+    public Partido(Torneo torneo, Equipo local, Equipo visitante,
+            Integer fechaDelTorneo, LocalDateTime inicio, LocalDateTime now)
+            throws EquiposInvalidosException, FechaInvalidaException {
 
         Validate.notNull(local, "No se puede crear un partido sin equipos");
         Validate.notNull(visitante, "No se puede crear un partido sin equipos");
-        Validate.notNull(fechaDelTorneo, "La fecha del partido no puede ser null");
+        Validate.notNull(fechaDelTorneo,
+                "La fecha del partido no puede ser null");
         Validate.notNull(inicio, "la fecha de inicio no puede ser null");
         Validate.notNull(torneo, "el torneo no puede ser null");
         Validate.notNull(now, "el instante actual no puede ser null");
 
         if (local.equals(visitante)) {
-            throw new EquiposInvalidosException("equipo local y visitante no pueden ser el mismo");
+            throw new EquiposInvalidosException(
+                    "equipo local y visitante no pueden ser el mismo");
         }
 
         validarFechaInicio(inicio, now);
@@ -45,6 +53,8 @@ public class Partido {
         this.inicio = inicio;
         this.torneo = torneo;
         this.jugado = false;
+        this.golesLocal = 0;
+        this.golesVisitante = 0;
     }
 
     private void crearPlanillas() {
@@ -105,15 +115,35 @@ public class Partido {
         this.inicio = nuevaFecha;
     }
 
-    private void validarPartidoNoJugador() throws PartidoYaTerminadoException {
-        if (this.jugado) {
-            throw new PartidoYaTerminadoException("el partido ya está terminado");
+    public void terminarPartido(Integer golesLocal, Integer golesVisitante)
+            throws PartidoNoTerminadoException,
+            PartidoNoJugadoPorEquipoException {
+        this.golesLocal = golesLocal;
+        this.golesVisitante = golesVisitante;
+        if (golesLocal > golesVisitante) {
+            local.ganarPartido(this);
+            visitante.perderPartido(this);
+        } else if (golesLocal < golesVisitante) {
+            local.perderPartido(this);
+            visitante.ganarPartido(this);
+        } else {
+            local.empatarPartido(this);
+            visitante.empatarPartido(this);
         }
     }
 
-    private void validarFechaInicio(LocalDateTime inicio, LocalDateTime now) throws FechaInvalidaException {
+    private void validarPartidoNoJugador() throws PartidoYaTerminadoException {
+        if (this.jugado) {
+            throw new PartidoYaTerminadoException(
+                    "el partido ya está terminado");
+        }
+    }
+
+    private void validarFechaInicio(LocalDateTime inicio, LocalDateTime now)
+            throws FechaInvalidaException {
         if (!inicio.isAfter(now)) {
-            throw new FechaInvalidaException("la fecha de inicio del partido es anterior a la fecha actual");
+            throw new FechaInvalidaException(
+                    "la fecha de inicio del partido es anterior a la fecha actual");
         }
     }
 
@@ -139,6 +169,14 @@ public class Partido {
 
     public LocalDateTime getInicio() {
         return inicio;
+    }
+
+    public Integer getGolesLocal() {
+        return golesLocal;
+    }
+
+    public Integer getGolesVisitante() {
+        return golesVisitante;
     }
 
     public Integer getId() {
