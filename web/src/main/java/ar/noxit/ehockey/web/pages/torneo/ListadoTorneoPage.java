@@ -12,6 +12,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColu
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -41,8 +42,16 @@ public class ListadoTorneoPage extends BaseTorneoPage {
 
     private class ActionPanel extends Panel {
 
-        public ActionPanel(String id, IModel<Torneo> torneo) {
+        public ActionPanel(String id, final IModel<Torneo> torneo) {
             super(id);
+
+            add(new Link<Void>("ver_partidos") {
+
+                @Override
+                public void onClick() {
+                    setResponsePage(new VerPartidosPage(torneo));
+                }
+            });
         }
     }
 
@@ -56,7 +65,7 @@ public class ListadoTorneoPage extends BaseTorneoPage {
         @Override
         public IModel<Torneo> model(Torneo object) {
             final Integer id = object.getId();
-            return new LDM<Torneo>() {
+            return new LDM<Torneo>(object) {
 
                 @Override
                 protected Torneo doLoad() throws NoxitException {
