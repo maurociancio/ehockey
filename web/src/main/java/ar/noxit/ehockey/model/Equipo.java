@@ -21,9 +21,6 @@ public class Equipo {
 
     private ListaBuenaFe listaBuenaFe;
 
-    private Integer puntaje;
-    private Integer jugados;
-
     /**
      * No debe ser usado por los clientes
      * 
@@ -40,8 +37,6 @@ public class Equipo {
         this.nombre = nombre;
         this.division = division;
         this.sector = sector;
-        this.puntaje = 0;
-        this.jugados = 0;
     }
 
     public ListaBuenaFe getListaBuenaFe() {
@@ -56,7 +51,8 @@ public class Equipo {
             throws EquiposInvalidosException, FechaInvalidaException {
 
         try {
-            Partido partido = new Partido(torneo, this, visitante, fechaDelTorneo, inicio, now);
+            Partido partido = new Partido(torneo, this, visitante,
+                    fechaDelTorneo, inicio, now);
             torneo.agregarPartido(partido);
             return partido;
         } catch (TorneoNoCoincideException e) {
@@ -66,37 +62,6 @@ public class Equipo {
             // no deberia pasar nunca por que el partido esta recien creado
             throw new ViolacionReglaNegocioException(e);
         }
-    }
-
-    public void ganarPartido(Partido partido) throws PartidoNoTerminadoException, PartidoNoJugadoPorEquipoException {
-        validarPartido(partido);
-
-        jugados = jugados + 1;
-        puntaje = puntaje + 3;
-    }
-
-    public void perderPartido(Partido partido) throws PartidoNoTerminadoException, PartidoNoJugadoPorEquipoException {
-        validarPartido(partido);
-
-        jugados = jugados + 1;
-    }
-
-    public void empatarPartido(Partido partido) throws PartidoNoTerminadoException, PartidoNoJugadoPorEquipoException {
-        validarPartido(partido);
-
-        jugados = jugados + 1;
-        puntaje = puntaje + 1;
-    }
-
-    private void validarPartido(Partido partido) throws PartidoNoTerminadoException, PartidoNoJugadoPorEquipoException {
-        if (!partido.isJugado())
-            throw new PartidoNoTerminadoException();
-        if (partido.getLocal().equals(this) && partido.getVisitante().equals(this))
-            throw new PartidoNoJugadoPorEquipoException();
-    }
-
-    public Integer getPuntaje() {
-        return this.puntaje;
     }
 
     public Division getDivision() {

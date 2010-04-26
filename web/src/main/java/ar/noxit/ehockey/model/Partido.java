@@ -115,21 +115,9 @@ public class Partido {
         this.inicio = nuevaFecha;
     }
 
-    public void terminarPartido(Integer golesLocal, Integer golesVisitante)
-            throws PartidoNoTerminadoException,
-            PartidoNoJugadoPorEquipoException {
+    public void terminarPartido(Integer golesLocal, Integer golesVisitante) {
         this.golesLocal = golesLocal;
         this.golesVisitante = golesVisitante;
-        if (golesLocal > golesVisitante) {
-            local.ganarPartido(this);
-            visitante.perderPartido(this);
-        } else if (golesLocal < golesVisitante) {
-            local.perderPartido(this);
-            visitante.ganarPartido(this);
-        } else {
-            local.empatarPartido(this);
-            visitante.empatarPartido(this);
-        }
     }
 
     private void validarPartidoNoJugador() throws PartidoYaTerminadoException {

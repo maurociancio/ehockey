@@ -12,7 +12,5 @@
         <many-to-one name="club" entity-name="Club" column="club_id" not-null="true" cascade="all"/>
         <many-to-one name="sector" entity-name="Sector" column="sector_id" not-null="true" cascade="all"/>
         <many-to-one name="division" entity-name="Division" column="division_id" not-null="true" cascade="all"/>
-        <property name="puntaje"/>
-        <property name="jugados"/>
     </class>
 </hibernate-mapping>
