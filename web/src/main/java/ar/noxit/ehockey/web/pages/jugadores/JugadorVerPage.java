@@ -22,8 +22,8 @@ public class JugadorVerPage extends AbstractContentPage {
 
     public JugadorVerPage() {
 
-        add(new DataView<Jugador>("jugadores", new JugadorDataProvider(
-                jugadorService)) {
+        DataView<Jugador> tabla = new DataView<Jugador>("jugadores",
+                new JugadorDataProvider(jugadorService)) {
 
             public void populateItem(final Item<Jugador> item) {
                 item.add(new Link<AbstractContentPage>("editarjugador") {
@@ -40,6 +40,7 @@ public class JugadorVerPage extends AbstractContentPage {
                 item.add(new Label("documento", new PropertyModel<String>(item
                         .getModel(), "documento")));
             }
-        });
+        };
+        add(tabla);
     }
 }

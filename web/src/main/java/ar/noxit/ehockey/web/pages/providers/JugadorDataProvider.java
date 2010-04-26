@@ -6,7 +6,7 @@ import org.apache.wicket.model.IModel;
 
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
-import ar.noxit.ehockey.web.pages.jugadores.JugadorModel;
+import ar.noxit.ehockey.web.pages.models.JugadorModel;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.provider.DataProvider;
