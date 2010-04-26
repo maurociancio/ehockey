@@ -28,7 +28,7 @@ public class EquipoService implements IEquiposService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
     public void asignarListaBuenaFe(Integer equipoId, List<Integer> jugadoresIds) throws NoxitException {
         Equipo equipo = equipoDao.get(equipoId);
 
