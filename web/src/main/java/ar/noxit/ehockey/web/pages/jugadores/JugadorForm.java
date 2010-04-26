@@ -69,7 +69,7 @@ public abstract class JugadorForm extends Panel {
         PropertyModel<LocalDate> modelFechaNacimiento = new PropertyModel<LocalDate>(
                 jugador, "fechaNacimiento");
         DateTextField fechaEvento = new DateTextField("fechanac",
-                new Date2LocalDateModelAdapter(modelFechaNacimiento), "dd/MM/yyyy");
+                new Date2LocalDateModelAdapter(modelFechaNacimiento), "dd/MM/yy");
         fechaEvento.add(new DatePicker());
         form.add(fechaEvento);
 
