@@ -101,6 +101,7 @@ public abstract class PartidoFormPanel extends Panel {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                target.addComponent(feedbackPanel);
                 PartidoFormPanel.this.onSubmit(target, partido);
             }
 
