@@ -1,18 +1,15 @@
 package ar.noxit.ehockey.model;
 
 import static org.testng.Assert.assertEquals;
-
-import org.joda.time.LocalDateTime;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoNoJugadoPorEquipoException;
 import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
-import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
-import ar.noxit.ehockey.exception.TorneoNoCoincideException;
+import ar.noxit.ehockey.exception.ReglaNegocioException;
+import org.joda.time.LocalDateTime;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class TablaPosicionesTest {
 
@@ -25,10 +22,7 @@ public class TablaPosicionesTest {
     private Equipo eq2;
 
     @BeforeMethod
-    public void setUp() throws TorneoNoCoincideException,
-            PartidoYaPerteneceATorneoExcepcion, EquiposInvalidosException,
-            FechaInvalidaException, PartidoNoTerminadoException,
-            PartidoNoJugadoPorEquipoException, PartidoYaTerminadoException {
+    public void setUp() throws ReglaNegocioException {
         torneo = new Torneo("Clausura");
         club = new Club("club");
         this.division = new Division("d");

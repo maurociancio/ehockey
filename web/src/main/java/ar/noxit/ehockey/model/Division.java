@@ -23,16 +23,4 @@ public class Division {
 
     protected Division() {
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-        boolean res = false;
-        Division div = (Division) obj;
-        if (this.getNombre().equals(div.getNombre())) {
-            res = true;
-        }
-        return res;
-    }
 }

@@ -1,25 +1,10 @@
 package ar.noxit.ehockey.web.pages.tablaposiciones;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.DatosTabla;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IDivisionService;
-import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.ehockey.service.ITorneoService;
@@ -33,11 +18,21 @@ import ar.noxit.ehockey.web.pages.providers.TablaPosicionesDataProvider;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import ar.noxit.ehockey.web.pages.renderers.TorneoRenderer;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public abstract class TablaPosicionesPanel extends Panel {
 
-    @SpringBean
-    private IEquiposService equipoService;
     @SpringBean
     private IDivisionService divisionService;
     @SpringBean
@@ -51,6 +46,8 @@ public abstract class TablaPosicionesPanel extends Panel {
         super("formulariopanel");
 
         Form<DatosTabla> form = new Form<DatosTabla>("formulario") {
+
+            @Override
             protected void onSubmit() {
                 TablaPosicionesPanel.this.onSubmit(tablaTransferModel);
             }
@@ -69,41 +66,29 @@ public abstract class TablaPosicionesPanel extends Panel {
                 new PropertyModel<Integer>(tablaTransferModel, "sectorId"),
                 sectorService), new SectorListModel(sectorService),
                 new SectorRenderer()));
+
         List<IColumn<DatosTabla>> columnas = new ArrayList<IColumn<DatosTabla>>();
 
-        columnas.add(new PropertyColumn<DatosTabla>(
-                new Model<String>("Nombre"), "nombre"));
-        columnas.add(new PropertyColumn<DatosTabla>(new Model<String>("PTS"),
-                "puntos"));
-        columnas.add(new PropertyColumn<DatosTabla>(new Model<String>("PJ"),
-                "partidosJugados"));
-        columnas.add(new PropertyColumn<DatosTabla>(new Model<String>("PG"),
-                "partidosGanados"));
-        columnas.add(new PropertyColumn<DatosTabla>(new Model<String>("PE"),
-                "partidosEmpatados"));
-        columnas.add(new PropertyColumn<DatosTabla>(new Model<String>("PP"),
-                "partidosPerdidos"));
-        columnas.add(new PropertyColumn<DatosTabla>(new Model<String>("GF"),
-                "golesFavor"));
-        columnas.add(new PropertyColumn<DatosTabla>(new Model<String>("GC"),
-                "golesContra"));
-        columnas.add(new PropertyColumn<DatosTabla>(new Model<String>("DG"),
-                "diferenciaGol"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("Nombre"), "nombre"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("PTS"), "puntos"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("PJ"), "partidosJugados"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("PG"), "partidosGanados"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("PE"), "partidosEmpatados"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("PP"), "partidosPerdidos"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("GF"), "golesFavor"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("GC"), "golesContra"));
+        columnas.add(new PropertyColumn<DatosTabla>(Model.of("DG"), "diferenciaGol"));
 
         DataTable<DatosTabla> tabla = new DataTable<DatosTabla>(
-                "tablaposiciones", columnas
-                        .toArray(new IColumn[columnas.size()]),
-                new TablaPosicionesDataProvider(tablaService).setTorneoId(
-                        tablaTransferModel.getObject().getTorneoId())
-                        .setDivisionId(
-                                tablaTransferModel.getObject().getDivisionId())
-                        .setSectorId(
-                                tablaTransferModel.getObject().getSectorId()),
+                "tablaposiciones", columnas.toArray(new IColumn[columnas.size()]),
+                new TablaPosicionesDataProvider(tablaService)
+                .setTorneoId(tablaTransferModel.getObject().getTorneoId())
+                .setDivisionId(tablaTransferModel.getObject().getDivisionId())
+                .setSectorId(tablaTransferModel.getObject().getSectorId()),
                 10);
         form.add(tabla);
         add(form);
     }
 
     public abstract void onSubmit(IModel<TablaTransfer> datosTablaModel);
-
 }

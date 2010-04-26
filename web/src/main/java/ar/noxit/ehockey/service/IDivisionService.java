@@ -1,10 +1,8 @@
 package ar.noxit.ehockey.service;
 
-import java.util.List;
-
 import ar.noxit.ehockey.model.Division;
-import ar.noxit.ehockey.web.pages.jugadores.DivisionPlano;
 import ar.noxit.exceptions.NoxitException;
+import java.util.List;
 
 public interface IDivisionService {
 
