@@ -30,6 +30,10 @@ public abstract class PartidoFormPanel extends Panel {
     private IEquiposService equiposService;
     @SuppressWarnings("unused")
     private String botonSubmit;
+    private boolean localActivo = true;
+    private boolean visitanteActivo = true;
+    private boolean numeroFechaActivo = true;
+    private boolean fechaActivo = true;
 
     public PartidoFormPanel(String id, final IModel<PartidoInfo> partido) {
         super(id);
@@ -48,15 +52,35 @@ public abstract class PartidoFormPanel extends Panel {
         form.add(new DropDownChoice<Equipo>("local",
                 new SelectedEquipoModel(new PropertyModel<Integer>(partido, "equipoLocalId"), equiposService),
                 choices,
-                renderer).setRequired(true));
+                renderer) {
+
+            @Override
+            public boolean isEnabled() {
+                return localActivo;
+            }
+
+        }.setRequired(true));
 
         form.add(new DropDownChoice<Equipo>("visitante",
                 new SelectedEquipoModel(new PropertyModel<Integer>(partido, "equipoVisitanteId"), equiposService),
                 choices,
-                renderer).setRequired(true));
+                renderer) {
+
+            @Override
+            public boolean isEnabled() {
+                return visitanteActivo;
+            }
+
+        }.setRequired(true));
 
         form.add(new RequiredTextField<Integer>("numero_fecha",
-                new PropertyModel<Integer>(partido, "numeroFecha"), Integer.class));
+                new PropertyModel<Integer>(partido, "numeroFecha"), Integer.class) {
+
+            @Override
+            public boolean isEnabled() {
+                return numeroFechaActivo;
+            }
+        });
 
         form.add(new DateTimeField("fecha", new Date2LocalDateTimeAdapterModel(new PropertyModel<LocalDateTime>(
                 partido, "fecha"))) {
@@ -65,6 +89,11 @@ public abstract class PartidoFormPanel extends Panel {
             @Override
             protected DateTextField newDateTextField(String id, PropertyModel dateFieldModel) {
                 return new DateTextField(id, dateFieldModel, new PatternDateConverter("dd/MM/yy", false));
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return fechaActivo;
             }
         }.setRequired(true));
 
@@ -86,6 +115,26 @@ public abstract class PartidoFormPanel extends Panel {
 
     public PartidoFormPanel setSubmitLabel(String label) {
         this.botonSubmit = label;
+        return this;
+    }
+
+    public PartidoFormPanel setLocalActivo(boolean localActivo) {
+        this.localActivo = localActivo;
+        return this;
+    }
+
+    public PartidoFormPanel setVisitanteActivo(boolean visitanteActivo) {
+        this.visitanteActivo = visitanteActivo;
+        return this;
+    }
+
+    public PartidoFormPanel setNumeroFechaActivo(boolean numeroFechaActivo) {
+        this.numeroFechaActivo = numeroFechaActivo;
+        return this;
+    }
+
+    public PartidoFormPanel setFechaActivo(boolean fechaActivo) {
+        this.fechaActivo = fechaActivo;
         return this;
     }
 
