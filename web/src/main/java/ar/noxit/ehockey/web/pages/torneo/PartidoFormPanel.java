@@ -28,6 +28,8 @@ public abstract class PartidoFormPanel extends Panel {
 
     @SpringBean
     private IEquiposService equiposService;
+    @SuppressWarnings("unused")
+    private String botonSubmit;
 
     public PartidoFormPanel(String id, final IModel<PartidoInfo> partido) {
         super(id);
@@ -66,7 +68,7 @@ public abstract class PartidoFormPanel extends Panel {
             }
         }.setRequired(true));
 
-        form.add(new AjaxButton("submit") {
+        form.add(new AjaxButton("submit", new PropertyModel<String>(this, "botonSubmit")) {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -80,6 +82,11 @@ public abstract class PartidoFormPanel extends Panel {
         });
 
         add(form);
+    }
+
+    public PartidoFormPanel setSubmitLabel(String label) {
+        this.botonSubmit = label;
+        return this;
     }
 
     protected abstract void onSubmit(AjaxRequestTarget target, IModel<PartidoInfo> partido);

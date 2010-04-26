@@ -19,6 +19,6 @@ public class AgregarPartidoPage extends AbstractColorBasePage {
 
                 modalWindow.close(target);
             }
-        });
+        }.setSubmitLabel("Agregar Partido"));
     }
 }
