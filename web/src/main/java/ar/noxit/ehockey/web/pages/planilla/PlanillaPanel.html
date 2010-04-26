@@ -51,50 +51,54 @@
 	<div id="cuerpoPlanilla">
 	<table class="planillaPartidoCabecera">
 		<tr>
-			<th><span>Ficha</span></th>
-			<th><span>Apellido</span></th>
-			<th><span>Nro</span></th>
-			<th><span>Tarjetas</span><br />
-			<span>V A R</span></th>
-			<th><span>Ficha</span></th>
-			<th><span>Apellido</span></th>
-			<th><span>Nro</span></th>
-			<th><span>Tarjetas</span> <br />
-			<span>V A R</span></th>
+			<th rowspan="2" colspan="3"><span>Ficha</span></th>
+			<th rowspan="2" colspan="3"><span>Apellido</span></th>
+			<th rowspan="2" colspan="3"><span>Nro</span></th>
+			<th colspan="6"><span>Tarjetas</span></th>
+			<th rowspan="2" colspan="3"><span>Ficha</span></th>
+			<th rowspan="2" colspan="3"><span>Apellido</span></th>
+			<th rowspan="2" colspan="3"><span>Nro</span></th>
+			<th colspan="6"><span>Tarjetas</span></th>
 		</tr>
 		<tr>
-			<td>
-			<p wicket:id="fichasJugadoresLocales">
-				<span wicket:id="fichasLocales">fichas</span>
+			<td colspan="2"><span>V</span></td>
+			<td colspan="2"><span>A</span></td>
+			<td colspan="2"><span>R</span></td>
+			<td colspan="2"><span>V</span></td>
+			<td colspan="2"><span>A</span></td>
+			<td colspan="2"><span>R</span></td>
+		</tr>
+		<tr>
+			<td colspan="3">
+			<p wicket:id="fichasJugadoresLocales"><span
+				wicket:id="fichasLocales">fichas</span></p>
+			</td>
+			<td colspan="3">
+			<p wicket:id="jugadoresLocales"><span wicket:id="locales">nombres</span>
 			</p>
 			</td>
-			<td>
-			<p wicket:id="jugadoresLocales">
-				<span wicket:id="locales">nombres</span>
+			<td colspan="3">
+			<p wicket:id="numerosJugadoresLocales"><span
+				wicket:id="numerosLocales">numeros</span></p>
+			</td>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+			<td colspan="3">
+			<p wicket:id="fichasJugadoresVisitantes"><span
+				wicket:id="fichasVisitantes">fichas</span></p>
+			</td>
+			<td colspan="3">
+			<p wicket:id="jugadoresVisitantes"><span wicket:id="visitantes">nombres</span>
 			</p>
 			</td>
-			<td>
-			<p wicket:id="numerosJugadoresLocales">
-				<span wicket:id="numerosLocales">numeros</span>
-			</p>
+			<td colspan="3">
+			<p wicket:id="numerosJugadoresVisitantes"><span
+				wicket:id="numerosVisitantes">numeros</span></p>
 			</td>
-			<td></td>
-			<td>
-			<p wicket:id="fichasJugadoresVisitantes">
-				<span wicket:id="fichasVisitantes">fichas</span>
-			</p>
-			</td>
-			<td>
-			<p wicket:id="jugadoresVisitantes">
-				<span wicket:id="visitantes">nombres</span>
-			</p>
-			</td>
-			<td>
-			<p wicket:id="numerosJugadoresVisitantes">
-				<span wicket:id="numerosVisitantes">numeros</span>
-			</p>
-			</td>
-			<td />
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
 		</tr>
 	</table>
 	</div>
