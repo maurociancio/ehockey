@@ -12,5 +12,7 @@
         <property name="jugado" not-null="true"/>
         <many-to-one name="local" entity-name="Equipo" column="local_id" not-null="true"/>
         <many-to-one name="visitante" entity-name="Equipo" column="visitante_id" not-null="true"/>
+        <property name="golesLocal" />
+        <property name="golesVisitante" />
     </class>
 </hibernate-mapping>

@@ -1,12 +1,15 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.FechaInvalidaException;
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
+
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
+import ar.noxit.ehockey.exception.FechaInvalidaException;
+import ar.noxit.ehockey.exception.PartidoNoJugadoPorEquipoException;
+import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
 import ar.noxit.ehockey.exception.TorneoNoCoincideException;
 import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDateTime;
 
 public class Equipo {
 
@@ -18,6 +21,9 @@ public class Equipo {
     private Club club;
 
     private ListaBuenaFe listaBuenaFe;
+
+    private Integer puntaje;
+    private Integer jugados;
 
     /**
      * No debe ser usado por los clientes
@@ -35,6 +41,8 @@ public class Equipo {
         this.nombre = nombre;
         this.division = division;
         this.sector = sector;
+        this.puntaje = new Integer(0);
+        this.jugados = new Integer(0);
     }
 
     public ListaBuenaFe getListaBuenaFe() {
@@ -44,11 +52,13 @@ public class Equipo {
         return listaBuenaFe;
     }
 
-    public Partido jugarContra(Torneo torneo, Equipo visitante, Integer fechaDelTorneo, LocalDateTime inicio,
-            LocalDateTime now) throws EquiposInvalidosException, FechaInvalidaException {
+    public Partido jugarContra(Torneo torneo, Equipo visitante,
+            Integer fechaDelTorneo, LocalDateTime inicio, LocalDateTime now)
+            throws EquiposInvalidosException, FechaInvalidaException {
 
         try {
-            Partido partido = new Partido(torneo, this, visitante, fechaDelTorneo, inicio, now);
+            Partido partido = new Partido(torneo, this, visitante,
+                    fechaDelTorneo, inicio, now);
             torneo.agregarPartido(partido);
             return partido;
         } catch (TorneoNoCoincideException e) {
@@ -58,6 +68,45 @@ public class Equipo {
             // no deberia pasar nunca por que el partido esta recien creado
             throw new ViolacionReglaNegocioException(e);
         }
+    }
+
+    public void ganarPartido(Partido partido)
+            throws PartidoNoTerminadoException,
+            PartidoNoJugadoPorEquipoException {
+        if (!partido.isJugado())
+            throw new PartidoNoTerminadoException();
+        if (partido.getLocal().equals(this)
+                && partido.getVisitante().equals(this))
+            throw new PartidoNoJugadoPorEquipoException();
+        jugados = new Integer(jugados + 1);
+        puntaje = new Integer(puntaje + 3);
+    }
+
+    public void perderPartido(Partido partido)
+            throws PartidoNoTerminadoException,
+            PartidoNoJugadoPorEquipoException {
+        if (!partido.isJugado())
+            throw new PartidoNoTerminadoException();
+        if (partido.getLocal().equals(this)
+                && partido.getVisitante().equals(this))
+            throw new PartidoNoJugadoPorEquipoException();
+        jugados = new Integer(jugados + 1);
+    }
+
+    public void empatarPartido(Partido partido)
+            throws PartidoNoTerminadoException,
+            PartidoNoJugadoPorEquipoException {
+        if (!partido.isJugado())
+            throw new PartidoNoTerminadoException();
+        if (partido.getLocal().equals(this)
+                && partido.getVisitante().equals(this))
+            throw new PartidoNoJugadoPorEquipoException();
+        jugados = new Integer(jugados + 1);
+        puntaje = new Integer(puntaje + 1);
+    }
+
+    public Integer getPuntaje() {
+        return this.puntaje;
     }
 
     public Division getDivision() {
@@ -92,5 +141,17 @@ public class Equipo {
     }
 
     protected Equipo() {
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        Equipo other = (Equipo) obj;
+        boolean res = false;
+        if (this.nombre.equals(other.getNombre())) {
+            res = true;
+        }
+        return res;
     }
 }
