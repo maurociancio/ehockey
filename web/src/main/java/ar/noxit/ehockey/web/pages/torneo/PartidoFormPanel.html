@@ -1,0 +1,24 @@
+<wicket:panel>
+    <div wicket:id="feedback"/>
+    <form wicket:id="form">
+        <table>
+            <tr>
+                <td>Local:</td>
+                <td><select wicket:id="local"/></td>
+            </tr>
+            <tr>
+                <td>Visitante:</td>
+                <td><select wicket:id="visitante"/></td>
+            </tr>
+            <tr>
+                <td>Número de Fecha:</td>
+                <td><input type="text" wicket:id="numero_fecha"/> </td>
+            </tr>
+            <tr>
+                <td>Fecha Partido:</td>
+                <td><span wicket:id="fecha"/></td>
+            </tr>
+        </table>
+        <input type="submit" wicket:id="submit" value="Agregar Partido"/>
+    </form>
+</wicket:panel>
