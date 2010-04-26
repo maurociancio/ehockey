@@ -1,7 +1,6 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
 import java.io.Serializable;
-import java.util.Set;
 
 public class SectorPlano implements Serializable {
 

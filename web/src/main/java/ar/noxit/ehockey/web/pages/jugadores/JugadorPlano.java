@@ -1,12 +1,7 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
 import java.io.Serializable;
-
 import org.joda.time.LocalDate;
-
-import ar.noxit.ehockey.model.Club;
-import ar.noxit.ehockey.model.Division;
-import ar.noxit.ehockey.model.Sector;
 
 public class JugadorPlano implements Serializable {
     /**

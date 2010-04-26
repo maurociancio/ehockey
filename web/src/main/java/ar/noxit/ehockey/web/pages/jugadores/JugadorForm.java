@@ -1,23 +1,5 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import java.util.Arrays;
-import java.util.Date;
-
-import org.apache.commons.lang.Validate;
-import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.apache.wicket.extensions.yui.calendar.DatePicker;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RadioChoice;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.joda.time.LocalDate;
-
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Sector;
@@ -34,6 +16,22 @@ import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import ar.noxit.web.wicket.model.AdapterModel;
+import java.util.Arrays;
+import java.util.Date;
+import org.apache.commons.lang.Validate;
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
+import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RadioChoice;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.LocalDate;
 
 public abstract class JugadorForm extends Panel {
 
@@ -91,9 +89,9 @@ public abstract class JugadorForm extends Panel {
 
         form
                 .add(new DropDownChoice<Sector>("sector", new IdSectorModel(
-                        new PropertyModel<Integer>(jugador, "sectorId"),
-                        sectorService), new SectorListModel(sectorService),
-                        new SectorRenderer()).setRequired(true));
+                new PropertyModel<Integer>(jugador, "sectorId"),
+                sectorService), new SectorListModel(sectorService),
+                new SectorRenderer()).setRequired(true));
         form.add(new TextField<String>("letra", new PropertyModel<String>(
                 jugador, "letraJugador")));
         add(form);
@@ -120,7 +118,6 @@ public abstract class JugadorForm extends Panel {
 
         @Override
         protected void setObject(Date object, IModel<LocalDate> delegate) {
-            LocalDate temp = delegate.getObject();
             delegate.setObject(new LocalDate(object));
         }
     }
