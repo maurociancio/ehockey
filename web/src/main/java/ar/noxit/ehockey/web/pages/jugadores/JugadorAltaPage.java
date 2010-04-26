@@ -1,13 +1,12 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
 import ar.noxit.ehockey.service.IJugadorService;
-import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.exceptions.NoxitException;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class JugadorAltaPage extends AbstractContentPage {
+public class JugadorAltaPage extends AbstractJugadorPage {
 
     @SpringBean
     private IJugadorService jugadorService;
@@ -18,6 +17,7 @@ public class JugadorAltaPage extends AbstractContentPage {
 
         // creamos un formulario
         add(new JugadorForm("formulario", jugador) {
+
             @Override
             protected void onSubmit(IModel<JugadorPlano> jugador) {
                 try {

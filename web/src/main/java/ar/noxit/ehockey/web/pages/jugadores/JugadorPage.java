@@ -4,7 +4,7 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 
-public class JugadorPage extends AbstractContentPage {
+public class JugadorPage extends AbstractJugadorPage {
 
     public JugadorPage() {
         add(new BookmarkablePageLink<AbstractContentPage>("altajugadores",
