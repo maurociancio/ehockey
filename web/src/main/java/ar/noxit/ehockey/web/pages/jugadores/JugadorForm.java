@@ -15,9 +15,8 @@ import ar.noxit.ehockey.web.pages.models.SectorListModel;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
-import ar.noxit.web.wicket.model.AdapterModel;
+import ar.noxit.web.wicket.model.Date2LocalDateModelAdapter;
 import java.util.Arrays;
-import java.util.Date;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
@@ -70,7 +69,7 @@ public abstract class JugadorForm extends Panel {
         PropertyModel<LocalDate> modelFechaNacimiento = new PropertyModel<LocalDate>(
                 jugador, "fechaNacimiento");
         DateTextField fechaEvento = new DateTextField("fechanac",
-                new DateAdapter(modelFechaNacimiento), "dd/MM/yyyy");
+                new Date2LocalDateModelAdapter(modelFechaNacimiento), "dd/MM/yyyy");
         fechaEvento.add(new DatePicker());
         form.add(fechaEvento);
 
@@ -87,38 +86,17 @@ public abstract class JugadorForm extends Panel {
                 divisionService), new DivisionListModel(divisionService),
                 new DivisionRenderer()).setRequired(true));
 
-        form
-                .add(new DropDownChoice<Sector>("sector", new IdSectorModel(
+        form.add(new DropDownChoice<Sector>("sector", new IdSectorModel(
                 new PropertyModel<Integer>(jugador, "sectorId"),
                 sectorService), new SectorListModel(sectorService),
                 new SectorRenderer()).setRequired(true));
+
         form.add(new TextField<String>("letra", new PropertyModel<String>(
                 jugador, "letraJugador")));
+
         add(form);
         add(new FeedbackPanel("feedback"));
     }
 
     protected abstract void onSubmit(IModel<JugadorPlano> jugador);
-
-    private class DateAdapter extends AdapterModel<Date, LocalDate> {
-
-        public DateAdapter(IModel<LocalDate> delegate) {
-            super(delegate);
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        protected Date getObject(IModel<LocalDate> delegate) {
-            LocalDate fecha = delegate.getObject();
-            if (fecha == null)
-                return null;
-            return new Date(fecha.getYear() - 1900, fecha.getMonthOfYear() - 1,
-                    fecha.getDayOfMonth());
-        }
-
-        @Override
-        protected void setObject(Date object, IModel<LocalDate> delegate) {
-            delegate.setObject(new LocalDate(object));
-        }
-    }
 }
