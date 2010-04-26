@@ -65,7 +65,7 @@ public class ListadoTorneoPage extends BaseTorneoPage {
         @Override
         public IModel<Torneo> model(Torneo object) {
             final Integer id = object.getId();
-            return new LDM<Torneo>() {
+            return new LDM<Torneo>(object) {
 
                 @Override
                 protected Torneo doLoad() throws NoxitException {
