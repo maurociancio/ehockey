@@ -7,6 +7,5 @@
 	<import resource="dev/wicket.xml"/>
 	<import resource="dev/dao.xml"/>
 	<import resource="dev/services.xml"/>
-	<import resource="dev/conversion.xml"/>
 	<import resource="global.xml"/>
 </beans>
