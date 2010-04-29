@@ -71,6 +71,7 @@ public class NuevoTorneoWizard extends Wizard {
         };
 
         wizardModel.add(new NombreTorneoStep());
+        wizardModel.add(new CaracteristicasEquiposStep());
         wizardModel.add(new CrearPartidosStep());
         init(wizardModel);
     }
@@ -82,6 +83,14 @@ public class NuevoTorneoWizard extends Wizard {
             setSummaryModel(Model.of("Defina el nombre del Torneo"));
 
             add(new RequiredTextField<String>("nombre", new PropertyModel<String>(NuevoTorneoWizard.this, "nombre")));
+        }
+    }
+
+    public class CaracteristicasEquiposStep extends WizardStep {
+
+        public CaracteristicasEquiposStep() {
+            setTitleModel(Model.of("Características del torneo"));
+            setSummaryModel(Model.of("Defina la sección y la división del torneo"));
         }
     }
 
