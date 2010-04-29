@@ -1,10 +1,20 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
+import ar.noxit.ehockey.model.Division;
+import ar.noxit.ehockey.model.Sector;
+import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.ehockey.service.IExceptionConverter;
+import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.transfer.PartidoInfo;
+import ar.noxit.ehockey.web.pages.models.DivisionListModel;
+import ar.noxit.ehockey.web.pages.models.IdDivisionModel;
+import ar.noxit.ehockey.web.pages.models.IdSectorModel;
+import ar.noxit.ehockey.web.pages.models.SectorListModel;
 import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
+import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
+import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import java.util.ArrayList;
@@ -19,6 +29,7 @@ import org.apache.wicket.extensions.wizard.WizardModel;
 import org.apache.wicket.extensions.wizard.WizardStep;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -38,10 +49,16 @@ public class NuevoTorneoWizard extends Wizard {
     private ITorneoService torneoService;
     @SpringBean
     private IExceptionConverter exceptionConverter;
+    @SpringBean
+    private IDivisionService divisionService;
+    @SpringBean
+    private ISectorService sectorService;
     private static final Logger logger = LoggerFactory.getLogger(NuevoTorneoWizard.class);
     private String nombre;
     private IModel<? extends List<PartidoInfo>> partidos = new Model<ArrayList<PartidoInfo>>(
             new ArrayList<PartidoInfo>());
+    private Integer divisionId;
+    private Integer sectorId;
 
     public NuevoTorneoWizard(String id) {
         super(id);
@@ -91,6 +108,16 @@ public class NuevoTorneoWizard extends Wizard {
         public CaracteristicasEquiposStep() {
             setTitleModel(Model.of("Características del torneo"));
             setSummaryModel(Model.of("Defina la sección y la división del torneo"));
+
+            add(new DropDownChoice<Division>("division", new IdDivisionModel(
+                    new PropertyModel<Integer>(NuevoTorneoWizard.this, "divisionId"),
+                    divisionService), new DivisionListModel(divisionService),
+                    new DivisionRenderer()).setRequired(true));
+
+            add(new DropDownChoice<Sector>("sector", new IdSectorModel(
+                    new PropertyModel<Integer>(NuevoTorneoWizard.this, "sectorId"),
+                    sectorService), new SectorListModel(sectorService),
+                    new SectorRenderer()).setRequired(true));
         }
     }
 
