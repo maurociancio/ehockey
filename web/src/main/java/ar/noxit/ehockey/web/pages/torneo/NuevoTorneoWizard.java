@@ -89,6 +89,7 @@ public class NuevoTorneoWizard extends Wizard {
 
         wizardModel.add(new NombreTorneoStep());
         wizardModel.add(new CaracteristicasEquiposStep());
+        wizardModel.add(new EquiposDisponiblesStep());
         wizardModel.add(new CrearPartidosStep());
         init(wizardModel);
     }
@@ -118,6 +119,15 @@ public class NuevoTorneoWizard extends Wizard {
                     new PropertyModel<Integer>(NuevoTorneoWizard.this, "sectorId"),
                     sectorService), new SectorListModel(sectorService),
                     new SectorRenderer()).setRequired(true));
+        }
+    }
+
+    public class EquiposDisponiblesStep extends WizardStep {
+
+        public EquiposDisponiblesStep() {
+            setTitleModel(Model.of("Equipos del Torneo"));
+            setSummaryModel(Model.of("Elija cuatro equipos para conformar el torneo"));
+
         }
     }
 
