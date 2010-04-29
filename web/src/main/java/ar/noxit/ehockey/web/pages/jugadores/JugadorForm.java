@@ -15,11 +15,11 @@ import ar.noxit.ehockey.web.pages.models.SectorListModel;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
+import ar.noxit.ehockey.web.util.YearMonthDatePicker;
 import ar.noxit.web.wicket.model.Date2LocalDateModelAdapter;
 import java.util.Arrays;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RadioChoice;
@@ -70,7 +70,7 @@ public abstract class JugadorForm extends Panel {
                 jugador, "fechaNacimiento");
         DateTextField fechaEvento = new DateTextField("fechanac",
                 new Date2LocalDateModelAdapter(modelFechaNacimiento), "dd/MM/yy");
-        fechaEvento.add(new DatePicker());
+        fechaEvento.add(new YearMonthDatePicker());
         form.add(fechaEvento);
 
         form.add(new TextField<String>("telefono", new PropertyModel<String>(
