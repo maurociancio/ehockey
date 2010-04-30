@@ -230,6 +230,13 @@ public class NuevoTorneoWizard extends Wizard {
             setTitleModel(Model.of("Partidos del Torneo"));
             setSummaryModel(Model.of("Defina los partidos que habrá en este torneo"));
 
+            // modal window
+            final ModalWindow modalWindow = new ModalWindow("modal");
+            modalWindow.setPageMapName("modal-1");
+            modalWindow.setCookieName("modal-1");
+
+            add(modalWindow);
+
             final WebMarkupContainer wmc = new WebMarkupContainer("partidos");
             wmc.setOutputMarkupId(true);
 
@@ -237,14 +244,30 @@ public class NuevoTorneoWizard extends Wizard {
 
                 @Override
                 protected void populateItem(ListItem<PartidoInfo> item) {
-                    IModel<PartidoInfo> model = item.getModel();
+                    final IModel<PartidoInfo> model = item.getModel();
 
-                    item.add(new Label("local", getEquipoModel(model, "equipoLocalId")));
-                    item.add(new Label("visitante", getEquipoModel(model, "equipoVisitanteId")));
-                    item.add(new Label("numero", new PropertyModel<Integer>(model, "numeroFecha")));
-                    item.add(new Label("rueda", new PropertyModel<Integer>(model, "rueda")));
+                    item.add(new Label("local", getEquipoModel(model, "equipoLocalId")).setRenderBodyOnly(true));
+                    item.add(new Label("visitante", getEquipoModel(model, "equipoVisitanteId"))
+                                    .setRenderBodyOnly(true));
+                    item.add(new Label("numero", new PropertyModel<Integer>(model, "numeroFecha"))
+                            .setRenderBodyOnly(true));
+                    item.add(new Label("rueda", new PropertyModel<Integer>(model, "rueda")).setRenderBodyOnly(true));
                     item.add(new Label("fecha", new LocalDateTimeFormatModel(new PropertyModel<LocalDateTime>(model,
-                            "fecha"))));
+                            "fecha"))).setRenderBodyOnly(true));
+                    item.add(new AjaxLink<Void>("editar") {
+
+                        @Override
+                        public void onClick(AjaxRequestTarget target) {
+                            modalWindow.setPageCreator(new ModalWindow.PageCreator() {
+
+                                @Override
+                                public Page createPage() {
+                                    return new AgregarPartidoPage(modalWindow, model);
+                                }
+                            });
+                            modalWindow.show(target);
+                        }
+                    });
                 }
 
                 private IModel<String> getEquipoModel(IModel<PartidoInfo> model, String expression) {
@@ -262,31 +285,11 @@ public class NuevoTorneoWizard extends Wizard {
             });
             add(wmc);
 
-            // modal window
-            final ModalWindow modalWindow = new ModalWindow("modal");
-            modalWindow.setPageMapName("modal-1");
-            modalWindow.setCookieName("modal-1");
             modalWindow.setWindowClosedCallback(new WindowClosedCallback() {
 
                 @Override
                 public void onClose(AjaxRequestTarget target) {
                     target.addComponent(wmc);
-                }
-            });
-            add(modalWindow);
-
-            add(new AjaxLink<Void>("agregar_partido") {
-
-                @Override
-                public void onClick(AjaxRequestTarget target) {
-                    modalWindow.setPageCreator(new ModalWindow.PageCreator() {
-
-                        @Override
-                        public Page createPage() {
-                            return new AgregarPartidoPage(modalWindow, partidos);
-                        }
-                    });
-                    modalWindow.show(target);
                 }
             });
         }

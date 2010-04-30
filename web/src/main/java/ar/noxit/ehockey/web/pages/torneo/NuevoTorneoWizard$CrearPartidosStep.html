@@ -20,17 +20,19 @@
                 <td>
                     <span wicket:id="visitante"/>
                 </td>
-                <td style="text-align: center;>
+                <td style="text-align: center;">
                     <span wicket:id="numero"/>
                 </td>
-                <td style="text-align: center;>
+                <td style="text-align: center;">
                     <span wicket:id="rueda"/>
                 </td>
-                <td style="text-align: center;>
+                <td style="text-align: center;">
                     <span wicket:id="fecha"/>
                 </td>
                 <td style="text-align: center;">
-                    <img class="editar" title="Editar detalles del Partido" alt="Editar" src="/design/pencil-icon.png" width="20" height="20"></img>
+                    <a wicket:id="editar">
+                        <img class="editar" title="Editar detalles del Partido" alt="Editar" src="/design/pencil-icon.png" width="20" height="20"></img>
+                    </a>
                 </td>
             </tr>
             <tr wicket:id="sin_partidos">
@@ -38,7 +40,4 @@
             </tr>
         </table>
     </div>
-    <p style="margin: 15px;">
-        <a wicket:id="agregar_partido">Agregar Partido</a>
-    </p>
 </wicket:panel>
