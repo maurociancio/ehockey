@@ -7,8 +7,26 @@
         <id name="id" column="id" >
             <generator class="increment"/>
         </id>
-        <property name="fechaDelTorneo" not-null="true"/>
-        <many-to-one name="local" entity-name="Equipo" column="local_id" not-null="true"/>
-        <many-to-one name="visitante" entity-name="Equipo" column="visitante_id" not-null="true"/>
+        
+        <property name="dTL"/>
+        <property name="capitanL"/>
+        <property name="pFisicoL"/>
+        <property name="medicoL"/>
+        <property name="juezDeMesaL"/>
+        <property name="arbitroL"/>
+        <property name="golesL"/>
+
+        <property name="dTV"/>
+        <property name="capitanV"/>
+        <property name="pFisicoV"/>
+        <property name="medicoV"/>
+        <property name="juezDeMesaV"/>
+        <property name="arbitroV"/>
+        <property name="golesV"/>
+
+        <property name="observaciones"/>
+
+        <many-to-one name="local" entity-name="Equipo" column="local_id" unique="true"/>
+        <many-to-one name="visitante" entity-name="Equipo" column="visitante_id" unique="true"/>
     </class>
 </hibernate-mapping>
