@@ -1,22 +1,25 @@
 package ar.noxit.ehockey.web.pages.partido;
 
-import ar.noxit.ehockey.model.Partido;
-import ar.noxit.ehockey.service.IPartidoService;
-import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
-import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.model.LDM;
 import java.util.List;
 
-import org.apache.commons.lang.NotImplementedException;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.markup.html.form.Button;
+
+import ar.noxit.ehockey.model.Partido;
+import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.ehockey.service.IPartidoService;
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.planilla.ModificarPlanillaPage;
+import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.web.wicket.model.LDM;
 
 public class PartidoPage extends AbstractContentPage {
 
@@ -45,9 +48,8 @@ public class PartidoPage extends AbstractContentPage {
 
             @Override
             public void onSubmit() {
-                //TODO implementar esta página
-                throw new NotImplementedException("La página de edición aún no está disponible");
-                //setResponsePage(new PlanillaPage(null));
+                IModel<Planilla> model = new PropertyModel<Planilla>(partido, "planilla");
+                setResponsePage(new ModificarPlanillaPage(model));
             }
         });
 

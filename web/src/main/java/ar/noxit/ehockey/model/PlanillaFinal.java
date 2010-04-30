@@ -22,6 +22,7 @@ public class PlanillaFinal extends Planilla {
         medicoL = original.medicoL;
         juezDeMesaL = original.juezDeMesaL;
         arbitroL = original.arbitroL;
+        golesL = original.golesL;
 
         visitante = original.visitante;
         dTV = original.dTV;
@@ -30,6 +31,7 @@ public class PlanillaFinal extends Planilla {
         medicoV = original.medicoV;
         juezDeMesaV = original.juezDeMesaV;
         arbitroV = original.arbitroV;
+        golesV = original.golesV;
 
         observaciones = original.observaciones;
 
@@ -48,4 +50,15 @@ public class PlanillaFinal extends Planilla {
             JugadorYaPerteneceAListaException {
         throw new PlanillaNoModificableException();
     }
+    
+    @Override
+    public void setGolesLocal(Integer goles) throws PlanillaNoModificableException{
+        throw new PlanillaNoModificableException();
+    }
+    
+    @Override
+    public void setGolesVisitante(Integer goles) throws PlanillaNoModificableException{
+        super.setGolesVisitante(goles);
+    }
+    
 }

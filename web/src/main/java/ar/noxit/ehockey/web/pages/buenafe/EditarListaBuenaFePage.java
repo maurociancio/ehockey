@@ -1,26 +1,29 @@
 package ar.noxit.ehockey.web.pages.buenafe;
 
-import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
-import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
-import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
-import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.ListaBuenaFe;
-import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.service.IEquiposService;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
-import ar.noxit.web.wicket.model.IdLDM;
-import ar.noxit.web.wicket.model.LDM;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.ListaBuenaFe;
+import ar.noxit.ehockey.service.IClubService;
+import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.models.TodosJugadoresPorClubModel;
+import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
+import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.web.wicket.model.IdLDM;
+import ar.noxit.web.wicket.model.LDM;
 
 public class EditarListaBuenaFePage extends AbstractContentPage {
 
@@ -48,7 +51,7 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
 
         formInclusion.add(new Palette<Jugador>("palette",
                 new JugadoresSeleccionadosModel(),
-                new TodosJugadoresPorClubModel(),
+                new TodosJugadoresPorClubModel(new PropertyModel<Integer>(this, "clubId"), clubService),
                 JugadorRenderer.get(),
                 10,
                 false));
@@ -142,14 +145,6 @@ public class EditarListaBuenaFePage extends AbstractContentPage {
                 return null;
             }
             return equipo.getId();
-        }
-    }
-
-    private class TodosJugadoresPorClubModel extends LDM<List<Jugador>> {
-
-        @Override
-        protected List<Jugador> doLoad() throws NoxitException {
-            return clubService.getJugadoresPorClub(clubId);
         }
     }
 }

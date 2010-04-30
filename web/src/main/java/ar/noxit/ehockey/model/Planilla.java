@@ -21,6 +21,7 @@ public class Planilla {
     protected String medicoL;
     protected String juezDeMesaL;
     protected String arbitroL;
+    protected Integer golesL;
 
     protected String dTV;
     protected String capitanV;
@@ -28,6 +29,7 @@ public class Planilla {
     protected String medicoV;
     protected String juezDeMesaV;
     protected String arbitroV;
+    protected Integer golesV;
 
     protected String observaciones;
 
@@ -93,6 +95,14 @@ public class Planilla {
         agregarJugador(jugador, this.jugadoresV);
     }
 
+    public void setGolesLocal(Integer goles) throws PlanillaNoModificableException {
+        this.golesL = goles;
+    }
+
+    public void setGolesVisitante(Integer goles) throws PlanillaNoModificableException {
+        this.golesV = goles;
+    }
+
     /**
      * Cierra una planilla para que no pueda modificarse más. Tener en cuenta
      * que la planilla cerrada es la que devuelve.
@@ -119,4 +129,13 @@ public class Planilla {
     public List<Jugador> getJugadoresV() {
         return jugadoresV;
     }
+
+    public Integer getGolesLocal() {
+        return this.golesL;
+    }
+
+    public Integer getGolesVisitante() {
+        return this.golesV;
+    }
+
 }
