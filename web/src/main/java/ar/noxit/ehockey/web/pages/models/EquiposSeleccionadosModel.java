@@ -4,6 +4,7 @@ import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.model.IModel;
 
@@ -20,8 +21,12 @@ public class EquiposSeleccionadosModel implements IModel<List<Equipo>> {
     @Override
     public List<Equipo> getObject() {
         try {
-            // #TODO pasar los ids
-            return equiposService.getAll();
+            List<Equipo> equipos = new ArrayList<Equipo>();
+            for (Integer id : idsModel.getObject()) {
+                equipos.add(equiposService.get(id));
+            }
+            // #TODO mejorar
+            return equipos;
         } catch (NoxitException e) {
             throw new NoxitRuntimeException(e);
         }

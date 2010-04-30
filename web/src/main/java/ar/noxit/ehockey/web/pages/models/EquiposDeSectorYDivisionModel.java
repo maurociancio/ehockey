@@ -24,7 +24,6 @@ public class EquiposDeSectorYDivisionModel extends AbstractListEquipoModel {
         Integer sector = sectorId.getObject();
         Integer division = divisionId.getObject();
 
-        // #TODO implementar
-        return this.equiposService.getAll();
+        return this.equiposService.getEquiposDe(sector, division);
     }
 }
