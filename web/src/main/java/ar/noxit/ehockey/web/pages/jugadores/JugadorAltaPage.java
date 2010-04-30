@@ -1,10 +1,11 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import ar.noxit.ehockey.service.IJugadorService;
-import ar.noxit.exceptions.NoxitException;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import ar.noxit.ehockey.service.IJugadorService;
+import ar.noxit.exceptions.NoxitException;
 
 public class JugadorAltaPage extends AbstractJugadorPage {
 

@@ -1,12 +1,8 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.service.IJugadorService;
-import ar.noxit.ehockey.web.pages.models.JugadorModel;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -16,6 +12,12 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.service.IJugadorService;
+import ar.noxit.ehockey.web.pages.models.JugadorModel;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
 
 public class JugadorBajaPage extends AbstractJugadorPage {
 
