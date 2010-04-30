@@ -2,8 +2,6 @@ package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
-import ar.noxit.ehockey.exception.PartidoNoJugadoPorEquipoException;
-import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
 import ar.noxit.ehockey.exception.TorneoNoCoincideException;
 import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
