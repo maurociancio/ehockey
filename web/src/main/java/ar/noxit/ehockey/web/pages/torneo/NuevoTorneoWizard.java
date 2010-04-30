@@ -292,6 +292,26 @@ public class NuevoTorneoWizard extends Wizard {
                     target.addComponent(wmc);
                 }
             });
+
+            add(new AbstractFormValidator() {
+
+                @Override
+                public void validate(Form<?> form) {
+                    boolean error = false;
+                    for (PartidoInfo pi : partidos.getObject()) {
+                        if (pi.getFecha() == null) {
+                            error = true;
+                        }
+                    }
+                    if (error)
+                        CrearPartidosStep.this.error("No se especificaron las fechas para todos los partidos");
+                }
+
+                @Override
+                public FormComponent<?>[] getDependentFormComponents() {
+                    return new FormComponent<?>[] {};
+                }
+            });
         }
     }
 }
