@@ -7,6 +7,7 @@ import org.joda.time.LocalDateTime;
 public class PartidoInfo implements Serializable {
 
     private Integer id;
+    private Integer rueda;
     private Integer equipoLocalId;
     private Integer equipoVisitanteId;
     private Integer numeroFecha;
@@ -57,6 +58,14 @@ public class PartidoInfo implements Serializable {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public void setRueda(Integer rueda) {
+        this.rueda = rueda;
+    }
+
+    public Integer getRueda() {
+        return rueda;
     }
 
     public Integer getId() {
