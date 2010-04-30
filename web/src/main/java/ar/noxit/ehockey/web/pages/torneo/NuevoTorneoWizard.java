@@ -30,6 +30,8 @@ import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.extensions.markup.html.form.palette.component.Recorder;
+import org.apache.wicket.extensions.wizard.IWizardModelListener;
+import org.apache.wicket.extensions.wizard.IWizardStep;
 import org.apache.wicket.extensions.wizard.Wizard;
 import org.apache.wicket.extensions.wizard.WizardModel;
 import org.apache.wicket.extensions.wizard.WizardStep;
@@ -103,6 +105,59 @@ public class NuevoTorneoWizard extends Wizard {
         wizardModel.add(new CaracteristicasEquiposStep());
         wizardModel.add(new EquiposDisponiblesStep());
         wizardModel.add(new CrearPartidosStep());
+
+        wizardModel.addListener(new IWizardModelListener() {
+
+            @Override
+            public void onFinish() {
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onActiveStepChanged(IWizardStep newStep) {
+                if (newStep.getClass().equals(CrearPartidosStep.class)) {
+                    // rueda fecha partido local visitante
+                    Integer[][] cronograma = { { 1, 1, 1, 1, 2 },
+                            { 1, 1, 2, 4, 3 },
+                            { 1, 2, 1, 3, 1 },
+                            { 1, 2, 2, 2, 4 },
+                            { 1, 3, 1, 1, 4 },
+                            { 1, 3, 2, 3, 2 },
+                            { 2, 1, 1, 2, 1 },
+                            { 2, 1, 2, 3, 4 },
+                            { 2, 2, 1, 1, 3 },
+                            { 2, 2, 2, 4, 2 },
+                            { 2, 3, 1, 4, 1 },
+                            { 2, 3, 2, 2, 3 } };
+
+                    List<PartidoInfo> infoPartidos = partidos.getObject();
+                    infoPartidos.clear();
+                    for (Integer[] partidoActual : cronograma) {
+                        PartidoInfo pi = new PartidoInfo();
+
+                        Integer rueda = partidoActual[0];
+                        Integer numeroFecha = partidoActual[1];
+                        Integer partido = partidoActual[2];
+                        Integer localIndex = partidoActual[3] - 1;
+                        Integer visitanteIndex = partidoActual[4] - 1;
+
+                        List<Integer> equiposIds = equipos.getObject();
+                        Integer local = equiposIds.get(localIndex);
+                        Integer visitante = equiposIds.get(visitanteIndex);
+
+                        pi.setNumeroFecha(numeroFecha);
+                        pi.setEquipoLocalId(local);
+                        pi.setEquipoVisitanteId(visitante);
+                        pi.setRueda(rueda);
+                        infoPartidos.add(pi);
+                    }
+                }
+            }
+        });
+
         init(wizardModel);
     }
 
@@ -187,9 +242,9 @@ public class NuevoTorneoWizard extends Wizard {
                     item.add(new Label("local", getEquipoModel(model, "equipoLocalId")));
                     item.add(new Label("visitante", getEquipoModel(model, "equipoVisitanteId")));
                     item.add(new Label("numero", new PropertyModel<Integer>(model, "numeroFecha")));
+                    item.add(new Label("rueda", new PropertyModel<Integer>(model, "rueda")));
                     item.add(new Label("fecha", new LocalDateTimeFormatModel(new PropertyModel<LocalDateTime>(model,
                             "fecha"))));
-                    item.add(removeLink("borrar", item));
                 }
 
                 private IModel<String> getEquipoModel(IModel<PartidoInfo> model, String expression) {

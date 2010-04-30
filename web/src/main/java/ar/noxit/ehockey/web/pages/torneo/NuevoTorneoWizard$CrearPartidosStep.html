@@ -9,6 +9,7 @@
                 <td>Equipo Local</td>
                 <td>Equipo Visitante</td>
                 <td>Número de Fecha</td>
+                <td>Rueda</td>
                 <td>Fecha Partido</td>
                 <td>Acciones</td>
             </tr>
@@ -19,16 +20,17 @@
                 <td>
                     <span wicket:id="visitante"/>
                 </td>
-                <td>
+                <td style="text-align: center;>
                     <span wicket:id="numero"/>
                 </td>
-                <td>
+                <td style="text-align: center;>
+                    <span wicket:id="rueda"/>
+                </td>
+                <td style="text-align: center;>
                     <span wicket:id="fecha"/>
                 </td>
-                <td>
-                    <a wicket:id="borrar">
-                        <img src="design/cancel.png" width="20" height="20"/>
-                    </a>
+                <td style="text-align: center;">
+                    <img class="editar" title="Editar detalles del Partido" alt="Editar" src="/design/pencil-icon.png" width="20" height="20"></img>
                 </td>
             </tr>
             <tr wicket:id="sin_partidos">
