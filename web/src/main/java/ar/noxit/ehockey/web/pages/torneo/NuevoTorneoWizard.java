@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
 import ar.noxit.ehockey.model.Division;
+import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.IEquiposService;
@@ -9,11 +10,14 @@ import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.ehockey.web.pages.models.DivisionListModel;
+import ar.noxit.ehockey.web.pages.models.EquiposDeSectorYDivisionModel;
+import ar.noxit.ehockey.web.pages.models.EquiposSeleccionadosModel;
 import ar.noxit.ehockey.web.pages.models.IdDivisionModel;
 import ar.noxit.ehockey.web.pages.models.IdSectorModel;
 import ar.noxit.ehockey.web.pages.models.SectorListModel;
 import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
+import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
@@ -24,13 +28,18 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
+import org.apache.wicket.extensions.markup.html.form.palette.Palette;
+import org.apache.wicket.extensions.markup.html.form.palette.component.Recorder;
 import org.apache.wicket.extensions.wizard.Wizard;
 import org.apache.wicket.extensions.wizard.WizardModel;
 import org.apache.wicket.extensions.wizard.WizardStep;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
@@ -54,11 +63,14 @@ public class NuevoTorneoWizard extends Wizard {
     @SpringBean
     private ISectorService sectorService;
     private static final Logger logger = LoggerFactory.getLogger(NuevoTorneoWizard.class);
+
     private String nombre;
     private IModel<? extends List<PartidoInfo>> partidos = new Model<ArrayList<PartidoInfo>>(
             new ArrayList<PartidoInfo>());
-    private Integer divisionId;
-    private Integer sectorId;
+
+    private IModel<Integer> division = new Model<Integer>();
+    private IModel<Integer> sector = new Model<Integer>();
+    private IModel<? extends List<Integer>> equipos = new Model<ArrayList<Integer>>(new ArrayList<Integer>());
 
     public NuevoTorneoWizard(String id) {
         super(id);
@@ -111,12 +123,12 @@ public class NuevoTorneoWizard extends Wizard {
             setSummaryModel(Model.of("Defina la sección y la división del torneo"));
 
             add(new DropDownChoice<Division>("division", new IdDivisionModel(
-                    new PropertyModel<Integer>(NuevoTorneoWizard.this, "divisionId"),
+                    division,
                     divisionService), new DivisionListModel(divisionService),
                     new DivisionRenderer()).setRequired(true));
 
             add(new DropDownChoice<Sector>("sector", new IdSectorModel(
-                    new PropertyModel<Integer>(NuevoTorneoWizard.this, "sectorId"),
+                    sector,
                     sectorService), new SectorListModel(sectorService),
                     new SectorRenderer()).setRequired(true));
         }
@@ -128,6 +140,32 @@ public class NuevoTorneoWizard extends Wizard {
             setTitleModel(Model.of("Equipos del Torneo"));
             setSummaryModel(Model.of("Elija cuatro equipos para conformar el torneo"));
 
+            final Palette<Equipo> palette = new Palette<Equipo>("equipos",
+                    new EquiposSeleccionadosModel(equiposService, equipos),
+                    new EquiposDeSectorYDivisionModel(equiposService, sector, division),
+                    EquipoRenderer.get(),
+                    6,
+                    false);
+            add(palette);
+
+            add(new AbstractFormValidator() {
+
+                @Override
+                public void validate(Form<?> form) {
+                    Recorder<Equipo> recorderComponent = palette.getRecorderComponent();
+                    int length = recorderComponent.getInput().split(",").length;
+                    if (length != 4) {
+                        error(recorderComponent, "cant_invalida");
+                    }
+                }
+
+                @Override
+                public FormComponent<?>[] getDependentFormComponents() {
+                    FormComponent<?>[] components = new FormComponent<?>[1];
+                    components[0] = palette.getRecorderComponent();
+                    return components;
+                }
+            });
         }
     }
 
