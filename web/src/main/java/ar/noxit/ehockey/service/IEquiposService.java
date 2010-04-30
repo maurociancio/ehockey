@@ -11,4 +11,6 @@ public interface IEquiposService {
     Equipo get(Integer id) throws NoxitException;
 
     void asignarListaBuenaFe(Integer equipoId, List<Integer> jugadoresIds) throws NoxitException;
+
+    List<Equipo> getEquiposDe(Integer sector, Integer division) throws NoxitException;
 }

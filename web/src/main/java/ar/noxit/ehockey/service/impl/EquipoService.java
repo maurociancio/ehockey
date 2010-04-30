@@ -40,6 +40,11 @@ public class EquipoService implements IEquiposService {
         equipo.getListaBuenaFe().reemplazarJugadores(jugadores);
     }
 
+    @Override
+    public List<Equipo> getEquiposDe(Integer sector, Integer division) throws NoxitException {
+        return equipoDao.getEquiposDe(sector, division);
+    }
+
     public void setEquipoDao(IEquipoDao equipoDao) {
         this.equipoDao = equipoDao;
     }
