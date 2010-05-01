@@ -115,7 +115,7 @@ public abstract class JugadorForm extends Panel {
         form.add(division);
         form.add(new FeedbackLabel("feedback_division", division));
 
-        FormComponent<Sector> sector = new DropDownChoice<Sector>("sector",
+        FormComponent<Sector> sector = new RadioChoice<Sector>("sector",
                 new IdSectorModel(new PropertyModel<Integer>(jugador,
                         "sectorId"), sectorService), new SectorListModel(
                         sectorService), new SectorRenderer()).setRequired(true);
