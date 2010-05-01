@@ -20,6 +20,10 @@ public class Sector {
         return sector;
     }
 
+    public String toString() {
+        return sector;
+    }
+
     protected Sector() {
     }
 }

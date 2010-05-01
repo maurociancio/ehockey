@@ -21,6 +21,10 @@ public class Division {
         return this.division;
     }
 
+    public String toString() {
+        return division;
+    }
+
     protected Division() {
     }
 }

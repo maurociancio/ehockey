@@ -109,6 +109,10 @@ public class Club {
     public Set<Equipo> getEquipos() {
         return equipos;
     }
+    
+    public String toString(){
+        return nombre;
+    }
 
     protected Club() {
     }
