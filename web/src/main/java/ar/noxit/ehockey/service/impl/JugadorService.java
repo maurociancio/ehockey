@@ -37,7 +37,7 @@ public class JugadorService implements IJugadorService {
         jugador.setSector(sectorDao.get(jugadorPlano.getSectorId()));
         jugador.setApellido(jugadorPlano.getApellido());
         jugador.setNombre(jugadorPlano.getNombre());
-        ensamblar(jugadorPlano);
+        setearDatos(jugadorPlano, jugador);
         jugadorDao.save(jugador);
     }
 
