@@ -2,6 +2,7 @@ package ar.noxit.ehockey.web.pages.jugadores;
 
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
@@ -21,17 +22,21 @@ public class JugadorBajaPage extends AbstractJugadorPage {
     private IModel<Jugador> jugador;
 
     public JugadorBajaPage() {
+        super();
         Form<Jugador> form = new Form<Jugador>("borrar_jugador", jugador) {
 
             @Override
             protected void onSubmit() {
                 try {
-                    jugadorService.remove(jugador.getObject());
+                    Jugador modelObject = jugador.getObject();
+                    jugadorService.remove(modelObject);
+                    setResponsePage(new JugadorBajaPage("El jugador "
+                            + modelObject.getApellido() + ", "
+                            + modelObject.getNombre()
+                            + " se ha dado de baja exitosamente"));
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
-                info("El jugador sea ha dado de baja exitosamente");
-                // setResponsePage(JugadorPage.class);
             }
         };
         form.add(new DropDownChoice<IModel<Jugador>>("jugador",
@@ -40,11 +45,10 @@ public class JugadorBajaPage extends AbstractJugadorPage {
                 new JugadorModelRenderer()).setRequired(true));
         this.add(form);
         add(new FeedbackPanel("feedback"));
-        
     }
 
-    protected void setJugador(IModel<Jugador> jugador) {
-        this.jugador = jugador;
+    private JugadorBajaPage(String string) {
+        this();
+        info(string);
     }
-
 }

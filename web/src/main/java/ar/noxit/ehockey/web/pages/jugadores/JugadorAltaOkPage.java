@@ -7,12 +7,10 @@ import org.apache.wicket.model.IModel;
 public class JugadorAltaOkPage extends AbstractJugadorPage {
 
     public JugadorAltaOkPage(IModel<String> mensaje) {
-
+        super();
         add(new Label("mensaje", mensaje));
         add(new JugadorVerPanel());
         add(new BookmarkablePageLink<AbstractJugadorPage>("paginaalta",
                 JugadorAltaPage.class));
-        add(new BookmarkablePageLink<AbstractJugadorPage>("menujugadores",
-                JugadorPage.class));
     }
 }

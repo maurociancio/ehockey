@@ -11,6 +11,7 @@ public class JugadorModificarPage extends AbstractJugadorPage {
     private IJugadorService jugadorService;
 
     public JugadorModificarPage(IModel<JugadorPlano> jugador) {
+        super();
         add(new JugadorForm("formulario", jugador) {
 
             @Override

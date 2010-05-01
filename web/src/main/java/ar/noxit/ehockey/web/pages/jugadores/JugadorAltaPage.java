@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -13,6 +14,7 @@ public class JugadorAltaPage extends AbstractJugadorPage {
     private IJugadorService jugadorService;
 
     public JugadorAltaPage() {
+        super();
         IModel<JugadorPlano> jugador = new Model<JugadorPlano>(
                 new JugadorPlano());
 
