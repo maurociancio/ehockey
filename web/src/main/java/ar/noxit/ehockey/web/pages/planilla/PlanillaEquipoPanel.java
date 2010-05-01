@@ -2,6 +2,7 @@ package ar.noxit.ehockey.web.pages.planilla;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.FormComponentPanel;
@@ -55,13 +56,15 @@ public class PlanillaEquipoPanel extends FormComponentPanel {
             if (loaded == false) {
                 Planilla planillaEquipo = planilla.getObject();
 
-                List<Jugador> jugadores = null;
+                Set<Jugador> jugadores = null;
                 if (planillaEquipo.getLocal().equals(equipoObj)) {
                     jugadores = planillaEquipo.getJugadoresL();
                 } else {
                     jugadores = planillaEquipo.getJugadoresV();
                 }
-                setObject(jugadores);
+                List<Jugador> temp = new ArrayList<Jugador>();
+                temp.addAll(jugadores);
+                setObject(temp);
                 loaded = true;
             }
 
@@ -70,6 +73,7 @@ public class PlanillaEquipoPanel extends FormComponentPanel {
             } catch (NoxitException e) {
                 throw new NoxitRuntimeException(e);
             }
+
         }
 
         @Override

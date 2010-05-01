@@ -1,8 +1,10 @@
 package ar.noxit.ehockey.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 
@@ -33,8 +35,8 @@ public class Planilla {
 
     protected String observaciones;
 
-    protected List<Jugador> jugadoresL = new ArrayList<Jugador>();
-    protected List<Jugador> jugadoresV = new ArrayList<Jugador>();
+    protected Set<Jugador> jugadoresL = new HashSet<Jugador>();
+    protected Set<Jugador> jugadoresV = new HashSet<Jugador>();
 
     // TODO definir el atributo fecha
     // TODO definir el resto de los atributos que son: Torneo, Rueda, Partido,
@@ -76,7 +78,7 @@ public class Planilla {
         }
     }
 
-    private void agregarJugador(Jugador jugador, List<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
+    private void agregarJugador(Jugador jugador, Set<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
         Validate.notNull(jugador, "jugador no puede ser null");
 
         if (jugadores.contains(jugador)) {
@@ -122,11 +124,11 @@ public class Planilla {
         return visitante;
     }
 
-    public List<Jugador> getJugadoresL() {
+    public Set<Jugador> getJugadoresL() {
         return jugadoresL;
     }
 
-    public List<Jugador> getJugadoresV() {
+    public Set<Jugador> getJugadoresV() {
         return jugadoresV;
     }
 
