@@ -24,10 +24,10 @@ public class JugadorAltaPage extends AbstractJugadorPage {
                 try {
                     // tratamos de agregar a la persona
                     jugadorService.add(jugador.getObject());
-                    info("El jugador " + jugador.getObject().getApellido()
-                            + ", " + jugador.getObject().getNombre()
-                            + " ha sido agregada correctamente.");
-                    jugador.setObject((new JugadorPlano()));
+                    setResponsePage(new JugadorAltaOkPage(new Model<String>(
+                            "El jugador " + jugador.getObject().getApellido()
+                                    + ", " + jugador.getObject().getNombre()
+                                    + " ha sido agregado correctamente.")));
                 } catch (NoxitException ex) {
                     // se produjo una excepcion
                     // la levantamos pero en runtime
