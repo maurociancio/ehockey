@@ -9,7 +9,8 @@ public class JugadorModelRenderer implements IChoiceRenderer<IModel<Jugador>> {
 
     @Override
     public Object getDisplayValue(IModel<Jugador> arg0) {
-        return arg0.getObject().getNombre();
+        Jugador object = arg0.getObject();
+        return object.getApellido() + ", " + object.getNombre();
     }
 
     @Override
