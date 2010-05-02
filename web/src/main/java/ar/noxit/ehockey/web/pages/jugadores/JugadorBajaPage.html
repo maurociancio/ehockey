@@ -5,9 +5,19 @@
 	<div class="content-in">
 	<div id="formulario">
 	<div wicket:id="feedback"></div>
-	<form wicket:id="borrar_jugador"><select wicket:id="club" />
-		<select wicket:id="jugador" />
-			<input type="submit" value="Baja" /></form>
+	<form wicket:id="borrar_jugador">
+	<table>
+		<th>Club</th>
+		<th>Jugador</th>
+		<tr>
+			<td><select wicket:id="club" /></td>
+			<td><select wicket:id="jugador" /></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="Baja" /></td>
+		</tr>
+	</table>
+	</form>
 	<a href="#" wicket:id="menujugador"> Menu </a></div>
 	</div>
 	</div>

@@ -70,7 +70,7 @@ public class JugadorBajaPage extends AbstractJugadorPage {
                                                 jugadorService,
                                                 JugadorBajaPage.this.clubid
                                                         .getObject()));
-                                jugadoresDropDown.setVisible(true);
+                                jugadoresDropDown.setEnabled(true);
                             }
                         }));
 
@@ -78,7 +78,7 @@ public class JugadorBajaPage extends AbstractJugadorPage {
                 new PropertyModel<IModel<Jugador>>(this, "jugador"),
                 new AllJugadorModelListModel(jugadorService),
                 new JugadorModelRenderer()).setRequired(true)
-                .setOutputMarkupId(true).setVisible(false);
+                .setOutputMarkupId(true).setEnabled(false);
 
         form.add(jugadoresDropDown);
 
