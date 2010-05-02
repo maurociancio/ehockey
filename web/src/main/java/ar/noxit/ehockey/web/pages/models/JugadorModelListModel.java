@@ -12,26 +12,27 @@ import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 
-public class JugadorModelListModel extends
+public abstract class JugadorModelListModel extends
         LoadableDetachableModel<List<IModel<Jugador>>> {
 
-    private IJugadorService jugadorServiceService;
+    private IJugadorService jugadorService;
 
     public JugadorModelListModel(IJugadorService jugadorService) {
         Validate.notNull(jugadorService);
 
-        this.jugadorServiceService = jugadorService;
+        this.jugadorService = jugadorService;
     }
 
     @Override
     protected List<IModel<Jugador>> load() {
         List<IModel<Jugador>> lista = new ArrayList<IModel<Jugador>>();
         try {
-            List<Jugador> planos = jugadorServiceService.getAll();
+            // List<Jugador> planos = jugadorServiceService.getAll();
+            List<Jugador> planos = this.listToLoad();
 
             for (Jugador each : planos) {
                 IModel<Jugador> model = new JugadorModel(each.getFicha(),
-                        jugadorServiceService);
+                        jugadorService);
                 model.setObject(each);
                 lista.add(model);
             }
@@ -41,4 +42,10 @@ public class JugadorModelListModel extends
         }
         return lista;
     }
+
+    protected IJugadorService getService() {
+        return jugadorService;
+    }
+
+    protected abstract List<Jugador> listToLoad() throws NoxitException;
 }

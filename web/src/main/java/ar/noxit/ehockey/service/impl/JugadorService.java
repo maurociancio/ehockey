@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +61,33 @@ public class JugadorService implements IJugadorService {
     @Transactional(readOnly = true)
     public List<Jugador> getAll() throws NoxitException {
         return jugadorDao.getAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Jugador> getAllByClub(Integer clubid) throws NoxitException {
+        List<Jugador> lista = new ArrayList<Jugador>();
+        for (Jugador each : jugadorDao.getAll()) {
+            if (each.getClub().getId().equals(clubid)) {
+                lista.add(each);
+            }
+        }
+        return lista;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Jugador> getAllByClubDivisionSector(Integer clubid,
+            Integer divisionid, Integer sectorid) throws NoxitException {
+        List<Jugador> lista = new ArrayList<Jugador>();
+        for (Jugador each : jugadorDao.getAll()) {
+            if (each.getClub().getId().equals(clubid)
+                    && each.getDivision().getId().equals(divisionid)
+                    && each.getSector().getId().equals(sectorid)) {
+                lista.add(each);
+            }
+        }
+        return lista;
     }
 
     public void setJugadorDao(IJugadorDao jugadorDao) {
