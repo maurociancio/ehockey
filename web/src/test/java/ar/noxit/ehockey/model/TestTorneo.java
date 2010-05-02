@@ -43,7 +43,7 @@ public class TestTorneo {
         Torneo torneo2 = new Torneo("torneo2");
 
         LocalDateTime now = new LocalDateTime();
-        Partido partido = new Partido(torneo1, equipo1, equipo2, 1, now.plusDays(1), now);
+        Partido partido = new Partido(torneo1, equipo1, equipo2, 1, 1, now.plusDays(1), now);
 
         torneo2.agregarPartido(partido);
     }
@@ -59,7 +59,7 @@ public class TestTorneo {
         Equipo equipo2 = club.crearNuevoEquipo("equipo2", division, sector);
 
         LocalDateTime now = new LocalDateTime();
-        Partido partido = equipo1.jugarContra(torneo, equipo2, 1, now.plusDays(1), now);
+        Partido partido = equipo1.jugarContra(torneo, equipo2, 1, 1, now.plusDays(1), now);
         torneo.agregarPartido(partido);
     }
 }

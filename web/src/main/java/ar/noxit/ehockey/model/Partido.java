@@ -1,9 +1,7 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
-import ar.noxit.ehockey.exception.PartidoNoJugadoPorEquipoException;
-import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
+import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
@@ -22,6 +20,7 @@ public class Partido {
 
     private Integer fechaDelTorneo;
     private LocalDateTime inicio;
+    private Integer rueda;
 
     private boolean jugado;
 
@@ -29,7 +28,7 @@ public class Partido {
     private Integer golesVisitante;
 
     public Partido(Torneo torneo, Equipo local, Equipo visitante,
-            Integer fechaDelTorneo, LocalDateTime inicio, LocalDateTime now)
+            Integer fechaDelTorneo, Integer rueda, LocalDateTime inicio, LocalDateTime now)
             throws EquiposInvalidosException, FechaInvalidaException {
 
         Validate.notNull(local, "No se puede crear un partido sin equipos");
@@ -39,6 +38,7 @@ public class Partido {
         Validate.notNull(inicio, "la fecha de inicio no puede ser null");
         Validate.notNull(torneo, "el torneo no puede ser null");
         Validate.notNull(now, "el instante actual no puede ser null");
+        Validate.notNull(rueda, "la rueda no puede ser null");
 
         if (local.equals(visitante)) {
             throw new EquiposInvalidosException(
@@ -55,6 +55,7 @@ public class Partido {
         this.jugado = false;
         this.golesLocal = 0;
         this.golesVisitante = 0;
+        this.rueda = rueda;
     }
 
     private void crearPlanillas() {
@@ -133,6 +134,10 @@ public class Partido {
             throw new FechaInvalidaException(
                     "la fecha de inicio del partido es anterior a la fecha actual");
         }
+    }
+
+    public Integer getRueda() {
+        return rueda;
     }
 
     public boolean isJugado() {
