@@ -33,7 +33,11 @@ public class ReprogramacionPartidoPage extends AbstractColorBasePage {
                     error(exceptionConverter.convert(e));
                 }
             }
-        }.setSubmitLabel("Reprogramar").setLocalActivo(false).setVisitanteActivo(false).setNumeroFechaActivo(false));
+        }.setSubmitLabel("Reprogramar")
+                .setLocalActivo(false)
+                .setVisitanteActivo(false)
+                .setNumeroFechaActivo(false)
+                .setRuedaActivo(false));
     }
 
     private IModel<PartidoInfo> convertFrom(IModel<Partido> partido) {

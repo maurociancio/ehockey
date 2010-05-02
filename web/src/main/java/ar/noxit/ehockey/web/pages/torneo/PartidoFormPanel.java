@@ -34,6 +34,7 @@ public abstract class PartidoFormPanel extends Panel {
     private boolean visitanteActivo = true;
     private boolean numeroFechaActivo = true;
     private boolean fechaActivo = true;
+    private boolean ruedaActivo = true;
 
     public PartidoFormPanel(String id, final IModel<PartidoInfo> partido) {
         super(id);
@@ -79,6 +80,15 @@ public abstract class PartidoFormPanel extends Panel {
             @Override
             public boolean isEnabled() {
                 return numeroFechaActivo;
+            }
+        });
+
+        form.add(new RequiredTextField<Integer>("rueda",
+                new PropertyModel<Integer>(partido, "rueda"), Integer.class) {
+
+            @Override
+            public boolean isEnabled() {
+                return ruedaActivo;
             }
         });
 
@@ -136,6 +146,11 @@ public abstract class PartidoFormPanel extends Panel {
 
     public PartidoFormPanel setFechaActivo(boolean fechaActivo) {
         this.fechaActivo = fechaActivo;
+        return this;
+    }
+
+    public PartidoFormPanel setRuedaActivo(boolean ruedaActivo) {
+        this.ruedaActivo = ruedaActivo;
         return this;
     }
 
