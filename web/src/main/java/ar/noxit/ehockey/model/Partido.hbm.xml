@@ -10,6 +10,7 @@
         <property name="fechaDelTorneo" not-null="true"/>
         <property name="inicio" not-null="true" type="org.joda.time.contrib.hibernate.PersistentLocalDateTime"/>
         <property name="jugado" not-null="true"/>
+        <property name="rueda" not-null="true"/>
         <many-to-one name="local" entity-name="Equipo" column="local_id" not-null="true"/>
         <many-to-one name="visitante" entity-name="Equipo" column="visitante_id" not-null="true"/>
         <property name="golesLocal" />
