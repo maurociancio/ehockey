@@ -1,14 +1,13 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import ar.noxit.ehockey.model.Planilla;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.FormComponentPanel;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-import ar.noxit.ehockey.model.Planilla;
-
-public class PlanillaGeneralPanel extends FormComponentPanel {
+public class PlanillaGeneralPanel extends Panel {
 
     public PlanillaGeneralPanel(String id, IModel<Planilla> planilla, IModel<Integer> golesLocal,
             IModel<Integer> golesVisitante) {
