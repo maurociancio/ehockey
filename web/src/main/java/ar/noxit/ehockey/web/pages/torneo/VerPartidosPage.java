@@ -5,8 +5,10 @@ import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.utils.Collections;
+import ar.noxit.web.wicket.column.AbstractLabelColumn;
 import ar.noxit.web.wicket.column.AbstractReadOnlyColumn;
 import ar.noxit.web.wicket.model.LDM;
+import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.LocalDateTime;
 
 public class VerPartidosPage extends BaseTorneoPage {
 
@@ -40,7 +44,13 @@ public class VerPartidosPage extends BaseTorneoPage {
         List<IColumn<Partido>> columns = new ArrayList<IColumn<Partido>>();
         columns.add(new PropertyColumn<Partido>(Model.of("Local"), "local.nombre"));
         columns.add(new PropertyColumn<Partido>(Model.of("Visitante"), "visitante.nombre"));
-        columns.add(new PropertyColumn<Partido>(Model.of("Inicio"), "inicio"));
+        columns.add(new AbstractLabelColumn<Partido>(Model.of("Inicio")) {
+
+            @Override
+            protected IModel<String> createDisplayModel(IModel<Partido> rowModel) {
+                return new LocalDateTimeFormatModel(new PropertyModel<LocalDateTime>(rowModel, "inicio"));
+            }
+        });
         columns.add(new AbstractReadOnlyColumn<Partido>(Model.of("Jugado?")) {
 
             @Override
