@@ -1,11 +1,13 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
+import java.util.List;
+
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.AbstractPropertyModel;
+import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -14,16 +16,28 @@ import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.providers.JugadorDataProvider;
+import ar.noxit.exceptions.NoxitException;
 
 public class JugadorVerPanel extends Panel {
 
-    @SpringBean
     private IJugadorService jugadorService;
 
-    public JugadorVerPanel() {
+    public JugadorVerPanel(IJugadorService jugadorService) {
+        this(jugadorService, new JugadorDataProvider(jugadorService) {
+
+            @Override
+            public List<Jugador> listoToLoad() throws NoxitException {
+                return getService().getAll();
+            }
+        });
+    }
+
+    public JugadorVerPanel(IJugadorService jugadorService,
+            IDataProvider<Jugador> jugadorProvider) {
         super("jugadorespanel");
+        this.jugadorService = jugadorService;
         DataView<Jugador> tabla = new DataView<Jugador>("jugadores",
-                new JugadorDataProvider(jugadorService)) {
+                jugadorProvider) {
 
             @Override
             public void populateItem(final Item<Jugador> item) {
@@ -32,8 +46,9 @@ public class JugadorVerPanel extends Panel {
                     @Override
                     public void onClick() {
                         setResponsePage(new JugadorModificarPage(
-                                new Model<JugadorPlano>(jugadorService
-                                        .aplanar(item.getModelObject()))));
+                                new Model<JugadorPlano>(
+                                        JugadorVerPanel.this.jugadorService
+                                                .aplanar(item.getModelObject()))));
                     }
                 }.add(new Label("nombreyapellido", new PropertyModel<String>(
                         item.getModel(), "nombre y apellido") {
