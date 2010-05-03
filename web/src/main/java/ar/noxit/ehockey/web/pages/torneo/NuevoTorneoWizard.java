@@ -24,6 +24,7 @@ import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
+import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
@@ -42,6 +43,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
@@ -73,6 +75,7 @@ public class NuevoTorneoWizard extends Wizard {
     private IModel<Integer> division = new Model<Integer>();
     private IModel<Integer> sector = new Model<Integer>();
     private IModel<? extends List<Integer>> equipos = new Model<ArrayList<Integer>>(new ArrayList<Integer>());
+    private static final ResourceReference EDITIMAGE = new ResourceReference(NuevoTorneoWizard.class, "edit.png");
 
     public NuevoTorneoWizard(String id) {
         super(id);
@@ -140,6 +143,7 @@ public class NuevoTorneoWizard extends Wizard {
 
                         Integer rueda = partidoActual[0];
                         Integer numeroFecha = partidoActual[1];
+                        // #TODO
                         Integer partido = partidoActual[2];
                         Integer localIndex = partidoActual[3] - 1;
                         Integer visitanteIndex = partidoActual[4] - 1;
@@ -254,7 +258,8 @@ public class NuevoTorneoWizard extends Wizard {
                     item.add(new Label("rueda", new PropertyModel<Integer>(model, "rueda")).setRenderBodyOnly(true));
                     item.add(new Label("fecha", new LocalDateTimeFormatModel(new PropertyModel<LocalDateTime>(model,
                             "fecha"))).setRenderBodyOnly(true));
-                    item.add(new AjaxLink<Void>("editar") {
+
+                    AjaxLink<Void> editLink = new AjaxLink<Void>("editar") {
 
                         @Override
                         public void onClick(AjaxRequestTarget target) {
@@ -267,7 +272,9 @@ public class NuevoTorneoWizard extends Wizard {
                             });
                             modalWindow.show(target);
                         }
-                    });
+                    };
+                    editLink.add(new Image("editar", EDITIMAGE));
+                    item.add(editLink);
                 }
 
                 private IModel<String> getEquipoModel(IModel<PartidoInfo> model, String expression) {
