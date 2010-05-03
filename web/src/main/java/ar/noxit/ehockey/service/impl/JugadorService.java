@@ -31,6 +31,20 @@ public class JugadorService implements IJugadorService {
         jugadorDao.save(ensamblar(jugadorPlano));
     }
 
+    @Override
+    @Transactional
+    public void update(JugadorPlano jugadorPlano) throws NoxitException {
+        verificarExisteJugador(jugadorPlano);
+        Jugador jugador = jugadorDao.get(jugadorPlano.getFicha());
+        jugador.setClub(clubDao.get(jugadorPlano.getClubId()));
+        jugador.setDivision(divisionDao.get(jugadorPlano.getDivisionId()));
+        jugador.setSector(sectorDao.get(jugadorPlano.getSectorId()));
+        jugador.setApellido(jugadorPlano.getApellido());
+        jugador.setNombre(jugadorPlano.getNombre());
+        setearDatos(jugadorPlano, jugador);
+        jugadorDao.save(jugador);
+    }
+
     private void verificarExisteJugador(JugadorPlano jugadorPlano)
             throws JugadorExistenteException, NoxitException {
         for (Jugador each : jugadorDao.getAll()) {
@@ -40,19 +54,6 @@ public class JugadorService implements IJugadorService {
                 throw new JugadorExistenteException("Jugador ya existe");
             }
         }
-    }
-
-    @Override
-    @Transactional
-    public void update(JugadorPlano jugadorPlano) throws NoxitException {
-        Jugador jugador = jugadorDao.get(jugadorPlano.getFicha());
-        jugador.setClub(clubDao.get(jugadorPlano.getClubId()));
-        jugador.setDivision(divisionDao.get(jugadorPlano.getDivisionId()));
-        jugador.setSector(sectorDao.get(jugadorPlano.getSectorId()));
-        jugador.setApellido(jugadorPlano.getApellido());
-        jugador.setNombre(jugadorPlano.getNombre());
-        setearDatos(jugadorPlano, jugador);
-        jugadorDao.save(jugador);
     }
 
     @Override

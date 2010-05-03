@@ -3,9 +3,18 @@
 	<div class="content">
 	<h2 class="content-title">Jugadores</h2>
 	<div class="content-in">
-	<select wicket:id="club"/>
-	<select wicket:id="division"/>
-	<select wicket:id="sector"/>
+	<table>
+		<tr>
+			<th>Club</th>
+			<th>Division</th>
+			<th>Sector</th>
+		</tr>
+		<tr>
+			<td><select wicket:id="club" /></td>
+			<td><select wicket:id="division" /></td>
+			<td><select wicket:id="sector" /></td>
+		</tr>
+	</table>
 	<div wicket:id="jugadorespanel"></div>
 	<a href="#" wicket:id="menujugador">Menu</a></div>
 	</div>
