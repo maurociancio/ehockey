@@ -1,10 +1,10 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.noxit.ehockey.exception.JugadorExistenteException;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.exceptions.NoxitException;
 
@@ -30,6 +30,12 @@ public class JugadorAltaPage extends AbstractJugadorPage {
                             "El jugador " + jugador.getObject().getApellido()
                                     + ", " + jugador.getObject().getNombre()
                                     + " ha sido agregado correctamente.")));
+                } catch (JugadorExistenteException ex) {
+                    info("El jugador de "
+                            + jugador.getObject().getTipoDocumento()
+                            + " "
+                            + jugador.getObject().getNumeroDocumento()
+                                    .toString() + " ya existe en el sistema.");
                 } catch (NoxitException ex) {
                     // se produjo una excepcion
                     // la levantamos pero en runtime

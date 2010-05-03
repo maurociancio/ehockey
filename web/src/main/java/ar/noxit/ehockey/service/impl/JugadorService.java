@@ -9,6 +9,7 @@ import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IDivisionDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.ISectorDao;
+import ar.noxit.ehockey.exception.JugadorExistenteException;
 import ar.noxit.ehockey.exception.SinClubException;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
@@ -26,7 +27,19 @@ public class JugadorService implements IJugadorService {
     @Override
     @Transactional
     public void add(JugadorPlano jugadorPlano) throws NoxitException {
+        verificarExisteJugador(jugadorPlano);
         jugadorDao.save(ensamblar(jugadorPlano));
+    }
+
+    private void verificarExisteJugador(JugadorPlano jugadorPlano)
+            throws JugadorExistenteException, NoxitException {
+        for (Jugador each : jugadorDao.getAll()) {
+            if (each.getDocumento().equals(jugadorPlano.getNumeroDocumento())
+                    && each.getTipoDocumento().equals(
+                            jugadorPlano.getTipoDocumento())) {
+                throw new JugadorExistenteException("Jugador ya existe");
+            }
+        }
     }
 
     @Override
