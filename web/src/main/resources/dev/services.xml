@@ -15,4 +15,7 @@
     <bean id="partidoService" class="ar.noxit.ehockey.service.impl.PartidoService">
         <property name="partidoDao" ref="partidoDao"/>
     </bean>
+    <bean id="planillaService" class="ar.noxit.ehockey.service.impl.PlanillaService">
+        <property name="planillaDao" ref="planillaDao"/>
+    </bean>
 </beans>
