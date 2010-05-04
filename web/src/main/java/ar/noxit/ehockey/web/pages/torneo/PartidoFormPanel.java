@@ -98,7 +98,7 @@ public abstract class PartidoFormPanel extends Panel {
             @SuppressWarnings("unchecked")
             @Override
             protected DateTextField newDateTextField(String id, PropertyModel dateFieldModel) {
-                return new DateTextField(id, dateFieldModel, new PatternDateConverter("dd/MM/yy", false));
+                return new DateTextField(id, dateFieldModel, new PatternDateConverter("dd/MM/yyyy", false));
             }
 
             @Override
