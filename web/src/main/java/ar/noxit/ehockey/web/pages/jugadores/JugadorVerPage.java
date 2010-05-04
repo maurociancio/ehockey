@@ -49,47 +49,22 @@ public class JugadorVerPage extends AbstractJugadorPage {
     public JugadorVerPage() {
         super();
         this.setOutputMarkupId(true);
-        add(new DropDownChoice<Club>("club", new IdClubModel(
-                new PropertyModel<Integer>(this, "clubid"), clubService),
-                new ClubListModel(clubService), new ClubRenderer())
+        add(new DropDownChoice<Club>("club", new IdClubModel(clubid,
+                clubService), new ClubListModel(clubService),
+                new ClubRenderer()).setNullValid(true).add(
+                new AjaxJugadorVerUpdater("onchange")));
+
+        add(new DropDownChoice<Division>("division", new IdDivisionModel(
+                divisionid, divisionService), new DivisionListModel(
+                divisionService), new DivisionRenderer()).setNullValid(true)
                 .add(new AjaxJugadorVerUpdater("onchange")));
 
-        add(new DropDownChoice<Division>("division",
-                new IdDivisionModel(new PropertyModel<Integer>(this,
-                        "divisionid"), divisionService), new DivisionListModel(
-                        divisionService), new DivisionRenderer())
-                .add(new AjaxJugadorVerUpdater("onchange")));
-
-        add(new DropDownChoice<Sector>("sector", new IdSectorModel(
-                new PropertyModel<Integer>(this, "sectorid"), sectorService),
-                new SectorListModel(sectorService), new SectorRenderer())
-                .add(new AjaxJugadorVerUpdater("onchange")));
+        add(new DropDownChoice<Sector>("sector", new IdSectorModel(sectorid,
+                sectorService), new SectorListModel(sectorService),
+                new SectorRenderer()).setNullValid(true).add(
+                new AjaxJugadorVerUpdater("onchange")));
 
         add(new JugadorVerPanel(jugadorService));
-    }
-
-    public Integer getClubid() {
-        return clubid.getObject();
-    }
-
-    public Integer getDivisionid() {
-        return divisionid.getObject();
-    }
-
-    public Integer getSectorid() {
-        return sectorid.getObject();
-    }
-
-    public void setClubid(Integer clubid) {
-        this.clubid.setObject(clubid);
-    }
-
-    public void setDivisionid(Integer divisionid) {
-        this.divisionid.setObject(divisionid);
-    }
-
-    public void setSectorid(Integer sectorid) {
-        this.sectorid.setObject(sectorid);
     }
 
     private class AjaxJugadorVerUpdater extends
@@ -110,7 +85,7 @@ public class JugadorVerPage extends AbstractJugadorPage {
         }
     }
 
-    public class JugadorByClubDivisionSectorDataProvider extends
+    private class JugadorByClubDivisionSectorDataProvider extends
             JugadorDataProvider {
 
         public JugadorByClubDivisionSectorDataProvider(
