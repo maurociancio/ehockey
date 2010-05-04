@@ -1,6 +1,8 @@
 package ar.noxit.ehockey.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
@@ -72,6 +74,34 @@ public class TablaPosicionesService implements ITablaPosicionesService {
                 sectorDao.get(sectorId)).calcularTabla().getDatosTabla()) {
             lista.add(each);
         }
+        Collections.sort(lista, new Comparator<DatosTabla>() {
+
+            @Override
+            public int compare(DatosTabla arg0, DatosTabla arg1) {
+                if (arg0.getPuntos() > arg1.getPuntos())
+                    return -1;
+                if (arg0.getPuntos() == arg1.getPuntos()
+                        && arg0.getDiferenciaGol() > arg1.getDiferenciaGol())
+                    return -1;
+                if (arg0.getPuntos() == arg1.getPuntos()
+                        && arg0.getDiferenciaGol() == arg1.getDiferenciaGol()
+                        && arg0.getGolesFavor() > arg1.getGolesFavor())
+                    return -1;
+                if (arg0.getPuntos() == arg1.getPuntos()
+                        && arg0.getDiferenciaGol() == arg1.getDiferenciaGol()
+                        && arg0.getGolesFavor() == arg1.getGolesFavor()
+                        && arg0.getNombre().compareToIgnoreCase(
+                                arg1.getNombre()) == -1)
+                    return -1;
+                if (arg0.getPuntos() == arg1.getPuntos()
+                        && arg0.getDiferenciaGol() == arg1.getDiferenciaGol()
+                        && arg0.getGolesFavor() == arg1.getGolesFavor()
+                        && arg0.getNombre().compareToIgnoreCase(
+                                arg1.getNombre()) == 0)
+                    return 0;
+                return 1;
+            }
+        });
         return lista;
     }
 
