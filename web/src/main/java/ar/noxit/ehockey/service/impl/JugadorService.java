@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +9,7 @@ import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IDivisionDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.ISectorDao;
+import ar.noxit.ehockey.exception.JugadorExistenteException;
 import ar.noxit.ehockey.exception.SinClubException;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
@@ -25,20 +27,33 @@ public class JugadorService implements IJugadorService {
     @Override
     @Transactional
     public void add(JugadorPlano jugadorPlano) throws NoxitException {
+        verificarExisteJugador(jugadorPlano);
         jugadorDao.save(ensamblar(jugadorPlano));
     }
 
     @Override
     @Transactional
     public void update(JugadorPlano jugadorPlano) throws NoxitException {
+        verificarExisteJugador(jugadorPlano);
         Jugador jugador = jugadorDao.get(jugadorPlano.getFicha());
         jugador.setClub(clubDao.get(jugadorPlano.getClubId()));
         jugador.setDivision(divisionDao.get(jugadorPlano.getDivisionId()));
         jugador.setSector(sectorDao.get(jugadorPlano.getSectorId()));
         jugador.setApellido(jugadorPlano.getApellido());
         jugador.setNombre(jugadorPlano.getNombre());
-        ensamblar(jugadorPlano);
+        setearDatos(jugadorPlano, jugador);
         jugadorDao.save(jugador);
+    }
+
+    private void verificarExisteJugador(JugadorPlano jugadorPlano)
+            throws JugadorExistenteException, NoxitException {
+        for (Jugador each : jugadorDao.getAll()) {
+            if (each.getDocumento().equals(jugadorPlano.getNumeroDocumento())
+                    && each.getTipoDocumento().equals(
+                            jugadorPlano.getTipoDocumento())) {
+                throw new JugadorExistenteException("Jugador ya existe");
+            }
+        }
     }
 
     @Override
@@ -60,6 +75,50 @@ public class JugadorService implements IJugadorService {
     @Transactional(readOnly = true)
     public List<Jugador> getAll() throws NoxitException {
         return jugadorDao.getAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Jugador> getAllByClub(Integer clubid) throws NoxitException {
+        List<Jugador> lista = new ArrayList<Jugador>();
+        for (Jugador each : jugadorDao.getAll()) {
+            if (each.getClub().getId().equals(clubid)) {
+                lista.add(each);
+            }
+        }
+        return lista;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Jugador> getAllByClubDivisionSector(Integer clubid,
+            Integer divisionid, Integer sectorid) throws NoxitException {
+        List<Jugador> lista = new ArrayList<Jugador>();
+        for (Jugador each : jugadorDao.getAll()) {
+            if (evaluar(clubid, divisionid, sectorid, each)) {
+                lista.add(each);
+            }
+        }
+        return lista;
+    }
+
+    private boolean evaluar(Integer clubid, Integer divisionid,
+            Integer sectorid, Jugador each) throws SinClubException {
+        Integer cid = each.getClub().getId();
+        Integer sid = each.getSector().getId();
+        Integer did = each.getDivision().getId();
+
+        return (clubid == null && did.equals(divisionid) && sid
+                .equals(sectorid))
+                || (cid.equals(clubid) && divisionid == null && sid
+                        .equals(sectorid))
+                || (cid.equals(clubid) && did.equals(divisionid) && sectorid == null)
+                || (clubid == null && divisionid == null && sid
+                        .equals(sectorid))
+                || (cid.equals(clubid) && divisionid == null && sectorid == null)
+                || (clubid == null && did.equals(divisionid) && sectorid == null)
+                || (cid.equals(clubid) && did.equals(divisionid) && sid
+                        .equals(sectorid));
     }
 
     public void setJugadorDao(IJugadorDao jugadorDao) {

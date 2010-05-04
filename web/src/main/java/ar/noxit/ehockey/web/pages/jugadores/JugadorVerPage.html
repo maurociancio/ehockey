@@ -4,16 +4,19 @@
 	<h2 class="content-title">Jugadores</h2>
 	<div class="content-in">
 	<table>
-		<tbody>
-			<tr wicket:id="jugadores">
-				<td><a href="#" wicket:id="editarjugador"><span
-					wicket:id="nombreyapellido">Test ID</span></a></td>
-				<td><span wicket:id="tipodocumento">Test ID</span></td>
-				<td><span wicket:id="documento">Test ID</span></td>
-			</tr>
-		</tbody>
+		<tr>
+			<th>Club</th>
+			<th>Division</th>
+			<th>Sector</th>
+		</tr>
+		<tr>
+			<td><select wicket:id="club" /></td>
+			<td><select wicket:id="division" /></td>
+			<td><select wicket:id="sector" /></td>
+		</tr>
 	</table>
-	</div>
+	<div wicket:id="jugadorespanel"></div>
+	<a href="#" wicket:id="menujugador">Menu</a></div>
 	</div>
 	<!-- /cols -->
 </wicket:extend>

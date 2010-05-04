@@ -20,8 +20,10 @@ import ar.noxit.web.wicket.model.Date2LocalDateModelAdapter;
 import java.util.Arrays;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
+import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
@@ -30,6 +32,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.validator.PatternValidator;
 import org.joda.time.LocalDate;
 
 public abstract class JugadorForm extends Panel {
@@ -54,48 +57,74 @@ public abstract class JugadorForm extends Panel {
             }
         };
 
-        form.add(new RequiredTextField<String>("nombre",
-                new PropertyModel<String>(jugador, "nombre")));
-        form.add(new RequiredTextField<String>("apellido",
-                new PropertyModel<String>(jugador, "apellido")));
+        PatternValidator stringOnlyValidator = new PatternValidator(
+                "([a-z]|[A-Z])+");
+        FormComponent<String> nombre = new RequiredTextField<String>("nombre",
+                new PropertyModel<String>(jugador, "nombre"))
+                .add(stringOnlyValidator);
+        form.add(nombre);
+        form.add(new FeedbackLabel("feedback_nombre", nombre));
+        FormComponent<String> apellido = new RequiredTextField<String>(
+                "apellido", new PropertyModel<String>(jugador, "apellido"))
+                .add(stringOnlyValidator);
+        form.add(apellido);
+        form.add(new FeedbackLabel("feedback_apellido", apellido));
+        FormComponent<String> tipodoc = new RadioChoice<String>("tipodoc",
+                new PropertyModel<String>(jugador, "tipoDocumento"), Arrays
+                        .asList(new String[] { "DNI", "LC", "LE" }))
+                .setRequired(true);
+        form.add(tipodoc);
+        form.add(new FeedbackLabel("feedback_tipodoc", tipodoc));
 
-        form.add(new RadioChoice<String>("tipodoc", new PropertyModel<String>(
-                jugador, "tipoDocumento"), Arrays.asList(new String[] { "DNI",
-                "LC", "LE" })));
-
-        form.add(new TextField<String>("numerodoc", new PropertyModel<String>(
-                jugador, "numeroDocumento")));
+        FormComponent<String> numerodoc = new RequiredTextField<String>(
+                "numerodoc", new PropertyModel<String>(jugador,
+                        "numeroDocumento")).add(new PatternValidator(
+                "\\d{1,10}"));
+        form.add(numerodoc);
+        form.add(new FeedbackLabel("feedback_numerodoc", numerodoc));
 
         PropertyModel<LocalDate> modelFechaNacimiento = new PropertyModel<LocalDate>(
                 jugador, "fechaNacimiento");
-        DateTextField fechaEvento = new DateTextField("fechanac",
-                new Date2LocalDateModelAdapter(modelFechaNacimiento), "dd/MM/yy");
-        fechaEvento.add(new YearMonthDatePicker());
-        form.add(fechaEvento);
 
-        form.add(new TextField<String>("telefono", new PropertyModel<String>(
-                jugador, "telefono")));
+        DateTextField fechaNacimiento = new DateTextField("fechanac",
+                new Date2LocalDateModelAdapter(modelFechaNacimiento),
+                "dd/MM/yyyy");
+        fechaNacimiento.add(new YearMonthDatePicker());
+        form.add(fechaNacimiento);
+        form.add(new FeedbackLabel("feedback_fechanac", fechaNacimiento));
 
-        form.add(new DropDownChoice<Club>("club", new IdClubModel(
-                new PropertyModel<Integer>(jugador, "clubId"), clubService),
-                new ClubListModel(clubService), new ClubRenderer())
-                .setRequired(true));
+        FormComponent<String> tel = new TextField<String>("telefono",
+                new PropertyModel<String>(jugador, "telefono"))
+                .add(new PatternValidator("\\d{7,15}"));
+        form.add(tel);
+        form.add(new FeedbackLabel("feedback_tel", tel));
 
-        form.add(new DropDownChoice<Division>("division", new IdDivisionModel(
-                new PropertyModel<Integer>(jugador, "divisionId"),
-                divisionService), new DivisionListModel(divisionService),
-                new DivisionRenderer()).setRequired(true));
+        FormComponent<Club> club = new DropDownChoice<Club>("club",
+                new IdClubModel(new PropertyModel<Integer>(jugador, "clubId"),
+                        clubService), new ClubListModel(clubService),
+                new ClubRenderer()).setRequired(true);
+        form.add(club);
+        form.add(new FeedbackLabel("feedback_club", club));
 
-        form.add(new DropDownChoice<Sector>("sector", new IdSectorModel(
-                new PropertyModel<Integer>(jugador, "sectorId"),
-                sectorService), new SectorListModel(sectorService),
-                new SectorRenderer()).setRequired(true));
+        FormComponent<Division> division = new DropDownChoice<Division>(
+                "division", new IdDivisionModel(new PropertyModel<Integer>(
+                        jugador, "divisionId"), divisionService),
+                new DivisionListModel(divisionService), new DivisionRenderer())
+                .setRequired(true);
+        form.add(division);
+        form.add(new FeedbackLabel("feedback_division", division));
 
-        form.add(new TextField<String>("letra", new PropertyModel<String>(
-                jugador, "letraJugador")));
+        FormComponent<Sector> sector = new RadioChoice<Sector>("sector",
+                new IdSectorModel(new PropertyModel<Integer>(jugador,
+                        "sectorId"), sectorService), new SectorListModel(
+                        sectorService), new SectorRenderer()).setRequired(true);
+        form.add(sector);
+        form.add(new FeedbackLabel("feedback_sector", sector));
 
         add(form);
-        add(new FeedbackPanel("feedback"));
+        add(new FeedbackPanel("feedback")
+                .setFilter(new ErrorLevelsFeedbackMessageFilter(
+                        new int[] { FeedbackMessage.ERROR })));
     }
 
     protected abstract void onSubmit(IModel<JugadorPlano> jugador);

@@ -1,10 +1,12 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import ar.noxit.ehockey.service.IJugadorService;
-import ar.noxit.exceptions.NoxitException;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import ar.noxit.ehockey.exception.JugadorExistenteException;
+import ar.noxit.ehockey.service.IJugadorService;
+import ar.noxit.exceptions.NoxitException;
 
 public class JugadorAltaPage extends AbstractJugadorPage {
 
@@ -12,6 +14,7 @@ public class JugadorAltaPage extends AbstractJugadorPage {
     private IJugadorService jugadorService;
 
     public JugadorAltaPage() {
+        super();
         IModel<JugadorPlano> jugador = new Model<JugadorPlano>(
                 new JugadorPlano());
 
@@ -23,10 +26,16 @@ public class JugadorAltaPage extends AbstractJugadorPage {
                 try {
                     // tratamos de agregar a la persona
                     jugadorService.add(jugador.getObject());
-                    info("El jugador " + jugador.getObject().getApellido()
-                            + ", " + jugador.getObject().getNombre()
-                            + " ha sido agregada correctamente.");
-                    jugador.setObject((new JugadorPlano()));
+                    setResponsePage(new JugadorAltaOkPage(new Model<String>(
+                            "El jugador " + jugador.getObject().getApellido()
+                                    + ", " + jugador.getObject().getNombre()
+                                    + " ha sido agregado correctamente.")));
+                } catch (JugadorExistenteException ex) {
+                    info("El jugador de "
+                            + jugador.getObject().getTipoDocumento()
+                            + " "
+                            + jugador.getObject().getNumeroDocumento()
+                                    .toString() + " ya existe en el sistema.");
                 } catch (NoxitException ex) {
                     // se produjo una excepcion
                     // la levantamos pero en runtime

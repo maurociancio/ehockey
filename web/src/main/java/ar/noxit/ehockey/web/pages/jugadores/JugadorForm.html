@@ -14,27 +14,33 @@
 			<tr>
 				<td>Nombre:(*)</td>
 				<td><input type="text" wicket:id="nombre" name="nombre" /></td>
+				<td><span wicket:id="feedback_nombre" /></td>
 			</tr>
 			<tr>
 				<td>Apellido:(*)</td>
 				<td><input type="text" wicket:id="apellido" /></td>
+				<td><span wicket:id="feedback_apellido" /></td>
 			</tr>
 			<tr>
-				<td>Tipo de Documento:</td>
+				<td>Tipo de Documento:(*)</td>
 				<td><span wicket:id="tipodoc"><input type="radio" /></span></td>
+				<td><span wicket:id="feedback_tipodoc" /></td>
 			</tr>
 			<tr>
-				<td>Número de Documento:</td>
+				<td>Número de Documento:(*)</td>
 				<td><input type="text" wicket:id="numerodoc" /></td>
+				<td><span wicket:id="feedback_numerodoc" /></td>
 			</tr>
 			<tr>
-				<td>Fecha de Nacimiento: <br />
-				(dd/mm/aaaa)</td>
+				<td>Fecha de Nacimiento:(*) <br />
+				(dd/mm/aa)</td>
 				<td><input type="text" wicket:id="fechanac" /></td>
+				<td><span wicket:id="feedback_fechanac" /></td>
 			</tr>
 			<tr>
 				<td>Número de Teléfono:</td>
 				<td><input type="text" wicket:id="telefono" /></td>
+				<td><span wicket:id="feedback_tel" /></td>
 			</tr>
 		</tbody>
 	</table>
@@ -51,18 +57,17 @@
 			<tr>
 				<td>Club:(*)</td>
 				<td><select wicket:id="club" /></td>
+				<td><span wicket:id="feedback_club" /></td>
 			</tr>
 			<tr>
 				<td>División:(*)</td>
 				<td><select wicket:id="division" /></td>
+				<td><span wicket:id="feedback_division" /></td>
 			</tr>
 			<tr>
 				<td>Sector:(*)</td>
-				<td><select wicket:id="sector" /></td>
-			</tr>
-			<tr>
-				<td>Letra:</td>
-				<td><input type="text" wicket:id="letra" /></td>
+				<td><span wicket:id="sector" /></td>
+				<td><span wicket:id="feedback_sector" /></td>
 			</tr>
 		</tbody>
 	</table>

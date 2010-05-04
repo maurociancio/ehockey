@@ -11,7 +11,7 @@ import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.provider.DataProvider;
 
-public class JugadorDataProvider extends DataProvider<Jugador> {
+public abstract class JugadorDataProvider extends DataProvider<Jugador> {
 
     private IJugadorService jugadorService;
 
@@ -22,7 +22,8 @@ public class JugadorDataProvider extends DataProvider<Jugador> {
     @Override
     protected List<Jugador> loadList() {
         try {
-            return jugadorService.getAll();
+            // return jugadorService.getAll();
+            return this.listoToLoad();
         } catch (NoxitException e) {
             throw new NoxitRuntimeException(e);
         }
@@ -32,4 +33,10 @@ public class JugadorDataProvider extends DataProvider<Jugador> {
     public IModel<Jugador> model(Jugador object) {
         return new JugadorModel(object.getFicha(), jugadorService);
     }
+
+    public IJugadorService getService() {
+        return jugadorService;
+    }
+
+    public abstract List<Jugador> listoToLoad() throws NoxitException;
 }
