@@ -89,7 +89,7 @@ public abstract class JugadorForm extends Panel {
                 jugador, "fechaNacimiento");
         DateTextField fechaNacimiento = new DateTextField("fechanac",
                 new Date2LocalDateModelAdapter(modelFechaNacimiento),
-                "dd/MM/yy");
+                "dd/MM/yyyy");
         fechaNacimiento.add(new DatePicker());
         form.add(fechaNacimiento);
         form.add(new FeedbackLabel("feedback_fechanac", fechaNacimiento));
