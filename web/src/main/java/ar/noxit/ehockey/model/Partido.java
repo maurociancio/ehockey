@@ -24,8 +24,8 @@ public class Partido {
     private void crearPlanillas() {
         // inicialmente las planillas deben ser iguales. Luego la planilla final
         // se edita.
-        planillaPrecargada = new Planilla(local, visitante).finalizarPlanilla();
-        planillaFinal = new Planilla(local, visitante);
+        planillaPrecargada = new Planilla(this).finalizarPlanilla();
+        planillaFinal = new Planilla(this);
     }
 
     /**

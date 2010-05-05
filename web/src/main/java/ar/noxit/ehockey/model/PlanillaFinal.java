@@ -14,11 +14,9 @@ public class PlanillaFinal extends Planilla {
 
         id = original.id;
 
-        local = original.local;
-        visitante = original.visitante;
+        partido = original.partido;
         datosLocal = original.datosLocal;
 
-        visitante = original.visitante;
         datosVisitante = original.datosVisitante;
 
         observaciones = original.observaciones;

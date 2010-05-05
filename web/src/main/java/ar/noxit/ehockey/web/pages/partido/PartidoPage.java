@@ -48,8 +48,7 @@ public class PartidoPage extends AbstractContentPage {
 
             @Override
             public void onSubmit() {
-                IModel<Planilla> model = new PropertyModel<Planilla>(partido, "planilla");
-                setResponsePage(new ModificarPlanillaPage(model));
+                setResponsePage(new ModificarPlanillaPage(partido));
             }
         });
 

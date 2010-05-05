@@ -11,23 +11,22 @@ import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 public class Planilla {
     protected int id;
 
-    protected Equipo local;
-    protected Equipo visitante;
+    protected Partido partido;
 
     protected DatosEquipoPlanilla datosLocal = new DatosEquipoPlanilla();
     protected DatosEquipoPlanilla datosVisitante = new DatosEquipoPlanilla();
 
     protected String observaciones;
-    
+
     protected boolean finalizada = false;
 
     // TODO definir el atributo fecha
     // TODO definir el resto de los atributos que son: Torneo, Rueda, Partido,
     // Sector(damas/caballeros), categoría, división, zona
 
-    public Planilla(Equipo local, Equipo visitante) {
-        this.local = local;
-        this.visitante = visitante;
+    public Planilla(Partido partido) {
+        Validate.notNull(partido, "El partido no puede ser nulo");
+        this.partido = partido;
         precargarPlanilla();
     }
 
@@ -47,12 +46,12 @@ public class Planilla {
         datosLocal.getJugadores().clear();
         datosVisitante.getJugadores().clear();
 
-        Iterator<Jugador> it = local.getListaBuenaFe().iterator();
+        Iterator<Jugador> it = partido.getLocal().getListaBuenaFe().iterator();
         while (it.hasNext()) {
             datosLocal.getJugadores().add(it.next());
         }
 
-        it = visitante.getListaBuenaFe().iterator();
+        it = partido.getVisitante().getListaBuenaFe().iterator();
         while (it.hasNext()) {
             datosVisitante.getJugadores().add(it.next());
         }
@@ -145,11 +144,11 @@ public class Planilla {
     }
 
     public Equipo getLocal() {
-        return local;
+        return partido.getLocal();
     }
 
     public Equipo getVisitante() {
-        return visitante;
+        return partido.getVisitante();
     }
 
     public Set<Jugador> getJugadoresL() {

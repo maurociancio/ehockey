@@ -10,6 +10,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
@@ -27,24 +28,24 @@ public class ModificarPlanillaPage extends AbstractContentPage {
     @SpringBean
     private IPlanillaService planillaService;
 
-    public ModificarPlanillaPage(final IModel<Planilla> planilla) {
+    public ModificarPlanillaPage(final IModel<Partido> partido) {
         add(new FeedbackPanel("feedback"));
         Form<Void> form = new Form<Void>("edicion_planilla") {
 
             @Override
             protected void onSubmit() {
                 try {
-                    planillaService.updatePlanilla(planilla.getObject().getId(), golesLocal, golesVisitante, infoLocal, infoVisitante);
+                    planillaService.updatePlanilla(partido.getObject().getId(), golesLocal, golesVisitante, infoLocal, infoVisitante);
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
             }
         };
-        form.add(new PlanillaGeneralPanel("planillaGeneral", planilla, new PropertyModel<Integer>(this, "golesLocal"),
+        form.add(new PlanillaGeneralPanel("planillaGeneral", new PropertyModel<Planilla>(partido, "planilla"), new PropertyModel<Integer>(this, "golesLocal"),
                 new PropertyModel<Integer>(this, "golesVisitante")));
-        form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(planilla, "local"), Model
+        form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(partido, "local"), Model
                 .of(infoLocal)));
-        form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(planilla, "visitante"), Model
+        form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(partido, "visitante"), Model
                 .of(infoVisitante)));
 
         this.add(form);
