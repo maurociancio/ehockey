@@ -8,33 +8,35 @@
             <generator class="increment"/>
         </id>
 
-        <many-to-one name="local" entity-name="Equipo" column="local_id" unique="true"/>
-        <many-to-one name="visitante" entity-name="Equipo" column="visitante_id" unique="true"/>
+        <component name="datosLocal" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
+            <property name="dT" column="dt_local"/>
+            <property name="capitan" column="capitan_local"/>
+            <property name="pFisico" column="pFisico_local"/>
+            <property name="medico" column="medico_local"/>
+            <property name="juezDeMesa" column="juezMesa_local"/>
+            <property name="arbitro" column="arbitro_local"/>
+            <property name="goles" column="goles_local"/>
+            <property name="goleadores" column="goleadores_local"/>
+            <set name="jugadores" table="jugadores_locales_en_planilla">
+                <key column="planilla_id"/>
+                <many-to-many entity-name="Jugador" column="jugador_id"/>
+            </set>
+        </component>
 
-        <set name="jugadoresL" table="jugadores_locales_en_planilla">
-            <key column="planilla_id"/>
-            <many-to-many entity-name="Jugador" column="jugador_id"/>
-        </set>
-        <set name="jugadoresV" table="jugadores_visitantes_en_planilla">
-            <key column="planilla_id"/>
-            <many-to-many entity-name="Jugador" column="jugador_id"/>
-        </set>
-
-        <property name="dTL"/>
-        <property name="capitanL"/>
-        <property name="pFisicoL"/>
-        <property name="medicoL"/>
-        <property name="juezDeMesaL"/>
-        <property name="arbitroL"/>
-        <property name="golesL"/>
-
-        <property name="dTV"/>
-        <property name="capitanV"/>
-        <property name="pFisicoV"/>
-        <property name="medicoV"/>
-        <property name="juezDeMesaV"/>
-        <property name="arbitroV"/>
-        <property name="golesV"/>
+        <component name="datosVisitante" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
+            <property name="dT" column="dt_visitante"/>
+            <property name="capitan" column="capitan_visitante"/>
+            <property name="pFisico" column="pFisico_visitante"/>
+            <property name="medico" column="medico_visitante"/>
+            <property name="juezDeMesa" column="juezMesa_visitante"/>
+            <property name="arbitro" column="arbitro_visitante"/>
+            <property name="goles" column="goles_visitante"/>
+            <property name="goleadores" column="goleadores_visitante"/>
+            <set name="jugadores" table="jugadores_visitantes_en_planilla">
+                <key column="planilla_id"/>
+                <many-to-many entity-name="Jugador" column="jugador_id"/>
+            </set>
+        </component>
 
         <property name="observaciones"/>
     </class>

@@ -16,27 +16,15 @@ public class PlanillaFinal extends Planilla {
 
         local = original.local;
         visitante = original.visitante;
-        dTL = original.dTL;
-        capitanL = original.capitanL;
-        pFisicoL = original.pFisicoL;
-        medicoL = original.medicoL;
-        juezDeMesaL = original.juezDeMesaL;
-        arbitroL = original.arbitroL;
-        golesL = original.golesL;
+        datosLocal = original.datosLocal;
 
         visitante = original.visitante;
-        dTV = original.dTV;
-        capitanV = original.capitanV;
-        pFisicoV = original.pFisicoV;
-        medicoV = original.medicoV;
-        juezDeMesaV = original.juezDeMesaV;
-        arbitroV = original.arbitroV;
-        golesV = original.golesV;
+        datosVisitante = original.datosVisitante;
 
         observaciones = original.observaciones;
 
-        jugadoresL.addAll(original.jugadoresL);
-        jugadoresV.addAll(original.jugadoresV);
+        datosLocal.setJugadores(original.datosLocal.getJugadores());
+        datosVisitante.setJugadores(original.datosVisitante.getJugadores());
     }
 
     @Override
@@ -50,15 +38,63 @@ public class PlanillaFinal extends Planilla {
             JugadorYaPerteneceAListaException {
         throw new PlanillaNoModificableException();
     }
-    
+
     @Override
-    public void setGolesLocal(Integer goles) throws PlanillaNoModificableException{
+    public void setGolesLocal(Integer goles) throws PlanillaNoModificableException {
         throw new PlanillaNoModificableException();
     }
-    
+
     @Override
-    public void setGolesVisitante(Integer goles) throws PlanillaNoModificableException{
-        super.setGolesVisitante(goles);
+    public void setGolesVisitante(Integer goles) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
     }
-    
+
+    public void setArbitroL(String arbitro) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setDtL(String dt) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setGoleadoresL(String goleadores) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setJuezMesaL(String juezMesa) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setMedicoL(String medico) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setPfL(String pf) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    };
+
+    public void setArbitroV(String arbitro) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setDtV(String dt) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setGoleadoresV(String goleadores) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setJuezMesaV(String juezMesa) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setMedicoV(String medico) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
+    public void setPfV(String pf) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
+
 }

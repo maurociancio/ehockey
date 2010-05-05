@@ -4,25 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.noxit.ehockey.model.Jugador;
-
 public class EquipoInfo implements Serializable {
 
-    private List<Jugador> jugadores = new ArrayList<Jugador>();
     private String goleadores;
     private String dt;
     private String pf;
     private String medico;
     private String juezMesa;
     private String arbitro;
-
-    public List<Jugador> getJugadores() {
-        return jugadores;
-    }
-
-    public void setJugadores(List<Jugador> jugadores) {
-        this.jugadores = jugadores;
-    }
+    private List<Integer> seleccionados = new ArrayList<Integer>();
 
     public String getGoleadores() {
         return goleadores;
@@ -70,5 +60,13 @@ public class EquipoInfo implements Serializable {
 
     public void setArbitro(String arbitro) {
         this.arbitro = arbitro;
+    }
+
+    public List<Integer> getSeleccionados() {
+        return seleccionados;
+    }
+
+    public void setSeleccionados(List<Integer> seleccionados) {
+        this.seleccionados = seleccionados;
     }
 }

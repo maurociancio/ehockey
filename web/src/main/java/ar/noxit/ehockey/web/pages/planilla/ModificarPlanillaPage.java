@@ -5,10 +5,17 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.web.wicket.model.AdapterModel;
 
 public class ModificarPlanillaPage extends AbstractContentPage {
 
@@ -17,22 +24,65 @@ public class ModificarPlanillaPage extends AbstractContentPage {
     private EquipoInfo infoLocal = new EquipoInfo();
     private EquipoInfo infoVisitante = new EquipoInfo();
 
-    public ModificarPlanillaPage(IModel<Planilla> planilla) {
+    @SpringBean
+    private IPlanillaService planillaService;
+
+    public ModificarPlanillaPage(final IModel<Planilla> planilla) {
         add(new FeedbackPanel("feedback"));
         Form<Void> form = new Form<Void>("edicion_planilla") {
 
             @Override
             protected void onSubmit() {
-                // TODO graba lo que se hizo
+                try {
+                    planillaService.updatePlanilla(planilla.getObject().getId(), golesLocal, golesVisitante, infoLocal, infoVisitante);
+                } catch (NoxitException e) {
+                    throw new NoxitRuntimeException(e);
+                }
             }
         };
         form.add(new PlanillaGeneralPanel("planillaGeneral", planilla, new PropertyModel<Integer>(this, "golesLocal"),
                 new PropertyModel<Integer>(this, "golesVisitante")));
-        form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(planilla, "local"), planilla, Model
+        form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(planilla, "local"), Model
                 .of(infoLocal)));
-        form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(planilla, "visitante"),
-                planilla, Model.of(infoVisitante)));
+        form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(planilla, "visitante"), Model
+                .of(infoVisitante)));
 
         this.add(form);
+    }
+
+    public class EquipoInfoModel extends AdapterModel<EquipoInfo, DatosEquipoPlanilla> {
+        private boolean cargado = false;
+        private IModel<EquipoInfo> equipoInfo;
+
+        public EquipoInfoModel(IModel<DatosEquipoPlanilla> delegate) {
+            super(delegate);
+        }
+
+        @Override
+        protected EquipoInfo getObject(IModel<DatosEquipoPlanilla> datosEquipo) {
+            EquipoInfo temp = this.equipoInfo.getObject();
+            if (!cargado) {
+                DatosEquipoPlanilla object = datosEquipo.getObject();
+                temp.setArbitro(object.getArbitro());
+                temp.setDt(object.getdT());
+                temp.setGoleadores(object.getGoleadores());
+                temp.setJuezMesa(object.getJuezDeMesa());
+                temp.setMedico(object.getMedico());
+                temp.setPf(object.getpFisico());
+                for (Jugador j : object.getJugadores()) {
+                    
+                    temp.getSeleccionados().add(j.getFicha());
+                }
+                this.cargado = true;
+            }
+            return temp;
+        }
+
+        @Override
+        protected void setObject(EquipoInfo equipoInfo, IModel<DatosEquipoPlanilla> arg1) {
+            this.equipoInfo.setObject(equipoInfo);
+            this.cargado = true;
+        }
+
     }
 }

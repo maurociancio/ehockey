@@ -17,5 +17,6 @@
     </bean>
     <bean id="planillaService" class="ar.noxit.ehockey.service.impl.PlanillaService">
         <property name="planillaDao" ref="planillaDao"/>
+        <property name="jugadorDao" ref="jugadorDao"/>
     </bean>
 </beans>
