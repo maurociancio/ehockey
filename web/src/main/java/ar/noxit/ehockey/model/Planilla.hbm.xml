@@ -8,9 +8,6 @@
             <generator class="increment"/>
         </id>
 
-        <many-to-one name="local" entity-name="Equipo" column="local_id" not-null="true"/>
-        <many-to-one name="visitante" entity-name="Equipo" column="visitante_id" not-null="true"/>
-
         <component name="datosLocal" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
             <property name="dT" column="dt_local"/>
             <property name="capitan" column="capitan_local"/>
