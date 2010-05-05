@@ -14,10 +14,12 @@ public class Planilla {
     protected Equipo local;
     protected Equipo visitante;
 
-    protected DatosEquipoPlanilla datosLocal;
-    protected DatosEquipoPlanilla datosVisitante;
+    protected DatosEquipoPlanilla datosLocal = new DatosEquipoPlanilla();
+    protected DatosEquipoPlanilla datosVisitante = new DatosEquipoPlanilla();
 
     protected String observaciones;
+    
+    protected boolean finalizada = false;
 
     // TODO definir el atributo fecha
     // TODO definir el resto de los atributos que son: Torneo, Rueda, Partido,

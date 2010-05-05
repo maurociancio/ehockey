@@ -25,6 +25,8 @@ public class PlanillaFinal extends Planilla {
 
         datosLocal.setJugadores(original.datosLocal.getJugadores());
         datosVisitante.setJugadores(original.datosVisitante.getJugadores());
+
+        finalizada = true;
     }
 
     @Override
