@@ -132,6 +132,10 @@ public class Planilla {
         this.datosVisitante.setpFisico(pf);
     }
 
+    public void setPartido(Partido partido) throws PlanillaNoModificableException {
+        this.partido = partido;
+    }
+
     /**
      * Cierra una planilla para que no pueda modificarse más. Tener en cuenta
      * que la planilla cerrada es la que devuelve.
@@ -179,4 +183,7 @@ public class Planilla {
         return id;
     }
 
+    public boolean isFinalizada() {
+        return finalizada;
+    }
 }

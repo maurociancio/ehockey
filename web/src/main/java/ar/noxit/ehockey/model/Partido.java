@@ -1,6 +1,11 @@
 package ar.noxit.ehockey.model;
 
+import javax.persistence.PostLoad;
+
 import org.apache.commons.lang.Validate;
+
+import ar.noxit.ehockey.exception.PlanillaNoModificableException;
+import ar.noxit.exceptions.NoxitRuntimeException;
 
 public class Partido {
 
@@ -26,6 +31,25 @@ public class Partido {
         // se edita.
         planillaPrecargada = new Planilla(this).finalizarPlanilla();
         planillaFinal = new Planilla(this);
+    }
+
+    /**
+     * Solo para uso de hibernate
+     */
+    @PostLoad
+    protected void vincularPlanillas() {
+        try {
+            this.planillaPrecargada.setPartido(this);
+            this.planillaFinal.setPartido(this);
+            if (planillaPrecargada.isFinalizada()) {
+                planillaPrecargada = planillaPrecargada.finalizarPlanilla();
+            }
+            if (planillaFinal.isFinalizada()) {
+                planillaFinal = planillaFinal.finalizarPlanilla();
+            }
+        } catch (PlanillaNoModificableException e) {
+            throw new NoxitRuntimeException(e);
+        }
     }
 
     /**

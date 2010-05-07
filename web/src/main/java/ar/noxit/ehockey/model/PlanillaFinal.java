@@ -97,4 +97,8 @@ public class PlanillaFinal extends Planilla {
         throw new PlanillaNoModificableException();
     }
 
+    @Override
+    public void setPartido(Partido partido) throws PlanillaNoModificableException {
+        throw new PlanillaNoModificableException();
+    }
 }
