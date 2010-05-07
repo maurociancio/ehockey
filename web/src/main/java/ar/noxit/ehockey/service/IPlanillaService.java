@@ -6,9 +6,13 @@ import ar.noxit.exceptions.NoxitException;
 
 public interface IPlanillaService {
 
-    public Planilla get(Integer id) throws NoxitException;
+    public Planilla get(Integer idPartido) throws NoxitException;
 
-    public void updatePlanilla(int id, Integer golesLocal, Integer golesVisitante, EquipoInfo infoLocal,
+    public void updatePlanilla(int idPartido, Integer golesLocal, Integer golesVisitante, EquipoInfo infoLocal,
             EquipoInfo infoVisitante) throws NoxitException;
+
+    public void cerrarPlanilla(Integer idPlanilla) throws NoxitException;
+
+    public void cerrarPlanilla(Planilla planilla) throws NoxitException;
 
 }

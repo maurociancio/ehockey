@@ -1,9 +1,10 @@
 package ar.noxit.ehockey.service.impl;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.noxit.ehockey.dao.IJugadorDao;
-import ar.noxit.ehockey.dao.IPlanillaDao;
+import ar.noxit.ehockey.dao.IPartidoDao;
 import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.planilla.EquipoInfo;
@@ -11,17 +12,17 @@ import ar.noxit.exceptions.NoxitException;
 
 public class PlanillaService implements IPlanillaService {
 
-    IPlanillaDao planillaDao;
+    IPartidoDao partidoDao;
     IJugadorDao jugadorDao;
 
     @Override
     @Transactional(readOnly = true)
-    public Planilla get(Integer id) throws NoxitException {
-        return planillaDao.get(id);
+    public Planilla get(Integer idPartido) throws NoxitException {
+        return partidoDao.get(idPartido).getPlanilla();
     }
 
-    public void setPlanillaDao(IPlanillaDao planillaDao) {
-        this.planillaDao = planillaDao;
+    public void setPartidoDao(IPartidoDao partidoDao) {
+        this.partidoDao = partidoDao;
     }
 
     public void setJugadorDao(IJugadorDao jugadorDao) {
@@ -30,9 +31,9 @@ public class PlanillaService implements IPlanillaService {
 
     @Override
     @Transactional(readOnly = true)
-    public void updatePlanilla(int id, Integer golesLocal, Integer golesVisitante, EquipoInfo infoLocal,
+    public void updatePlanilla(int idPartido, Integer golesLocal, Integer golesVisitante, EquipoInfo infoLocal,
             EquipoInfo infoVisitante) throws NoxitException {
-        Planilla planilla = this.planillaDao.get(id);
+        Planilla planilla = this.partidoDao.get(idPartido).getPlanilla();
         planilla.setGolesLocal(golesLocal);
         planilla.setGolesVisitante(golesVisitante);
         planilla.setArbitroL(infoLocal.getArbitro());
@@ -57,5 +58,17 @@ public class PlanillaService implements IPlanillaService {
         for (Integer jug : infoVisitante.getSeleccionados()) {
             planilla.agregarJugadorLocal(jugadorDao.get(jug));
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void cerrarPlanilla(Integer idPlanilla) throws NoxitException {
+        throw new NotImplementedException("Falta implementar el cierre de la planilla");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void cerrarPlanilla(Planilla planilla) throws NoxitException {
+        cerrarPlanilla(planilla.getId());
     }
 }
