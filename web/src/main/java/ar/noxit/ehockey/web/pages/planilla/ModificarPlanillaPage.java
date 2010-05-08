@@ -22,38 +22,45 @@ public class ModificarPlanillaPage extends AbstractContentPage {
 
     private Integer golesLocal;
     private Integer golesVisitante;
-    private EquipoInfo infoLocal = new EquipoInfo();
-    private EquipoInfo infoVisitante = new EquipoInfo();
+    private EquipoInfoModel infoLocal;
+    private EquipoInfoModel infoVisitante;
 
     @SpringBean
     private IPlanillaService planillaService;
 
     public ModificarPlanillaPage(final IModel<Partido> partido) {
+        infoLocal = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido.getObject().getPlanilla(),
+                "datosLocal"));
+        infoVisitante = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido.getObject().getPlanilla(),
+                "datosVisitante"));
+        golesLocal = partido.getObject().getPlanilla().getGolesLocal();
+        golesVisitante = partido.getObject().getPlanilla().getGolesVisitante();
+
         add(new FeedbackPanel("feedback"));
         Form<Void> form = new Form<Void>("edicion_planilla") {
 
             @Override
             protected void onSubmit() {
                 try {
-                    planillaService.updatePlanilla(partido.getObject().getId(), golesLocal, golesVisitante, infoLocal, infoVisitante);
+                    planillaService.updatePlanilla(partido.getObject().getId(), golesLocal, golesVisitante, infoLocal
+                            .getObject(), infoVisitante.getObject());
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
             }
         };
-        form.add(new PlanillaGeneralPanel("planillaGeneral", new PropertyModel<Planilla>(partido, "planilla"), new PropertyModel<Integer>(this, "golesLocal"),
-                new PropertyModel<Integer>(this, "golesVisitante")));
-        form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(partido, "local"), Model
-                .of(infoLocal)));
-        form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(partido, "visitante"), Model
-                .of(infoVisitante)));
+        form.add(new PlanillaGeneralPanel("planillaGeneral", new PropertyModel<Planilla>(partido, "planilla"),
+                new PropertyModel<Integer>(this, "golesLocal"), new PropertyModel<Integer>(this, "golesVisitante")));
+        form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(partido, "local"), infoLocal));
+        form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(partido, "visitante"),
+                infoVisitante));
 
         this.add(form);
     }
 
     public class EquipoInfoModel extends AdapterModel<EquipoInfo, DatosEquipoPlanilla> {
         private boolean cargado = false;
-        private IModel<EquipoInfo> equipoInfo;
+        private IModel<EquipoInfo> equipoInfo = new Model<EquipoInfo>();
 
         public EquipoInfoModel(IModel<DatosEquipoPlanilla> delegate) {
             super(delegate);
@@ -61,8 +68,9 @@ public class ModificarPlanillaPage extends AbstractContentPage {
 
         @Override
         protected EquipoInfo getObject(IModel<DatosEquipoPlanilla> datosEquipo) {
-            EquipoInfo temp = this.equipoInfo.getObject();
             if (!cargado) {
+                EquipoInfo temp = new EquipoInfo();
+
                 DatosEquipoPlanilla object = datosEquipo.getObject();
                 temp.setArbitro(object.getArbitro());
                 temp.setDt(object.getdT());
@@ -71,12 +79,14 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 temp.setMedico(object.getMedico());
                 temp.setPf(object.getpFisico());
                 for (Jugador j : object.getJugadores()) {
-                    
+
                     temp.getSeleccionados().add(j.getFicha());
                 }
                 this.cargado = true;
+
+                equipoInfo.setObject(temp);
             }
-            return temp;
+            return equipoInfo.getObject();
         }
 
         @Override

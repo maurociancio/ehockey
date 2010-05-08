@@ -40,6 +40,8 @@
 
         <property name="observaciones"/>
 
+        <one-to-one name="partido" class="Partido"/>
+
         <property name="finalizada" column="finalizada"/>
     </class>
 </hibernate-mapping>
