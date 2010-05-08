@@ -180,3 +180,28 @@ dl#news dd span.date {
 .italicas {
     font-style: italic;
 }
+
+.formcomponent.valid {
+    border: 2px solid green;
+    color: green;
+}
+
+.formcomponent.invalid {
+    border: 2px solid red;
+    color: red;
+}
+
+.formcomponent.dropdownValid{
+	font-weight:bold;
+	color: green;
+}
+
+.formcomponent.dropdownInvalid{
+    font-weight:bold;
+    color: red;
+}
+
+.feedbacklabel{
+    font-weight:bold;
+    color: red;
+}
