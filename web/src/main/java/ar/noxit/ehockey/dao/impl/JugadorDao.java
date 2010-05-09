@@ -47,7 +47,7 @@ public class JugadorDao extends HibernateDao<Jugador, Integer> implements
         Validate.notEmpty(tipoDoc);
         return getSession()
                 .createQuery(
-                        "FROM Jugador j WHERE j.tipoDocumento = :tipo AND j.numeroDocumento = :numero")
+                        "FROM Jugador j WHERE j.documento.tipo = :tipo AND j.documento.numero = :numero")
                 .setParameter("tipo", tipoDoc).setParameter("numero", dni)
                 .list();
 

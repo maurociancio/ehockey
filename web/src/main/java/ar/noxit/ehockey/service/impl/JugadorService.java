@@ -3,6 +3,7 @@ package ar.noxit.ehockey.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.noxit.ehockey.dao.IClubDao;
@@ -27,14 +28,12 @@ public class JugadorService implements IJugadorService {
     @Override
     @Transactional
     public void add(JugadorPlano jugadorPlano) throws NoxitException {
-        verificarExisteJugador(jugadorPlano);
         jugadorDao.save(ensamblar(jugadorPlano));
     }
 
     @Override
     @Transactional
     public void update(JugadorPlano jugadorPlano) throws NoxitException {
-        // verificarExisteJugador(jugadorPlano);
         Jugador jugador = jugadorDao.get(jugadorPlano.getFicha());
         jugador.setClub(clubDao.get(jugadorPlano.getClubId()));
         jugador.setDivision(divisionDao.get(jugadorPlano.getDivisionId()));
@@ -42,22 +41,6 @@ public class JugadorService implements IJugadorService {
         jugador.setApellido(jugadorPlano.getApellido());
         jugador.setNombre(jugadorPlano.getNombre());
         setearDatos(jugadorPlano, jugador);
-        jugadorDao.save(jugador);
-    }
-
-    private void verificarExisteJugador(JugadorPlano jugadorPlano)
-            throws JugadorExistenteException, NoxitException {
-        /*
-         * for (Jugador each : jugadorDao.getAll()) { if
-         * (each.getDocumento().equals(jugadorPlano.getNumeroDocumento()) &&
-         * each.getTipoDocumento().equals( jugadorPlano.getTipoDocumento())) {
-         * throw new JugadorExistenteException("Jugador ya existe"); } }
-         */
-        if (jugadorDao.getJugadorByDNIAndTipoDoc(
-                jugadorPlano.getNumeroDocumento(),
-                jugadorPlano.getTipoDocumento()).size() > 0) {
-            throw new JugadorExistenteException("Jugador ya existe");
-        }
     }
 
     @Override
