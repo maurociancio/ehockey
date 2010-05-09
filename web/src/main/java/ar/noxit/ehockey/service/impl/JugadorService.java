@@ -4,6 +4,7 @@ import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IDivisionDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.ISectorDao;
+import ar.noxit.ehockey.exception.JugadorYaBajaException;
 import ar.noxit.ehockey.exception.SinClubException;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
@@ -44,7 +45,8 @@ public class JugadorService implements IJugadorService {
         if (jugador == null) {
             throw new IllegalArgumentException();
         }
-        jugadorDao.delete(jugador);
+        // No se elimina el jugador, solo se deja en estado inactivo.
+        jugador.bajaJugador();
     }
 
     @Override
@@ -55,8 +57,20 @@ public class JugadorService implements IJugadorService {
 
     @Override
     @Transactional(readOnly = true)
+    public Jugador getActive(Integer id) throws NoxitException {
+        return jugadorDao.getActiveJugadorById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Jugador> getAll() throws NoxitException {
         return jugadorDao.getAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Jugador> getAllActive() throws NoxitException {
+        return jugadorDao.getAllActive();
     }
 
     @Override
@@ -95,7 +109,6 @@ public class JugadorService implements IJugadorService {
     }
 
     private void setearDatos(JugadorPlano jugadorPlano, Jugador jugador) {
-        // jugador.setFechaAlta(jugadorPlano.getFechaAlta());
         jugador.setFechaNacimiento(jugadorPlano.getFechaNacimiento());
         jugador.setLetraJugador(jugadorPlano.getLetraJugador());
         jugador.setNumeroDocumento(jugadorPlano.getNumeroDocumento());

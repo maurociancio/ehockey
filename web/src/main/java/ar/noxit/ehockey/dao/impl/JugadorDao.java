@@ -33,9 +33,23 @@ public class JugadorDao extends HibernateDao<Jugador, Integer> implements
         }
         return session
                 .createQuery(
-                        "FROM Jugador j WHERE j.club.id = :club_id AND j.ficha IN (:fichasjugadores)")
+                        "FROM Jugador j WHERE j.club.id = :club_id AND j.ficha IN (:fichasjugadores) AND j.activo = TRUE")
                 .setParameter("club_id", clubId).setParameterList(
                         "fichasjugadores", fichasJugadores).list();
+    }
+
+    @Override
+    public Jugador getActiveJugadorById(Integer jugadorId) {
+        return (Jugador) getSession().createQuery(
+                "FROM Jugador j WHERE j.ficha = :ficha AND j.activo = TRUE")
+                .setParameter("ficha", jugadorId).uniqueResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Jugador> getAllActive() {
+        return getSession().createQuery("FROM Jugador j WHERE j.activo = TRUE")
+                .list();
     }
 
     @SuppressWarnings("unchecked")
@@ -47,7 +61,7 @@ public class JugadorDao extends HibernateDao<Jugador, Integer> implements
         Validate.notEmpty(tipoDoc);
         return getSession()
                 .createQuery(
-                        "FROM Jugador j WHERE j.documento.tipo = :tipo AND j.documento.numero = :numero")
+                        "FROM Jugador j WHERE j.documento.tipo = :tipo AND j.documento.numero = :numero AND j.activo = TRUE")
                 .setParameter("tipo", tipoDoc).setParameter("numero", dni)
                 .list();
 
@@ -73,6 +87,7 @@ public class JugadorDao extends HibernateDao<Jugador, Integer> implements
                 "j.division.id = :division_id", parametros, queryString);
         queryString = evaluar(sectorid, clubid == null && divisionid == null,
                 "j.sector.id = :sector_id", parametros, queryString);
+        queryString += " AND j.activo = TRUE";
         return createQueryString(clubid, divisionid, sectorid, queryString)
                 .list();
     }
