@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping default-access="field">
+    <class name="ar.noxit.ehockey.model.Planilla" entity-name="Planilla" table="planillas">
+        <id name="id" column="id" >
+            <generator class="increment"/>
+        </id>
+
+        <component name="datosLocal" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
+            <property name="dT" column="dt_local"/>
+            <property name="capitan" column="capitan_local"/>
+            <property name="pFisico" column="pFisico_local"/>
+            <property name="medico" column="medico_local"/>
+            <property name="juezDeMesa" column="juezMesa_local"/>
+            <property name="arbitro" column="arbitro_local"/>
+            <property name="goles" column="goles_local"/>
+            <property name="goleadores" column="goleadores_local"/>
+            <set name="jugadores" table="jugadores_locales_en_planilla">
+                <key column="planilla_id"/>
+                <many-to-many entity-name="Jugador" column="jugador_id"/>
+            </set>
+        </component>
+
+        <component name="datosVisitante" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
+            <property name="dT" column="dt_visitante"/>
+            <property name="capitan" column="capitan_visitante"/>
+            <property name="pFisico" column="pFisico_visitante"/>
+            <property name="medico" column="medico_visitante"/>
+            <property name="juezDeMesa" column="juezMesa_visitante"/>
+            <property name="arbitro" column="arbitro_visitante"/>
+            <property name="goles" column="goles_visitante"/>
+            <property name="goleadores" column="goleadores_visitante"/>
+            <set name="jugadores" table="jugadores_visitantes_en_planilla">
+                <key column="planilla_id"/>
+                <many-to-many entity-name="Jugador" column="jugador_id"/>
+            </set>
+        </component>
+
+        <property name="observaciones"/>
+
+        <one-to-one name="partido" class="Partido"/>
+
+        <property name="finalizada" column="finalizada"/>
+    </class>
+</hibernate-mapping>

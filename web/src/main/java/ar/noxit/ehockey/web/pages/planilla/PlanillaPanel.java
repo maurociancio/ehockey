@@ -1,8 +1,8 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.Planilla;
+import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -11,6 +11,9 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.joda.time.LocalDateTime;
+
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Planilla;
 
 public class PlanillaPanel extends Panel {
 
@@ -96,7 +99,9 @@ public class PlanillaPanel extends Panel {
 
         @Override
         protected List<Jugador> load() {
-            return planillaModel.getObject().getJugadoresL();
+            List<Jugador> result = new ArrayList<Jugador>();
+            result.addAll(planillaModel.getObject().getJugadoresL());
+            return (result);
         }
     }
 
@@ -110,7 +115,9 @@ public class PlanillaPanel extends Panel {
 
         @Override
         protected List<Jugador> load() {
-            return planillaModel.getObject().getJugadoresV();
+            List<Jugador> result = new ArrayList<Jugador>();
+            result.addAll(planillaModel.getObject().getJugadoresV());
+            return result;
         }
     }
 }

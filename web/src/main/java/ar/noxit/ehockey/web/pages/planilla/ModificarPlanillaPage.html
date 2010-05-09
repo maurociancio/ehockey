@@ -1,0 +1,29 @@
+<wicket:extend>
+    <!-- Content -->
+    <div class="content">
+        <h2 class="content-title">Partidos</h2>
+        
+        <div class="content-in">
+            <p>Carga de planilla de partido</p>
+            <div wicket:id="feedback"/>
+            <form wicket:id="edicion_planilla">
+                <fieldset>
+                    <legend>Datos generales</legend>
+                    <div wicket:id="planillaGeneral"/>
+                </fieldset>
+                <fieldset>
+                    <legend>Datos del equipo local</legend>
+                    <div wicket:id="planillaLocal"/>
+                </fieldset>
+                <fieldset>
+                    <legend>Datos del equipo visitante</legend>
+                    <div wicket:id="planillaVisitante"/>
+                </fieldset>
+                <input type="submit" value="Terminar" />
+            </form>
+        </div> <!-- /content-in -->
+    </div> <!-- /content -->
+</wicket:extend>
+
+
+

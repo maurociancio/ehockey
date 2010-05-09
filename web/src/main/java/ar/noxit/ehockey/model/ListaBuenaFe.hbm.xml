@@ -11,6 +11,6 @@
             <key column="lista_buena_fe_id"/>
             <many-to-many entity-name="Jugador" column="jugador_id"/>
         </set>
-        <one-to-one name="equipo" property-ref="listaBuenaFe" entity-name="Equipo"/>
+        <many-to-one name="equipo" entity-name="Equipo" column="equipo_id" unique="true"/>
     </class>
 </hibernate-mapping>
