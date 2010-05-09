@@ -204,7 +204,7 @@ public class NuevoTorneoWizard extends Wizard {
                     new EquiposDeSectorYDivisionModel(equiposService, sector, division),
                     EquipoRenderer.get(),
                     6,
-                    false);
+                    true);
             add(palette);
 
             add(new AbstractFormValidator() {
