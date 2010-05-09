@@ -14,6 +14,7 @@ import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.AdapterModel;
@@ -42,6 +43,7 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 try {
                     planillaService.updatePlanilla(partido.getObject().getId(), golesLocal, golesVisitante, infoLocal
                             .getObject(), infoVisitante.getObject());
+                    setResponsePage(new MensajePage("Planilla de Partido", "Se completó la actualización de la planilla"));
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
