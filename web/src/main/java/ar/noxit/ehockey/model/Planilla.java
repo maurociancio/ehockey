@@ -1,8 +1,8 @@
 package ar.noxit.ehockey.model;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 
@@ -10,40 +10,24 @@ import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 
 public class Planilla {
-    protected int id;
+    private int id;
 
-    protected Equipo local;
-    protected Equipo visitante;
+    private Partido partido;
 
-    protected String dTL;
-    protected String capitanL;
-    protected String pFisicoL;
-    protected String medicoL;
-    protected String juezDeMesaL;
-    protected String arbitroL;
+    private DatosEquipoPlanilla datosLocal = new DatosEquipoPlanilla();
+    private DatosEquipoPlanilla datosVisitante = new DatosEquipoPlanilla();
 
-    protected String dTV;
-    protected String capitanV;
-    protected String pFisicoV;
-    protected String medicoV;
-    protected String juezDeMesaV;
-    protected String arbitroV;
+    private String observaciones;
 
-    protected String observaciones;
-
-    protected List<Jugador> jugadoresL = new ArrayList<Jugador>();
-    protected List<Jugador> jugadoresV = new ArrayList<Jugador>();
+    private boolean finalizada = false;
 
     // TODO definir el atributo fecha
     // TODO definir el resto de los atributos que son: Torneo, Rueda, Partido,
     // Sector(damas/caballeros), categoría, división, zona
 
-    List<Jugador> goleadoresLocal = new ArrayList<Jugador>();
-    List<Jugador> goleadoresVisitante = new ArrayList<Jugador>();
-
-    public Planilla(Equipo local, Equipo visitante) {
-        this.local = local;
-        this.visitante = visitante;
+    public Planilla(Partido partido) {
+        Validate.notNull(partido, "El partido no puede ser nulo");
+        this.partido = partido;
         precargarPlanilla();
     }
 
@@ -60,21 +44,25 @@ public class Planilla {
         // TODO Hacer que no se carguen los jugadores inhabilitados. Ver si
         // verificar aca o hacer un iterador en lista de buena fe que devuelva
         // los habilitados.
-        jugadoresL.clear();
-        jugadoresV.clear();
+        datosLocal.getJugadores().clear();
+        datosVisitante.getJugadores().clear();
 
-        Iterator<Jugador> it = local.getListaBuenaFe().iterator();
+        Iterator<Jugador> it = partido.getLocal().getListaBuenaFe().iterator();
         while (it.hasNext()) {
-            jugadoresL.add(it.next());
+            datosLocal.getJugadores().add(it.next());
         }
 
-        it = visitante.getListaBuenaFe().iterator();
+        it = partido.getVisitante().getListaBuenaFe().iterator();
         while (it.hasNext()) {
-            jugadoresV.add(it.next());
+            datosVisitante.getJugadores().add(it.next());
         }
     }
 
-    private void agregarJugador(Jugador jugador, List<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
+    private void validatePlanillaCerrada() throws PlanillaNoModificableException {
+        if (this.finalizada) throw new PlanillaNoModificableException();
+    }
+
+    private void agregarJugador(Jugador jugador, Set<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
         Validate.notNull(jugador, "jugador no puede ser null");
 
         if (jugadores.contains(jugador)) {
@@ -83,14 +71,115 @@ public class Planilla {
         jugadores.add(jugador);
     }
 
+    private void agregarJugadores(Collection<Jugador> jugadoresNuevos, Set<Jugador> jugadores) {
+        jugadores.clear();
+        for (Jugador j : jugadoresNuevos) {
+            jugadores.add(j);
+        }
+    }
+
     public void agregarJugadorLocal(Jugador jugador) throws PlanillaNoModificableException,
             JugadorYaPerteneceAListaException {
-        agregarJugador(jugador, this.jugadoresL);
+        validatePlanillaCerrada();
+        agregarJugador(jugador, this.datosLocal.getJugadores());
     }
 
     public void agregarJugadorVisitante(Jugador jugador) throws PlanillaNoModificableException,
             JugadorYaPerteneceAListaException {
-        agregarJugador(jugador, this.jugadoresV);
+        validatePlanillaCerrada();
+        agregarJugador(jugador, this.datosVisitante.getJugadores());
+    }
+
+    public void setJugadoresLocal(Collection<Jugador> jugadores) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        agregarJugadores(jugadores, this.datosLocal.getJugadores());
+    }
+
+    public void setJugadoresVisitante(Collection<Jugador> jugadores) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        agregarJugadores(jugadores, this.datosVisitante.getJugadores());
+    }
+
+    public void setGolesLocal(Integer goles) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosLocal.setGoles(goles);
+    }
+
+    public void setGolesVisitante(Integer goles) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosVisitante.setGoles(goles);
+    }
+
+    public void setArbitroL(String arbitro) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosLocal.setArbitro(arbitro);
+    }
+
+    public void setDtL(String dt) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosLocal.setdT(dt);
+    }
+
+    public void setGoleadoresL(String goleadores) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosLocal.setGoleadores(goleadores);
+    }
+
+    public void setJuezMesaL(String juezMesa) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosLocal.setJuezDeMesa(juezMesa);
+    }
+
+    public void setMedicoL(String medico) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosLocal.setMedico(medico);
+    }
+
+    public void setPfL(String pf) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosLocal.setpFisico(pf);
+    };
+
+    public void setArbitroV(String arbitro) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosVisitante.setArbitro(arbitro);
+    }
+
+    public void setDtV(String dt) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosVisitante.setdT(dt);
+    }
+
+    public void setGoleadoresV(String goleadores) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosVisitante.setGoleadores(goleadores);
+    }
+
+    public void setJuezMesaV(String juezMesa) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosVisitante.setJuezDeMesa(juezMesa);
+    }
+
+    public void setMedicoV(String medico) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosVisitante.setMedico(medico);
+    }
+
+    public void setPfV(String pf) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.datosVisitante.setpFisico(pf);
+    }
+
+    public void setObservaciones(String observaciones) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+        this.observaciones = observaciones;
+    }
+
+    /**
+     * Solo para uso de hibernate, no debe ser llamado
+     */
+    public void setPartido(Partido partido) {
+        this.partido = partido;
     }
 
     /**
@@ -101,22 +190,51 @@ public class Planilla {
      *         modificada.
      */
     public Planilla finalizarPlanilla() {
-        return new PlanillaFinal(this);
+        this.finalizada = true;
+        return this;
     }
 
     public Equipo getLocal() {
-        return local;
+        return partido.getLocal();
     }
 
     public Equipo getVisitante() {
-        return visitante;
+        return partido.getVisitante();
     }
 
-    public List<Jugador> getJugadoresL() {
-        return jugadoresL;
+    public Set<Jugador> getJugadoresL() {
+        return this.datosLocal.getJugadores();
     }
 
-    public List<Jugador> getJugadoresV() {
-        return jugadoresV;
+    public Set<Jugador> getJugadoresV() {
+        return this.datosVisitante.getJugadores();
+    }
+
+    public Integer getGolesLocal() {
+        return this.datosLocal.getGoles();
+    }
+
+    public Integer getGolesVisitante() {
+        return this.datosVisitante.getGoles();
+    }
+
+    public DatosEquipoPlanilla getDatosLocal() {
+        return this.datosLocal;
+    }
+
+    public DatosEquipoPlanilla getDatosVisitante() {
+        return this.datosVisitante;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isFinalizada() {
+        return finalizada;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
     }
 }
