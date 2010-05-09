@@ -1,11 +1,11 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import org.apache.wicket.model.Model;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.model.Model;
 
 /**
  * Behavior that checks if a {@link FormComponent} is valid. Valid
@@ -101,10 +101,10 @@ public class ComponentVisualErrorBehavior extends
      */
     private void changeCssClass(AjaxRequestTarget ajaxRequestTarget,
             boolean valid, String cssClass) {
-        FormComponent formComponent = getFormComponent();
+        FormComponent<?> formComponent = getFormComponent();
 
         if (formComponent.isValid() == valid) {
-            formComponent.add(new AttributeModifier("class", true, new Model(
+            formComponent.add(new AttributeModifier("class", true, new Model<String>(
                     "formcomponent " + cssClass)));
             ajaxRequestTarget.addComponent(formComponent);
         }
