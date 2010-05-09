@@ -79,46 +79,10 @@ public class JugadorService implements IJugadorService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Jugador> getAllByClub(Integer clubid) throws NoxitException {
-        List<Jugador> lista = new ArrayList<Jugador>();
-        for (Jugador each : jugadorDao.getAll()) {
-            if (each.getClub().getId().equals(clubid)) {
-                lista.add(each);
-            }
-        }
-        return lista;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<Jugador> getAllByClubDivisionSector(Integer clubid,
             Integer divisionid, Integer sectorid) throws NoxitException {
-        List<Jugador> lista = new ArrayList<Jugador>();
-        for (Jugador each : jugadorDao.getAll()) {
-            if (evaluar(clubid, divisionid, sectorid, each)) {
-                lista.add(each);
-            }
-        }
-        return lista;
-    }
-
-    private boolean evaluar(Integer clubid, Integer divisionid,
-            Integer sectorid, Jugador each) throws SinClubException {
-        Integer cid = each.getClub().getId();
-        Integer sid = each.getSector().getId();
-        Integer did = each.getDivision().getId();
-
-        return (clubid == null && did.equals(divisionid) && sid
-                .equals(sectorid))
-                || (cid.equals(clubid) && divisionid == null && sid
-                        .equals(sectorid))
-                || (cid.equals(clubid) && did.equals(divisionid) && sectorid == null)
-                || (clubid == null && divisionid == null && sid
-                        .equals(sectorid))
-                || (cid.equals(clubid) && divisionid == null && sectorid == null)
-                || (clubid == null && did.equals(divisionid) && sectorid == null)
-                || (cid.equals(clubid) && did.equals(divisionid) && sid
-                        .equals(sectorid));
+        return jugadorDao.getJugadoresFromClubDivisionSector(clubid,
+                divisionid, sectorid);
     }
 
     public void setJugadorDao(IJugadorDao jugadorDao) {
