@@ -3,6 +3,8 @@ package ar.noxit.ehockey.model;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 
+import ar.noxit.ehockey.exception.JugadorYaActivoException;
+import ar.noxit.ehockey.exception.JugadorYaBajaException;
 import ar.noxit.ehockey.exception.SinClubException;
 
 /**
@@ -31,6 +33,7 @@ public class Jugador {
     private String telefono;
     private LocalDate fechaAlta;
     private String letraJugador;
+    private boolean activo;
 
     private Division division;
     private Club club;
@@ -61,6 +64,7 @@ public class Jugador {
         this.club = club;
         this.documento = new DocumentoJugador();
         this.fechaAlta = new LocalDate();
+        this.activo = true;
     }
 
     /**
@@ -216,6 +220,22 @@ public class Jugador {
 
     public void setSector(Sector sector) {
         this.sector = sector;
+    }
+
+    public void reactivarJugador() throws JugadorYaActivoException {
+        if (this.activo)
+            throw new JugadorYaActivoException();
+        this.activo = true;
+    }
+
+    public void bajaJugador() throws JugadorYaBajaException {
+        if (!this.activo)
+            throw new JugadorYaBajaException();
+        this.activo = false;
+    }
+
+    public boolean estaActivo() {
+        return this.activo;
     }
 
 }
