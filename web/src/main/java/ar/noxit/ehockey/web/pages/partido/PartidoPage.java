@@ -32,10 +32,10 @@ public class PartidoPage extends AbstractContentPage {
 
         final IModel<Partido> partido = new PartidoModel(new Model<Integer>(), partidoService);
         Form<Void> formPartidos = new Form<Void>("partidos");
-        
+
         formPartidos.add(new DropDownChoice<Partido>("partidos", partido, new PartidosListModel(), PARTIDORENDERER)
                 .setRequired(true));
-        
+
         formPartidos.add(new Button("ver") {
 
             @Override
@@ -70,8 +70,11 @@ public class PartidoPage extends AbstractContentPage {
 
         @Override
         public Object getDisplayValue(Partido object) {
-            return object.getLocal().getNombre() + " vs " + object.getVisitante().getNombre() + " (fecha: "
-                    + object.getFechaDelTorneo().toString() + ")";
+            return String.format("%s vs %s (Fecha: %s, Rueda %s)",
+                    object.getLocal().getNombre(),
+                    object.getVisitante().getNombre(),
+                    object.getFechaDelTorneo(),
+                    object.getRueda());
         }
 
         @Override
