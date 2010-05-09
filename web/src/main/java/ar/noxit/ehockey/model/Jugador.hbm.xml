@@ -9,8 +9,10 @@
         </id>
         <property name="apellido" not-null="true"/>
         <property name="nombre" not-null="true"/>
-        <property name="tipoDocumento"/>
-        <property name="numeroDocumento"/>
+        <component name="documento" class="ar.noxit.ehockey.model.DocumentoJugador" unique="true">
+            <property name="tipo" column="tipoDocumento" not-null="true"/>
+            <property name="numero" column="numeroDocumento" not-null="true" />
+        </component>
         <property name="fechaNacimiento" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>
         <property name="telefono"/>
         <property name="fechaAlta" type="org.joda.time.contrib.hibernate.PersistentLocalDate"/>

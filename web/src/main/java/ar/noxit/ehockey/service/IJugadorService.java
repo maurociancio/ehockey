@@ -16,8 +16,6 @@ public interface IJugadorService {
 
     public List<Jugador> getAll() throws NoxitException;
 
-    public List<Jugador> getAllByClub(Integer clubid) throws NoxitException;
-
     public List<Jugador> getAllByClubDivisionSector(Integer clubid,
             Integer divisionid, Integer sectorid) throws NoxitException;
 

@@ -26,8 +26,7 @@ public class Jugador {
      */
     private String nombre;
 
-    private String tipoDocumento;
-    private String numeroDocumento;
+    private DocumentoJugador documento;
     private LocalDate fechaNacimiento;
     private String telefono;
     private LocalDate fechaAlta;
@@ -60,6 +59,7 @@ public class Jugador {
         this.sector = sector;
         this.division = division;
         this.club = club;
+        this.documento = new DocumentoJugador();
         this.fechaAlta = new LocalDate();
     }
 
@@ -151,19 +151,19 @@ public class Jugador {
     }
 
     public String getTipoDocumento() {
-        return this.tipoDocumento;
+        return this.documento.getTipo();
     }
 
     public String getDocumento() {
-        return this.numeroDocumento;
+        return this.documento.getNumero();
     }
 
     public void setTipoDocumento(String tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+        this.documento.setTipo(tipoDocumento);
     }
 
     public void setNumeroDocumento(String numeroDocumento) {
-        this.numeroDocumento = numeroDocumento;
+        this.documento.setNumero(numeroDocumento);
     }
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {

@@ -6,5 +6,11 @@ import java.util.List;
 
 public interface IJugadorDao extends IDao<Jugador, Integer> {
 
-    List<Jugador> getJugadoresFromClub(Integer clubId, List<Integer> fichasJugadores);
+    List<Jugador> getJugadoresFromClub(Integer clubId,
+            List<Integer> fichasJugadores);
+
+    public List<Jugador> getJugadoresFromClubDivisionSector(Integer clubId,
+            Integer divisionId, Integer sectorId);
+
+    public List<Jugador> getJugadorByDNIAndTipoDoc(String dni, String tipoDoc);
 }

@@ -13,34 +13,52 @@
 		<tbody>
 			<tr>
 				<td>Nombre:(*)</td>
-				<td><input type="text" wicket:id="nombre" name="nombre" /></td>
-				<td><span wicket:id="feedback_nombre" /></td>
+				<span id="nombrefragment" wicket:id="nombrefragment"> </span>
+				<wicket:fragment wicket:id="nombrepanel">
+					<td><input type="text" wicket:id="nombre" name="nombre" /></td>
+					<td><span wicket:id="nombrefeedback" /></td>
+				</wicket:fragment>
 			</tr>
 			<tr>
 				<td>Apellido:(*)</td>
-				<td><input type="text" wicket:id="apellido" /></td>
-				<td><span wicket:id="feedback_apellido" /></td>
+				<span wicket:id="apellidofragment"> </span>
+				<wicket:fragment wicket:id="apellidopanel">
+					<td><input type="text" wicket:id="apellido" /></td>
+					<td><span wicket:id="apellidofeedback" /></td>
+				</wicket:fragment>
 			</tr>
 			<tr>
 				<td>Tipo de Documento:(*)</td>
-				<td><span wicket:id="tipodoc"><input type="radio" /></span></td>
-				<td><span wicket:id="feedback_tipodoc" /></td>
+				<span wicket:id="tipodocfragment"> </span>
+				<wicket:fragment wicket:id="tipodocpanel">
+					<td><span wicket:id="tipodoc"><input type="radio" /></span></td>
+					<td><span wicket:id="tipodocfeedback" /></td>
+				</wicket:fragment>
 			</tr>
 			<tr>
 				<td>Número de Documento:(*)</td>
-				<td><input type="text" wicket:id="numerodoc" /></td>
-				<td><span wicket:id="feedback_numerodoc" /></td>
+				<span wicket:id="numerodocfragment"> </span>
+				<wicket:fragment wicket:id="numerodocpanel">
+					<td><input type="text" wicket:id="numerodoc" /></td>
+					<td><span wicket:id="numerodocfeedback" /></td>
+				</wicket:fragment>
 			</tr>
 			<tr>
 				<td>Fecha de Nacimiento:(*) <br />
-				(dd/mm/aa)</td>
-				<td><input type="text" wicket:id="fechanac" /></td>
-				<td><span wicket:id="feedback_fechanac" /></td>
+				(dd/mm/aaaa)</td>
+				<span wicket:id="fechanacfragment"></span>
+				<wicket:fragment wicket:id="fechanacpanel">
+					<td><input type="text" wicket:id="fechanac" /></td>
+					<td><span wicket:id="fechanacfeedback" /></td>
+				</wicket:fragment>
 			</tr>
 			<tr>
 				<td>Número de Teléfono:</td>
-				<td><input type="text" wicket:id="telefono" /></td>
-				<td><span wicket:id="feedback_tel" /></td>
+				<span wicket:id="telefonofragment"> </span>
+				<wicket:fragment wicket:id="telefonopanel">
+					<td><input type="text" wicket:id="telefono" /></td>
+					<td><span wicket:id="telefonofeedback" /></td>
+				</wicket:fragment>
 			</tr>
 		</tbody>
 	</table>
@@ -56,18 +74,24 @@
 		<tbody>
 			<tr>
 				<td>Club:(*)</td>
-				<td><select wicket:id="club" /></td>
-				<td><span wicket:id="feedback_club" /></td>
+				<span wicket:id="clubfragment"> </span>
+				<wicket:fragment wicket:id="clubpanel">
+					<td><select wicket:id="club" /></td>
+					<td><span wicket:id="clubfeedback" /></td>
+				</wicket:fragment>
 			</tr>
 			<tr>
 				<td>División:(*)</td>
-				<td><select wicket:id="division" /></td>
-				<td><span wicket:id="feedback_division" /></td>
+				<span wicket:id="divisionfragment"> </span>
+				<wicket:fragment wicket:id="divisionpanel">
+					<td><select wicket:id="division" /></td>
+					<td><span wicket:id="divisionfeedback" /></td>
+				</wicket:fragment>
 			</tr>
 			<tr>
 				<td>Sector:(*)</td>
 				<td><span wicket:id="sector" /></td>
-				<td><span wicket:id="feedback_sector" /></td>
+				<td><span wicket:id="sectorfeedback" /></td>
 			</tr>
 		</tbody>
 	</table>
@@ -75,6 +99,6 @@
 	<span>(*): Campos Requeridos</span> <br />
 	<input type="submit" value="Enviar" /></form>
 	<script language="javascript" type="text/javascript">
-        document.form.nombre.focus();
+        document.form.nombrefragment.nombrefragment:nombre.focus();
     </script>
 </wicket:panel>

@@ -1,10 +1,12 @@
 package ar.noxit.ehockey.model;
 
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
+
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDateTime;
+import ar.noxit.ehockey.exception.PlanillaNoFinalizadaException;
 
 public class Partido {
 
@@ -23,9 +25,6 @@ public class Partido {
     private Integer rueda;
 
     private boolean jugado;
-
-    private Integer golesLocal;
-    private Integer golesVisitante;
 
     public Partido(Torneo torneo, Equipo local, Equipo visitante,
             Integer fechaDelTorneo, Integer rueda, LocalDateTime inicio, LocalDateTime now)
@@ -53,16 +52,14 @@ public class Partido {
         this.inicio = inicio;
         this.torneo = torneo;
         this.jugado = false;
-        this.golesLocal = 0;
-        this.golesVisitante = 0;
         this.rueda = rueda;
     }
 
     private void crearPlanillas() {
         // inicialmente las planillas deben ser iguales. Luego la planilla final
         // se edita.
-        planillaPrecargada = new Planilla(local, visitante).finalizarPlanilla();
-        planillaFinal = new Planilla(local, visitante);
+        planillaPrecargada = new Planilla(this).finalizarPlanilla();
+        planillaFinal = new Planilla(this);
     }
 
     /**
@@ -98,7 +95,7 @@ public class Partido {
      *             si el partido ya esta terminado
      */
     public void finalizarPlanilla() throws PartidoYaTerminadoException {
-        validarPartidoNoJugador();
+        validarPartidoNoJugado();
 
         planillaFinal = planillaFinal.finalizarPlanilla();
         this.jugado = true;
@@ -110,18 +107,18 @@ public class Partido {
         Validate.notNull(nuevaFecha, "la nueva fecha no puede ser null");
         Validate.notNull(now, "la fecha actual no puede ser null");
 
-        validarPartidoNoJugador();
+        validarPartidoNoJugado();
         validarFechaInicio(nuevaFecha, now);
 
         this.inicio = nuevaFecha;
     }
 
-    public void terminarPartido(Integer golesLocal, Integer golesVisitante) {
-        this.golesLocal = golesLocal;
-        this.golesVisitante = golesVisitante;
+    public void terminarPartido() throws PartidoYaTerminadoException {
+        validarPartidoNoJugado();
+        this.jugado = true;
     }
 
-    private void validarPartidoNoJugador() throws PartidoYaTerminadoException {
+    private void validarPartidoNoJugado() throws PartidoYaTerminadoException {
         if (this.jugado) {
             throw new PartidoYaTerminadoException(
                     "el partido ya está terminado");
@@ -133,6 +130,16 @@ public class Partido {
         if (!inicio.isAfter(now)) {
             throw new FechaInvalidaException(
                     "la fecha de inicio del partido es anterior a la fecha actual");
+        }
+    }
+
+    private void validarPlanillaCerrada() throws PlanillaNoFinalizadaException {
+        if (this.planillaFinal == null) {
+            throw new PlanillaNoFinalizadaException();
+        } else {
+            if (!this.planillaFinal.isFinalizada()) {
+                throw new PlanillaNoFinalizadaException();
+            }
         }
     }
 
@@ -164,12 +171,14 @@ public class Partido {
         return inicio;
     }
 
-    public Integer getGolesLocal() {
-        return golesLocal;
+    public Integer getGolesLocal() throws PlanillaNoFinalizadaException {
+        validarPlanillaCerrada();
+        return this.planillaFinal.getGolesLocal();
     }
 
-    public Integer getGolesVisitante() {
-        return golesVisitante;
+    public Integer getGolesVisitante() throws PlanillaNoFinalizadaException {
+        validarPlanillaCerrada();
+        return this.planillaFinal.getGolesVisitante();
     }
 
     public Integer getId() {

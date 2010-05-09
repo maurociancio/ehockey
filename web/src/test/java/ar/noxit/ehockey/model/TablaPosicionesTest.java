@@ -21,6 +21,13 @@ public class TablaPosicionesTest {
     private Equipo eq1;
     private Equipo eq2;
 
+    private void terminarPartido(Partido partido, int golesLocal, int golesVisitante) throws ReglaNegocioException {
+        Planilla planilla = partido.getPlanilla();
+        planilla.setGolesLocal(golesLocal);
+        planilla.setGolesVisitante(golesVisitante);
+        partido.finalizarPlanilla();
+    }
+
     @BeforeMethod
     public void setUp() throws ReglaNegocioException {
         torneo = new Torneo("Clausura");
@@ -33,12 +40,8 @@ public class TablaPosicionesTest {
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
         Partido partido2 = this.eq2.jugarContra(torneo, eq1, new Integer(2), 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        partido1.getPlanillaPrecargada();
-        partido1.finalizarPlanilla();
-        partido1.terminarPartido(2, 0);
-        partido2.getPlanillaPrecargada();
-        partido2.finalizarPlanilla();
-        partido2.terminarPartido(0, 2);
+        terminarPartido(partido1, 2, 0);
+        terminarPartido(partido2, 0, 2);
         tabla = torneo.crearTablaPosiciones().calcularTabla();
     }
 
@@ -102,7 +105,7 @@ public class TablaPosicionesTest {
     @Test
     public void testPartidosPorDivision2() throws EquiposInvalidosException,
             FechaInvalidaException, PartidoYaTerminadoException,
-            PartidoNoTerminadoException, PartidoNoJugadoPorEquipoException {
+            PartidoNoTerminadoException, PartidoNoJugadoPorEquipoException, ReglaNegocioException {
         Division div = new Division("d2");
         Equipo eq3 = club.crearNuevoEquipo("Chicago", div, this.sector);
         Equipo eq4 = club.crearNuevoEquipo("Racing", div, this.sector);
@@ -110,12 +113,8 @@ public class TablaPosicionesTest {
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
         Partido partido2 = eq4.jugarContra(torneo, eq3, new Integer(2), 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        partido1.getPlanillaPrecargada();
-        partido1.finalizarPlanilla();
-        partido1.terminarPartido(4, 4);
-        partido2.getPlanillaPrecargada();
-        partido2.finalizarPlanilla();
-        partido2.terminarPartido(2, 2);
+        terminarPartido(partido1, 4, 4);
+        terminarPartido(partido2, 2, 2);
         tabla.filtroTabla(div).calcularTabla();
         assertEquals(tabla.getDatosTabla(eq3).getPuntos(), 2);
         assertEquals(tabla.getDatosTabla(eq4).getPuntos(), 2);
@@ -141,7 +140,7 @@ public class TablaPosicionesTest {
     @Test
     public void testPartidosPorSector2() throws EquiposInvalidosException,
             FechaInvalidaException, PartidoYaTerminadoException,
-            PartidoNoTerminadoException, PartidoNoJugadoPorEquipoException {
+            PartidoNoTerminadoException, PartidoNoJugadoPorEquipoException, ReglaNegocioException {
         Sector sec = new Sector("s2");
         Equipo eq3 = club.crearNuevoEquipo("Chicago", this.division, sec);
         Equipo eq4 = club.crearNuevoEquipo("Racing", this.division, sec);
@@ -149,12 +148,8 @@ public class TablaPosicionesTest {
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
         Partido partido2 = eq4.jugarContra(torneo, eq3, new Integer(2), 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        partido1.getPlanillaPrecargada();
-        partido1.finalizarPlanilla();
-        partido1.terminarPartido(4, 0);
-        partido2.getPlanillaPrecargada();
-        partido2.finalizarPlanilla();
-        partido2.terminarPartido(2, 2);
+        terminarPartido(partido1, 4, 0);
+        terminarPartido(partido2, 2, 2);
         tabla.filtroTabla(sec).calcularTabla();
         assertEquals(tabla.getDatosTabla(eq3).getPuntos(), 4);
         assertEquals(tabla.getDatosTabla(eq4).getPuntos(), 1);
@@ -177,7 +172,7 @@ public class TablaPosicionesTest {
     public void testPartidosPorSectorDivision()
             throws EquiposInvalidosException, FechaInvalidaException,
             PartidoYaTerminadoException, PartidoNoTerminadoException,
-            PartidoNoJugadoPorEquipoException {
+            PartidoNoJugadoPorEquipoException, ReglaNegocioException {
         Sector sec = new Sector("s2");
         Division div = new Division("d2");
         Equipo eq3 = club.crearNuevoEquipo("Chicago", div, sec);
@@ -190,18 +185,10 @@ public class TablaPosicionesTest {
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
         Partido partido4 = eq4.jugarContra(torneo, eq2, new Integer(2), 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        partido1.getPlanillaPrecargada();
-        partido1.finalizarPlanilla();
-        partido1.terminarPartido(2, 1);
-        partido2.getPlanillaPrecargada();
-        partido2.finalizarPlanilla();
-        partido2.terminarPartido(0, 0);
-        partido3.getPlanillaPrecargada();
-        partido3.finalizarPlanilla();
-        partido3.terminarPartido(2, 0);
-        partido4.getPlanillaPrecargada();
-        partido4.finalizarPlanilla();
-        partido4.terminarPartido(3, 4);
+        terminarPartido(partido1, 2, 1);
+        terminarPartido(partido2, 0, 0);
+        terminarPartido(partido3, 2, 0);
+        terminarPartido(partido4, 3, 4);
         tabla.filtroTabla(sec).filtroTabla(div).calcularTabla();
         assertEquals(tabla.getDatosTabla(eq3).getPuntos(), 6);
         assertEquals(tabla.getDatosTabla(eq4).getPuntos(), 0);

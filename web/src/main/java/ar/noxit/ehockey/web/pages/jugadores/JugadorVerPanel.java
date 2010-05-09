@@ -69,6 +69,10 @@ public class JugadorVerPanel extends Panel {
                         .getModel(), "division")));
                 item.add(new Label("sector", new PropertyModel<String>(item
                         .getModel(), "sector")));
+                item.add(new Label("fechaalta", new PropertyModel<String>(item
+                        .getModel(), "fechaAlta")));
+                item.add(new Label("telefono", new PropertyModel<String>(item
+                        .getModel(), "telefono")));
             }
         };
         add(tabla);

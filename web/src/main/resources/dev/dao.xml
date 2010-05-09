@@ -34,6 +34,7 @@
                 <value>ar/noxit/ehockey/model/Division.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Sector.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Torneo.hbm.xml</value>
+                <value>ar/noxit/ehockey/model/Planilla.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -64,4 +65,5 @@
     <bean id="torneoDao" class="ar.noxit.ehockey.dao.impl.TorneoDao"  parent="baseDao"/>
     <bean id="divisionDao" class="ar.noxit.ehockey.dao.impl.DivisionDao"  parent="baseDao"/>
     <bean id="sectorDao" class="ar.noxit.ehockey.dao.impl.SectorDao"  parent="baseDao"/>
+    <bean id="planillaDao" class="ar.noxit.ehockey.dao.impl.PlanillaDao" parent="baseDao"/>
 </beans>
