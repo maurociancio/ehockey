@@ -15,7 +15,7 @@ public class PlanillaModel extends AbstractReadOnlyModel<Planilla> {
 
     @Override
     public Planilla getObject() {
-        return partido.getObject().getPlanillaPrecargada();
+        return partido.getObject().getPlanilla();
     }
 
     @Override

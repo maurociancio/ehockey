@@ -97,9 +97,9 @@ public class PlanillaPanel extends Panel {
 
     private class JugadorLocalModelItem extends LoadableDetachableModel<List<Jugador>> {
 
-        private IModel<? extends Planilla> planillaModel;
+        private IModel<Planilla> planillaModel;
 
-        public JugadorLocalModelItem(IModel<? extends Planilla> planillaModel) {
+        public JugadorLocalModelItem(IModel<Planilla> planillaModel) {
             this.planillaModel = planillaModel;
         }
 
@@ -113,9 +113,9 @@ public class PlanillaPanel extends Panel {
 
     private class JugadorVisitanteModelItem extends LoadableDetachableModel<List<Jugador>> {
 
-        private IModel<? extends Planilla> planillaModel;
+        private IModel<Planilla> planillaModel;
 
-        public JugadorVisitanteModelItem(IModel<? extends Planilla> planillaModel) {
+        public JugadorVisitanteModelItem(IModel<Planilla> planillaModel) {
             this.planillaModel = planillaModel;
         }
 

@@ -29,10 +29,8 @@ public class ModificarPlanillaPage extends AbstractContentPage {
     private IPlanillaService planillaService;
 
     public ModificarPlanillaPage(final IModel<Partido> partido) {
-        infoLocal = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido.getObject().getPlanilla(),
-                "datosLocal"));
-        infoVisitante = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido.getObject().getPlanilla(),
-                "datosVisitante"));
+        infoLocal = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido, "planilla.datosLocal"));
+        infoVisitante = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido, "planilla.datosVisitante"));
         golesLocal = partido.getObject().getPlanilla().getGolesLocal();
         golesVisitante = partido.getObject().getPlanilla().getGolesVisitante();
 

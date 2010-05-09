@@ -8,9 +8,9 @@
             <generator class="increment"/>
         </id>
         <property name="nombre" not-null="true"/>
-        <set name="partidos" table="partidos_por_torneo" cascade="all">
-            <key column="torneo_id"/>
-            <many-to-many entity-name="Partido" column="partido_id"/>
+        <set name="partidos" inverse="true" cascade="all">
+            <key column="torneo_id" not-null="true"/>
+            <one-to-many entity-name="Partido"/>
         </set>
     </class>
 </hibernate-mapping>
