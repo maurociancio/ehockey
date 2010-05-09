@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang.Validate;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -15,6 +16,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.PatternValidator;
@@ -136,9 +138,12 @@ public abstract class JugadorForm extends Panel {
         form.add(new FeedbackLabel("sectorfeedback", sector));
 
         add(form);
-        add(new FeedbackPanel("feedback")
-                .setFilter(new ErrorLevelsFeedbackMessageFilter(
-                        new int[] { FeedbackMessage.ERROR })));
+        add(new FeedbackPanel("feedback").setFilter(
+                new ErrorLevelsFeedbackMessageFilter(
+                        new int[] { FeedbackMessage.ERROR }))
+                .add(
+                        new AttributeModifier("class", true, Model
+                                .of("feedbacklabel"))));
     }
 
     protected abstract void onSubmit(IModel<JugadorPlano> jugador);
