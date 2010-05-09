@@ -34,7 +34,7 @@ public class JugadorService implements IJugadorService {
     @Override
     @Transactional
     public void update(JugadorPlano jugadorPlano) throws NoxitException {
-        verificarExisteJugador(jugadorPlano);
+        // verificarExisteJugador(jugadorPlano);
         Jugador jugador = jugadorDao.get(jugadorPlano.getFicha());
         jugador.setClub(clubDao.get(jugadorPlano.getClubId()));
         jugador.setDivision(divisionDao.get(jugadorPlano.getDivisionId()));
@@ -47,12 +47,16 @@ public class JugadorService implements IJugadorService {
 
     private void verificarExisteJugador(JugadorPlano jugadorPlano)
             throws JugadorExistenteException, NoxitException {
-        for (Jugador each : jugadorDao.getAll()) {
-            if (each.getDocumento().equals(jugadorPlano.getNumeroDocumento())
-                    && each.getTipoDocumento().equals(
-                            jugadorPlano.getTipoDocumento())) {
-                throw new JugadorExistenteException("Jugador ya existe");
-            }
+        /*
+         * for (Jugador each : jugadorDao.getAll()) { if
+         * (each.getDocumento().equals(jugadorPlano.getNumeroDocumento()) &&
+         * each.getTipoDocumento().equals( jugadorPlano.getTipoDocumento())) {
+         * throw new JugadorExistenteException("Jugador ya existe"); } }
+         */
+        if (jugadorDao.getJugadorByDNIAndTipoDoc(
+                jugadorPlano.getNumeroDocumento(),
+                jugadorPlano.getTipoDocumento()).size() > 0) {
+            throw new JugadorExistenteException("Jugador ya existe");
         }
     }
 
@@ -113,7 +117,7 @@ public class JugadorService implements IJugadorService {
     }
 
     private void setearDatos(JugadorPlano jugadorPlano, Jugador jugador) {
-        jugador.setFechaAlta(jugadorPlano.getFechaAlta());
+        // jugador.setFechaAlta(jugadorPlano.getFechaAlta());
         jugador.setFechaNacimiento(jugadorPlano.getFechaNacimiento());
         jugador.setLetraJugador(jugadorPlano.getLetraJugador());
         jugador.setNumeroDocumento(jugadorPlano.getNumeroDocumento());
