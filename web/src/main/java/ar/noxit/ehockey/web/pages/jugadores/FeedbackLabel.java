@@ -43,9 +43,9 @@ public class FeedbackLabel extends Label {
      * Field component holds a reference to the {@link Component} this
      * FeedbackLabel belongs to
      */
-    private FormComponent component;
+    private FormComponent<?> component;
     /** Field text holds a model of the text to be shown in the FeedbackLabel */
-    private IModel text = null;
+    private IModel<String> text = null;
 
     /**
      * Call this constructor if you just want to display the FeedbackMessage of
@@ -56,7 +56,7 @@ public class FeedbackLabel extends Label {
      * @param component
      *            The {@link FormComponent} to show the FeedbackMessage for.
      */
-    public FeedbackLabel(String id, FormComponent component) {
+    public FeedbackLabel(String id, FormComponent<?> component) {
         super(id);
         this.component = component;
     }
@@ -72,8 +72,8 @@ public class FeedbackLabel extends Label {
      *            The custom text to show when the FormComponent has a
      *            FeedbackMessage
      */
-    public FeedbackLabel(String id, FormComponent component, String text) {
-        this(id, component, new Model(text));
+    public FeedbackLabel(String id, FormComponent<?> component, String text) {
+        this(id, component, new Model<String>(text));
     }
 
     /**
@@ -88,7 +88,8 @@ public class FeedbackLabel extends Label {
      *            The custom model to show when the {@link FormComponent} has a
      *            FeedbackMessage
      */
-    public FeedbackLabel(String id, FormComponent component, IModel iModel) {
+    public FeedbackLabel(String id, FormComponent<?> component,
+            IModel<String> iModel) {
         super(id);
         this.component = component;
         this.text = iModel;
