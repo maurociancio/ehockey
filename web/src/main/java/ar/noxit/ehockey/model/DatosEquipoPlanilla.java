@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,5 +113,13 @@ public class DatosEquipoPlanilla {
 
     public void crearTarjetaPartido(Jugador jugador, Integer rojas, Integer amarillas, Integer verdes) {
         this.tarjetas.put(jugador, new TarjetasPartido(rojas, amarillas, verdes));
+    }
+
+    public TarjetasPartido buscarJugador(Jugador object) throws JugadorSinTarjetasException {
+        TarjetasPartido tarjetasPartido = tarjetas.get(object);
+        if (tarjetasPartido == null) {
+            throw new JugadorSinTarjetasException();
+        }
+        return tarjetasPartido;
     }
 }

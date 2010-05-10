@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
+
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
@@ -117,6 +119,15 @@ public abstract class PlanillaBase {
         }
     }
 
+    public TarjetasPartido getTarjetasDe(Jugador object) throws JugadorSinTarjetasException {
+        try {
+            return datosLocal.buscarJugador(object);
+        } catch (JugadorSinTarjetasException e) {
+            return datosVisitante.buscarJugador(object);
+            // TODO validar que no juegue en los dos equipos
+        }
+    }
+
     public Equipo getLocal() {
         return partido.getLocal();
     }
@@ -160,4 +171,5 @@ public abstract class PlanillaBase {
     public String getObservaciones() {
         return observaciones;
     }
+
 }

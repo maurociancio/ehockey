@@ -55,4 +55,8 @@ public class TarjetasPartido {
 
     protected TarjetasPartido() {
     }
+
+    public static TarjetasPartido zeroed() {
+        return new TarjetasPartido(0, 0, 0);
+    }
 }

@@ -1,5 +1,9 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
+
+import ar.noxit.ehockey.model.TarjetasPartido;
+
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.PlanillaBase;
 import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
@@ -51,8 +55,8 @@ public class PlanillaPanel extends Panel {
         IModel<List<Jugador>> modelLocal = new JugadorLocalModelItem(planillaModel);
         IModel<List<Jugador>> modelVisitante = new JugadorVisitanteModelItem(planillaModel);
 
-        add(new MyLoop("filasLocales", Model.of(18), modelLocal));
-        add(new MyLoop("filasVisitantes", Model.of(18), modelVisitante));
+        add(new MyLoop("filasLocales", Model.of(18), modelLocal, planillaModel));
+        add(new MyLoop("filasVisitantes", Model.of(18), modelVisitante, planillaModel));
 
         add(new Label("goleadores_local", new PropertyModel<String>(planillaModel, "datosLocal.goleadores")));
         add(new Label("goleadores_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.goleadores")));
@@ -145,18 +149,50 @@ public class PlanillaPanel extends Panel {
     private class MyLoop extends Loop {
 
         private IModel<List<Jugador>> jugadores;
+        private IModel<PlanillaBase> planillaModel;
 
-        public MyLoop(String id, Model<Integer> model, IModel<List<Jugador>> jugadores) {
+        public MyLoop(String id, IModel<Integer> model, IModel<List<Jugador>> jugadores,
+                IModel<PlanillaBase> planillaModel) {
             super(id, model);
             this.jugadores = jugadores;
+            this.planillaModel = planillaModel;
         }
 
         @Override
         protected void populateItem(LoopItem item) {
             final Integer iteration = item.getIteration();
-            item.add(new Label("fichas", new PropertyModel<Integer>(new JugadorListModel(iteration), "ficha")));
-            item.add(new Label("nombres", new PropertyModel<String>(new JugadorListModel(iteration), "nombre")));
-            item.add(new Label("numeros", new PropertyModel<String>(new JugadorListModel(iteration), "letraJugador")));
+            final IModel<Jugador> jugadorModel = new JugadorListModel(iteration);
+            item.add(new Label("fichas", new PropertyModel<Integer>(jugadorModel, "ficha")));
+            item.add(new Label("nombres", new PropertyModel<String>(jugadorModel, "nombre")));
+            item.add(new Label("numeros", new PropertyModel<String>(jugadorModel, "letraJugador")));
+            IModel<TarjetasPartido> tarjetasModel = new TarjetasPartidosModel(planillaModel, jugadorModel);
+            item.add(new Label("rojas", new PropertyModel<Integer>(tarjetasModel, "rojas")));
+            item.add(new Label("amarillas", new PropertyModel<Integer>(tarjetasModel, "amarillas")));
+            item.add(new Label("verdes", new PropertyModel<Integer>(tarjetasModel, "verdes")));
+        }
+
+        private final class TarjetasPartidosModel extends AbstractReadOnlyModel<TarjetasPartido> {
+
+            private IModel<PlanillaBase> planilla;
+            private IModel<Jugador> jugador;
+
+            public TarjetasPartidosModel(IModel<PlanillaBase> planilla, IModel<Jugador> jugador) {
+                this.planilla = planilla;
+                this.jugador = jugador;
+            }
+
+            @Override
+            public TarjetasPartido getObject() {
+                try {
+                    Jugador object = jugador.getObject();
+                    if (object == null)
+                        return null;
+                    return planilla.getObject().getTarjetasDe(object);
+                } catch (JugadorSinTarjetasException e) {
+                    return TarjetasPartido.zeroed();
+                }
+            }
+
         }
 
         private final class JugadorListModel extends AbstractReadOnlyModel<Jugador> {
