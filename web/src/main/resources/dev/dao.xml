@@ -35,6 +35,7 @@
                 <value>ar/noxit/ehockey/model/Sector.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Torneo.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Planilla.hbm.xml</value>
+                <value>ar/noxit/ehockey/model/Tarjeta.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">

@@ -18,6 +18,7 @@ public class Tarjeta {
         valores.put(TipoTarjeta.VERDE, 2);
     }
 
+    private Integer id;
     private TipoTarjeta tipo;
     private Partido partido;
     private boolean usada = false;

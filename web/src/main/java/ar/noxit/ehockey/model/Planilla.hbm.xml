@@ -8,7 +8,7 @@
             <generator class="increment"/>
         </id>
 
-        <map name="tarjetas" table="tarjetas" cascade="all">
+        <map name="tarjetas" table="tarjetas_partido" cascade="all">
             <key column="planilla_id"/>
             <index-many-to-many column="jugador_id" class="Jugador"/>
             <composite-element class="ar.noxit.ehockey.model.TarjetasPartido">
