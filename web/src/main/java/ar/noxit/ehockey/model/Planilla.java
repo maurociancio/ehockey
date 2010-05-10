@@ -52,7 +52,7 @@ public class Planilla {
         datosLocal.getJugadores().clear();
         datosVisitante.getJugadores().clear();
 
-        Iterator<Jugador> it = partido.getLocal().getListaBuenaFe().iterator();
+        Iterator<Jugador> it = partido.getLocal().getListaBuenaFe().iterator(partido);
         while (it.hasNext()) {
             datosLocal.getJugadores().add(it.next());
         }

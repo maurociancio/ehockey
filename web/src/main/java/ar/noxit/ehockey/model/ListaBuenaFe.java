@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -83,6 +85,39 @@ public class ListaBuenaFe {
      */
     public Iterator<Jugador> iterator() {
         return jugadores.iterator();
+    }
+
+    /**
+     * Devuelve un iterador con los jugadores que están habilitados en el partido
+     * @param partido partido para el cual se quiere obtener los jugadores
+     * @return iterador de jugadores habilitados en el partido
+     */
+    public Iterator<Jugador> iterator(final Partido partido) {
+        return new Iterator<Jugador>() {
+            Jugador next;
+            Iterator<Jugador> it = jugadores.iterator();
+            
+            @Override
+            public boolean hasNext() {
+                while (it.hasNext()) {
+                    next = it.next();
+                    if (next.puedeJugar(partido)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public Jugador next() {
+                return next;
+            }
+
+            @Override
+            public void remove() {
+                throw new NotImplementedException();
+            }
+        };
     }
 
     /**
