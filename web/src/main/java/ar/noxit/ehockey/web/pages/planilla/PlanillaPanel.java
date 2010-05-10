@@ -37,6 +37,9 @@ public class PlanillaPanel extends Panel {
         // TODO GUARDAR LA DIVISION EN EL TORNEO
         add(new Label("zona", ""));
 
+        add(new Label("goles_local", new PropertyModel<Integer>(planillaModel, "datosLocal.goles")));
+        add(new Label("goles_visitante", new PropertyModel<Integer>(planillaModel, "datosVisitante.goles")));
+
         IModel<LocalDateTime> modelTime = new PropertyModel<LocalDateTime>(planillaModel, "partido.inicio");
         add(new Label("dia", new DiaAdapterModel(modelTime)));
         add(new Label("mes", new MesAdapterModel(modelTime)));
