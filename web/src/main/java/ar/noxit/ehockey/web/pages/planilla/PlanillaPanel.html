@@ -5,18 +5,24 @@
 			<td colspan="30"><span wicket:id="federacion" /></td>
 		</tr>
 		<tr>
-			<td colspan="9"><span>Torneo</span> <span>Rueda</span> <span>Fecha</span>
-			<span>Partido</span></td>
-			<td colspan="21"><span> Sector </span> <span> Categoria </span>
-			<span> Division</span> <span> Zona </span></td>
+			<td colspan="2"><span>Torneo</span></td>
+			<td colspan="2"><span>Rueda</span></td>
+			<td colspan="2"><span>Fecha</span></td>
+			<td colspan="2"><span>Partido</span></td>
+			<td colspan="5"><span> Sector </span></td>
+			<td colspan="6"><span> Categoria </span></td>
+			<td colspan="6"><span> Division</span></td>
+			<td colspan="5"><span> Zona </span></td>
 		</tr>
 		<tr>
-			<td colspan="9"><span wicket:id="torneo" /> <span
-				wicket:id="rueda" /> <span wicket:id="fecha" /> <span
-				wicket:id="partido" /></td>
-			<td colspan="21"><span wicket:id="sector" /> <span
-				wicket:id="categoria" /> <span wicket:id="division" /> <span
-				wicket:id="zona" /></td>
+			<td colspan="2"><span wicket:id="torneo" /></td>
+			<td colspan="2"><span wicket:id="rueda" /></td>
+			<td colspan="2"><span wicket:id="fecha" /></td>
+			<td colspan="2"><span wicket:id="partido" /></td>
+			<td colspan="5"><span wicket:id="sector" /></td>
+			<td colspan="6"><span wicket:id="categoria" /></td>
+			<td colspan="6"><span wicket:id="division" /></td>
+			<td colspan="5"><span wicket:id="zona" /></td>
 		</tr>
 		<tr>
 			<td colspan="6" rowspan="2" class="alineadosIzquierda"><span>
@@ -55,6 +61,23 @@
 			<th rowspan="2" colspan="3"><span>Apellido</span></th>
 			<th rowspan="2" colspan="3"><span>Nro</span></th>
 			<th colspan="6"><span>Tarjetas</span></th>
+		</tr>
+		<tr>
+			<td colspan="2"><span>V</span></td>
+			<td colspan="2"><span>A</span></td>
+			<td colspan="2"><span>R</span></td>
+		</tr>
+		<tr wicket:id="filasLocales">
+			<td colspan="3"><span wicket:id="fichas">fichas</span></td>
+			<td colspan="3"><span wicket:id="nombres">nombres</span></td>
+			<td colspan="3"><span wicket:id="numeros">numeros</span></td>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+		</tr>
+	</table>
+	<table class="planillaPartidoCabecera">
+		<tr>
 			<th rowspan="2" colspan="3"><span>Ficha</span></th>
 			<th rowspan="2" colspan="3"><span>Apellido</span></th>
 			<th rowspan="2" colspan="3"><span>Nro</span></th>
@@ -64,38 +87,11 @@
 			<td colspan="2"><span>V</span></td>
 			<td colspan="2"><span>A</span></td>
 			<td colspan="2"><span>R</span></td>
-			<td colspan="2"><span>V</span></td>
-			<td colspan="2"><span>A</span></td>
-			<td colspan="2"><span>R</span></td>
 		</tr>
-		<tr>
-			<td colspan="3">
-			<p wicket:id="fichasJugadoresLocales"><span
-				wicket:id="fichasLocales">fichas</span></p>
-			</td>
-			<td colspan="3">
-			<p wicket:id="jugadoresLocales"><span wicket:id="locales">nombres</span>
-			</p>
-			</td>
-			<td colspan="3">
-			<p wicket:id="numerosJugadoresLocales"><span
-				wicket:id="numerosLocales">numeros</span></p>
-			</td>
-			<td colspan="2"></td>
-			<td colspan="2"></td>
-			<td colspan="2"></td>
-			<td colspan="3">
-			<p wicket:id="fichasJugadoresVisitantes"><span
-				wicket:id="fichasVisitantes">fichas</span></p>
-			</td>
-			<td colspan="3">
-			<p wicket:id="jugadoresVisitantes"><span wicket:id="visitantes">nombres</span>
-			</p>
-			</td>
-			<td colspan="3">
-			<p wicket:id="numerosJugadoresVisitantes"><span
-				wicket:id="numerosVisitantes">numeros</span></p>
-			</td>
+		<tr wicket:id="filasVisitantes">
+			<td colspan="3"><span wicket:id="fichas">fichas</span></td>
+			<td colspan="3"><span wicket:id="nombres">nombres</span></td>
+			<td colspan="3"><span wicket:id="numeros">numeros</span></td>
 			<td colspan="2"></td>
 			<td colspan="2"></td>
 			<td colspan="2"></td>
@@ -105,37 +101,51 @@
 	<div id="piePlanilla">
 	<table class="planillaPartidoPie">
 		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Goleadores</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Goleadores</span></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Goleadores</span></td>
+			<td colspan="6"></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Goleadores</span></td>
+			<td colspan="6"></td>
 		</tr>
 		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>DT</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>DT</span></td>
+			<td colspan="2" class="alineadosIzquierda"><span>DT</span></td>
+			<td colspan="6"></td>
+			<td colspan="2" class="alineadosIzquierda"><span>DT</span></td>
+			<td colspan="6"></td>
 		</tr>
 		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Capitán</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Capitán</span></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Capitán</span></td>
+			<td colspan="6"></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Capitán</span></td>
+			<td colspan="6"></td>
 		</tr>
 		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>PF</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>PF</span></td>
+			<td colspan="2" class="alineadosIzquierda"><span>PF</span></td>
+			<td colspan="6"></td>
+			<td colspan="2" class="alineadosIzquierda"><span>PF</span></td>
+			<td colspan="6"></td>
 		</tr>
 		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Médico</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Médico</span></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Médico</span></td>
+			<td colspan="6"></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Médico</span></td>
+			<td colspan="6"></td>
 		</tr>
 		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Juez de
+			<td colspan="2" class="alineadosIzquierda"><span>Juez de
 			Mesa</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Juez de
+			<td colspan="6"></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Juez de
 			Mesa</span></td>
+			<td colspan="6"></td>
 		</tr>
 		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Árbitro</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Árbitro</span></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Árbitro</span></td>
+			<td colspan="6"></td>
+			<td colspan="2" class="alineadosIzquierda"><span>Árbitro</span></td>
+			<td colspan="6"></td>
 		</tr>
 		<tr>
-			<td colspan="8"><span>Observaciones</span></td>
+			<td colspan="16"><span>Observaciones</span></td>
 		</tr>
 	</table>
 	</div>

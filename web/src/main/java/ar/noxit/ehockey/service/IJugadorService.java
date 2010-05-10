@@ -16,10 +16,14 @@ public interface IJugadorService {
 
     public List<Jugador> getAll() throws NoxitException;
 
+    public List<Jugador> getAllActive() throws NoxitException;
+
     public List<Jugador> getAllByClubDivisionSector(Integer clubid,
             Integer divisionid, Integer sectorid) throws NoxitException;
 
     public Jugador get(Integer id) throws NoxitException;
+
+    public Jugador getActive(Integer id) throws NoxitException;
 
     public JugadorPlano aplanar(Jugador jugador);
 }

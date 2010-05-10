@@ -58,17 +58,17 @@ public abstract class TablaPosicionesPanel extends Panel {
         form.add(new DropDownChoice<Torneo>("torneos", new IdTorneoModel(
                 new PropertyModel<Integer>(tablaTransferModel, "torneoId"),
                 torneoService), new TorneoListModel(torneoService),
-                new TorneoRenderer()));
+                new TorneoRenderer()).setNullValid(true));
 
         form.add(new DropDownChoice<Division>("division", new IdDivisionModel(
                 new PropertyModel<Integer>(tablaTransferModel, "divisionId"),
                 divisionService), new DivisionListModel(divisionService),
-                new DivisionRenderer()));
+                new DivisionRenderer()).setNullValid(true));
 
         form.add(new DropDownChoice<Sector>("sector", new IdSectorModel(
                 new PropertyModel<Integer>(tablaTransferModel, "sectorId"),
                 sectorService), new SectorListModel(sectorService),
-                new SectorRenderer()));
+                new SectorRenderer()).setNullValid(true));
 
         List<IColumn<DatosTabla>> columnas = new ArrayList<IColumn<DatosTabla>>();
 

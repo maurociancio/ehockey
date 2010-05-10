@@ -1,5 +1,8 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.JugadorInactivoInmutableException;
+import ar.noxit.ehockey.exception.JugadorYaActivoException;
+import ar.noxit.ehockey.exception.JugadorYaBajaException;
 import ar.noxit.ehockey.exception.NoHayPartidoSiguienteException;
 import ar.noxit.ehockey.exception.SinClubException;
 import ar.noxit.ehockey.exception.SinPartidosException;
@@ -42,6 +45,7 @@ public class Jugador {
     private String telefono;
     private LocalDate fechaAlta;
     private String letraJugador;
+    private boolean activo;
 
     private Division division;
     private Club club;
@@ -76,6 +80,7 @@ public class Jugador {
         this.club = club;
         this.documento = new DocumentoJugador();
         this.fechaAlta = new LocalDate();
+        this.activo = true;
     }
 
     /**
@@ -254,7 +259,17 @@ public class Jugador {
      * @param id
      */
     public void setFicha(Integer id) {
+        validarInmutabilidadJugadorInactivo();
         this.ficha = id;
+    }
+
+    /**
+     * Verifica en runtime si se quiere modificar un jugador que se ha dado de
+     * baja
+     */
+    private void validarInmutabilidadJugadorInactivo() {
+        if (!this.activo)
+            throw new JugadorInactivoInmutableException();
     }
 
     /**
@@ -277,26 +292,32 @@ public class Jugador {
     }
 
     public void setTipoDocumento(String tipoDocumento) {
+        validarInmutabilidadJugadorInactivo();
         this.documento.setTipo(tipoDocumento);
     }
 
     public void setNumeroDocumento(String numeroDocumento) {
+        validarInmutabilidadJugadorInactivo();
         this.documento.setNumero(numeroDocumento);
     }
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        validarInmutabilidadJugadorInactivo();
         this.fechaNacimiento = fechaNacimiento;
     }
 
     public void setTelefono(String telefono) {
+        validarInmutabilidadJugadorInactivo();
         this.telefono = telefono;
     }
 
     public void setFechaAlta(LocalDate fechaAlta) {
+        validarInmutabilidadJugadorInactivo();
         this.fechaAlta = fechaAlta;
     }
 
     public void setLetraJugador(String letraJugador) {
+        validarInmutabilidadJugadorInactivo();
         this.letraJugador = letraJugador;
     }
 
@@ -313,6 +334,7 @@ public class Jugador {
     }
 
     public void setClub(Club club) {
+        validarInmutabilidadJugadorInactivo();
         Validate.notNull(club);
         if (!(club == this.club)) {
             this.liberar();
@@ -321,19 +343,39 @@ public class Jugador {
     }
 
     public void setApellido(String apellido) {
+        validarInmutabilidadJugadorInactivo();
         this.apellido = apellido;
     }
 
     public void setDivision(Division division) {
+        validarInmutabilidadJugadorInactivo();
         this.division = division;
     }
 
     public void setNombre(String nombre) {
+        validarInmutabilidadJugadorInactivo();
         this.nombre = nombre;
     }
 
     public void setSector(Sector sector) {
+        validarInmutabilidadJugadorInactivo();
         this.sector = sector;
+    }
+
+    public void reactivarJugador() throws JugadorYaActivoException {
+        if (this.activo)
+            throw new JugadorYaActivoException();
+        this.activo = true;
+    }
+
+    public void bajaJugador() throws JugadorYaBajaException {
+        if (!this.activo)
+            throw new JugadorYaBajaException();
+        this.activo = false;
+    }
+
+    public boolean estaActivo() {
+        return this.activo;
     }
 
 }

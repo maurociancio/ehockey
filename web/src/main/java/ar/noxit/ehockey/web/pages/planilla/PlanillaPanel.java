@@ -1,22 +1,21 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.list.Loop;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.Planilla;
-import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
 
 public class PlanillaPanel extends Panel {
 
@@ -37,6 +36,7 @@ public class PlanillaPanel extends Panel {
         add(new Label("division", "Division"));
         // TODO GUARDAR LA DIVISION EN EL TORNEO
         add(new Label("zona", ""));
+
         IModel<LocalDateTime> modelTime = new PropertyModel<LocalDateTime>(planillaModel, "partido.inicio");
         add(new Label("dia", new DiaAdapterModel(modelTime)));
         add(new Label("mes", new MesAdapterModel(modelTime)));
@@ -47,56 +47,13 @@ public class PlanillaPanel extends Panel {
 
         IModel<List<Jugador>> modelLocal = new JugadorLocalModelItem(planillaModel);
         IModel<List<Jugador>> modelVisitante = new JugadorVisitanteModelItem(planillaModel);
-        add(new ListView<Jugador>("fichasJugadoresLocales", modelLocal) {
 
-            @Override
-            protected void populateItem(ListItem<Jugador> item) {
-                item.add(new Label("fichasLocales", new PropertyModel<Integer>(item.getModel(), "ficha")));
-            }
-        });
-
-        add(new ListView<Jugador>("jugadoresLocales", modelLocal) {
-
-            @Override
-            protected void populateItem(ListItem<Jugador> item) {
-                item.add(new Label("locales", new PropertyModel<String>(item.getModel(), "nombre")));
-            }
-        });
-
-        add(new ListView<Jugador>("numerosJugadoresLocales", modelLocal) {
-
-            @Override
-            protected void populateItem(ListItem<Jugador> item) {
-                item.add(new Label("numerosLocales", new PropertyModel<String>(item.getModel(), "letraJugador")));
-            }
-        });
-
-        add(new ListView<Jugador>("fichasJugadoresVisitantes", modelVisitante) {
-
-            @Override
-            protected void populateItem(ListItem<Jugador> item) {
-                item.add(new Label("fichasVisitantes", new PropertyModel<Integer>(item.getModel(), "ficha")));
-            }
-        });
-
-        add(new ListView<Jugador>("jugadoresVisitantes", modelVisitante) {
-
-            @Override
-            protected void populateItem(ListItem<Jugador> item) {
-                item.add(new Label("visitantes", new PropertyModel<String>(item.getModel(), "nombre")));
-            }
-        });
-
-        add(new ListView<Jugador>("numerosJugadoresVisitantes", modelVisitante) {
-
-            @Override
-            protected void populateItem(ListItem<Jugador> item) {
-                item.add(new Label("numerosVisitantes", new PropertyModel<String>(item.getModel(), "letraJugador")));
-            }
-        });
+        add(new MyLoop("filasLocales", Model.of(18), modelLocal));
+        add(new MyLoop("filasVisitantes", Model.of(18), modelVisitante));
     }
 
-    private class JugadorLocalModelItem extends LoadableDetachableModel<List<Jugador>> {
+    private class JugadorLocalModelItem extends
+            LoadableDetachableModel<List<Jugador>> {
 
         private IModel<Planilla> planillaModel;
 
@@ -112,7 +69,8 @@ public class PlanillaPanel extends Panel {
         }
     }
 
-    private class JugadorVisitanteModelItem extends LoadableDetachableModel<List<Jugador>> {
+    private class JugadorVisitanteModelItem extends
+            LoadableDetachableModel<List<Jugador>> {
 
         private IModel<Planilla> planillaModel;
 
@@ -161,6 +119,43 @@ public class PlanillaPanel extends Panel {
         @Override
         protected DateTimeFormatter getFormatter() {
             return DateTimeFormat.forPattern("YYYY");
+        }
+    }
+
+    private class MyLoop extends Loop {
+
+        private IModel<List<Jugador>> jugadores;
+
+        public MyLoop(String id, Model<Integer> model, IModel<List<Jugador>> jugadores) {
+            super(id, model);
+            this.jugadores = jugadores;
+        }
+
+        @Override
+        protected void populateItem(LoopItem item) {
+            final Integer iteration = item.getIteration();
+            item.add(new Label("fichas", new PropertyModel<Integer>(new JugadorListModel(iteration), "ficha")));
+            item.add(new Label("nombres", new PropertyModel<String>(new JugadorListModel(iteration), "nombre")));
+            item.add(new Label("numeros", new PropertyModel<String>(new JugadorListModel(iteration), "letraJugador")));
+        }
+
+        private final class JugadorListModel extends AbstractReadOnlyModel<Jugador> {
+
+            private final Integer iteration;
+
+            private JugadorListModel(Integer iteration) {
+                this.iteration = iteration;
+            }
+
+            @Override
+            public Jugador getObject() {
+                try {
+                    List<Jugador> object = jugadores.getObject();
+                    return object.get(iteration);
+                } catch (IndexOutOfBoundsException e) {
+                    return null;
+                }
+            }
         }
     }
 }

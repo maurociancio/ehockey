@@ -13,4 +13,9 @@ public interface IJugadorDao extends IDao<Jugador, Integer> {
             Integer divisionId, Integer sectorId);
 
     public List<Jugador> getJugadorByDNIAndTipoDoc(String dni, String tipoDoc);
+
+    public List<Jugador> getAllActive();
+
+    public Jugador getActiveJugadorById(Integer jugadorId);
+
 }
