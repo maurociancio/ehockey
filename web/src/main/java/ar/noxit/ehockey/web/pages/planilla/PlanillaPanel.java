@@ -1,11 +1,9 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
 import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
-
-import ar.noxit.ehockey.model.TarjetasPartido;
-
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.PlanillaBase;
+import ar.noxit.ehockey.model.TarjetasPartido;
 import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
