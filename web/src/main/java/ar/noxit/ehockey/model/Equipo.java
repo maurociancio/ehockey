@@ -45,10 +45,11 @@ public class Equipo {
     }
 
     public Partido jugarContra(Torneo torneo, Equipo visitante, Integer fechaDelTorneo, Integer rueda,
-            LocalDateTime inicio, LocalDateTime now) throws EquiposInvalidosException, FechaInvalidaException {
+            Integer partidoN, LocalDateTime inicio, LocalDateTime now)
+            throws EquiposInvalidosException, FechaInvalidaException {
 
         try {
-            Partido partido = new Partido(torneo, this, visitante, fechaDelTorneo, rueda, inicio, now);
+            Partido partido = new Partido(torneo, this, visitante, fechaDelTorneo, rueda, partidoN, inicio, now);
             torneo.agregarPartido(partido);
             return partido;
         } catch (TorneoNoCoincideException e) {

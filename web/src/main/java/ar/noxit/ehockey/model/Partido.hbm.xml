@@ -8,6 +8,7 @@
             <generator class="increment"/>
         </id>
         <property name="fechaDelTorneo" not-null="true"/>
+        <property name="partido" not-null="true"/>
         <property name="inicio" not-null="true" type="org.joda.time.contrib.hibernate.PersistentLocalDateTime"/>
         <property name="rueda" not-null="true"/>
 

@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.model;
 
 import static org.testng.Assert.assertEquals;
+
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import org.joda.time.LocalDateTime;
@@ -28,7 +29,7 @@ public class PartidoTest {
         Equipo equipo2 = club.crearNuevoEquipo("Equipo2", division, sector);
 
         LocalDateTime inicio = new LocalDateTime();
-        Partido partido = equipo1.jugarContra(torneo, equipo2, 1, 1, inicio.plusDays(1), inicio);
+        Partido partido = equipo1.jugarContra(torneo, equipo2, 1, 1, 1, inicio.plusDays(1), inicio);
 
         assertEquals(partido.getFechaDelTorneo(), new Integer(1));
         assertEquals(partido.getInicio(), inicio.plusDays(1));
@@ -42,6 +43,6 @@ public class PartidoTest {
         Equipo equipo = club.crearNuevoEquipo("Equipo1", division, sector);
 
         LocalDateTime inicio = new LocalDateTime();
-        equipo.jugarContra(torneo, equipo, 1, 1, inicio.plusDays(1), inicio);
+        equipo.jugarContra(torneo, equipo, 1, 1, 1, inicio.plusDays(1), inicio);
     }
 }

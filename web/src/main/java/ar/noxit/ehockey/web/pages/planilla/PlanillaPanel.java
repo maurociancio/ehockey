@@ -29,7 +29,7 @@ public class PlanillaPanel extends Panel {
         add(new Label("torneo", new PropertyModel<String>(planillaModel, "partido.torneo.nombre")));
         add(new Label("rueda", new PropertyModel<Integer>(planillaModel, "partido.rueda")));
         add(new Label("fecha", new PropertyModel<Integer>(planillaModel, "partido.fechaDelTorneo")));
-        add(new Label("partido", "Partido 1"));
+        add(new Label("partido", new PropertyModel<Integer>(planillaModel, "partido.partido")));
         // TODO GUARDAR NUMERO DE PARTIDO
         add(new Label("sector", "Sector"));
         // TODO GUARDAR EL SECTOR EN TORNEO

@@ -145,7 +145,6 @@ public class NuevoTorneoWizard extends Wizard {
 
                         Integer rueda = partidoActual[0];
                         Integer numeroFecha = partidoActual[1];
-                        // #TODO
                         Integer partido = partidoActual[2];
                         Integer localIndex = partidoActual[3] - 1;
                         Integer visitanteIndex = partidoActual[4] - 1;
@@ -161,6 +160,7 @@ public class NuevoTorneoWizard extends Wizard {
                         pi.setEquipoVisitanteId(visitante);
                         pi.setRueda(rueda);
                         pi.setFecha(now.plusDays(ruedaYFecha * 7));
+                        pi.setPartido(partido);
                         infoPartidos.add(pi);
                     }
                 }

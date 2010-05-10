@@ -12,6 +12,7 @@ public class PartidoInfo implements Serializable {
     private Integer equipoVisitanteId;
     private Integer numeroFecha;
     private LocalDateTime fecha;
+    private Integer partido;
 
     public static PartidoInfo construir(Partido p) {
         PartidoInfo pi = new PartidoInfo();
@@ -21,6 +22,7 @@ public class PartidoInfo implements Serializable {
         pi.setEquipoVisitanteId(p.getVisitante().getId());
         pi.setFecha(p.getInicio());
         pi.setNumeroFecha(p.getFechaDelTorneo());
+        pi.setPartido(p.getPartido());
 
         return pi;
     }
@@ -74,5 +76,13 @@ public class PartidoInfo implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getPartido() {
+        return partido;
+    }
+
+    public void setPartido(Integer partido) {
+        this.partido = partido;
     }
 }

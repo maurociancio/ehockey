@@ -35,11 +35,12 @@ public class TorneoService implements ITorneoService {
             Integer numeroFecha = info.getNumeroFecha();
             LocalDateTime fecha = info.getFecha();
             Integer rueda = info.getRueda();
+            Integer partido = info.getPartido();
 
             Equipo local = equipoDao.get(localId);
             Equipo visitante = equipoDao.get(visitanteId);
 
-            local.jugarContra(torneo, visitante, numeroFecha, rueda, fecha, now);
+            local.jugarContra(torneo, visitante, numeroFecha, rueda, partido, fecha, now);
         }
 
         torneoDao.save(torneo);

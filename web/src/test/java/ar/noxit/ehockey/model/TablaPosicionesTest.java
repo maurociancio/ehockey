@@ -36,9 +36,9 @@ public class TablaPosicionesTest {
         this.sector = new Sector("s");
         this.eq1 = club.crearNuevoEquipo("River", this.division, this.sector);
         this.eq2 = club.crearNuevoEquipo("Boca", this.division, this.sector);
-        Partido partido1 = this.eq1.jugarContra(torneo, eq2, new Integer(1), 1,
+        Partido partido1 = this.eq1.jugarContra(torneo, eq2, 1, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        Partido partido2 = this.eq2.jugarContra(torneo, eq1, new Integer(2), 1,
+        Partido partido2 = this.eq2.jugarContra(torneo, eq1, 2, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
         terminarPartido(partido1, 2, 0);
         terminarPartido(partido2, 0, 2);
@@ -109,9 +109,9 @@ public class TablaPosicionesTest {
         Division div = new Division("d2");
         Equipo eq3 = club.crearNuevoEquipo("Chicago", div, this.sector);
         Equipo eq4 = club.crearNuevoEquipo("Racing", div, this.sector);
-        Partido partido1 = eq3.jugarContra(torneo, eq4, new Integer(1), 1,
+        Partido partido1 = eq3.jugarContra(torneo, eq4, 1, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        Partido partido2 = eq4.jugarContra(torneo, eq3, new Integer(2), 1,
+        Partido partido2 = eq4.jugarContra(torneo, eq3, 1, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
         terminarPartido(partido1, 4, 4);
         terminarPartido(partido2, 2, 2);
@@ -144,9 +144,9 @@ public class TablaPosicionesTest {
         Sector sec = new Sector("s2");
         Equipo eq3 = club.crearNuevoEquipo("Chicago", this.division, sec);
         Equipo eq4 = club.crearNuevoEquipo("Racing", this.division, sec);
-        Partido partido1 = eq3.jugarContra(torneo, eq4, new Integer(1), 1,
+        Partido partido1 = eq3.jugarContra(torneo, eq4, 1, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        Partido partido2 = eq4.jugarContra(torneo, eq3, new Integer(2), 1,
+        Partido partido2 = eq4.jugarContra(torneo, eq3, 2, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
         terminarPartido(partido1, 4, 0);
         terminarPartido(partido2, 2, 2);
@@ -177,13 +177,13 @@ public class TablaPosicionesTest {
         Division div = new Division("d2");
         Equipo eq3 = club.crearNuevoEquipo("Chicago", div, sec);
         Equipo eq4 = club.crearNuevoEquipo("Racing", div, sec);
-        Partido partido1 = eq3.jugarContra(torneo, eq4, new Integer(1), 1,
+        Partido partido1 = eq3.jugarContra(torneo, eq4, 1, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        Partido partido2 = eq4.jugarContra(torneo, eq3, new Integer(2), 1,
+        Partido partido2 = eq4.jugarContra(torneo, eq3, 2, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        Partido partido3 = eq1.jugarContra(torneo, eq3, new Integer(1), 1,
+        Partido partido3 = eq1.jugarContra(torneo, eq3, 1, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
-        Partido partido4 = eq4.jugarContra(torneo, eq2, new Integer(2), 1,
+        Partido partido4 = eq4.jugarContra(torneo, eq2, 2, 1, 1,
                 new LocalDateTime(), new LocalDateTime().minusDays(2));
         terminarPartido(partido1, 2, 1);
         terminarPartido(partido2, 0, 0);
