@@ -45,6 +45,10 @@ public class Tarjeta {
         this.usada = true;
     }
 
+    public boolean isUsada() {
+        return this.usada;
+    }
+
     public int getValor() {
         if (usada)
             return 0;

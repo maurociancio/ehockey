@@ -4,6 +4,9 @@ import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import ar.noxit.ehockey.exception.PlanillaNoFinalizadaException;
+import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 
@@ -57,7 +60,12 @@ public class Partido {
     private void crearPlanillas() {
         // inicialmente las planillas deben ser iguales. Luego la planilla final
         // se edita.
-        planillaPrecargada = new Planilla(this).finalizarPlanilla();
+        try {
+            planillaPrecargada = new Planilla(this).finalizarPlanilla();
+        } catch (PlanillaYaFinalizadaException e) {
+            //no debería pasar nunca
+            throw new NoxitRuntimeException("Se cerro una planilla que ya estaba cerrada durante la creacion");
+        }
         planillaFinal = new Planilla(this);
     }
 
@@ -96,7 +104,11 @@ public class Partido {
     public void finalizarPlanilla() throws PartidoYaTerminadoException {
         validarPartidoNoJugado();
 
-        planillaFinal = planillaFinal.finalizarPlanilla();
+        try {
+            planillaFinal = planillaFinal.finalizarPlanilla();
+        } catch (PlanillaYaFinalizadaException e) {
+            throw new PartidoYaTerminadoException(e);
+        }
         this.jugado = true;
     }
 

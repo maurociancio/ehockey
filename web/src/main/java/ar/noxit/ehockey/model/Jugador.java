@@ -1,11 +1,22 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.SinClubException;
-import ar.noxit.ehockey.model.Tarjeta.TipoTarjeta;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ar.noxit.ehockey.exception.NoHayPartidoSiguienteException;
+import ar.noxit.ehockey.exception.SinClubException;
+import ar.noxit.ehockey.exception.SinPartidosException;
+import ar.noxit.ehockey.exception.TarjetaYaUsadaException;
+import ar.noxit.ehockey.model.Tarjeta.TipoTarjeta;
+import ar.noxit.exceptions.NoxitRuntimeException;
 
 /**
  * Jugador
@@ -41,6 +52,8 @@ public class Jugador {
     private Set<Tarjeta> tarjetas = new HashSet<Tarjeta>();
     private Set<ISancion> sanciones = new HashSet<ISancion>();
 
+    private static final Logger logger = LoggerFactory.getLogger(TablaPosiciones.class);
+
     /**
      * Construye un nuevo jugador
      * 
@@ -51,8 +64,7 @@ public class Jugador {
      * @throws IllegalArgumentException
      *             si ficha, apellido o nombre son null
      */
-    public Jugador(String apellido, String nombre, Club club, Sector sector,
-            Division division) {
+    public Jugador(String apellido, String nombre, Club club, Sector sector, Division division) {
         Validate.notNull(apellido, "apellido no puede ser null");
         Validate.notNull(nombre, "nombre no puede ser null");
         Validate.notNull(division, "division no puede ser null");
@@ -132,14 +144,44 @@ public class Jugador {
         crearSancionesSiCorresponde(partido, equipo);
     }
 
+    /**
+     * Permite cargar una sanción al jugador que lo inhabilite a jugar
+     * los partidos que le corresponda según las reglas de la sanción.
+     * @param sancion sancion aplicada al jugador
+     */
+    public void sancionar(ISancion sancion) {
+        Validate.notNull(sancion);
+        sanciones.add(sancion);
+    }
+
     private void crearSancionesSiCorresponde(Partido partido, Equipo equipo) {
         Validate.notNull(partido);
 
-        if (sumarTarjetas() >= 15) {
-            Torneo torneo = partido.getTorneo();
-            torneo.getProximoPartidoDe(partido, equipo);
-            // sanciones.add(new SancionPartidosInhabilitados(null));
+        Torneo torneo = partido.getTorneo();
+        Collection<Partido> suspendidos = new ArrayList<Partido>();
+        try {
+            Partido partidoActual = partido;
+            while (sumarTarjetas() >= 15) {
+                partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
+                descontarTarjetas(15);
+            }
+        } catch (NoHayPartidoSiguienteException e) {
+            logger.debug("Sancion no aplicada, no hay más partidos");
+        } finally {
+            try {
+                this.sancionar(new SancionPartidosInhabilitados(suspendidos));
+            } catch (SinPartidosException e) {
+                logger.debug("Se intento sancionar pero no había partidos");
+            }
         }
+    }
+
+    public boolean puedeJugar(Partido partido) {
+        boolean juega = true;
+        for (ISancion sancion : this.sanciones) {
+            juega &= sancion.puedeJugar(partido);
+        }
+        return juega;
     }
 
     private int sumarTarjetas() {
@@ -149,6 +191,23 @@ public class Jugador {
             suma += tarjeta.getValor();
         }
         return suma;
+    }
+
+    private void descontarTarjetas(int puntos) {
+        //TODO
+        int suma = 0;
+        Iterator<Tarjeta> it = tarjetas.iterator();
+        while (it.hasNext() && suma < puntos) {
+            Tarjeta tarjeta = it.next();
+            if (!tarjeta.isUsada()) {
+                suma += tarjeta.getValor();
+                try {
+                    tarjeta.usar();
+                } catch (TarjetaYaUsadaException e) {
+                    throw new NoxitRuntimeException("Se intento usar una tarjeta ya utilizada");
+                }
+            }
+        }
     }
 
     private void crearTarjetas(Partido partido, Integer rojas, TipoTarjeta tipo) {

@@ -1,8 +1,5 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
-import ar.noxit.ehockey.exception.TorneoNoCoincideException;
-import ar.noxit.exceptions.NoxitRuntimeException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,7 +7,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.lang.Validate;
+
+import ar.noxit.ehockey.exception.NoHayPartidoSiguienteException;
+import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
+import ar.noxit.ehockey.exception.TorneoNoCoincideException;
+import ar.noxit.exceptions.NoxitRuntimeException;
 
 public class Torneo {
 
@@ -55,7 +58,7 @@ public class Torneo {
         this.partidos.add(partido);
     }
 
-    public void getProximoPartidoDe(Partido partido, Equipo equipo) {
+    public Partido getProximoPartidoDe(Partido partido, Equipo equipo) throws NoHayPartidoSiguienteException {
         Validate.notNull(partido);
         Validate.notNull(equipo);
 
@@ -67,10 +70,21 @@ public class Torneo {
                 Integer rueda = o1.getRueda() - o2.getRueda();
                 if (rueda != 0) {
                     return rueda;
+                } else {
+                    if (o1.getFechaDelTorneo() > o2.getFechaDelTorneo()) {
+                        return 1;
+                    } else if (o1.getFechaDelTorneo() < o2.getFechaDelTorneo()) {
+                        return -1;
+                    }
                 }
-                throw new NoxitRuntimeException();
+                throw new NoxitRuntimeException("Hay un partido repetido en el torneo");
             }
         });
+        try {
+            return (partidos.get(partidos.indexOf(partido) + 1));
+        } catch (IndexOutOfBoundsException e) {
+            throw new NoHayPartidoSiguienteException();
+        }
     }
 
     private List<Partido> getPartidosDe(Equipo equipo) {
