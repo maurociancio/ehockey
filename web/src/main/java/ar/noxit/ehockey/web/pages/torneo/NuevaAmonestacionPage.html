@@ -1,0 +1,32 @@
+<wicket:extend>
+    <div class="content">
+        <h2 class="content-title">Cargar nueva amonestaciones</h2>
+        <div class="content-in">
+    <form wicket:id="form">
+        <div wicket:id="feedback"></div>
+        <table>
+            <tr>
+                <td>Jugador</td>
+                <td>
+                    <select wicket:id="jugadores"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Rojas</td>
+                <td><input wicket:id="rojas" type="text"/></td>
+            </tr>
+            <tr>
+                <td>Amarillas</td>
+                <td><input wicket:id="amarillas" type="text"/></td>
+            </tr>
+            <tr>
+                <td>Verdes</td>
+                <td><input wicket:id="verdes" type="text"/></td>
+            </tr>
+        </table>
+        
+        <input type="button" wicket:id="submit" value="Agregar Amonestaciones"/>
+    </form>
+        </div>
+    </div> <!-- /content -->
+</wicket:extend>

@@ -43,7 +43,8 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 try {
                     planillaService.updatePlanilla(partido.getObject().getId(), golesLocal, golesVisitante, infoLocal
                             .getObject(), infoVisitante.getObject());
-                    setResponsePage(new MensajePage("Planilla de Partido", "Se completó la actualización de la planilla"));
+                    setResponsePage(new MensajePage("Planilla de Partido",
+                            "Se completó la actualización de la planilla"));
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
@@ -59,6 +60,7 @@ public class ModificarPlanillaPage extends AbstractContentPage {
     }
 
     public class EquipoInfoModel extends AdapterModel<EquipoInfo, DatosEquipoPlanilla> {
+
         private boolean cargado = false;
         private IModel<EquipoInfo> equipoInfo = new Model<EquipoInfo>();
 
@@ -79,7 +81,6 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 temp.setMedico(object.getMedico());
                 temp.setPf(object.getpFisico());
                 for (Jugador j : object.getJugadores()) {
-
                     temp.getSeleccionados().add(j.getFicha());
                 }
                 this.cargado = true;
@@ -94,6 +95,5 @@ public class ModificarPlanillaPage extends AbstractContentPage {
             this.equipoInfo.setObject(equipoInfo);
             this.cargado = true;
         }
-
     }
 }
