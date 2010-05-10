@@ -8,6 +8,7 @@ import org.apache.commons.lang.Validate;
 
 public class SancionPartidosInhabilitados implements ISancion {
 
+    private Integer id;
     private Set<Partido> partidosInhabilitados = new HashSet<Partido>();
 
     public SancionPartidosInhabilitados(Collection<Partido> suspendidos) throws SinPartidosException {
