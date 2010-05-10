@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping default-access="field">
+    <class name="ar.noxit.ehockey.model.SancionPartidosInhabilitados" entity-name="SancionPartidosInhabilitados" table="Sanciones_partidos_inhabilitados">
+        <id name="id" column="id" >
+            <generator class="increment"/>
+        </id>
+
+        <set name="partidosInhabilitados" table="partidos_por_sancion">
+            <key column="id_sancion_partido" not-null="true"/>
+            <many-to-many entity-name="Partido" unique="true"/>
+        </set>
+    </class>
+</hibernate-mapping>

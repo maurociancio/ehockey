@@ -25,5 +25,9 @@
             <key column="jugador_id" not-null="true"/>
             <one-to-many entity-name="Tarjeta"/>
         </set>
+        <set name="sanciones" inverse="true">
+            <key column="jugador_id" not-null="true"/>
+            <one-to-many entity-name="SancionPartidosInhabilitados"/>
+        </set>
     </class>
 </hibernate-mapping>
