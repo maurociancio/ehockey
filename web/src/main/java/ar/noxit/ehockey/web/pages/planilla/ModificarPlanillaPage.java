@@ -5,12 +5,14 @@ import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PlanillaBase;
+import ar.noxit.ehockey.model.TarjetasPartido;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.AdapterModel;
+import java.util.Map;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
@@ -83,7 +85,14 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 for (Jugador j : object.getJugadores()) {
                     temp.getSeleccionados().add(j.getFicha());
                 }
-                // TODO precargar
+                for (Map.Entry<Jugador, TarjetasPartido> entry : object.getTarjetas().entrySet()) {
+                    Jugador j = entry.getKey();
+                    TarjetasPartido value = entry.getValue();
+                    temp.getAmonestaciones().add(new AmonestacionInfo(j.getFicha(),
+                                    value.getRojas(),
+                                    value.getAmarillas(),
+                                    value.getVerdes()));
+                }
                 this.cargado = true;
                 equipoInfo.setObject(temp);
             }

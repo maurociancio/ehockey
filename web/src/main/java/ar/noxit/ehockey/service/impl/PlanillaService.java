@@ -1,23 +1,25 @@
 package ar.noxit.ehockey.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.IPartidoDao;
+import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.PlanillaBase;
 import ar.noxit.ehockey.model.PlanillaFinal;
 import ar.noxit.ehockey.service.IPlanillaService;
+import ar.noxit.ehockey.web.pages.planilla.AmonestacionInfo;
 import ar.noxit.ehockey.web.pages.planilla.EquipoInfo;
 import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.persistence.PersistenceException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 public class PlanillaService implements IPlanillaService {
 
-    IPartidoDao partidoDao;
-    IJugadorDao jugadorDao;
+    private IPartidoDao partidoDao;
+    private IJugadorDao jugadorDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -65,6 +67,21 @@ public class PlanillaService implements IPlanillaService {
 
         planilla.setJugadoresLocal(crearColeccionJugadores(planilla, infoLocal));
         planilla.setJugadoresVisitante(crearColeccionJugadores(planilla, infoVisitante));
+
+        DatosEquipoPlanilla datosLocal = planilla.getDatosLocal();
+        DatosEquipoPlanilla datosVisitante = planilla.getDatosVisitante();
+        updateAmonestaciones(datosLocal, infoLocal.getAmonestaciones());
+        updateAmonestaciones(datosVisitante, infoVisitante.getAmonestaciones());
+    }
+
+    private void updateAmonestaciones(DatosEquipoPlanilla datos, List<AmonestacionInfo> amonestaciones)
+            throws PersistenceException {
+
+        datos.limpiarTarjetas();
+        for (AmonestacionInfo ai : amonestaciones) {
+            datos.crearTarjetaPartido(jugadorDao.get(ai.getJugadorId()), ai.getRojas(), ai.getAmarillas(), ai
+                    .getVerdes());
+        }
     }
 
     @Override

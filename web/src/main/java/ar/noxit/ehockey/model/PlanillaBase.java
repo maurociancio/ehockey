@@ -3,7 +3,6 @@ package ar.noxit.ehockey.model;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +16,6 @@ public abstract class PlanillaBase {
 
     protected DatosEquipoPlanilla datosLocal = new DatosEquipoPlanilla();
     protected DatosEquipoPlanilla datosVisitante = new DatosEquipoPlanilla();
-    protected Map<Jugador, TarjetasPartido> tarjetas = new HashMap<Jugador, TarjetasPartido>();
 
     protected String observaciones;
 
@@ -104,14 +102,19 @@ public abstract class PlanillaBase {
         }
         this.finalizada = true;
 
-        for (Map.Entry<Jugador, TarjetasPartido> entry : tarjetas.entrySet()) {
+        amonestar(datosLocal.getTarjetas());
+        amonestar(datosVisitante.getTarjetas());
+        return this;
+    }
+
+    private void amonestar(Map<Jugador, TarjetasPartido> tarjetasLocal) {
+        for (Map.Entry<Jugador, TarjetasPartido> entry : tarjetasLocal.entrySet()) {
             Jugador jugador = entry.getKey();
             TarjetasPartido tarjetasPartido = entry.getValue();
             Equipo equipoJugador = getEquipoDeJugador(jugador);
 
             jugador.amonestar(partido, equipoJugador, tarjetasPartido);
         }
-        return this;
     }
 
     public Equipo getLocal() {

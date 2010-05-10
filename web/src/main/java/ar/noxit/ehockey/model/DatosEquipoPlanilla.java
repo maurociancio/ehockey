@@ -1,5 +1,8 @@
 package ar.noxit.ehockey.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
@@ -15,10 +18,19 @@ public class DatosEquipoPlanilla {
     private Integer goles;
     private Set<Jugador> jugadores = new HashSet<Jugador>();
     private String goleadores;
+    private Map<Jugador, TarjetasPartido> tarjetas = new HashMap<Jugador, TarjetasPartido>();
 
     public boolean jugo(Jugador jugador) {
         Validate.notNull(jugador);
         return jugadores.contains(jugador);
+    }
+
+    public Map<Jugador, TarjetasPartido> getTarjetas() {
+        return tarjetas;
+    }
+
+    public void setTarjetas(Map<Jugador, TarjetasPartido> tarjetas) {
+        this.tarjetas = tarjetas;
     }
 
     public String getdT() {
@@ -93,4 +105,11 @@ public class DatosEquipoPlanilla {
         this.goleadores = goleadores;
     }
 
+    public void limpiarTarjetas() {
+        tarjetas.clear();
+    }
+
+    public void crearTarjetaPartido(Jugador jugador, Integer rojas, Integer amarillas, Integer verdes) {
+        this.tarjetas.put(jugador, new TarjetasPartido(rojas, amarillas, verdes));
+    }
 }
