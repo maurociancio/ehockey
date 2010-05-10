@@ -11,7 +11,7 @@ import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.Partido;
-import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.ehockey.model.PlanillaBase;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
@@ -49,7 +49,7 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 }
             }
         };
-        form.add(new PlanillaGeneralPanel("planillaGeneral", new PropertyModel<Planilla>(partido, "planilla"),
+        form.add(new PlanillaGeneralPanel("planillaGeneral", new PropertyModel<PlanillaBase>(partido, "planilla"),
                 new PropertyModel<Integer>(this, "golesLocal"), new PropertyModel<Integer>(this, "golesVisitante")));
         form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(partido, "local"), infoLocal));
         form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(partido, "visitante"),

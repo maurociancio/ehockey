@@ -8,7 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.IPartidoDao;
 import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.ehockey.model.PlanillaBase;
+import ar.noxit.ehockey.model.PlanillaFinal;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.planilla.EquipoInfo;
 import ar.noxit.exceptions.NoxitException;
@@ -20,7 +21,7 @@ public class PlanillaService implements IPlanillaService {
 
     @Override
     @Transactional(readOnly = true)
-    public Planilla get(Integer idPartido) throws NoxitException {
+    public PlanillaBase get(Integer idPartido) throws NoxitException {
         return partidoDao.get(idPartido).getPlanilla();
     }
 
@@ -32,7 +33,7 @@ public class PlanillaService implements IPlanillaService {
         this.jugadorDao = jugadorDao;
     }
 
-    private Collection<Jugador> crearColeccionJugadores(Planilla planilla, EquipoInfo info) throws NoxitException {
+    private Collection<Jugador> crearColeccionJugadores(PlanillaBase planilla, EquipoInfo info) throws NoxitException {
         Collection<Jugador> temp = new ArrayList<Jugador>();
         for (Integer jug : info.getSeleccionados()) {
             temp.add(jugadorDao.get(jug));
@@ -44,7 +45,7 @@ public class PlanillaService implements IPlanillaService {
     @Transactional
     public void updatePlanilla(int idPartido, Integer golesLocal, Integer golesVisitante, EquipoInfo infoLocal,
             EquipoInfo infoVisitante) throws NoxitException {
-        Planilla planilla = this.partidoDao.get(idPartido).getPlanilla();
+        PlanillaFinal planilla = this.partidoDao.get(idPartido).getPlanilla();
         planilla.setGolesLocal(golesLocal);
         planilla.setGolesVisitante(golesVisitante);
         planilla.setArbitroL(infoLocal.getArbitro());

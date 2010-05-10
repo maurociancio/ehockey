@@ -1,14 +1,13 @@
 package ar.noxit.ehockey.model;
 
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
+
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import ar.noxit.ehockey.exception.PlanillaNoFinalizadaException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
-import ar.noxit.exceptions.NoxitRuntimeException;
-
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDateTime;
 
 public class Partido {
 
@@ -19,8 +18,8 @@ public class Partido {
 
     private Torneo torneo;
 
-    private Planilla planillaPrecargada;
-    private Planilla planillaFinal;
+    private PlanillaPrecargada planillaPrecargada;
+    private PlanillaFinal planillaFinal;
 
     private Integer fechaDelTorneo;
     private LocalDateTime inicio;
@@ -61,15 +60,8 @@ public class Partido {
     }
 
     private void crearPlanillas() {
-        // inicialmente las planillas deben ser iguales. Luego la planilla final
-        // se edita.
-        try {
-            planillaPrecargada = new Planilla(this).finalizarPlanilla();
-        } catch (PlanillaYaFinalizadaException e) {
-            // no debería pasar nunca
-            throw new NoxitRuntimeException("Se cerro una planilla que ya estaba cerrada durante la creacion", e);
-        }
-        planillaFinal = new Planilla(this);
+        planillaPrecargada = new PlanillaPrecargada(this);
+        planillaFinal = new PlanillaFinal(this);
     }
 
     /**
@@ -79,7 +71,7 @@ public class Partido {
      * 
      * @return planilla del partido precargada. No es editable.
      */
-    public Planilla getPlanillaPrecargada() {
+    public PlanillaPrecargada getPlanillaPrecargada() {
         if (planillaPrecargada == null) {
             crearPlanillas();
         }
@@ -91,7 +83,7 @@ public class Partido {
      * 
      * @return planilla del partido
      */
-    public Planilla getPlanilla() {
+    public PlanillaFinal getPlanilla() {
         if (planillaFinal == null) {
             crearPlanillas();
         }
@@ -108,7 +100,7 @@ public class Partido {
         validarPartidoNoJugado();
 
         try {
-            planillaFinal = planillaFinal.finalizarPlanilla();
+            planillaFinal.finalizarPlanilla();
         } catch (PlanillaYaFinalizadaException e) {
             throw new PartidoYaTerminadoException(e);
         }
