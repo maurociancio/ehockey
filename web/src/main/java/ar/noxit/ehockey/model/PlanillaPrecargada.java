@@ -13,4 +13,7 @@ public class PlanillaPrecargada extends PlanillaBase {
             throw new NoxitRuntimeException("La planilla precargada ya estaba finalizada");
         }
     }
+
+    protected PlanillaPrecargada() {
+    }
 }

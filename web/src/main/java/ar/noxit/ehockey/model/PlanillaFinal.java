@@ -143,4 +143,7 @@ public class PlanillaFinal extends PlanillaBase {
 
         this.observaciones = observaciones;
     }
+
+    protected PlanillaFinal() {
+    }
 }
