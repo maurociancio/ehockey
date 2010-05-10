@@ -39,9 +39,8 @@ public class PlanillaEquipoPanel extends Panel {
     private IClubService clubService;
     @SpringBean
     private IJugadorService jugadorService;
-    private List<AmonestacionInfo> amonestaciones = new ArrayList<AmonestacionInfo>();
 
-    public PlanillaEquipoPanel(String id, IModel<Equipo> equipo, IModel<EquipoInfo> info) {
+    public PlanillaEquipoPanel(String id, IModel<Equipo> equipo, final IModel<EquipoInfo> info) {
         super(id);
 
         final IModel<List<Jugador>> jugadoresModel = new TodosJugadoresPorClubModel(
@@ -76,7 +75,7 @@ public class PlanillaEquipoPanel extends Panel {
         final DefaultDataTable<AmonestacionInfo> amonestacionesTable = new DefaultDataTable<AmonestacionInfo>(
                 "amonestaciones",
                         columns,
-                        new ListDataProvider(),
+                        new ListDataProvider(info),
                         25);
         amonestacionesTable.setOutputMarkupId(true);
         add(amonestacionesTable);
@@ -105,7 +104,7 @@ public class PlanillaEquipoPanel extends Panel {
 
                             @Override
                             protected void onSubmit(AmonestacionInfo amonestacionInfo) {
-                                amonestaciones.add(amonestacionInfo);
+                                info.getObject().getAmonestaciones().add(amonestacionInfo);
                             }
                         };
                     }
@@ -145,13 +144,26 @@ public class PlanillaEquipoPanel extends Panel {
 
     private class ListDataProvider extends SortableDataProvider<AmonestacionInfo> {
 
+        private IModel<EquipoInfo> info;
+
+        public ListDataProvider(IModel<EquipoInfo> info) {
+            this.info = info;
+        }
+
         @Override
         public Iterator<? extends AmonestacionInfo> iterator(int first, int count) {
+            List<AmonestacionInfo> amonestaciones = getAmonestaciones();
+
             int toIndex = first + count;
             if (toIndex > amonestaciones.size()) {
                 toIndex = amonestaciones.size();
             }
             return amonestaciones.subList(first, toIndex).listIterator();
+        }
+
+        private List<AmonestacionInfo> getAmonestaciones() {
+            List<AmonestacionInfo> amonestaciones = info.getObject().getAmonestaciones();
+            return amonestaciones;
         }
 
         @Override
@@ -161,7 +173,7 @@ public class PlanillaEquipoPanel extends Panel {
 
         @Override
         public int size() {
-            return amonestaciones.size();
+            return getAmonestaciones().size();
         }
     }
 }

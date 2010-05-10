@@ -13,6 +13,7 @@ public class EquipoInfo implements Serializable {
     private String juezMesa;
     private String arbitro;
     private List<Integer> seleccionados = new ArrayList<Integer>();
+    private List<AmonestacionInfo> amonestaciones = new ArrayList<AmonestacionInfo>();
 
     public String getGoleadores() {
         return goleadores;
@@ -68,5 +69,13 @@ public class EquipoInfo implements Serializable {
 
     public void setSeleccionados(List<Integer> seleccionados) {
         this.seleccionados = seleccionados;
+    }
+
+    public List<AmonestacionInfo> getAmonestaciones() {
+        return amonestaciones;
+    }
+
+    public void setAmonestaciones(List<AmonestacionInfo> amonestaciones) {
+        this.amonestaciones = amonestaciones;
     }
 }

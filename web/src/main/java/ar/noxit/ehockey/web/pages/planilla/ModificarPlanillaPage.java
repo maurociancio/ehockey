@@ -1,12 +1,5 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
@@ -18,13 +11,19 @@ import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.AdapterModel;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class ModificarPlanillaPage extends AbstractContentPage {
 
     private Integer golesLocal;
     private Integer golesVisitante;
-    private EquipoInfoModel infoLocal;
-    private EquipoInfoModel infoVisitante;
+    private IModel<EquipoInfo> infoLocal;
+    private IModel<EquipoInfo> infoVisitante;
 
     @SpringBean
     private IPlanillaService planillaService;
@@ -83,8 +82,8 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 for (Jugador j : object.getJugadores()) {
                     temp.getSeleccionados().add(j.getFicha());
                 }
+                // TODO precargar
                 this.cargado = true;
-
                 equipoInfo.setObject(temp);
             }
             return equipoInfo.getObject();
