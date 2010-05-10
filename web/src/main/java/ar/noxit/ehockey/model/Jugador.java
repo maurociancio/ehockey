@@ -1,22 +1,19 @@
 package ar.noxit.ehockey.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ar.noxit.ehockey.exception.NoHayPartidoSiguienteException;
 import ar.noxit.ehockey.exception.SinClubException;
 import ar.noxit.ehockey.exception.SinPartidosException;
 import ar.noxit.ehockey.exception.TarjetaYaUsadaException;
 import ar.noxit.ehockey.model.Tarjeta.TipoTarjeta;
-import ar.noxit.exceptions.NoxitRuntimeException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Jugador
@@ -26,6 +23,7 @@ import ar.noxit.exceptions.NoxitRuntimeException;
  */
 public class Jugador {
 
+    public static final int PUNTOSTARJETASANCION = 15;
     /**
      * Ficha del Jugador
      */
@@ -145,9 +143,11 @@ public class Jugador {
     }
 
     /**
-     * Permite cargar una sanción al jugador que lo inhabilite a jugar
-     * los partidos que le corresponda según las reglas de la sanción.
-     * @param sancion sancion aplicada al jugador
+     * Permite cargar una sanción al jugador que lo inhabilite a jugar los
+     * partidos que le corresponda según las reglas de la sanción.
+     * 
+     * @param sancion
+     *            sancion aplicada al jugador
      */
     public void sancionar(ISancion sancion) {
         Validate.notNull(sancion);
@@ -155,23 +155,29 @@ public class Jugador {
     }
 
     private void crearSancionesSiCorresponde(Partido partido, Equipo equipo) {
-        Validate.notNull(partido);
+        Validate.notNull(partido, "partido no puede ser null");
+        Validate.notNull(equipo, "equipo no puede ser null");
 
+        // torneo
         Torneo torneo = partido.getTorneo();
+
+        // partidos en los que el jugador va a estar suspendido
         Collection<Partido> suspendidos = new ArrayList<Partido>();
+
         try {
             Partido partidoActual = partido;
-            while (sumarTarjetas() >= 15) {
+            while (sumarTarjetas() >= PUNTOSTARJETASANCION) {
                 partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
-                descontarTarjetas(15);
+                suspendidos.add(partidoActual);
+                descontarTarjetas(PUNTOSTARJETASANCION);
             }
         } catch (NoHayPartidoSiguienteException e) {
-            logger.debug("Sancion no aplicada, no hay más partidos");
+            logger.debug("Sancion no aplicada, no hay más partidos", e);
         } finally {
             try {
                 this.sancionar(new SancionPartidosInhabilitados(suspendidos));
             } catch (SinPartidosException e) {
-                logger.debug("Se intento sancionar pero no había partidos");
+                logger.debug("Se intento sancionar pero no había partidos", e);
             }
         }
     }
@@ -194,18 +200,18 @@ public class Jugador {
     }
 
     private void descontarTarjetas(int puntos) {
-        //TODO
+        // TODO
         int suma = 0;
         Iterator<Tarjeta> it = tarjetas.iterator();
         while (it.hasNext() && suma < puntos) {
             Tarjeta tarjeta = it.next();
-            if (!tarjeta.isUsada()) {
-                suma += tarjeta.getValor();
-                try {
-                    tarjeta.usar();
-                } catch (TarjetaYaUsadaException e) {
-                    throw new NoxitRuntimeException("Se intento usar una tarjeta ya utilizada");
-                }
+            int valor = tarjeta.getValor();
+            try {
+                tarjeta.usar();
+                suma += valor;
+            } catch (TarjetaYaUsadaException e) {
+                logger.debug("seguimos buscando tarjetas", e);
+                // seguimos buscando tarjetas
             }
         }
     }

@@ -71,19 +71,18 @@ public class Torneo {
                 if (rueda != 0) {
                     return rueda;
                 } else {
-                    if (o1.getFechaDelTorneo() > o2.getFechaDelTorneo()) {
-                        return 1;
-                    } else if (o1.getFechaDelTorneo() < o2.getFechaDelTorneo()) {
-                        return -1;
-                    }
+                    Integer fecha = o1.getFechaDelTorneo() - o2.getFechaDelTorneo();
+                    if (fecha != 0)
+                        return fecha;
                 }
                 throw new NoxitRuntimeException("Hay un partido repetido en el torneo");
             }
         });
+
         try {
-            return (partidos.get(partidos.indexOf(partido) + 1));
+            return partidos.get(partidos.indexOf(partido) + 1);
         } catch (IndexOutOfBoundsException e) {
-            throw new NoHayPartidoSiguienteException();
+            throw new NoHayPartidoSiguienteException(e);
         }
     }
 
@@ -107,5 +106,4 @@ public class Torneo {
 
     public Torneo() {
     }
-
 }

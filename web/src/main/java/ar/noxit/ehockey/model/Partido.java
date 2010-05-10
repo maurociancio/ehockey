@@ -63,8 +63,8 @@ public class Partido {
         try {
             planillaPrecargada = new Planilla(this).finalizarPlanilla();
         } catch (PlanillaYaFinalizadaException e) {
-            //no debería pasar nunca
-            throw new NoxitRuntimeException("Se cerro una planilla que ya estaba cerrada durante la creacion");
+            // no debería pasar nunca
+            throw new NoxitRuntimeException("Se cerro una planilla que ya estaba cerrada durante la creacion", e);
         }
         planillaFinal = new Planilla(this);
     }
@@ -204,5 +204,4 @@ public class Partido {
 
     protected Partido() {
     }
-
 }
