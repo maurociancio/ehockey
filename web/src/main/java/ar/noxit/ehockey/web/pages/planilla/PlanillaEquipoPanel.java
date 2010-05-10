@@ -57,6 +57,7 @@ public class PlanillaEquipoPanel extends Panel {
         add(new RequiredTextField<String>("dt", new PropertyModel<String>(info, "dt")));
         add(new RequiredTextField<String>("pf", new PropertyModel<String>(info, "pf")));
         add(new RequiredTextField<String>("medico", new PropertyModel<String>(info, "medico")));
+        add(new RequiredTextField<String>("capitan", new PropertyModel<String>(info, "capitan")));
         add(new RequiredTextField<String>("juezmesa", new PropertyModel<String>(info, "juezMesa")));
         add(new RequiredTextField<String>("arbitro", new PropertyModel<String>(info, "arbitro")));
 

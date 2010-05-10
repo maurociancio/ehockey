@@ -96,6 +96,18 @@ public class PlanillaFinal extends PlanillaBase {
         this.datosLocal.setMedico(medico);
     }
 
+    public void setCapitanL(String capitan) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+
+        this.datosLocal.setCapitan(capitan);
+    }
+
+    public void setCapitanV(String capitan) throws PlanillaNoModificableException {
+        validatePlanillaCerrada();
+
+        this.datosVisitante.setCapitan(capitan);
+    }
+
     public void setPfL(String pf) throws PlanillaNoModificableException {
         validatePlanillaCerrada();
 

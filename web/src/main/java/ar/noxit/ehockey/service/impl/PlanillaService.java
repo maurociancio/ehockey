@@ -52,10 +52,12 @@ public class PlanillaService implements IPlanillaService {
         planilla.setDtL(infoLocal.getDt());
         planilla.setGoleadoresL(infoLocal.getGoleadores());
         planilla.setJuezMesaL(infoLocal.getJuezMesa());
+        planilla.setCapitanL(infoLocal.getCapitan());
         planilla.setMedicoL(infoLocal.getMedico());
         planilla.setPfL(infoLocal.getPf());
         planilla.setArbitroV(infoVisitante.getArbitro());
         planilla.setDtV(infoVisitante.getDt());
+        planilla.setCapitanV(infoVisitante.getCapitan());
         planilla.setGoleadoresV(infoVisitante.getGoleadores());
         planilla.setJuezMesaV(infoVisitante.getJuezMesa());
         planilla.setMedicoV(infoVisitante.getMedico());

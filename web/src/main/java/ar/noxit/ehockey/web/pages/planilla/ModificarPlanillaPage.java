@@ -79,6 +79,7 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 temp.setJuezMesa(object.getJuezDeMesa());
                 temp.setMedico(object.getMedico());
                 temp.setPf(object.getpFisico());
+                temp.setCapitan(object.getCapitan());
                 for (Jugador j : object.getJugadores()) {
                     temp.getSeleccionados().add(j.getFicha());
                 }

@@ -12,6 +12,7 @@ public class EquipoInfo implements Serializable {
     private String medico;
     private String juezMesa;
     private String arbitro;
+    private String capitan;
     private List<Integer> seleccionados = new ArrayList<Integer>();
     private List<AmonestacionInfo> amonestaciones = new ArrayList<AmonestacionInfo>();
 
@@ -77,5 +78,13 @@ public class EquipoInfo implements Serializable {
 
     public void setAmonestaciones(List<AmonestacionInfo> amonestaciones) {
         this.amonestaciones = amonestaciones;
+    }
+
+    public String getCapitan() {
+        return capitan;
+    }
+
+    public void setCapitan(String capitan) {
+        this.capitan = capitan;
     }
 }
