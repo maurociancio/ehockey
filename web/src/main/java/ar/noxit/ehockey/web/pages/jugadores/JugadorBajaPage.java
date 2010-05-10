@@ -15,6 +15,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.noxit.ehockey.exception.JugadorYaBajaException;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IClubService;
@@ -50,6 +51,8 @@ public class JugadorBajaPage extends AbstractJugadorPage {
                             + modelObject.getApellido() + ", "
                             + modelObject.getNombre()
                             + " se ha dado de baja exitosamente"));
+                } catch (JugadorYaBajaException e) {
+                    info("El jugador no se ha podido dar de baja debido a que ya estaba dado de baja.");
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
@@ -111,7 +114,7 @@ public class JugadorBajaPage extends AbstractJugadorPage {
 
         @Override
         protected List<Jugador> listToLoad() throws NoxitException {
-            return this.getService().getAll();
+            return this.getService().getAllActive();
         }
     }
 

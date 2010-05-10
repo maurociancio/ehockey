@@ -1,142 +1,157 @@
 <wicket:panel>
 	<div id="cabeceraPlanilla">
-	<table class="planillaPartidoCabecera">
-		<tr>
-			<td colspan="30"><span wicket:id="federacion" /></td>
-		</tr>
-		<tr>
-			<td colspan="9"><span>Torneo</span> <span>Rueda</span> <span>Fecha</span>
-			<span>Partido</span></td>
-			<td colspan="21"><span> Sector </span> <span> Categoria </span>
-			<span> Division</span> <span> Zona </span></td>
-		</tr>
-		<tr>
-			<td colspan="9"><span wicket:id="torneo" /> <span
-				wicket:id="rueda" /> <span wicket:id="fecha" /> <span
-				wicket:id="partido" /></td>
-			<td colspan="21"><span wicket:id="sector" /> <span
-				wicket:id="categoria" /> <span wicket:id="division" /> <span
-				wicket:id="zona" /></td>
-		</tr>
-		<tr>
-			<td colspan="6" rowspan="2" class="alineadosIzquierda"><span>
-			Local </span></td>
-			<td colspan="2"><span>Dia</span></td>
-			<td colspan="2"><span>Mes</span></td>
-			<td colspan="2"><span>Año</span></td>
-			<td colspan="6"><span> Resultado </span></td>
-			<td colspan="6"><span>Lugar</span></td>
-			<td colspan="6" rowspan="2" class="alineadoDerecha"><span>
-			Visitante </span></td>
-		</tr>
-		<tr>
-			<td colspan="2"><span wicket:id="dia" /></td>
-			<td colspan="2"><span wicket:id="mes" /></td>
-			<td colspan="2"><span wicket:id="año" /></td>
-			<td colspan="2"><span>L</span></td>
-			<td colspan="2"><span>E</span></td>
-			<td colspan="2"><span>V</span></td>
-			<td colspan="6"><span wicket:id="lugar" /></td>
-		</tr>
-		<tr>
-			<td colspan="12" class="alineadosIzquierda"><span
-				wicket:id="nombreLocal" /></td>
-			<td colspan="3" />
-			<td colspan="3" />
-			<td colspan="12" class="alineadosDerecha"><span
-				wicket:id="nombreVisitante" /></td>
-		</tr>
-	</table>
+		<table class="planillaPartidoCabecera">
+			<tr>
+				<td colspan="30"><span wicket:id="federacion" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><span>Torneo</span></td>
+				<td colspan="2"><span>Rueda</span></td>
+				<td colspan="2"><span>Fecha</span></td>
+				<td colspan="2"><span>Partido</span></td>
+				<td colspan="5"><span> Sector </span></td>
+				<td colspan="6"><span> Categoria </span></td>
+				<td colspan="6"><span> Division</span></td>
+				<td colspan="5"><span> Zona </span></td>
+			</tr>
+			<tr>
+				<td colspan="2"><span wicket:id="torneo" /></td>
+				<td colspan="2"><span wicket:id="rueda" /></td>
+				<td colspan="2"><span wicket:id="fecha" /></td>
+				<td colspan="2"><span wicket:id="partido" /></td>
+				<td colspan="5"><span wicket:id="sector" /></td>
+				<td colspan="6"><span wicket:id="categoria" /></td>
+				<td colspan="6"><span wicket:id="division" /></td>
+				<td colspan="5"><span wicket:id="zona" /></td>
+			</tr>
+			<tr>
+				<td colspan="6" rowspan="2" class="alineadosIzquierda"><span>
+				Local </span></td>
+				<td colspan="2"><span>Dia</span></td>
+				<td colspan="2"><span>Mes</span></td>
+				<td colspan="2"><span>Año</span></td>
+				<td colspan="6"><span> Resultado </span></td>
+				<td colspan="6"><span>Lugar</span></td>
+				<td colspan="6" rowspan="2" class="alineadoDerecha"><span>
+				Visitante </span></td>
+			</tr>
+			<tr>
+				<td colspan="2"><span wicket:id="dia" /></td>
+				<td colspan="2"><span wicket:id="mes" /></td>
+				<td colspan="2"><span wicket:id="año" /></td>
+				<td colspan="2"><span>L</span></td>
+				<td colspan="2"><span>E</span></td>
+				<td colspan="2"><span>V</span></td>
+				<td colspan="6"><span wicket:id="lugar" /></td>
+			</tr>
+			<tr>
+				<td colspan="12" class="alineadosIzquierda"><span
+					wicket:id="nombreLocal" /></td>
+				<td colspan="3" />
+				<td colspan="3" />
+				<td colspan="12" class="alineadosDerecha"><span
+					wicket:id="nombreVisitante" /></td>
+			</tr>
+		</table>
 	</div>
 	<div id="cuerpoPlanilla">
-	<table class="planillaPartidoCabecera">
-		<tr>
-			<th rowspan="2" colspan="3"><span>Ficha</span></th>
-			<th rowspan="2" colspan="3"><span>Apellido</span></th>
-			<th rowspan="2" colspan="3"><span>Nro</span></th>
-			<th colspan="6"><span>Tarjetas</span></th>
-			<th rowspan="2" colspan="3"><span>Ficha</span></th>
-			<th rowspan="2" colspan="3"><span>Apellido</span></th>
-			<th rowspan="2" colspan="3"><span>Nro</span></th>
-			<th colspan="6"><span>Tarjetas</span></th>
-		</tr>
-		<tr>
-			<td colspan="2"><span>V</span></td>
-			<td colspan="2"><span>A</span></td>
-			<td colspan="2"><span>R</span></td>
-			<td colspan="2"><span>V</span></td>
-			<td colspan="2"><span>A</span></td>
-			<td colspan="2"><span>R</span></td>
-		</tr>
-		<tr>
-			<td colspan="3">
-			<p wicket:id="fichasJugadoresLocales"><span
-				wicket:id="fichasLocales">fichas</span></p>
-			</td>
-			<td colspan="3">
-			<p wicket:id="jugadoresLocales"><span wicket:id="locales">nombres</span>
-			</p>
-			</td>
-			<td colspan="3">
-			<p wicket:id="numerosJugadoresLocales"><span
-				wicket:id="numerosLocales">numeros</span></p>
-			</td>
-			<td colspan="2"></td>
-			<td colspan="2"></td>
-			<td colspan="2"></td>
-			<td colspan="3">
-			<p wicket:id="fichasJugadoresVisitantes"><span
-				wicket:id="fichasVisitantes">fichas</span></p>
-			</td>
-			<td colspan="3">
-			<p wicket:id="jugadoresVisitantes"><span wicket:id="visitantes">nombres</span>
-			</p>
-			</td>
-			<td colspan="3">
-			<p wicket:id="numerosJugadoresVisitantes"><span
-				wicket:id="numerosVisitantes">numeros</span></p>
-			</td>
-			<td colspan="2"></td>
-			<td colspan="2"></td>
-			<td colspan="2"></td>
-		</tr>
-	</table>
+		<div style="float: left; width: 50%;">
+			<table class="planillaPartidoCabecera">
+				<tr>
+					<th rowspan="2" colspan="3"><span>Ficha</span></th>
+					<th rowspan="2" colspan="3"><span>Apellido</span></th>
+					<th rowspan="2" colspan="3"><span>Nro</span></th>
+					<th colspan="6"><span>Tarjetas</span></th>
+				</tr>
+				<tr>
+					<td colspan="2"><span>V</span></td>
+					<td colspan="2"><span>A</span></td>
+					<td colspan="2"><span>R</span></td>
+				</tr>
+				<tr wicket:id="filasLocales" style="height: 27px;">
+					<td colspan="3"><span wicket:id="fichas">fichas</span></td>
+					<td colspan="3"><span wicket:id="nombres">nombres</span></td>
+					<td colspan="3"><span wicket:id="numeros">numeros</span></td>
+					<td colspan="2"></td>
+					<td colspan="2"></td>
+					<td colspan="2"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="float: left; width: 50%;">
+			<table class="planillaPartidoCabecera">
+				<tr>
+					<th rowspan="2" colspan="3"><span>Ficha</span></th>
+					<th rowspan="2" colspan="3"><span>Apellido</span></th>
+					<th rowspan="2" colspan="3"><span>Nro</span></th>
+					<th colspan="6"><span>Tarjetas</span></th>
+				</tr>
+				<tr>
+					<td colspan="2"><span>V</span></td>
+					<td colspan="2"><span>A</span></td>
+					<td colspan="2"><span>R</span></td>
+				</tr>
+				<tr wicket:id="filasVisitantes" style="height: 27px;">
+					<td colspan="3"><span wicket:id="fichas">fichas</span></td>
+					<td colspan="3"><span wicket:id="nombres">nombres</span></td>
+					<td colspan="3"><span wicket:id="numeros">numeros</span></td>
+					<td colspan="2"></td>
+					<td colspan="2"></td>
+					<td colspan="2"></td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	<div id="piePlanilla">
-	<table class="planillaPartidoPie">
-		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Goleadores</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Goleadores</span></td>
-		</tr>
-		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>DT</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>DT</span></td>
-		</tr>
-		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Capitán</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Capitán</span></td>
-		</tr>
-		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>PF</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>PF</span></td>
-		</tr>
-		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Médico</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Médico</span></td>
-		</tr>
-		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Juez de
-			Mesa</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Juez de
-			Mesa</span></td>
-		</tr>
-		<tr>
-			<td colspan="4" class="alineadosIzquierda"><span>Árbitro</span></td>
-			<td colspan="4" class="alineadosIzquierda"><span>Árbitro</span></td>
-		</tr>
-		<tr>
-			<td colspan="8"><span>Observaciones</span></td>
-		</tr>
-	</table>
+		<table class="planillaPartidoPie">
+			<tr>
+				<td colspan="2" class="alineadosIzquierda"><span>Goleadores</span></td>
+				<td colspan="6"><span wicket:id="goleadores_local"/></td>
+				<td colspan="2" class="alineadosIzquierda"><span>Goleadores</span></td>
+				<td colspan="6"><span wicket:id="goleadores_visitante"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="alineadosIzquierda"><span>DT</span></td>
+				<td colspan="6"><span wicket:id="dt_local"/></td>
+				<td colspan="2" class="alineadosIzquierda"><span>DT</span></td>
+				<td colspan="6"><span wicket:id="dt_visitante"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="alineadosIzquierda"><span>Capitán</span></td>
+				<td colspan="6"><span wicket:id="capitan_local"/></td>
+				<td colspan="2" class="alineadosIzquierda"><span>Capitán</span></td>
+				<td colspan="6"><span wicket:id="capitan_visitante"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="alineadosIzquierda"><span>PF</span></td>
+				<td colspan="6"><span wicket:id="pfisico_local"/></td>
+				<td colspan="2" class="alineadosIzquierda"><span>PF</span></td>
+				<td colspan="6"><span wicket:id="pfisico_visitante"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="alineadosIzquierda"><span>Médico</span></td>
+				<td colspan="6"><span wicket:id="medico_local"/></td>
+				<td colspan="2" class="alineadosIzquierda"><span>Médico</span></td>
+				<td colspan="6"><span wicket:id="medico_visitante"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="alineadosIzquierda"><span>Juez de
+				Mesa</span></td>
+				<td colspan="6"><span wicket:id="juez_local"/></td>
+				<td colspan="2" class="alineadosIzquierda"><span>Juez de
+				Mesa</span></td>
+				<td colspan="6"><span wicket:id="juez_visitante"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="alineadosIzquierda"><span>Árbitro</span></td>
+				<td colspan="6"><span wicket:id="arbitro_local"/></td>
+				<td colspan="2" class="alineadosIzquierda"><span>Árbitro</span></td>
+				<td colspan="6"><span wicket:id="arbitro_visitante"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><span>Observaciones</span></td>
+				<td colspan="14"><span wicket:id="observaciones"/></td>
+			</tr>
+		</table>
 	</div>
 </wicket:panel>

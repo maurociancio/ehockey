@@ -26,7 +26,7 @@ public class JugadorVerPanel extends Panel {
 
             @Override
             public List<Jugador> listoToLoad() throws NoxitException {
-                return getService().getAll();
+                return getService().getAllActive();
             }
         });
     }
