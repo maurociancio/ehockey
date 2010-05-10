@@ -50,6 +50,6 @@
 
         <property name="observaciones"/>
         <one-to-one name="partido" class="Partido"/>
-        <property name="finalizada" column="finalizada"/>
+        <property name="finalizada" column="finalizada" not-null="true"/>
     </class>
 </hibernate-mapping>

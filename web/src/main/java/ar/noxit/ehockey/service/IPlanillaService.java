@@ -10,4 +10,6 @@ public interface IPlanillaService {
 
     public void updatePlanilla(int idPartido, Integer golesLocal, Integer golesVisitante, EquipoInfo infoLocal,
             EquipoInfo infoVisitante) throws NoxitException;
+
+    public void finalizarPlanilla(Integer idPartido) throws NoxitException;
 }

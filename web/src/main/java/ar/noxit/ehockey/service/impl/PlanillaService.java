@@ -63,4 +63,10 @@ public class PlanillaService implements IPlanillaService {
         planilla.setJugadoresLocal(crearColeccionJugadores(planilla, infoLocal));
         planilla.setJugadoresVisitante(crearColeccionJugadores(planilla, infoVisitante));
     }
+
+    @Override
+    @Transactional
+    public void finalizarPlanilla(Integer idPartido) throws NoxitException {
+        partidoDao.get(idPartido).getPlanilla().finalizarPlanilla();
+    }
 }

@@ -9,14 +9,11 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.noxit.ehockey.model.Partido;
-import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
-import ar.noxit.ehockey.web.pages.planilla.ModificarPlanillaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.LDM;
@@ -41,14 +38,6 @@ public class PartidoPage extends AbstractContentPage {
             @Override
             public void onSubmit() {
                 setResponsePage(new PlanillaPage(partido));
-            }
-        });
-
-        formPartidos.add(new Button("editar") {
-
-            @Override
-            public void onSubmit() {
-                setResponsePage(new ModificarPlanillaPage(partido));
             }
         });
 
