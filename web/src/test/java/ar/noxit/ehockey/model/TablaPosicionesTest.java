@@ -22,7 +22,7 @@ public class TablaPosicionesTest {
     private Equipo eq2;
 
     private void terminarPartido(Partido partido, int golesLocal, int golesVisitante) throws ReglaNegocioException {
-        Planilla planilla = partido.getPlanilla();
+        PlanillaFinal planilla = partido.getPlanilla();
         planilla.setGolesLocal(golesLocal);
         planilla.setGolesVisitante(golesVisitante);
         partido.finalizarPlanilla();

@@ -1,8 +1,8 @@
 package ar.noxit.ehockey.dao;
 
 import ar.noxit.dataaccessobject.IDao;
-import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.ehockey.model.PlanillaBase;
 
-public interface IPlanillaDao extends IDao<Planilla, Integer> {
+public interface IPlanillaDao extends IDao<PlanillaBase, Integer> {
 
 }

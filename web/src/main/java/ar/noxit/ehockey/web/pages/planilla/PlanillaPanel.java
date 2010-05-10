@@ -1,7 +1,7 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
 import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.ehockey.model.PlanillaBase;
 import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class PlanillaPanel extends Panel {
 
     private String FEDERACION = "Federación de Hockey - FIUBA - 75.47";
 
-    public PlanillaPanel(String id, IModel<Planilla> planillaModel) {
+    public PlanillaPanel(String id, IModel<PlanillaBase> planillaModel) {
         super(id);
 
         add(new Label("federacion", this.FEDERACION));
@@ -72,9 +72,9 @@ public class PlanillaPanel extends Panel {
     private class JugadorLocalModelItem extends
             LoadableDetachableModel<List<Jugador>> {
 
-        private IModel<Planilla> planillaModel;
+        private IModel<PlanillaBase> planillaModel;
 
-        public JugadorLocalModelItem(IModel<Planilla> planillaModel) {
+        public JugadorLocalModelItem(IModel<PlanillaBase> planillaModel) {
             this.planillaModel = planillaModel;
         }
 
@@ -89,9 +89,9 @@ public class PlanillaPanel extends Panel {
     private class JugadorVisitanteModelItem extends
             LoadableDetachableModel<List<Jugador>> {
 
-        private IModel<Planilla> planillaModel;
+        private IModel<PlanillaBase> planillaModel;
 
-        public JugadorVisitanteModelItem(IModel<Planilla> planillaModel) {
+        public JugadorVisitanteModelItem(IModel<PlanillaBase> planillaModel) {
             this.planillaModel = planillaModel;
         }
 

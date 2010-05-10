@@ -2,10 +2,10 @@ package ar.noxit.ehockey.dao.impl;
 
 import ar.noxit.dataaccessobject.hibernate.HibernateDao;
 import ar.noxit.ehockey.dao.IPlanillaDao;
-import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.ehockey.model.PlanillaBase;
 
-public class PlanillaDao extends HibernateDao<Planilla, Integer> implements IPlanillaDao {
+public class PlanillaDao extends HibernateDao<PlanillaBase, Integer> implements IPlanillaDao {
     PlanillaDao() {
-        super(Planilla.class);
+        super(PlanillaBase.class);
     }
 }
