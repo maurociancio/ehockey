@@ -29,12 +29,13 @@ public class PlanillaPanel extends Panel {
         add(new Label("torneo", new PropertyModel<String>(planillaModel, "partido.torneo.nombre")));
         add(new Label("rueda", new PropertyModel<Integer>(planillaModel, "partido.rueda")));
         add(new Label("fecha", new PropertyModel<Integer>(planillaModel, "partido.fechaDelTorneo")));
-        add(new Label("partido", "Partido 1")); // TODO GUARDAR NUMERO DE
-                                                // PARTIDO
-        add(new Label("sector", "Sector")); // TODO GUARDAR EL SECTOR EN TORNEO
+        add(new Label("partido", "Partido 1"));
+        // TODO GUARDAR NUMERO DE PARTIDO
+        add(new Label("sector", "Sector"));
+        // TODO GUARDAR EL SECTOR EN TORNEO
         add(new Label("categoria", "Campeonato"));
-        add(new Label("division", "Division")); // TODO GUARDAR LA DIVISION EN
-                                                // EL TORNEO
+        add(new Label("division", "Division"));
+        // TODO GUARDAR LA DIVISION EN EL TORNEO
         add(new Label("zona", ""));
         IModel<LocalDateTime> modelTime = new PropertyModel<LocalDateTime>(planillaModel, "partido.inicio");
         add(new Label("dia", new DiaAdapterModel(modelTime)));
@@ -137,7 +138,6 @@ public class PlanillaPanel extends Panel {
         protected DateTimeFormatter getFormatter() {
             return DateTimeFormat.forPattern("dd");
         }
-
     }
 
     private class MesAdapterModel extends AbstractLocalDateTimeFormatModel {
@@ -150,7 +150,6 @@ public class PlanillaPanel extends Panel {
         protected DateTimeFormatter getFormatter() {
             return DateTimeFormat.forPattern("MM");
         }
-
     }
 
     private class AnoAdapterModel extends AbstractLocalDateTimeFormatModel {
@@ -163,6 +162,5 @@ public class PlanillaPanel extends Panel {
         protected DateTimeFormatter getFormatter() {
             return DateTimeFormat.forPattern("YYYY");
         }
-
     }
 }
