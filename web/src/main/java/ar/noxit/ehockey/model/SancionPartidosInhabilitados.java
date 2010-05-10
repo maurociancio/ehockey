@@ -28,4 +28,11 @@ public class SancionPartidosInhabilitados implements ISancion {
 
         return !partidosInhabilitados.contains(partido);
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    protected SancionPartidosInhabilitados() {
+    }
 }

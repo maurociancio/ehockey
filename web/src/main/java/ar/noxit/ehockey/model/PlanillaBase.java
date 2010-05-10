@@ -1,15 +1,13 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.PlanillaNoModificableException;
+import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
+import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.Validate;
-
-import ar.noxit.ehockey.exception.PlanillaNoModificableException;
-import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
-import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
 
 public abstract class PlanillaBase {
 
@@ -36,10 +34,9 @@ public abstract class PlanillaBase {
     }
 
     protected PlanillaBase() {
-
     }
 
-    /// VALIDADORES
+    // VALIDADORES
     protected void validatePlanillaCerrada() throws PlanillaNoModificableException {
         if (this.finalizada)
             throw new PlanillaNoModificableException();

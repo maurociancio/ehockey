@@ -55,4 +55,11 @@ public class Tarjeta {
             return 0;
         return valores.get(tipo);
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    protected Tarjeta() {
+    }
 }
