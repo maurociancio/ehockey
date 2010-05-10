@@ -1,12 +1,11 @@
 package ar.noxit.ehockey.model;
 
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDateTime;
-
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import ar.noxit.ehockey.exception.PlanillaNoFinalizadaException;
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
 
 public class Partido {
 
@@ -181,10 +180,17 @@ public class Partido {
         return this.planillaFinal.getGolesVisitante();
     }
 
+    public boolean juega(Equipo equipo) {
+        Validate.notNull(equipo);
+
+        return local.equals(equipo) || visitante.equals(equipo);
+    }
+
     public Integer getId() {
         return id;
     }
 
     protected Partido() {
     }
+
 }

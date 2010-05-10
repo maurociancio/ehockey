@@ -1,9 +1,11 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.SinClubException;
+import ar.noxit.ehockey.model.Tarjeta.TipoTarjeta;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
-
-import ar.noxit.ehockey.exception.SinClubException;
 
 /**
  * Jugador
@@ -35,6 +37,9 @@ public class Jugador {
     private Division division;
     private Club club;
     private Sector sector;
+
+    private Set<Tarjeta> tarjetas = new HashSet<Tarjeta>();
+    private Set<ISancion> sanciones = new HashSet<ISancion>();
 
     /**
      * Construye un nuevo jugador
@@ -101,6 +106,54 @@ public class Jugador {
         this.club = null;
         if (clubViejo != null && clubViejo.contiene(this)) {
             clubViejo.borrarJugador(this);
+        }
+    }
+
+    /**
+     * Crea y guarda las tarjetas y crea sanciones si corresponde.
+     * 
+     * @param partido
+     * @param equipo
+     * @param tarjetasPartido
+     */
+    public void amonestar(Partido partido, Equipo equipo, TarjetasPartido tarjetasPartido) {
+        Validate.notNull(partido);
+        Validate.notNull(equipo);
+        Validate.notNull(tarjetasPartido);
+
+        Integer rojas = tarjetasPartido.getRojas();
+        Integer amarillas = tarjetasPartido.getAmarillas();
+        Integer verdes = tarjetasPartido.getVerdes();
+
+        crearTarjetas(partido, rojas, TipoTarjeta.ROJA);
+        crearTarjetas(partido, amarillas, TipoTarjeta.AMARILLA);
+        crearTarjetas(partido, verdes, TipoTarjeta.VERDE);
+
+        crearSancionesSiCorresponde(partido, equipo);
+    }
+
+    private void crearSancionesSiCorresponde(Partido partido, Equipo equipo) {
+        Validate.notNull(partido);
+
+        if (sumarTarjetas() >= 15) {
+            Torneo torneo = partido.getTorneo();
+            torneo.getProximoPartidoDe(partido, equipo);
+            // sanciones.add(new SancionPartidosInhabilitados(null));
+        }
+    }
+
+    private int sumarTarjetas() {
+        // TODO
+        int suma = 0;
+        for (Tarjeta tarjeta : tarjetas) {
+            suma += tarjeta.getValor();
+        }
+        return suma;
+    }
+
+    private void crearTarjetas(Partido partido, Integer rojas, TipoTarjeta tipo) {
+        for (int i = 0; i < rojas; ++i) {
+            tarjetas.add(new Tarjeta(tipo, partido));
         }
     }
 

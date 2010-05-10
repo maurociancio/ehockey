@@ -8,6 +8,16 @@
             <generator class="increment"/>
         </id>
 
+        <map name="tarjetas" table="tarjetas" cascade="all">
+            <key column="planilla_id"/>
+            <index-many-to-many column="jugador_id" class="Jugador"/>
+            <composite-element class="ar.noxit.ehockey.model.TarjetasPartido">
+                <property name="rojas" not-null="true"/>
+                <property name="amarillas" not-null="true"/>
+                <property name="verdes" not-null="true"/>
+            </composite-element>
+        </map>
+
         <component name="datosLocal" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
             <property name="dT" column="dt_local"/>
             <property name="capitan" column="capitan_local"/>
@@ -39,9 +49,7 @@
         </component>
 
         <property name="observaciones"/>
-
         <one-to-one name="partido" class="Partido"/>
-
         <property name="finalizada" column="finalizada"/>
     </class>
 </hibernate-mapping>

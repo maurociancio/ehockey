@@ -2,6 +2,7 @@ package ar.noxit.ehockey.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.lang.Validate;
 
 public class DatosEquipoPlanilla {
 
@@ -14,6 +15,11 @@ public class DatosEquipoPlanilla {
     private Integer goles;
     private Set<Jugador> jugadores = new HashSet<Jugador>();
     private String goleadores;
+
+    public boolean jugo(Jugador jugador) {
+        Validate.notNull(jugador);
+        return jugadores.contains(jugador);
+    }
 
     public String getdT() {
         return dT;
@@ -86,4 +92,5 @@ public class DatosEquipoPlanilla {
     public void setGoleadores(String goleadores) {
         this.goleadores = goleadores;
     }
+
 }

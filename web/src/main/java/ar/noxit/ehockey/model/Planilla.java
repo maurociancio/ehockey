@@ -1,21 +1,26 @@
 package ar.noxit.ehockey.model;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
-
-import org.apache.commons.lang.Validate;
+import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
 
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
+import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.lang.Validate;
 
 public class Planilla {
+
     private int id;
 
     private Partido partido;
 
     private DatosEquipoPlanilla datosLocal = new DatosEquipoPlanilla();
     private DatosEquipoPlanilla datosVisitante = new DatosEquipoPlanilla();
+    private Map<Jugador, TarjetasPartido> tarjetas = new HashMap<Jugador, TarjetasPartido>();
 
     private String observaciones;
 
@@ -59,7 +64,8 @@ public class Planilla {
     }
 
     private void validatePlanillaCerrada() throws PlanillaNoModificableException {
-        if (this.finalizada) throw new PlanillaNoModificableException();
+        if (this.finalizada)
+            throw new PlanillaNoModificableException();
     }
 
     private void agregarJugador(Jugador jugador, Set<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
@@ -186,12 +192,42 @@ public class Planilla {
      * Cierra una planilla para que no pueda modificarse más. Tener en cuenta
      * que la planilla cerrada es la que devuelve.
      * 
-     * @return una planilla que es igual a esta pero que no puede ser
-     *         modificada.
+     * @throws PlanillaYaFinalizadaException
      */
-    public Planilla finalizarPlanilla() {
+    public Planilla finalizarPlanilla() throws PlanillaYaFinalizadaException {
+        if (this.finalizada) {
+            throw new PlanillaYaFinalizadaException();
+        }
         this.finalizada = true;
+
+        for (Map.Entry<Jugador, TarjetasPartido> entry : tarjetas.entrySet()) {
+            Jugador jugador = entry.getKey();
+            TarjetasPartido tarjetasPartido = entry.getValue();
+            Equipo equipoJugador = getEquipoDeJugador(jugador);
+
+            jugador.amonestar(partido, equipoJugador, tarjetasPartido);
+        }
         return this;
+    }
+
+    private Equipo getEquipoDeJugador(Jugador jugador) {
+        Validate.notNull(jugador);
+
+        boolean jugoLocal = datosLocal.jugo(jugador);
+        boolean jugoVisitante = datosVisitante.jugo(jugador);
+
+        if (jugoLocal && jugoVisitante) {
+            throw new ViolacionReglaNegocioException("el jugador jugo en los dos equipos");
+        }
+
+        if (jugoLocal) {
+            return getLocal();
+        }
+        if (jugoVisitante) {
+            return getVisitante();
+        }
+
+        throw new ViolacionReglaNegocioException("el jugador no jugo en ningun lado");
     }
 
     public Equipo getLocal() {

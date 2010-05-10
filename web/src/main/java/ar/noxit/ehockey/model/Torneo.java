@@ -2,8 +2,13 @@ package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
 import ar.noxit.ehockey.exception.TorneoNoCoincideException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
 
@@ -50,6 +55,34 @@ public class Torneo {
         this.partidos.add(partido);
     }
 
+    public void getProximoPartidoDe(Partido partido, Equipo equipo) {
+        Validate.notNull(partido);
+        Validate.notNull(equipo);
+
+        List<Partido> partidos = getPartidosDe(equipo);
+        Collections.sort(partidos, new Comparator<Partido>() {
+
+            @Override
+            public int compare(Partido o1, Partido o2) {
+                Integer rueda = o1.getRueda() - o2.getRueda();
+                if (rueda != 0) {
+                    return rueda;
+                }
+                throw new NoxitRuntimeException();
+            }
+        });
+    }
+
+    private List<Partido> getPartidosDe(Equipo equipo) {
+        List<Partido> p = new ArrayList<Partido>();
+        for (Partido partido : partidos) {
+            if (partido.juega(equipo)) {
+                p.add(partido);
+            }
+        }
+        return p;
+    }
+
     public TablaPosiciones crearTablaPosiciones() {
         return new TablaPosiciones(this);
     }
@@ -60,4 +93,5 @@ public class Torneo {
 
     public Torneo() {
     }
+
 }
