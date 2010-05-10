@@ -136,6 +136,8 @@ public class NuevoTorneoWizard extends Wizard {
                             { 2, 3, 1, 4, 1 },
                             { 2, 3, 2, 2, 3 } };
 
+                    LocalDateTime now = new LocalDateTime();
+
                     List<PartidoInfo> infoPartidos = partidos.getObject();
                     infoPartidos.clear();
                     for (Integer[] partidoActual : cronograma) {
@@ -152,10 +154,13 @@ public class NuevoTorneoWizard extends Wizard {
                         Integer local = equiposIds.get(localIndex);
                         Integer visitante = equiposIds.get(visitanteIndex);
 
+                        Integer ruedaYFecha = (rueda - 1) * 3 + numeroFecha;
+
                         pi.setNumeroFecha(numeroFecha);
                         pi.setEquipoLocalId(local);
                         pi.setEquipoVisitanteId(visitante);
                         pi.setRueda(rueda);
+                        pi.setFecha(now.plusDays(ruedaYFecha * 7));
                         infoPartidos.add(pi);
                     }
                 }
