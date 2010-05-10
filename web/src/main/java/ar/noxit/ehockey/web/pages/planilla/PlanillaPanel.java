@@ -50,6 +50,23 @@ public class PlanillaPanel extends Panel {
 
         add(new MyLoop("filasLocales", Model.of(18), modelLocal));
         add(new MyLoop("filasVisitantes", Model.of(18), modelVisitante));
+
+        add(new Label("goleadores_local", new PropertyModel<String>(planillaModel, "datosLocal.goleadores")));
+        add(new Label("goleadores_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.goleadores")));
+        add(new Label("dt_local", new PropertyModel<String>(planillaModel, "datosLocal.dT")));
+        add(new Label("dt_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.dT")));
+        add(new Label("capitan_local", new PropertyModel<String>(planillaModel, "datosLocal.capitan")));
+        add(new Label("capitan_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.capitan")));
+        add(new Label("pfisico_local", new PropertyModel<String>(planillaModel, "datosLocal.pFisico")));
+        add(new Label("pfisico_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.pFisico")));
+        add(new Label("medico_local", new PropertyModel<String>(planillaModel, "datosLocal.medico")));
+        add(new Label("medico_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.medico")));
+        add(new Label("juez_local", new PropertyModel<String>(planillaModel, "datosLocal.juezDeMesa")));
+        add(new Label("juez_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.juezDeMesa")));
+        add(new Label("arbitro_local", new PropertyModel<String>(planillaModel, "datosLocal.arbitro")));
+        add(new Label("arbitro_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.arbitro")));
+
+        add(new Label("observaciones", new PropertyModel<String>(planillaModel, "observaciones")));
     }
 
     private class JugadorLocalModelItem extends
