@@ -87,6 +87,6 @@ public class PlanillaService implements IPlanillaService {
     @Override
     @Transactional
     public void finalizarPlanilla(Integer idPartido) throws NoxitException {
-        partidoDao.get(idPartido).getPlanilla().finalizarPlanilla();
+        partidoDao.get(idPartido).finalizarPlanilla();
     }
 }
