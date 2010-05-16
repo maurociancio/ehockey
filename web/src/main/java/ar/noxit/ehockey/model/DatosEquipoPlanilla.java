@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.ReglaNegocioException;
+
 import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
 
 import java.util.HashMap;
@@ -25,6 +27,29 @@ public class DatosEquipoPlanilla {
     public boolean jugo(Jugador jugador) {
         Validate.notNull(jugador);
         return jugadores.contains(jugador);
+    }
+
+    public void checkCompleta() throws ReglaNegocioException {
+        CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
+
+        check(composite, dT != null, "DT no puede ser null");
+        check(composite, capitan != null, "Capitan no puede ser null");
+        check(composite, pFisico != null, "Preparador Físico no puede ser null");
+        check(composite, medico != null, "Médico no puede ser null");
+        check(composite, juezDeMesa != null, "Juez de Mesa no puede ser null");
+        check(composite, arbitro != null, "Arbitro no puede ser null");
+        check(composite, goles != null, "Goles no puede ser null");
+        check(composite, jugadores.size() < 8, "Pocos jugadores");
+        check(composite, jugadores.size() > 18, "Muchos jugadores");
+
+        composite.throwsIfNotEmpty();
+    }
+
+    private void check(CompositeReglaDeNegocioException composite, boolean condicion, String mensaje) {
+        if (condicion) {
+            // TODO MEJORAR
+            composite.add(new ReglaNegocioException(mensaje));
+        }
     }
 
     public Map<Jugador, TarjetasPartido> getTarjetas() {

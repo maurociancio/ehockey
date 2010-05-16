@@ -2,11 +2,14 @@ package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
+import ar.noxit.ehockey.exception.ReglaNegocioException;
 import java.util.Collection;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
 
-public class PlanillaFinal extends PlanillaBase {
+public class PlanillaFinal extends PlanillaBase implements PlanillaPublicable, Comentable, PlanillaFinalizable {
+
+    private String comentario;
 
     public PlanillaFinal(Partido partido) {
         super(partido);
@@ -154,6 +157,33 @@ public class PlanillaFinal extends PlanillaBase {
         validatePlanillaCerrada();
 
         this.observaciones = observaciones;
+    }
+
+    @Override
+    public void checkPublicable() throws ReglaNegocioException {
+        CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
+
+        DatosEquipoPlanilla datos[] = { datosLocal, datosVisitante };
+        for (DatosEquipoPlanilla dep : datos) {
+            try {
+                dep.checkCompleta();
+            } catch (ReglaNegocioException e) {
+                composite.add(e);
+            }
+        }
+
+        composite.throwsIfNotEmpty();
+    }
+
+    @Override
+    public void comentar(String comentario) {
+        Validate.notNull(comentario);
+
+        this.comentario = comentario;
+    }
+
+    public String getComentario() {
+        return comentario;
     }
 
     protected PlanillaFinal() {
