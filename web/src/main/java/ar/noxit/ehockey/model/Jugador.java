@@ -26,7 +26,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Jugador {
 
-    public static final int PUNTOSTARJETASANCION = 15;
+    public static final int CANTIDADTARJETASROJASSANCION = 4;
+    public static final int CANTIDADTARJETASAMARILLASSANCION = 3;
+    public static final int CANTIDADTARJETASVERDESSANCION = 1;
     /**
      * Ficha del Jugador
      */
@@ -171,10 +173,20 @@ public class Jugador {
 
         try {
             Partido partidoActual = partido;
-            while (sumarTarjetas() >= PUNTOSTARJETASANCION) {
+            while (sumarTarjetas(TipoTarjeta.ROJA) >= CANTIDADTARJETASROJASSANCION) {
                 partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
                 suspendidos.add(partidoActual);
-                descontarTarjetas(PUNTOSTARJETASANCION);
+                descontarTarjetas(TipoTarjeta.ROJA, CANTIDADTARJETASROJASSANCION);
+            }
+            while (sumarTarjetas(TipoTarjeta.AMARILLA) >= CANTIDADTARJETASAMARILLASSANCION) {
+                partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
+                suspendidos.add(partidoActual);
+                descontarTarjetas(TipoTarjeta.AMARILLA, CANTIDADTARJETASAMARILLASSANCION);
+            }
+            while (sumarTarjetas(TipoTarjeta.VERDE) >= CANTIDADTARJETASVERDESSANCION) {
+                partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
+                suspendidos.add(partidoActual);
+                descontarTarjetas(TipoTarjeta.VERDE, CANTIDADTARJETASVERDESSANCION);
             }
         } catch (NoHayPartidoSiguienteException e) {
             logger.debug("Sancion no aplicada, no hay más partidos", e);
@@ -195,25 +207,24 @@ public class Jugador {
         return juega;
     }
 
-    private int sumarTarjetas() {
-        // TODO
+    private int sumarTarjetas(TipoTarjeta tipo) {
         int suma = 0;
         for (Tarjeta tarjeta : tarjetas) {
-            suma += tarjeta.getValor();
+            if (tarjeta.getTipo().equals(tipo) && !tarjeta.isUsada()) suma++;
         }
         return suma;
     }
 
-    private void descontarTarjetas(int puntos) {
-        // TODO
+    private void descontarTarjetas(TipoTarjeta tipo, int cantidad) {
         int suma = 0;
         Iterator<Tarjeta> it = tarjetas.iterator();
-        while (it.hasNext() && suma < puntos) {
+        while (it.hasNext() && suma < cantidad) {
             Tarjeta tarjeta = it.next();
-            int valor = tarjeta.getValor();
             try {
-                tarjeta.usar();
-                suma += valor;
+            	if (tarjeta.getTipo().equals(tipo)) {
+            		tarjeta.usar();
+            		suma++;
+            	}
             } catch (TarjetaYaUsadaException e) {
                 logger.debug("seguimos buscando tarjetas", e);
                 // seguimos buscando tarjetas
@@ -221,8 +232,8 @@ public class Jugador {
         }
     }
 
-    private void crearTarjetas(Partido partido, Integer rojas, TipoTarjeta tipo) {
-        for (int i = 0; i < rojas; ++i) {
+    private void crearTarjetas(Partido partido, Integer cantidad, TipoTarjeta tipo) {
+        for (int i = 0; i < cantidad; ++i) {
             tarjetas.add(new Tarjeta(tipo, partido));
         }
     }

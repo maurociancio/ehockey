@@ -1,21 +1,13 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.TarjetaYaUsadaException;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.lang.Validate;
+
+import ar.noxit.ehockey.exception.TarjetaYaUsadaException;
 
 public class Tarjeta {
 
     public enum TipoTarjeta {
         ROJA, AMARILLA, VERDE
-    }
-
-    private static final Map<TipoTarjeta, Integer> valores = new HashMap<TipoTarjeta, Integer>();
-    static {
-        valores.put(TipoTarjeta.ROJA, 10);
-        valores.put(TipoTarjeta.AMARILLA, 5);
-        valores.put(TipoTarjeta.VERDE, 2);
     }
 
     private Integer id;
@@ -48,12 +40,6 @@ public class Tarjeta {
 
     public boolean isUsada() {
         return this.usada;
-    }
-
-    public int getValor() {
-        if (usada)
-            return 0;
-        return valores.get(tipo);
     }
 
     public Integer getId() {
