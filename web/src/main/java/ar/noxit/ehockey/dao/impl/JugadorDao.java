@@ -72,9 +72,11 @@ public class JugadorDao extends HibernateDao<Jugador, Integer> implements
     public List<Jugador> getJugadoresFromClubDivisionSector(Integer clubId,
             Integer divisionId, Integer sectorId) {
         // Verifico que al menos un parametro es distinto de null
-        Validate.isTrue(clubId != null || divisionId != null
-                || sectorId != null);
-        return generateQuery(clubId, divisionId, sectorId);
+        if (clubId == null && divisionId == null && sectorId == null) {
+            return getAllActive();
+        } else {
+            return generateQuery(clubId, divisionId, sectorId);
+        }
     }
 
     private List generateQuery(Integer clubid, Integer divisionid,
