@@ -1,18 +1,22 @@
 <wicket:panel>
-	<form wicket:id="formulario">
 	<table>
 		<tr>
 			<th><span>Torneo</span></th>
-			<th><span>División</span></th>
-			<th><span>Sector</span></th>
 		</tr>
 		<tr>
-			<td><select wicket:id="torneos" /></td>
-			<td><select wicket:id="division" /></td>
-			<td><select wicket:id="sector" /></td>
-			<td><input type="submit" value="Cargar" /></td>
+			<td><select wicket:id="torneo" /></td>
 		</tr>
 	</table>
 	<table wicket:id="tablaposiciones"></table>
-	</form>
+	<p class="italicas">
+	<small><span>Referencia: </span></small><br/>
+	<small><span>PTS: puntos</span></small><br/>
+	<small><span>PJ: partidos jugados</span></small><br/>
+	<small><span>PG: partidos ganados</span></small><br/>
+	<small><span>PE: partidos empatados</span></small><br/>
+	<small><span>PP: partidos perdidos</span></small><br/>
+	<small><span>GF: goles a favor</span></small><br/>
+	<small><span>GC: goles en contra</span></small><br/>
+	<small><span>DG: diferencia de gol</span></small>
+	</p>
 </wicket:panel>

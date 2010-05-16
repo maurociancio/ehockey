@@ -18,7 +18,8 @@ public class TablaPosiciones {
     private Map<Equipo, DatosTabla> tabla = new HashMap<Equipo, DatosTabla>();
     private Iterator<Partido> partidos;
     private Set<Partido> partidosFiltrados;
-    private static final Logger logger = LoggerFactory.getLogger(TablaPosiciones.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(TablaPosiciones.class);
 
     public TablaPosiciones(Torneo torneo) {
         this.torneo = torneo;
@@ -52,33 +53,44 @@ public class TablaPosiciones {
         // Calculo los datos de cada equipo
         while (partidos.hasNext()) {
             Partido partido = partidos.next();
+            Equipo local = partido.getLocal();
+            Equipo visitante = partido.getVisitante();
             try {
-                Equipo local = partido.getLocal();
-                Equipo visitante = partido.getVisitante();
                 Integer golesVisitante = partido.getGolesVisitante();
                 Integer golesLocal = partido.getGolesLocal();
                 resolverPartido(local, golesLocal, golesVisitante);
                 resolverPartido(visitante, golesVisitante, golesLocal);
             } catch (PlanillaNoFinalizadaException e) {
-                //no cuenta el partido porque la planilla no está validada.
+                // no cuenta el partido porque la planilla no está validada,
+                // pero acumulo para que me muestre los euquipos con cero datos
+                // en la tabla de posiciones.
+                resolverPartido(local);
+                resolverPartido(visitante);
                 logger.debug("La planilla del partido no estaba validada");
             }
         }
         return this;
     }
 
+    private void resolverPartido(Equipo equipo) {
+        if (!tabla.containsKey(equipo)) {
+            tabla.put(equipo, new DatosTabla(equipo.getNombre()));
+        }
+    }
+
     private void resolverPartido(Equipo equipo, int golesFavor, int golesContra) {
         if (tabla.containsKey(equipo)) {
             tabla.get(equipo).jugarPartido(golesFavor, golesContra);
         } else {
-            tabla.put(equipo, new DatosTabla(equipo.getNombre()).jugarPartido(golesFavor, golesContra));
+            tabla.put(equipo, new DatosTabla(equipo.getNombre()).jugarPartido(
+                    golesFavor, golesContra));
         }
     }
 
     private Iterator<Partido> getPartidosByDivision(Division division) {
         Set<Partido> set = new HashSet<Partido>();
-        Iterator<Partido> it = (partidosFiltrados.isEmpty()) ? this.torneo.iteradorPartidos() : this.partidosFiltrados
-                .iterator();
+        Iterator<Partido> it = (partidosFiltrados.isEmpty()) ? this.torneo
+                .iteradorPartidos() : this.partidosFiltrados.iterator();
         while (it.hasNext()) {
             Partido partido = it.next();
             if (partido.getLocal().getDivision().equals(division)
@@ -91,11 +103,12 @@ public class TablaPosiciones {
 
     private Iterator<Partido> getPartidosBySector(Sector sector) {
         Set<Partido> set = new HashSet<Partido>();
-        Iterator<Partido> it = (partidosFiltrados.isEmpty()) ? this.torneo.iteradorPartidos() : this.partidosFiltrados
-                .iterator();
+        Iterator<Partido> it = (partidosFiltrados.isEmpty()) ? this.torneo
+                .iteradorPartidos() : this.partidosFiltrados.iterator();
         while (it.hasNext()) {
             Partido partido = it.next();
-            if (partido.getLocal().getSector().equals(sector) && partido.getVisitante().getSector().equals(sector)) {
+            if (partido.getLocal().getSector().equals(sector)
+                    && partido.getVisitante().getSector().equals(sector)) {
                 set.add(partido);
             }
         }

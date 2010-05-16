@@ -46,7 +46,10 @@ public class JugadorVerPage extends AbstractJugadorPage {
 
     public JugadorVerPage() {
         super();
-        this.setOutputMarkupId(true);
+
+        JugadorVerPanel jugadorVerPanel = new JugadorVerPanel(jugadorService,
+                new JugadorByClubDivisionSectorDataProvider(jugadorService));
+        jugadorVerPanel.setOutputMarkupId(true);
         add(new DropDownChoice<Club>("club", new IdClubModel(clubid,
                 clubService), new ClubListModel(clubService),
                 new ClubRenderer()).setNullValid(true).add(
@@ -62,7 +65,7 @@ public class JugadorVerPage extends AbstractJugadorPage {
                 new SectorRenderer()).setNullValid(true).add(
                 new AjaxJugadorVerUpdater("onchange")));
 
-        add(new JugadorVerPanel(jugadorService));
+        add(jugadorVerPanel);
     }
 
     private class AjaxJugadorVerUpdater extends
@@ -74,12 +77,7 @@ public class JugadorVerPage extends AbstractJugadorPage {
 
         @Override
         protected void onUpdate(AjaxRequestTarget target) {
-            MarkupContainer pagina = this.getComponent().getParent();
-            target.addComponent(pagina);
-            pagina
-                    .addOrReplace(new JugadorVerPanel(jugadorService,
-                            new JugadorByClubDivisionSectorDataProvider(
-                                    jugadorService)));
+            target.addComponent(getPage().get("jugadorespanel"));
         }
     }
 

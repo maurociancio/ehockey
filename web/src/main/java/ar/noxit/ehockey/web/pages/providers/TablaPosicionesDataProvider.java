@@ -8,78 +8,36 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import ar.noxit.ehockey.model.DatosTabla;
+import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.provider.DataProvider;
 
 public class TablaPosicionesDataProvider extends DataProvider<DatosTabla> {
 
     private ITablaPosicionesService tablaService;
-    private Integer torneoId;
-    private Integer divisionId;
-    private Integer sectorId;
-    private Integer equipoId;
+    private IModel<Torneo> torneoModel;
 
-    public TablaPosicionesDataProvider(ITablaPosicionesService tablaService) {
+    public TablaPosicionesDataProvider(ITablaPosicionesService tablaService,
+            IModel<Torneo> torneoModel) {
         Validate.notNull(tablaService);
         this.tablaService = tablaService;
-    }
-
-    public TablaPosicionesDataProvider(ITablaPosicionesService tablaService,
-            Integer torneoId) {
-        Validate.notNull(tablaService);
-        this.tablaService = tablaService;
-        this.torneoId = torneoId;
-    }
-
-    public TablaPosicionesDataProvider(ITablaPosicionesService tablaService,
-            Integer torneoId, Integer divisionId) {
-        this(tablaService, torneoId);
-        this.divisionId = divisionId;
-    }
-
-    public TablaPosicionesDataProvider(ITablaPosicionesService tablaService,
-            Integer torneoId, Integer divisionId, Integer sectorId) {
-        this(tablaService, torneoId, divisionId);
-        this.sectorId = sectorId;
-    }
-
-    public TablaPosicionesDataProvider setTorneoId(Integer torneoId) {
-        this.torneoId = torneoId;
-        return this;
-    }
-
-    public TablaPosicionesDataProvider setDivisionId(Integer divisionId) {
-        this.divisionId = divisionId;
-        return this;
-    }
-
-    public TablaPosicionesDataProvider setSectorId(Integer sectorId) {
-        this.sectorId = sectorId;
-        return this;
-    }
-
-    public TablaPosicionesDataProvider setEquipoId(Integer equipoId) {
-        this.equipoId = equipoId;
-        return this;
+        this.torneoModel = torneoModel;
     }
 
     @Override
     protected List<DatosTabla> loadList() {
         List<DatosTabla> lista = null;
         try {
-            if (torneoId != null) {
-                if (sectorId == null || divisionId == null) {
-                    lista = tablaService.getAllByTorneo(torneoId);
-                } else {
-                    lista = tablaService.getAllByTorneoSectorDivision(torneoId,
-                            sectorId, divisionId);
-                }
+            Torneo object = this.torneoModel.getObject();
+            if (object != null) {
+                lista = tablaService.getAllByTorneo(object.getId());
             } else {
                 lista = new ArrayList<DatosTabla>();
             }
         } catch (NoxitException e) {
-            lista = new ArrayList<DatosTabla>();
+            throw new NoxitRuntimeException(e);
         }
         return lista;
     }
