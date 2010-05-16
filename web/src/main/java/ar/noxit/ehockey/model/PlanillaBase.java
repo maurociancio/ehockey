@@ -1,7 +1,6 @@
 package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
-
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
@@ -83,13 +82,6 @@ public abstract class PlanillaBase {
         }
 
         throw new ViolacionReglaNegocioException("el jugador no jugo en ningun lado");
-    }
-
-    /**
-     * Solo para uso de hibernate, no debe ser llamado
-     */
-    public void setPartido(Partido partido) {
-        this.partido = partido;
     }
 
     /**

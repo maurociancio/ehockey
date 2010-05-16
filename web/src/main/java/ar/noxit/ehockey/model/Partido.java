@@ -1,13 +1,13 @@
 package ar.noxit.ehockey.model;
 
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDateTime;
-
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
+import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import ar.noxit.ehockey.exception.PlanillaNoFinalizadaException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
 
 public class Partido {
 
@@ -93,18 +93,19 @@ public class Partido {
     /**
      * Cierra la planilla final para que ya no se pueda editar.
      * 
-     * @throws PartidoYaTerminadoException
-     *             si el partido ya esta terminado
+     * @throws PlanillaYaFinalizadaException
+     * @throws PartidoNoTerminadoException
      */
-    public void finalizarPlanilla() throws PartidoYaTerminadoException {
-        validarPartidoNoJugado();
+    public void finalizarPlanilla() throws PlanillaYaFinalizadaException, PartidoNoTerminadoException {
+        validarPartidoJugado();
 
-        try {
-            planillaFinal.finalizarPlanilla();
-        } catch (PlanillaYaFinalizadaException e) {
-            throw new PartidoYaTerminadoException(e);
+        planillaFinal.finalizarPlanilla();
+    }
+
+    private void validarPartidoJugado() throws PartidoNoTerminadoException {
+        if (!this.jugado) {
+            throw new PartidoNoTerminadoException("el partido no está terminado");
         }
-        this.jugado = true;
     }
 
     public void reprogramar(LocalDateTime nuevaFecha, LocalDateTime now)

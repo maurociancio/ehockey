@@ -25,6 +25,7 @@ public class TablaPosicionesTest {
         PlanillaFinal planilla = partido.getPlanilla();
         planilla.setGolesLocal(golesLocal);
         planilla.setGolesVisitante(golesVisitante);
+        partido.terminarPartido();
         partido.finalizarPlanilla();
     }
 
