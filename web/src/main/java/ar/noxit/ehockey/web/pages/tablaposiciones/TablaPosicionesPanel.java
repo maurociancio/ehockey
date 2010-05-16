@@ -44,47 +44,15 @@ public class TablaPosicionesPanel extends Panel {
     private ITorneoService torneoService;
     @SpringBean
     private ITablaPosicionesService tablaService;
-    List<IColumn<DatosTabla>> columnas;
 
     public TablaPosicionesPanel(final IModel<TablaTransfer> tablaTransferModel) {
         super("formulariopanel");
         setOutputMarkupId(true);
-        columnas = new ArrayList<IColumn<DatosTabla>>();
+        List<IColumn<DatosTabla>> columnas = new ArrayList<IColumn<DatosTabla>>();
 
-        add(new DropDownChoice<Torneo>("torneo", new IdTorneoModel(
+        IModel<Torneo> torneoModel = new IdTorneoModel(
                 new PropertyModel<Integer>(tablaTransferModel, "torneoId"),
-                torneoService), new TorneoListModel(torneoService),
-                new TorneoRenderer()).setNullValid(true).add(
-                new AjaxFormComponentUpdatingBehavior("onchange") {
-
-                    @Override
-                    protected void onUpdate(AjaxRequestTarget target) {
-                        MarkupContainer parent = this.getComponent()
-                                .getParent();
-                        parent
-                                .addOrReplace(new AjaxFallbackDefaultDataTable<DatosTabla>(
-                                        "tablaposiciones",
-                                        columnas.toArray(new IColumn[columnas
-                                                .size()]),
-                                        new TablaPosicionesDataProvider(
-                                                tablaService)
-                                                .setTorneoId(
-                                                        tablaTransferModel
-                                                                .getObject()
-                                                                .getTorneoId())
-                                                .setDivisionId(
-                                                        tablaTransferModel
-                                                                .getObject()
-                                                                .getDivisionId())
-                                                .setSectorId(
-                                                        tablaTransferModel
-                                                                .getObject()
-                                                                .getSectorId()),
-                                        10));
-                        target.addComponent(parent);
-                    }
-
-                }));
+                torneoService);
 
         columnas.add(new PropertyColumn<DatosTabla>(Model.of("Nombre"),
                 "nombre"));
@@ -104,16 +72,21 @@ public class TablaPosicionesPanel extends Panel {
         columnas.add(new PropertyColumn<DatosTabla>(Model.of("DG"),
                 "diferenciaGol"));
 
-        DataTable<DatosTabla> tabla = new AjaxFallbackDefaultDataTable<DatosTabla>(
-                "tablaposiciones", columnas
-                        .toArray(new IColumn[columnas.size()]),
-                new TablaPosicionesDataProvider(tablaService).setTorneoId(
-                        tablaTransferModel.getObject().getTorneoId())
-                        .setDivisionId(
-                                tablaTransferModel.getObject().getDivisionId())
-                        .setSectorId(
-                                tablaTransferModel.getObject().getSectorId()),
-                10);
+        final DataTable<DatosTabla> tabla = new AjaxFallbackDefaultDataTable<DatosTabla>(
+                "tablaposiciones", columnas, new TablaPosicionesDataProvider(
+                        tablaService, torneoModel), 10);
         add(tabla);
+
+        add(new DropDownChoice<Torneo>("torneo", torneoModel,
+                new TorneoListModel(torneoService), new TorneoRenderer())
+                .setNullValid(true).add(
+                        new AjaxFormComponentUpdatingBehavior("onchange") {
+
+                            @Override
+                            protected void onUpdate(AjaxRequestTarget target) {
+                                target.addComponent(tabla);
+                            }
+                        }));
+
     }
 }
