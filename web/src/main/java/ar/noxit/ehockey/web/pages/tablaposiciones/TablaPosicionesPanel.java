@@ -3,6 +3,10 @@ package ar.noxit.ehockey.web.pages.tablaposiciones;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.MarkupContainer;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
@@ -34,43 +38,53 @@ import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import ar.noxit.ehockey.web.pages.renderers.TorneoRenderer;
 
-public abstract class TablaPosicionesPanel extends Panel {
+public class TablaPosicionesPanel extends Panel {
 
-    @SpringBean
-    private IDivisionService divisionService;
-    @SpringBean
-    private ISectorService sectorService;
     @SpringBean
     private ITorneoService torneoService;
     @SpringBean
     private ITablaPosicionesService tablaService;
+    List<IColumn<DatosTabla>> columnas;
 
     public TablaPosicionesPanel(final IModel<TablaTransfer> tablaTransferModel) {
         super("formulariopanel");
+        setOutputMarkupId(true);
+        columnas = new ArrayList<IColumn<DatosTabla>>();
 
-        Form<DatosTabla> form = new Form<DatosTabla>("formulario") {
-
-            @Override
-            protected void onSubmit() {
-                TablaPosicionesPanel.this.onSubmit(tablaTransferModel);
-            }
-        };
-        form.add(new DropDownChoice<Torneo>("torneos", new IdTorneoModel(
+        add(new DropDownChoice<Torneo>("torneo", new IdTorneoModel(
                 new PropertyModel<Integer>(tablaTransferModel, "torneoId"),
                 torneoService), new TorneoListModel(torneoService),
-                new TorneoRenderer()).setNullValid(true));
+                new TorneoRenderer()).setNullValid(true).add(
+                new AjaxFormComponentUpdatingBehavior("onchange") {
 
-        form.add(new DropDownChoice<Division>("division", new IdDivisionModel(
-                new PropertyModel<Integer>(tablaTransferModel, "divisionId"),
-                divisionService), new DivisionListModel(divisionService),
-                new DivisionRenderer()).setNullValid(true));
+                    @Override
+                    protected void onUpdate(AjaxRequestTarget target) {
+                        MarkupContainer parent = this.getComponent()
+                                .getParent();
+                        parent
+                                .addOrReplace(new AjaxFallbackDefaultDataTable<DatosTabla>(
+                                        "tablaposiciones",
+                                        columnas.toArray(new IColumn[columnas
+                                                .size()]),
+                                        new TablaPosicionesDataProvider(
+                                                tablaService)
+                                                .setTorneoId(
+                                                        tablaTransferModel
+                                                                .getObject()
+                                                                .getTorneoId())
+                                                .setDivisionId(
+                                                        tablaTransferModel
+                                                                .getObject()
+                                                                .getDivisionId())
+                                                .setSectorId(
+                                                        tablaTransferModel
+                                                                .getObject()
+                                                                .getSectorId()),
+                                        10));
+                        target.addComponent(parent);
+                    }
 
-        form.add(new DropDownChoice<Sector>("sector", new IdSectorModel(
-                new PropertyModel<Integer>(tablaTransferModel, "sectorId"),
-                sectorService), new SectorListModel(sectorService),
-                new SectorRenderer()).setNullValid(true));
-
-        List<IColumn<DatosTabla>> columnas = new ArrayList<IColumn<DatosTabla>>();
+                }));
 
         columnas.add(new PropertyColumn<DatosTabla>(Model.of("Nombre"),
                 "nombre"));
@@ -90,7 +104,7 @@ public abstract class TablaPosicionesPanel extends Panel {
         columnas.add(new PropertyColumn<DatosTabla>(Model.of("DG"),
                 "diferenciaGol"));
 
-        DataTable<DatosTabla> tabla = new DefaultDataTable<DatosTabla>(
+        DataTable<DatosTabla> tabla = new AjaxFallbackDefaultDataTable<DatosTabla>(
                 "tablaposiciones", columnas
                         .toArray(new IColumn[columnas.size()]),
                 new TablaPosicionesDataProvider(tablaService).setTorneoId(
@@ -100,9 +114,6 @@ public abstract class TablaPosicionesPanel extends Panel {
                         .setSectorId(
                                 tablaTransferModel.getObject().getSectorId()),
                 10);
-        form.add(tabla);
-        add(form);
+        add(tabla);
     }
-
-    public abstract void onSubmit(IModel<TablaTransfer> datosTablaModel);
 }

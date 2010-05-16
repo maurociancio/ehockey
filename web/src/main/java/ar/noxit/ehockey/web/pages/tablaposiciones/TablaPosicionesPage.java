@@ -19,13 +19,6 @@ public class TablaPosicionesPage extends AbstractContentPage {
     }
 
     private void setUp() {
-        add(new TablaPosicionesPanel(transferModel) {
-
-            @Override
-            public void onSubmit(IModel<TablaTransfer> tablaTransferModel) {
-                transferModel.setObject(tablaTransferModel.getObject());
-                setResponsePage(new TablaPosicionesPage(transferModel));
-            }
-        });
+        add(new TablaPosicionesPanel(transferModel));
     }
 }
