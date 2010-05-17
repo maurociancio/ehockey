@@ -9,14 +9,14 @@
         </id>
 
         <component name="datosLocal" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
-            <set name="jugadores" table="jugadores_locales_en_planilla">
+            <set name="jugadores" table="jug_loc_planilla_prec">
                 <key column="planilla_id"/>
                 <many-to-many entity-name="Jugador" column="jugador_id"/>
             </set>
 	    </component>
 
         <component name="datosVisitante" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
-            <set name="jugadores" table="jugadores_visitantes_en_planilla">
+            <set name="jugadores" table="jug_vis_planilla_prec">
                 <key column="planilla_id"/>
                 <many-to-many entity-name="Jugador" column="jugador_id"/>
             </set>
