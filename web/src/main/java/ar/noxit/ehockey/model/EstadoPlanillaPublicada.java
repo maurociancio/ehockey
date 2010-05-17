@@ -7,6 +7,11 @@ import org.apache.commons.lang.Validate;
 public class EstadoPlanillaPublicada extends EstadoPlanilla {
 
     @Override
+    public Integer getId() {
+        return 2;
+    }
+
+    @Override
     public EstadoPlanilla publicar(PlanillaPublicable publicable) throws TransicionEstadoInvalidaException {
         throw new TransicionEstadoInvalidaException("la planilla ya está publicada");
     }

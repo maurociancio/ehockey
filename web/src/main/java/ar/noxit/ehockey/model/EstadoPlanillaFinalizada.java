@@ -7,6 +7,11 @@ import ar.noxit.ehockey.exception.TransicionEstadoInvalidaException;
 public class EstadoPlanillaFinalizada extends EstadoPlanilla {
 
     @Override
+    public Integer getId() {
+        return 4;
+    }
+
+    @Override
     public boolean estaRechazada() {
         return false;
     }
