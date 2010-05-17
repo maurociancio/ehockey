@@ -48,6 +48,7 @@ public abstract class JugadorForm extends Panel {
     private IDivisionService divisionService;
     @SpringBean
     private ISectorService sectorService;
+    private final static String textPattern = "([a-zñáéíóúA-ZÑÁÉÍÓÚ])+";
 
     public JugadorForm(String id, final IModel<JugadorPlano> jugador) {
         super(id);
@@ -62,19 +63,18 @@ public abstract class JugadorForm extends Panel {
             }
         };
 
-        PatternValidator stringOnlyValidator = new PatternValidator(
-                "([a-z]|[A-Z])+");
+        PatternValidator textValidator = new PatternValidator(textPattern);
         form.add(new FeedBackLabelAttachedComponent<FormComponent<String>>(
                 "nombrefragment", "nombrepanel", "nombrefeedback",
                 new RequiredTextField<String>("nombre",
                         new PropertyModel<String>(jugador, "nombre"))
-                        .add(stringOnlyValidator), form));
+                        .add(textValidator), form));
 
         form.add(new FeedBackLabelAttachedComponent<FormComponent<String>>(
                 "apellidofragment", "apellidopanel", "apellidofeedback",
                 new RequiredTextField<String>("apellido",
                         new PropertyModel<String>(jugador, "apellido"))
-                        .add(stringOnlyValidator), form));
+                        .add(textValidator), form));
 
         FormComponent<String> tipodoc = new RadioChoice<String>("tipodoc",
                 new PropertyModel<String>(jugador, "tipoDocumento"), Arrays

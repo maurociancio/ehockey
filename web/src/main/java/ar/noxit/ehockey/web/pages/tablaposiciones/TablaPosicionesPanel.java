@@ -11,6 +11,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -47,7 +48,7 @@ public class TablaPosicionesPanel extends Panel {
 
     public TablaPosicionesPanel(final IModel<TablaTransfer> tablaTransferModel) {
         super("formulariopanel");
-        setOutputMarkupId(true);
+        
         List<IColumn<DatosTabla>> columnas = new ArrayList<IColumn<DatosTabla>>();
 
         IModel<Torneo> torneoModel = new IdTorneoModel(
@@ -71,11 +72,20 @@ public class TablaPosicionesPanel extends Panel {
                 "golesContra"));
         columnas.add(new PropertyColumn<DatosTabla>(Model.of("DG"),
                 "diferenciaGol"));
-
-        final DataTable<DatosTabla> tabla = new AjaxFallbackDefaultDataTable<DatosTabla>(
-                "tablaposiciones", columnas, new TablaPosicionesDataProvider(
-                        tablaService, torneoModel), 10);
-        add(tabla);
+        final WebMarkupContainer contenedorTabla = new WebMarkupContainer(
+                "contenedortabla");
+        contenedorTabla.setOutputMarkupId(true);
+        final TablaPosicionesDataProvider tablaPosicionesDataProvider = new TablaPosicionesDataProvider(
+                tablaService, torneoModel);
+        DataTable<DatosTabla> tabla = new AjaxFallbackDefaultDataTable<DatosTabla>(
+                "tablaposiciones", columnas, tablaPosicionesDataProvider, 10) {
+            @Override
+            public boolean isVisible() {
+                return !(tablaPosicionesDataProvider.size() == 0);
+            }
+        };
+        contenedorTabla.add(tabla);
+        add(contenedorTabla);
 
         add(new DropDownChoice<Torneo>("torneo", torneoModel,
                 new TorneoListModel(torneoService), new TorneoRenderer())
@@ -84,7 +94,7 @@ public class TablaPosicionesPanel extends Panel {
 
                             @Override
                             protected void onUpdate(AjaxRequestTarget target) {
-                                target.addComponent(tabla);
+                                target.addComponent(contenedorTabla);
                             }
                         }));
 
