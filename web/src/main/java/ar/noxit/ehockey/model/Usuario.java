@@ -48,6 +48,7 @@ public abstract class Usuario {
         if (!this.password.equals(hasher.hash(password))) {
             throw new ErrorDeLoginException("Password incorrecto");
         }
+        this.logueado = true;
     }
 
     public void desloguearse() {
@@ -56,5 +57,15 @@ public abstract class Usuario {
 
     public boolean estaLogueado() {
         return logueado;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass().equals(this.getClass())) {
+            Usuario otro = (Usuario) obj;
+            return (this.user.equals(otro.user) && this.password.equals(otro.password));
+        } else {
+            return false;
+        }
     }
 }
