@@ -11,6 +11,7 @@
         <property name="partido" not-null="true"/>
         <property name="inicio" not-null="true" type="org.joda.time.contrib.hibernate.PersistentLocalDateTime"/>
         <property name="rueda" not-null="true"/>
+        <property name="jugado" not-null="true"/>
 
         <many-to-one name="torneo" entity-name="Torneo" column="torneo_id" not-null="true"/>
 
