@@ -27,4 +27,8 @@ public class EstadoPlanillaPublicada extends EstadoPlanilla {
         finalizable.finalizarPlanilla();
         return new EstadoPlanillaFinalizada();
     }
+    @Override
+    public String toString() {
+        return "Publicada (esperando validación)";
+    }
 }

@@ -27,4 +27,7 @@ public abstract class EstadoPlanilla {
     public int hashCode() {
         return this.getClass().hashCode();
     }
+
+    @Override
+    public abstract String toString();
 }

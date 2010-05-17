@@ -24,4 +24,9 @@ public class EstadoPlanillaCargada extends EstadoPlanilla {
     public EstadoPlanilla validar(PlanillaFinalizable finalizable) throws TransicionEstadoInvalidaException {
         throw new TransicionEstadoInvalidaException("la planilla no está publicada");
     }
+
+    @Override
+    public String toString() {
+        return "Carga de datos parcialmente completa";
+    }
 }

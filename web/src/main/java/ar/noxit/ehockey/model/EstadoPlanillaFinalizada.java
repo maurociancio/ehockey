@@ -30,4 +30,9 @@ public class EstadoPlanillaFinalizada extends EstadoPlanilla {
     public boolean estaFinalizada() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Planilla Validada";
+    }
 }
