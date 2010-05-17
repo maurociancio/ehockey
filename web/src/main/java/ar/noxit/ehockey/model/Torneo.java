@@ -1,19 +1,15 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.NoHayPartidoSiguienteException;
+import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
+import ar.noxit.ehockey.exception.TorneoNoCoincideException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.commons.lang.Validate;
-
-import ar.noxit.ehockey.exception.NoHayPartidoSiguienteException;
-import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
-import ar.noxit.ehockey.exception.TorneoNoCoincideException;
-import ar.noxit.exceptions.NoxitRuntimeException;
 
 public class Torneo {
 
@@ -63,21 +59,7 @@ public class Torneo {
         Validate.notNull(equipo);
 
         List<Partido> partidos = getPartidosDe(equipo);
-        Collections.sort(partidos, new Comparator<Partido>() {
-
-            @Override
-            public int compare(Partido o1, Partido o2) {
-                Integer rueda = o1.getRueda() - o2.getRueda();
-                if (rueda != 0) {
-                    return rueda;
-                } else {
-                    Integer fecha = o1.getFechaDelTorneo() - o2.getFechaDelTorneo();
-                    if (fecha != 0)
-                        return fecha;
-                }
-                throw new NoxitRuntimeException("Hay un partido repetido en el torneo");
-            }
-        });
+        Collections.sort(partidos, PartidosComparator.comparatorPorRuedayFecha());
 
         try {
             return partidos.get(partidos.indexOf(partido) + 1);
