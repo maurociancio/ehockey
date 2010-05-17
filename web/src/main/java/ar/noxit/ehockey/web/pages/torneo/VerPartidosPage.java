@@ -5,6 +5,7 @@ import static java.util.Collections.sort;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PartidosComparator;
 import ar.noxit.ehockey.model.Torneo;
+import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
@@ -32,10 +33,12 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -47,6 +50,8 @@ public class VerPartidosPage extends AbstractHeaderPage {
     @SpringBean
     private IPartidoService partidoService;
     private DefaultDataTable<Partido> dataTable;
+    @SpringBean
+    private IExceptionConverter converter;
 
     public VerPartidosPage(IModel<Torneo> torneo) {
         Validate.notNull(torneo, "torneo no puede ser null");
@@ -69,6 +74,14 @@ public class VerPartidosPage extends AbstractHeaderPage {
             @Override
             protected String getLabelString(Partido object) {
                 return object.isJugado() ? "Si" : "No";
+            }
+        });
+        columns.add(new AbstractColumn<Partido>(Model.of("Jugado?")) {
+
+            @Override
+            public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
+                    IModel<Partido> rowModel) {
+                cellItem.add(new PartidoJugadoFragment(componentId, "jugado", getPage(), rowModel));
             }
         });
         columns.add(new AbstractColumn<Partido>(Model.of("Reprogramar")) {
@@ -201,6 +214,38 @@ public class VerPartidosPage extends AbstractHeaderPage {
                 @Override
                 public void onClick() {
                     setResponsePage(new PlanillaPage(rowModel));
+                }
+            });
+        }
+    }
+
+    private class PartidoJugadoFragment extends Fragment {
+
+        public PartidoJugadoFragment(String id, String markupId, MarkupContainer markupProvider,
+                final IModel<Partido> rowModel) {
+            super(id, markupId, markupProvider);
+
+            add(new Label("jugado", new AbstractReadOnlyModel<String>() {
+
+                @Override
+                public String getObject() {
+                    return rowModel.getObject().isJugado() ? "Si" : "No";
+                }
+            }));
+            add(new Link<Void>("terminar") {
+
+                @Override
+                public void onClick() {
+                    try {
+                        partidoService.terminarPartido(rowModel.getObject().getId());
+                    } catch (NoxitException e) {
+                        error(converter.convert(e));
+                    }
+                }
+
+                @Override
+                public boolean isVisible() {
+                    return !rowModel.getObject().isJugado();
                 }
             });
         }
