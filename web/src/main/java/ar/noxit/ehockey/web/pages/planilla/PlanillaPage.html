@@ -4,12 +4,27 @@
     <div class="contentancho content">
     <h2 class="content-titleancho content-title">Planilla Final</h2>
     <div class="content-in">
-       <a wicket:id="html_planilla">Imprimir</a>
+        <table>
+            <tr>
+                <td><b>Impresión</b></td>
+                <td><a wicket:id="html_planilla">Imprimir</a></td>
+            </tr>
+            <tr>
+                <td><b>Acciones Planilla</b></td>
+                <td>
+                  <form wicket:id="planillaForm">
+                       <input type="submit" wicket:id="editar" value="Editar planilla"/>
+                       <input type="submit" wicket:id="finalizar" value="Finalizar planilla"/>
+                   </form>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Estado de la Planilla</b></td>
+                <td><span wicket:id="estado"/></td>
+            </tr>
+        </table>
 	   <div wicket:id="panelPlanilla"></div>
-	   <form wicket:id="planillaForm">
-            <input type="submit" wicket:id="editar" value="Editar planilla"/>
-            <input type="submit" wicket:id="finalizar" value="Finalizar planilla"/>
-       </form>
+
 	</div>
 	</div>
 	</div>
