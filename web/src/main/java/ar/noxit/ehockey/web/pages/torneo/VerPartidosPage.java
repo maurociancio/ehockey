@@ -6,6 +6,7 @@ import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PartidosComparator;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IPartidoService;
+import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.utils.Collections;
 import ar.noxit.web.wicket.column.AbstractLabelColumn;
@@ -36,7 +37,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
 
-public class VerPartidosPage extends BaseTorneoPage {
+public class VerPartidosPage extends AbstractHeaderPage {
 
     @SpringBean
     private IPartidoService partidoService;
