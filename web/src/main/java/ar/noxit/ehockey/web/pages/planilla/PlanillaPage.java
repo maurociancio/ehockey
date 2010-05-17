@@ -1,15 +1,16 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
 import ar.noxit.ehockey.model.Partido;
+import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -18,9 +19,13 @@ public class PlanillaPage extends AbstractHeaderPage {
 
     @SpringBean
     private IPlanillaService planillaService;
+    @SpringBean
+    private IExceptionConverter exceptionConverter;
 
     public PlanillaPage(final IModel<Partido> partido) {
         Integer partidoId = partido.getObject().getId();
+
+        add(new FeedbackPanel("feedback"));
 
         add(new BookmarkablePageLink<Void>("html_planilla", PlanillaPrinterFriendly.class,
                 new PageParameters(String.format("partido=%s,final=1", partidoId))));
@@ -58,7 +63,7 @@ public class PlanillaPage extends AbstractHeaderPage {
                 try {
                     planillaService.validarPlanilla(partido.getObject().getId());
                 } catch (NoxitException e) {
-                    throw new NoxitRuntimeException("No se pudo finalizar la planilla", e);
+                    error(exceptionConverter.convert(e));
                 }
             }
         });
