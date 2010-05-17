@@ -13,7 +13,7 @@ public class PlanillaPrecargadaPage extends AbstractHeaderPage {
         Integer partidoId = partido.getObject().getId();
 
         add(new BookmarkablePageLink<Void>("html_planilla", PlanillaPrinterFriendly.class,
-                new PageParameters("partido=" + partidoId)));
+                new PageParameters(String.format("partido=%s,final=0", partidoId))));
 
         add(new PlanillaPanel("panelPlanilla", new PlanillaModel(partido) {
 

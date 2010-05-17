@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
 import ar.noxit.ehockey.model.Partido;
+import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractColorLessBasePage;
 import ar.noxit.ehockey.web.pages.partido.PartidoModel;
@@ -14,9 +15,19 @@ public class PlanillaPrinterFriendly extends AbstractColorLessBasePage {
     @SpringBean
     private IPartidoService partidoService;
 
-    public PlanillaPrinterFriendly(PageParameters pageParameters) {
+    public PlanillaPrinterFriendly(final PageParameters pageParameters) {
         Integer partidoId = pageParameters.getAsInteger("partido");
         IModel<Partido> partidoModel = new PartidoModel(new Model<Integer>(partidoId), partidoService);
-        add(new PlanillaPanel("panelPlanilla", new PlanillaModel(partidoModel)));
+        add(new PlanillaPanel("panelPlanilla", new PlanillaModel(partidoModel) {
+
+            @Override
+            protected Planilla getPlanilla(Partido object) {
+                boolean planillaFinal = pageParameters.getAsBoolean("final", false);
+                if (planillaFinal)
+                    return object.getPlanilla();
+                else
+                    return object.getPlanillaPrecargada();
+            }
+        }));
     }
 }
