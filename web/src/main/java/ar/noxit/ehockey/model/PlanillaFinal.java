@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
 
-public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFinalizable {
+public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFinalizable, Planilla {
 
     private int id;
 
@@ -323,5 +323,10 @@ public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFi
 
     public String getObservaciones() {
         return observaciones;
+    }
+
+    @Override
+    public Partido getPartido() {
+        return this.partido;
     }
 }

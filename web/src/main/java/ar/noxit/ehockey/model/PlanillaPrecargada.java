@@ -1,10 +1,11 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class PlanillaPrecargada {
+public class PlanillaPrecargada implements Planilla {
 
     private int id;
 
@@ -28,7 +29,7 @@ public class PlanillaPrecargada {
     }
 
     protected PlanillaPrecargada() {
-        
+
     }
 
     public Set<Jugador> getJugadoresLocales() {
@@ -53,5 +54,39 @@ public class PlanillaPrecargada {
 
     public Partido getPartido() {
         return partido;
+    }
+
+    @Override
+    public DatosEquipoPlanilla getDatosLocal() {
+        return datosLocal;
+    }
+
+    @Override
+    public DatosEquipoPlanilla getDatosVisitante() {
+        return datosVisitante;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String getObservaciones() {
+        return null;
+    }
+
+    @Override
+    public Set<Jugador> getJugadoresL() {
+        return datosLocal.getJugadores();
+    }
+
+    @Override
+    public Set<Jugador> getJugadoresV() {
+        return datosVisitante.getJugadores();
+    }
+
+    @Override
+    public TarjetasPartido getTarjetasDe(Jugador jugador) throws JugadorSinTarjetasException {
+        return null;
     }
 }
