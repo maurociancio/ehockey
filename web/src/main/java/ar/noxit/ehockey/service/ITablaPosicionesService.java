@@ -1,9 +1,8 @@
 package ar.noxit.ehockey.service;
 
-import java.util.List;
-
 import ar.noxit.ehockey.model.DatosTabla;
 import ar.noxit.exceptions.NoxitException;
+import java.util.List;
 
 public interface ITablaPosicionesService {
 
@@ -15,7 +14,4 @@ public interface ITablaPosicionesService {
 
     public List<DatosTabla> getAllByTorneo(Integer torneoId)
             throws NoxitException;
-
-    public List<DatosTabla> getAllByTorneoSectorDivision(Integer torneoId,
-            Integer sectorId, Integer divisionId) throws NoxitException;
 }

@@ -60,46 +60,19 @@ public class TablaPosicionesService implements ITablaPosicionesService {
                 .getDatosTabla()) {
             lista.add(each);
         }
-        return lista;
-    }
-
-    @Override
-    @Transactional
-    public List<DatosTabla> getAllByTorneoSectorDivision(Integer torneoId,
-            Integer sectorId, Integer divisionId) throws NoxitException {
-        List<DatosTabla> lista = new ArrayList<DatosTabla>();
-        Torneo torneo = torneoDao.get(torneoId);
-        for (DatosTabla each : torneo.crearTablaPosiciones().filtroTabla(
-                divisionDao.get(divisionId)).filtroTabla(
-                sectorDao.get(sectorId)).calcularTabla().getDatosTabla()) {
-            lista.add(each);
-        }
         Collections.sort(lista, new Comparator<DatosTabla>() {
 
             @Override
             public int compare(DatosTabla arg0, DatosTabla arg1) {
-                if (arg0.getPuntos() > arg1.getPuntos())
-                    return -1;
-                if (arg0.getPuntos() == arg1.getPuntos()
-                        && arg0.getDiferenciaGol() > arg1.getDiferenciaGol())
-                    return -1;
-                if (arg0.getPuntos() == arg1.getPuntos()
-                        && arg0.getDiferenciaGol() == arg1.getDiferenciaGol()
-                        && arg0.getGolesFavor() > arg1.getGolesFavor())
-                    return -1;
-                if (arg0.getPuntos() == arg1.getPuntos()
-                        && arg0.getDiferenciaGol() == arg1.getDiferenciaGol()
-                        && arg0.getGolesFavor() == arg1.getGolesFavor()
-                        && arg0.getNombre().compareToIgnoreCase(
-                                arg1.getNombre()) == -1)
-                    return -1;
-                if (arg0.getPuntos() == arg1.getPuntos()
-                        && arg0.getDiferenciaGol() == arg1.getDiferenciaGol()
-                        && arg0.getGolesFavor() == arg1.getGolesFavor()
-                        && arg0.getNombre().compareToIgnoreCase(
-                                arg1.getNombre()) == 0)
-                    return 0;
-                return 1;
+                Integer r1 = arg1.getPuntos() - arg0.getPuntos();
+                if (r1 != 0)
+                    return r1;
+
+                Integer r2 = arg1.getDiferenciaGol() - arg0.getDiferenciaGol();
+                if (r2 != 0)
+                    return r2;
+
+                return arg1.getNombre().compareTo(arg0.getNombre());
             }
         });
         return lista;
