@@ -4,7 +4,16 @@
     <div class="contentancho content">
     <h2 class="content-titleancho content-title">Planilla Precargada</h2>
     <div class="content-in">
-       <a wicket:id="html_planilla">Imprimir</a>
+        <table>
+            <tr>
+                <td><b>Impresión</b></td>
+                <td><a wicket:id="html_planilla">Imprimir</a></td>
+            </tr>
+            <tr>
+                <td><b>Estado del Partido</b></td>
+                <td><span wicket:id="estado_partido"/></td>
+            </tr>
+        </table>
 	   <div wicket:id="panelPlanilla"></div>
 	</div>
 	</div>

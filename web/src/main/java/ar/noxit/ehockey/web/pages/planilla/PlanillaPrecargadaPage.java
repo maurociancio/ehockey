@@ -4,7 +4,9 @@ import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
 public class PlanillaPrecargadaPage extends AbstractHeaderPage {
@@ -20,6 +22,15 @@ public class PlanillaPrecargadaPage extends AbstractHeaderPage {
             @Override
             protected Planilla getPlanilla(Partido object) {
                 return object.getPlanillaPrecargada();
+            }
+        }));
+
+        add(new Label("estado_partido", new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+                Partido object = partido.getObject();
+                return object.isJugado() ? "Jugado" : "No jugado";
             }
         }));
     }
