@@ -14,6 +14,10 @@ public class SancionesTest {
 
     private Partido partido1;
     private Partido partido2;
+    private Club club1;
+    private Division division;
+    private Sector sector;
+    private Club club2;
 
     private void rellenarPlanilla(PlanillaFinal planilla) throws PlanillaNoModificableException {
         planilla.setArbitroL("");
@@ -31,21 +35,26 @@ public class SancionesTest {
         planilla.setPfL("");
         planilla.setPfV("");
 
-        List<Jugador> jugadores = new ArrayList<Jugador>();
+        List<Jugador> locales = new ArrayList<Jugador>();
         for (int i = 0; i < 10; ++i) {
-            jugadores.add(new Jugador("", "", new Club("club"), new Sector("sector"), new Division("division")));
+            locales.add(club1.crearNuevoJugador("", "", sector, division));
         }
-        planilla.setJugadoresLocal(jugadores);
-        planilla.setJugadoresVisitante(jugadores);
+        List<Jugador> visitantes = new ArrayList<Jugador>();
+        for (int i = 0; i < 10; ++i) {
+            visitantes.add(club2.crearNuevoJugador("", "", sector, division));
+        }
+
+        planilla.setJugadoresLocal(locales);
+        planilla.setJugadoresVisitante(visitantes);
     }
 
     @BeforeMethod
     public void setUp() throws ReglaNegocioException {
-        Club club1 = new Club("club1");
-        Club club2 = new Club("club2");
+        this.club1 = new Club("club1");
+        this.club2 = new Club("club2");
 
-        Division division = new Division("division");
-        Sector sector = new Sector("sector");
+        this.division = new Division("division");
+        this.sector = new Sector("sector");
 
         Equipo equipo1 = club1.crearNuevoEquipo("equipo1", division, sector);
         Equipo equipo2 = club2.crearNuevoEquipo("equipo2", division, sector);
