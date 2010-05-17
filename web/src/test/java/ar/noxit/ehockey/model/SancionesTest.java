@@ -1,11 +1,10 @@
 package ar.noxit.ehockey.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
+import java.util.ArrayList;
+import java.util.List;
 import org.joda.time.LocalDateTime;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -68,7 +67,7 @@ public class SancionesTest {
     }
 
     @Test
-    public void testSanciones() throws ReglaNegocioException {
+    public void testSinSanciones() throws ReglaNegocioException {
         PlanillaFinal planilla1 = partido1.getPlanilla();
         rellenarPlanilla(planilla1);
         planilla1.setGolesLocal(0);
