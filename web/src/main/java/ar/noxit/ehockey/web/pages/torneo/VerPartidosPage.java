@@ -1,6 +1,9 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
+import static java.util.Collections.sort;
+
 import ar.noxit.ehockey.model.Partido;
+import ar.noxit.ehockey.model.PartidosComparator;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.exceptions.NoxitException;
@@ -88,7 +91,9 @@ public class VerPartidosPage extends BaseTorneoPage {
         @Override
         protected List<Partido> loadList() {
             Torneo t = torneo.getObject();
-            return Collections.toList(t.iteradorPartidos());
+            List<Partido> list = Collections.toList(t.iteradorPartidos());
+            sort(list, PartidosComparator.comparatorPorRuedaFechaYPartido());
+            return list;
         }
 
         @Override
