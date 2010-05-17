@@ -9,7 +9,7 @@ public class EstadoPlanillaCargada extends EstadoPlanilla {
 
     @Override
     public Integer getId() {
-        return 1;
+        return 0;
     }
 
     @Override

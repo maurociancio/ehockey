@@ -8,7 +8,7 @@ public class EstadoPlanillaFinalizada extends EstadoPlanilla {
 
     @Override
     public Integer getId() {
-        return 4;
+        return 3;
     }
 
     @Override

@@ -4,7 +4,7 @@ public class EstadoPlanillaRechazada extends EstadoPlanillaCargada {
 
     @Override
     public Integer getId() {
-        return 3;
+        return 2;
     }
 
     @Override

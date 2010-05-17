@@ -19,4 +19,13 @@ public abstract class EstadoPlanilla {
     public boolean estaFinalizada() {
         return false;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof EstadoPlanilla) {
+            return this.getId().equals(((EstadoPlanilla)obj).getId());
+        } else {
+            return false;
+        }
+    }
 }
