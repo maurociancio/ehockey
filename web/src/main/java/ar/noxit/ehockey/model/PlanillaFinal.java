@@ -1,16 +1,14 @@
 package ar.noxit.ehockey.model;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang.Validate;
-
 import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.lang.Validate;
 
 public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFinalizable {
 
@@ -31,26 +29,19 @@ public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFi
     protected PlanillaFinal() {
     }
 
-    private void precargarPlanilla(PlanillaPrecargada planilla) {
-        estado = new EstadoPlanillaCargada();
+    public PlanillaFinal(PlanillaPrecargada original) {
+        Validate.notNull(original);
 
+        this.partido = original.getPartido();
+        this.estado = new EstadoPlanillaCargada();
+
+        // que hace temp? TODO
         Set<Jugador> temp = this.datosLocal.getJugadores();
         temp.clear();
-        temp.addAll(planilla.getJugadoresLocales());
+        temp.addAll(original.getJugadoresLocales());
 
         temp = this.datosVisitante.getJugadores();
-        temp.addAll(planilla.getJugadoresVisitantes());
-    }
-
-    public PlanillaFinal(PlanillaPrecargada original) {
-        this.partido = original.getPartido();
-        precargarPlanilla(original);
-    }
-
-    public PlanillaFinal(Partido partido) {
-        Validate.notNull(partido, "El partido no puede ser nulo");
-        this.partido = partido;
-        precargarPlanilla(partido.getPlanillaPrecargada());
+        temp.addAll(original.getJugadoresVisitantes());
     }
 
     private void agregarJugador(Jugador jugador, Set<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
@@ -333,5 +324,4 @@ public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFi
     public String getObservaciones() {
         return observaciones;
     }
-
 }
