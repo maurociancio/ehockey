@@ -1,8 +1,12 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Planilla;
+import ar.noxit.ehockey.model.TarjetasPartido;
+import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.Loop;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -15,17 +19,11 @@ import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.PlanillaFinal;
-import ar.noxit.ehockey.model.TarjetasPartido;
-import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
-
 public class PlanillaPanel extends Panel {
 
     private String FEDERACION = "Federación de Hockey - FIUBA - 75.47";
 
-    public PlanillaPanel(String id, IModel<PlanillaFinal> planillaModel) {
+    public PlanillaPanel(String id, IModel<? extends Planilla> planillaModel) {
         super(id);
 
         add(new Label("federacion", this.FEDERACION));
@@ -79,9 +77,9 @@ public class PlanillaPanel extends Panel {
     private class JugadorLocalModelItem extends
             LoadableDetachableModel<List<Jugador>> {
 
-        private IModel<PlanillaFinal> planillaModel;
+        private IModel<? extends Planilla> planillaModel;
 
-        public JugadorLocalModelItem(IModel<PlanillaFinal> planillaModel) {
+        public JugadorLocalModelItem(IModel<? extends Planilla> planillaModel) {
             this.planillaModel = planillaModel;
         }
 
@@ -96,9 +94,9 @@ public class PlanillaPanel extends Panel {
     private class JugadorVisitanteModelItem extends
             LoadableDetachableModel<List<Jugador>> {
 
-        private IModel<PlanillaFinal> planillaModel;
+        private IModel<? extends Planilla> planillaModel;
 
-        public JugadorVisitanteModelItem(IModel<PlanillaFinal> planillaModel) {
+        public JugadorVisitanteModelItem(IModel<? extends Planilla> planillaModel) {
             this.planillaModel = planillaModel;
         }
 
@@ -149,10 +147,10 @@ public class PlanillaPanel extends Panel {
     private class MyLoop extends Loop {
 
         private IModel<List<Jugador>> jugadores;
-        private IModel<PlanillaFinal> planillaModel;
+        private IModel<? extends Planilla> planillaModel;
 
         public MyLoop(String id, IModel<Integer> model, IModel<List<Jugador>> jugadores,
-                IModel<PlanillaFinal> planillaModel) {
+                IModel<? extends Planilla> planillaModel) {
             super(id, model);
             this.jugadores = jugadores;
             this.planillaModel = planillaModel;
@@ -173,10 +171,10 @@ public class PlanillaPanel extends Panel {
 
         private final class TarjetasPartidosModel extends AbstractReadOnlyModel<TarjetasPartido> {
 
-            private IModel<PlanillaFinal> planilla;
+            private IModel<? extends Planilla> planilla;
             private IModel<Jugador> jugador;
 
-            public TarjetasPartidosModel(IModel<PlanillaFinal> planilla, IModel<Jugador> jugador) {
+            public TarjetasPartidosModel(IModel<? extends Planilla> planilla, IModel<Jugador> jugador) {
                 this.planilla = planilla;
                 this.jugador = jugador;
             }
