@@ -8,16 +8,10 @@ import ar.noxit.ehockey.exception.TransicionEstadoInvalidaException;
 public class EstadoPlanillaCargada extends EstadoPlanilla {
 
     @Override
-    public Integer getId() {
-        return 0;
-    }
-
-    @Override
     public EstadoPlanilla publicar(PlanillaPublicable publicable) throws ReglaNegocioException {
         Validate.notNull(publicable);
 
         publicable.checkPublicable();
-        
         return new EstadoPlanillaPublicada();
     }
 

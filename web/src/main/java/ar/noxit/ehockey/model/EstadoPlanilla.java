@@ -4,8 +4,6 @@ import ar.noxit.ehockey.exception.ReglaNegocioException;
 
 public abstract class EstadoPlanilla {
 
-    public abstract Integer getId();
-
     public abstract EstadoPlanilla publicar(PlanillaPublicable publicable) throws ReglaNegocioException;
 
     public abstract EstadoPlanilla rechazar(Comentable comentable, String mensaje) throws ReglaNegocioException;
@@ -22,10 +20,11 @@ public abstract class EstadoPlanilla {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof EstadoPlanilla) {
-            return this.getId().equals(((EstadoPlanilla)obj).getId());
-        } else {
-            return false;
-        }
+        return this.getClass().equals(obj.getClass());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getClass().hashCode();
     }
 }
