@@ -12,4 +12,6 @@ public interface IPartidoService {
     Partido get(Integer id) throws NoxitException;
 
     void reprogramar(PartidoInfo pi) throws NoxitException;
+
+    void terminarPartido(Integer id) throws NoxitException;
 }

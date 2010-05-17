@@ -35,6 +35,13 @@ public class PartidoService implements IPartidoService {
         partido.reprogramar(pi.getFecha(), dateTimeProvider.getLocalDateTime());
     }
 
+    @Override
+    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
+    public void terminarPartido(Integer id) throws NoxitException {
+        Partido partido = partidoDao.get(id);
+        partido.terminarPartido();
+    }
+
     public void setPartidoDao(IPartidoDao partidoDao) {
         this.partidoDao = partidoDao;
     }
