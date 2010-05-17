@@ -1,20 +1,21 @@
 package ar.noxit.ehockey.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.IPartidoDao;
 import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.model.PlanillaBase;
 import ar.noxit.ehockey.model.PlanillaFinal;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.planilla.AmonestacionInfo;
 import ar.noxit.ehockey.web.pages.planilla.EquipoInfo;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.persistence.PersistenceException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
 public class PlanillaService implements IPlanillaService {
 
@@ -23,7 +24,7 @@ public class PlanillaService implements IPlanillaService {
 
     @Override
     @Transactional(readOnly = true)
-    public PlanillaBase get(Integer idPartido) throws NoxitException {
+    public PlanillaFinal get(Integer idPartido) throws NoxitException {
         return partidoDao.get(idPartido).getPlanilla();
     }
 
@@ -35,7 +36,7 @@ public class PlanillaService implements IPlanillaService {
         this.jugadorDao = jugadorDao;
     }
 
-    private Collection<Jugador> crearColeccionJugadores(PlanillaBase planilla, EquipoInfo info) throws NoxitException {
+    private Collection<Jugador> crearColeccionJugadores(PlanillaFinal planilla, EquipoInfo info) throws NoxitException {
         Collection<Jugador> temp = new ArrayList<Jugador>();
         for (Integer jug : info.getSeleccionados()) {
             temp.add(jugadorDao.get(jug));
@@ -86,7 +87,19 @@ public class PlanillaService implements IPlanillaService {
 
     @Override
     @Transactional
-    public void finalizarPlanilla(Integer idPartido) throws NoxitException {
-        partidoDao.get(idPartido).finalizarPlanilla();
+    public void validarPlanilla(Integer idPartido) throws NoxitException {
+        partidoDao.get(idPartido).validarPlanilla();
+    }
+
+    @Override
+    @Transactional
+    public void publicarPlanilla(Integer idPartido) throws NoxitException {
+        partidoDao.get(idPartido).publicarPlanilla();
+    }
+
+    @Override
+    @Transactional
+    public void rechazarPlanilla(Integer idPartido, String comentario) throws NoxitException {
+        partidoDao.get(idPartido).rechazarPlanilla(comentario);
     }
 }

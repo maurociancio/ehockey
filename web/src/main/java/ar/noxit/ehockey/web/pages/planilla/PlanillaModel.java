@@ -1,11 +1,12 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
-import ar.noxit.ehockey.model.Partido;
-import ar.noxit.ehockey.model.PlanillaBase;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
-public class PlanillaModel extends AbstractReadOnlyModel<PlanillaBase> {
+import ar.noxit.ehockey.model.Partido;
+import ar.noxit.ehockey.model.PlanillaFinal;
+
+public class PlanillaModel extends AbstractReadOnlyModel<PlanillaFinal> {
 
     private IModel<Partido> partido;
 
@@ -14,7 +15,7 @@ public class PlanillaModel extends AbstractReadOnlyModel<PlanillaBase> {
     }
 
     @Override
-    public PlanillaBase getObject() {
+    public PlanillaFinal getObject() {
         return partido.getObject().getPlanilla();
     }
 

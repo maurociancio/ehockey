@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import ar.noxit.ehockey.exception.TransicionEstadoInvalidaException;
 
@@ -22,6 +23,11 @@ public class EstadoPlanillaFinalizada extends EstadoPlanilla {
 
     @Override
     public EstadoPlanilla validar(PlanillaFinalizable finalizable) throws ReglaNegocioException {
-        throw new TransicionEstadoInvalidaException("la planilla está finalizada");
+        throw new PlanillaYaFinalizadaException("la planilla está finalizada");
+    }
+
+    @Override
+    public boolean estaFinalizada() {
+        return true;
     }
 }

@@ -25,9 +25,4 @@ public class EstadoPlanillaCargada extends EstadoPlanilla {
     public EstadoPlanilla validar(PlanillaFinalizable finalizable) throws TransicionEstadoInvalidaException {
         throw new TransicionEstadoInvalidaException("la planilla no está publicada");
     }
-
-    @Override
-    public boolean estaRechazada() {
-        return false;
-    }
 }

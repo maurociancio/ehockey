@@ -34,7 +34,8 @@
                 <value>ar/noxit/ehockey/model/Division.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Sector.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Torneo.hbm.xml</value>
-                <value>ar/noxit/ehockey/model/Planilla.hbm.xml</value>
+                <value>ar/noxit/ehockey/model/PlanillaFinal.hbm.xml</value>
+                <value>ar/noxit/ehockey/model/PlanillaPrecargada.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Tarjeta.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/SancionPartidosInhabilitados.hbm.xml</value>
             </list>

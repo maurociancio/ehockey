@@ -10,5 +10,11 @@ public abstract class EstadoPlanilla {
 
     public abstract EstadoPlanilla validar(PlanillaFinalizable finalizable) throws ReglaNegocioException;
 
-    public abstract boolean estaRechazada();
+    public boolean estaRechazada() {
+        return false;
+    }
+
+    public boolean estaFinalizada() {
+        return false;
+    }
 }

@@ -1,15 +1,21 @@
 package ar.noxit.ehockey.model;
 
 import static org.testng.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.time.LocalDateTime;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoNoJugadoPorEquipoException;
 import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
+import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
-import org.joda.time.LocalDateTime;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 public class TablaPosicionesTest {
 
@@ -21,12 +27,38 @@ public class TablaPosicionesTest {
     private Equipo eq1;
     private Equipo eq2;
 
+    private void rellenarPlanilla(PlanillaFinal planilla) throws PlanillaNoModificableException {
+        planilla.setArbitroL("");
+        planilla.setArbitroV("");
+        planilla.setCapitanL("");
+        planilla.setCapitanV("");
+        planilla.setDtL("");
+        planilla.setDtV("");
+        planilla.setGoleadoresL("");
+        planilla.setGoleadoresV("");
+        planilla.setJuezMesaL("");
+        planilla.setJuezMesaV("");
+        planilla.setMedicoL("");
+        planilla.setMedicoV("");
+        planilla.setPfL("");
+        planilla.setPfV("");
+
+        List<Jugador> jugadores = new ArrayList<Jugador>();
+        for (int i = 0; i < 10; ++i) {
+            jugadores.add(new Jugador("", "", club, sector, division));
+        }
+        planilla.setJugadoresLocal(jugadores);
+        planilla.setJugadoresVisitante(jugadores);
+    }
+
     private void terminarPartido(Partido partido, int golesLocal, int golesVisitante) throws ReglaNegocioException {
         PlanillaFinal planilla = partido.getPlanilla();
         planilla.setGolesLocal(golesLocal);
         planilla.setGolesVisitante(golesVisitante);
         partido.terminarPartido();
-        partido.finalizarPlanilla();
+        rellenarPlanilla(partido.getPlanilla());
+        partido.publicarPlanilla();
+        partido.validarPlanilla();
     }
 
     @BeforeMethod

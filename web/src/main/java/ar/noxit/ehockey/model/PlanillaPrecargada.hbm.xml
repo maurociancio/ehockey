@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping default-access="field">
+    <class name="ar.noxit.ehockey.model.PlanillaPrecargada" entity-name="PlanillaPrecargada" table="planillasPrecargadas">
+        <id name="id" column="id" >
+            <generator class="increment"/>
+        </id>
+
+        <component name="datosLocal" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
+            <set name="jugadores" table="jugadores_locales_en_planilla">
+                <key column="planilla_id"/>
+                <many-to-many entity-name="Jugador" column="jugador_id"/>
+            </set>
+	    </component>
+
+        <component name="datosVisitante" class="ar.noxit.ehockey.model.DatosEquipoPlanilla">
+            <set name="jugadores" table="jugadores_visitantes_en_planilla">
+                <key column="planilla_id"/>
+                <many-to-many entity-name="Jugador" column="jugador_id"/>
+            </set>
+        </component>
+
+        <one-to-one name="partido" class="Partido"/>
+    </class>
+</hibernate-mapping>

@@ -1,13 +1,15 @@
 package ar.noxit.ehockey.model;
 
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
+
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import ar.noxit.ehockey.exception.PlanillaNoFinalizadaException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDateTime;
+import ar.noxit.ehockey.exception.ReglaNegocioException;
 
 public class Partido {
 
@@ -61,7 +63,7 @@ public class Partido {
 
     private void crearPlanillas() {
         planillaPrecargada = new PlanillaPrecargada(this);
-        planillaFinal = new PlanillaFinal(this);
+        planillaFinal = new PlanillaFinal(planillaPrecargada);
     }
 
     /**
@@ -96,10 +98,20 @@ public class Partido {
      * @throws PlanillaYaFinalizadaException
      * @throws PartidoNoTerminadoException
      */
-    public void finalizarPlanilla() throws PlanillaYaFinalizadaException, PartidoNoTerminadoException {
+    public void validarPlanilla() throws PlanillaYaFinalizadaException, PartidoNoTerminadoException, ReglaNegocioException {
         validarPartidoJugado();
 
-        planillaFinal.finalizarPlanilla();
+        planillaFinal.validar();
+    }
+
+    public void publicarPlanilla() throws ReglaNegocioException {
+        validarPartidoJugado();
+
+        planillaFinal.publicar();
+    }
+
+    public void rechazarPlanilla(String comentario) throws ReglaNegocioException {
+        planillaFinal.rechazar(comentario);
     }
 
     private void validarPartidoJugado() throws PartidoNoTerminadoException {

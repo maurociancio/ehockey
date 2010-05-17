@@ -45,7 +45,7 @@ public class PlanillaPage extends AbstractHeaderPage {
             @Override
             public void onSubmit() {
                 try {
-                    planillaService.finalizarPlanilla(partido.getObject().getId());
+                    planillaService.validarPlanilla(partido.getObject().getId());
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException("No se pudo finalizar la planilla", e);
                 }

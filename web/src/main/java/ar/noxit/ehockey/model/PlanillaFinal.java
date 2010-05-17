@@ -1,18 +1,56 @@
 package ar.noxit.ehockey.model;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang.Validate;
+
+import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
-import java.util.Collection;
-import java.util.Set;
-import org.apache.commons.lang.Validate;
+import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
 
-public class PlanillaFinal extends PlanillaBase implements PlanillaPublicable, Comentable, PlanillaFinalizable {
+public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFinalizable {
 
+    private int id;
+
+    private DatosEquipoPlanilla datosLocal = new DatosEquipoPlanilla();
+    private DatosEquipoPlanilla datosVisitante = new DatosEquipoPlanilla();
+
+    private String observaciones;
+
+    // TODO definir el atributo fecha
+    // TODO definir el resto de los atributos que son: Torneo, Rueda, Partido,
+    // Sector(damas/caballeros), categoría, división, zona
+    private Partido partido;
     private String comentario;
+    private EstadoPlanilla estado;
+
+    protected PlanillaFinal() {
+    }
+
+    private void precargarPlanilla(PlanillaPrecargada planilla) {
+        estado = new EstadoPlanillaCargada();
+
+        Set<Jugador> temp = this.datosLocal.getJugadores();
+        temp.clear();
+        temp.addAll(planilla.getJugadoresLocales());
+
+        temp = this.datosVisitante.getJugadores();
+        temp.addAll(planilla.getJugadoresVisitantes());
+    }
+
+    public PlanillaFinal(PlanillaPrecargada original) {
+        this.partido = original.getPartido();
+        precargarPlanilla(original);
+    }
 
     public PlanillaFinal(Partido partido) {
-        super(partido);
+        Validate.notNull(partido, "El partido no puede ser nulo");
+        this.partido = partido;
+        precargarPlanilla(partido.getPlanillaPrecargada());
     }
 
     private void agregarJugador(Jugador jugador, Set<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
@@ -28,6 +66,95 @@ public class PlanillaFinal extends PlanillaBase implements PlanillaPublicable, C
         jugadores.clear();
         for (Jugador j : jugadoresNuevos) {
             jugadores.add(j);
+        }
+    }
+
+    // VALIDADORES
+    private void validatePlanillaCerrada() throws PlanillaNoModificableException {
+        if (this.estado.estaFinalizada())
+            throw new PlanillaNoModificableException();
+    }
+
+    private Equipo getEquipoDeJugador(Jugador jugador) {
+        Validate.notNull(jugador);
+
+        boolean jugoLocal = datosLocal.jugo(jugador);
+        boolean jugoVisitante = datosVisitante.jugo(jugador);
+
+        if (jugoLocal && jugoVisitante) {
+            throw new ViolacionReglaNegocioException("el jugador jugo en los dos equipos");
+        }
+
+        if (jugoLocal) {
+            return getLocal();
+        }
+        if (jugoVisitante) {
+            return getVisitante();
+        }
+
+        throw new ViolacionReglaNegocioException("el jugador no jugo en ningun lado");
+    }
+
+    private void amonestar(Map<Jugador, TarjetasPartido> tarjetasLocal) {
+        for (Map.Entry<Jugador, TarjetasPartido> entry : tarjetasLocal.entrySet()) {
+            Jugador jugador = entry.getKey();
+            TarjetasPartido tarjetasPartido = entry.getValue();
+            Equipo equipoJugador = getEquipoDeJugador(jugador);
+
+            jugador.amonestar(partido, equipoJugador, tarjetasPartido);
+        }
+    }
+
+    @Override
+    public void checkPublicable() throws ReglaNegocioException {
+        CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
+
+        DatosEquipoPlanilla datos[] = { datosLocal, datosVisitante };
+        for (DatosEquipoPlanilla dep : datos) {
+            try {
+                dep.checkCompleta();
+            } catch (ReglaNegocioException e) {
+                composite.add(e);
+            }
+        }
+
+        composite.throwsIfNotEmpty();
+    }
+
+    @Override
+    public void comentar(String comentario) {
+        Validate.notNull(comentario);
+
+        this.comentario = comentario;
+    }
+
+    /**
+     * solo para uso del estado
+     */
+    @Override
+    public void finalizarPlanilla() throws ReglaNegocioException {
+        amonestar(datosLocal.getTarjetas());
+        amonestar(datosVisitante.getTarjetas());
+    }
+
+    public void publicar() throws ReglaNegocioException {
+        estado = estado.publicar(this);
+    }
+
+    public void validar() throws ReglaNegocioException {
+        estado = estado.validar(this);
+    }
+
+    public void rechazar(String comentario) throws ReglaNegocioException {
+        estado = estado.rechazar(this, comentario);
+    }
+
+    public TarjetasPartido getTarjetasDe(Jugador object) throws JugadorSinTarjetasException {
+        try {
+            return datosLocal.buscarJugador(object);
+        } catch (JugadorSinTarjetasException e) {
+            return datosVisitante.buscarJugador(object);
+            // TODO validar que no juegue en los dos equipos
         }
     }
 
@@ -159,33 +286,52 @@ public class PlanillaFinal extends PlanillaBase implements PlanillaPublicable, C
         this.observaciones = observaciones;
     }
 
-    @Override
-    public void checkPublicable() throws ReglaNegocioException {
-        CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
-
-        DatosEquipoPlanilla datos[] = { datosLocal, datosVisitante };
-        for (DatosEquipoPlanilla dep : datos) {
-            try {
-                dep.checkCompleta();
-            } catch (ReglaNegocioException e) {
-                composite.add(e);
-            }
-        }
-
-        composite.throwsIfNotEmpty();
-    }
-
-    @Override
-    public void comentar(String comentario) {
-        Validate.notNull(comentario);
-
-        this.comentario = comentario;
-    }
-
     public String getComentario() {
         return comentario;
     }
 
-    protected PlanillaFinal() {
+    public Equipo getLocal() {
+        return partido.getLocal();
     }
+
+    public Equipo getVisitante() {
+        return partido.getVisitante();
+    }
+
+    public Set<Jugador> getJugadoresL() {
+        return this.datosLocal.getJugadores();
+    }
+
+    public Set<Jugador> getJugadoresV() {
+        return this.datosVisitante.getJugadores();
+    }
+
+    public DatosEquipoPlanilla getDatosLocal() {
+        return this.datosLocal;
+    }
+
+    public DatosEquipoPlanilla getDatosVisitante() {
+        return this.datosVisitante;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isFinalizada() {
+        return estado.estaFinalizada();
+    }
+
+    public Integer getGolesLocal() {
+        return this.datosLocal.getGoles();
+    }
+
+    public Integer getGolesVisitante() {
+        return this.datosVisitante.getGoles();
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
 }

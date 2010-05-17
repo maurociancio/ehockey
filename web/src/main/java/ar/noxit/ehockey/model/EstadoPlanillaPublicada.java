@@ -27,9 +27,4 @@ public class EstadoPlanillaPublicada extends EstadoPlanilla {
         finalizable.finalizarPlanilla();
         return new EstadoPlanillaFinalizada();
     }
-
-    @Override
-    public boolean estaRechazada() {
-        return false;
-    }
 }

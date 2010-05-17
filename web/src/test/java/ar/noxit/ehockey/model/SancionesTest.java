@@ -1,5 +1,9 @@
 package ar.noxit.ehockey.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import org.joda.time.LocalDateTime;
@@ -11,6 +15,30 @@ public class SancionesTest {
 
     private Partido partido1;
     private Partido partido2;
+
+    private void rellenarPlanilla(PlanillaFinal planilla) throws PlanillaNoModificableException {
+        planilla.setArbitroL("");
+        planilla.setArbitroV("");
+        planilla.setCapitanL("");
+        planilla.setCapitanV("");
+        planilla.setDtL("");
+        planilla.setDtV("");
+        planilla.setGoleadoresL("");
+        planilla.setGoleadoresV("");
+        planilla.setJuezMesaL("");
+        planilla.setJuezMesaV("");
+        planilla.setMedicoL("");
+        planilla.setMedicoV("");
+        planilla.setPfL("");
+        planilla.setPfV("");
+
+        List<Jugador> jugadores = new ArrayList<Jugador>();
+        for (int i = 0; i < 10; ++i) {
+            jugadores.add(new Jugador("", "", new Club("club"), new Sector("sector"), new Division("division")));
+        }
+        planilla.setJugadoresLocal(jugadores);
+        planilla.setJugadoresVisitante(jugadores);
+    }
 
     @BeforeMethod
     public void setUp() throws ReglaNegocioException {
@@ -42,9 +70,11 @@ public class SancionesTest {
     @Test
     public void testSanciones() throws ReglaNegocioException {
         PlanillaFinal planilla1 = partido1.getPlanilla();
+        rellenarPlanilla(planilla1);
         planilla1.setGolesLocal(0);
         planilla1.setGolesVisitante(1);
-        partido1.finalizarPlanilla();
+        partido1.publicarPlanilla();
+        partido1.validarPlanilla();
 
         Assert.assertEquals(partido1.getGolesLocal().intValue(), 0);
         Assert.assertEquals(partido1.getGolesVisitante().intValue(), 1);
@@ -54,9 +84,11 @@ public class SancionesTest {
     @Test(expectedExceptions = PlanillaYaFinalizadaException.class)
     public void testFinalizar2Veces() throws ReglaNegocioException {
         PlanillaFinal planilla1 = partido1.getPlanilla();
+        rellenarPlanilla(planilla1);
         planilla1.setGolesLocal(0);
         planilla1.setGolesVisitante(1);
-        partido1.finalizarPlanilla();
-        partido1.finalizarPlanilla();
+        partido1.publicarPlanilla();
+        partido1.validarPlanilla();
+        partido1.validarPlanilla();
     }
 }

@@ -1,29 +1,57 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.PlanillaNoModificableException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
+public class PlanillaPrecargada {
 
-public class PlanillaPrecargada extends PlanillaBase {
+    private int id;
+
+    private DatosEquipoPlanilla datosLocal = new DatosEquipoPlanilla();
+    private DatosEquipoPlanilla datosVisitante = new DatosEquipoPlanilla();
+
+    private Partido partido;
 
     public PlanillaPrecargada(Partido partido) {
-        super(partido);
-    }
+        this.partido = partido;
 
-    @Override
-    public PlanillaBase finalizarPlanilla() throws PlanillaYaFinalizadaException {
-        throw new PlanillaYaFinalizadaException();
-    }
+        Iterator<Jugador> it = partido.getLocal().getListaBuenaFe().iterator(partido);
+        while (it.hasNext()) {
+            datosLocal.getJugadores().add(it.next());
+        }
 
-    @Override
-    public boolean isFinalizada() {
-        return true;
-    }
-
-    protected void validatePlanillaCerrada() throws PlanillaNoModificableException {
-        throw new PlanillaNoModificableException();
+        it = partido.getVisitante().getListaBuenaFe().iterator(partido);
+        while (it.hasNext()) {
+            datosVisitante.getJugadores().add(it.next());
+        }
     }
 
     protected PlanillaPrecargada() {
+        
+    }
+
+    public Set<Jugador> getJugadoresLocales() {
+        Set<Jugador> temp = new HashSet<Jugador>();
+        temp.addAll(datosLocal.getJugadores());
+        return temp;
+    }
+
+    public Set<Jugador> getJugadoresVisitantes() {
+        Set<Jugador> temp = new HashSet<Jugador>();
+        temp.addAll(datosVisitante.getJugadores());
+        return temp;
+    }
+
+    public Equipo getLocal() {
+        return partido.getLocal();
+    }
+
+    public Equipo getVisitante() {
+        return partido.getVisitante();
+    }
+
+    public Partido getPartido() {
+        return partido;
     }
 }

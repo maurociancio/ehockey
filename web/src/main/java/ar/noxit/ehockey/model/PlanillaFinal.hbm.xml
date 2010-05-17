@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping default-access="field">
-    <class name="ar.noxit.ehockey.model.PlanillaBase" entity-name="Planilla" table="planillas">
+    <class name="ar.noxit.ehockey.model.PlanillaFinal" entity-name="PlanillaFinal" table="planillasFinales">
         <id name="id" column="id" >
             <generator class="increment"/>
         </id>
@@ -58,14 +58,5 @@
 
         <property name="observaciones"/>
         <one-to-one name="partido" class="Partido"/>
-        <property name="finalizada" column="finalizada" not-null="true"/>
-
-        <joined-subclass name="ar.noxit.ehockey.model.PlanillaFinal" table="planillas_finales" entity-name="PlanillaFinal">
-            <key column="id"/>
-        </joined-subclass>
-
-        <joined-subclass name="ar.noxit.ehockey.model.PlanillaPrecargada" table="planillas_precargadas" entity-name="PlanillaPrecargada">
-            <key column="id"/>
-        </joined-subclass>
     </class>
 </hibernate-mapping>

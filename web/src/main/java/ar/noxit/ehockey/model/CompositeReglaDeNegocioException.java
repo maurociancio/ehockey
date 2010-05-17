@@ -47,4 +47,14 @@ public class CompositeReglaDeNegocioException extends ReglaNegocioException impl
         exceptions.add(reglaNegocioException);
         return this;
     }
+
+    @Override
+    public String getMessage() {
+        String message = new String();
+        for (ReglaNegocioException ex : exceptions) {
+            message = message + " | " + ex.getMessage();
+        }
+
+        return message;
+    }
 }

@@ -32,13 +32,13 @@ public class DatosEquipoPlanilla {
     public void checkCompleta() throws ReglaNegocioException {
         CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
 
-        check(composite, dT != null, "DT no puede ser null");
-        check(composite, capitan != null, "Capitan no puede ser null");
-        check(composite, pFisico != null, "Preparador Físico no puede ser null");
-        check(composite, medico != null, "Médico no puede ser null");
-        check(composite, juezDeMesa != null, "Juez de Mesa no puede ser null");
-        check(composite, arbitro != null, "Arbitro no puede ser null");
-        check(composite, goles != null, "Goles no puede ser null");
+        check(composite, dT == null, "DT no puede ser null");
+        check(composite, capitan == null, "Capitan no puede ser null");
+        check(composite, pFisico == null, "Preparador Físico no puede ser null");
+        check(composite, medico == null, "Médico no puede ser null");
+        check(composite, juezDeMesa == null, "Juez de Mesa no puede ser null");
+        check(composite, arbitro == null, "Arbitro no puede ser null");
+        check(composite, goles == null, "Goles no puede ser null");
         check(composite, jugadores.size() < 8, "Pocos jugadores");
         check(composite, jugadores.size() > 18, "Muchos jugadores");
 
