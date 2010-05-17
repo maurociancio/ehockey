@@ -42,6 +42,9 @@ public class VerPartidosPage extends BaseTorneoPage {
         Validate.notNull(torneo, "torneo no puede ser null");
 
         List<IColumn<Partido>> columns = new ArrayList<IColumn<Partido>>();
+        columns.add(new PropertyColumn<Partido>(Model.of("Rueda"), "rueda"));
+        columns.add(new PropertyColumn<Partido>(Model.of("Fecha"), "fechaDelTorneo"));
+        columns.add(new PropertyColumn<Partido>(Model.of("Partido"), "partido"));
         columns.add(new PropertyColumn<Partido>(Model.of("Local"), "local.nombre"));
         columns.add(new PropertyColumn<Partido>(Model.of("Visitante"), "visitante.nombre"));
         columns.add(new AbstractLabelColumn<Partido>(Model.of("Inicio")) {
