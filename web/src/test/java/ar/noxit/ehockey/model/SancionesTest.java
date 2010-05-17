@@ -5,6 +5,7 @@ import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.joda.time.LocalDateTime;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -18,6 +19,8 @@ public class SancionesTest {
     private Division division;
     private Sector sector;
     private Club club2;
+    private List<Jugador> locales;
+    private List<Jugador> visitantes;
 
     private void rellenarPlanilla(PlanillaFinal planilla) throws PlanillaNoModificableException {
         planilla.setArbitroL("");
@@ -34,15 +37,6 @@ public class SancionesTest {
         planilla.setMedicoV("");
         planilla.setPfL("");
         planilla.setPfV("");
-
-        List<Jugador> locales = new ArrayList<Jugador>();
-        for (int i = 0; i < 10; ++i) {
-            locales.add(club1.crearNuevoJugador("", "", sector, division));
-        }
-        List<Jugador> visitantes = new ArrayList<Jugador>();
-        for (int i = 0; i < 10; ++i) {
-            visitantes.add(club2.crearNuevoJugador("", "", sector, division));
-        }
 
         planilla.setJugadoresLocal(locales);
         planilla.setJugadoresVisitante(visitantes);
@@ -61,6 +55,15 @@ public class SancionesTest {
 
         Torneo torneo = new Torneo("el torneo");
 
+        // jugadores
+        this.locales = new ArrayList<Jugador>();
+        llenarJugadores(locales, club1);
+        this.visitantes = new ArrayList<Jugador>();
+        llenarJugadores(visitantes, club2);
+
+        equipo1.getListaBuenaFe().reemplazarJugadores(locales);
+        equipo2.getListaBuenaFe().reemplazarJugadores(visitantes);
+
         LocalDateTime inicio = new LocalDateTime();
         LocalDateTime now = inicio.minusDays(1);
 
@@ -68,6 +71,12 @@ public class SancionesTest {
         this.partido2 = equipo2.jugarContra(torneo, equipo1, 1, 2, 1, inicio, now);
 
         this.partido1.terminarPartido();
+    }
+
+    private void llenarJugadores(List<Jugador> locales, Club club) {
+        for (int i = 0; i < 10; ++i) {
+            locales.add(club.crearNuevoJugador("", "", sector, division));
+        }
     }
 
     @Test(expectedExceptions = ReglaNegocioException.class)
@@ -98,5 +107,45 @@ public class SancionesTest {
         partido1.publicarPlanilla();
         partido1.validarPlanilla();
         partido1.validarPlanilla();
+    }
+
+    @Test
+    public void testJugadoresEnListaBuenaFe() throws ReglaNegocioException {
+        PlanillaPrecargada planillaPrecargada = partido1.getPlanillaPrecargada();
+
+        Set<Jugador> jugadoresLocales = planillaPrecargada.getJugadoresLocales();
+        checkJugadoresEnListaBuenaFe(jugadoresLocales, locales);
+        Set<Jugador> jugadoresVisitantes = planillaPrecargada.getJugadoresVisitantes();
+        checkJugadoresEnListaBuenaFe(jugadoresVisitantes, visitantes);
+    }
+
+    @Test
+    public void testSanciones() throws ReglaNegocioException {
+        PlanillaFinal planilla = partido1.getPlanilla();
+        Jugador jugador = locales.get(0);
+
+        // tarjetas
+        planilla.getDatosLocal().crearTarjetaPartido(jugador, 5, 0, 0);
+
+        // datos planillas
+        rellenarPlanilla(planilla);
+        planilla.setGolesLocal(0);
+        planilla.setGolesVisitante(1);
+
+        partido1.publicarPlanilla();
+        partido1.validarPlanilla();
+
+        Assert.assertFalse(jugador.puedeJugar(partido2));
+
+        PlanillaPrecargada planillaPrecargada = partido2.getPlanillaPrecargada();
+        Assert.assertFalse(planillaPrecargada.getJugadoresVisitantes().contains(jugador));
+        Assert.assertFalse(planillaPrecargada.getJugadoresLocales().contains(jugador));
+        Assert.assertTrue(planillaPrecargada.getJugadoresVisitantes().contains(locales.get(1)));
+    }
+
+    private void checkJugadoresEnListaBuenaFe(Set<Jugador> jugadoresLocales, List<Jugador> jugadores) {
+        List<Jugador> l = new ArrayList<Jugador>(jugadoresLocales);
+        l.removeAll(jugadores);
+        Assert.assertEquals(l.size(), 0);
     }
 }
