@@ -1,15 +1,5 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import java.util.List;
-
-import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Jugador;
@@ -18,6 +8,7 @@ import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.service.ISectorService;
+import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.models.ClubListModel;
 import ar.noxit.ehockey.web.pages.models.DivisionListModel;
 import ar.noxit.ehockey.web.pages.models.IdClubModel;
@@ -29,8 +20,16 @@ import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import ar.noxit.exceptions.NoxitException;
+import java.util.List;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class JugadorVerPage extends AbstractJugadorPage {
+public class JugadorVerPage extends AbstractHeaderPage {
 
     @SpringBean
     private IDivisionService divisionService;
@@ -66,6 +65,8 @@ public class JugadorVerPage extends AbstractJugadorPage {
                 new AjaxJugadorVerUpdater("onchange")));
 
         add(jugadorVerPanel);
+
+        add(new BookmarkablePageLink<AbstractJugadorPage>("menujugador", JugadorPage.class));
     }
 
     private class AjaxJugadorVerUpdater extends

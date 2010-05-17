@@ -21,6 +21,7 @@ public class PartidoInfo implements Serializable {
         pi.setEquipoLocalId(p.getLocal().getId());
         pi.setEquipoVisitanteId(p.getVisitante().getId());
         pi.setFecha(p.getInicio());
+        pi.setRueda(p.getRueda());
         pi.setNumeroFecha(p.getFechaDelTorneo());
         pi.setPartido(p.getPartido());
 
