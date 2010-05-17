@@ -65,12 +65,37 @@ public class PlanillaPage extends AbstractHeaderPage {
             }
         });
 
-        formPlanilla.add(new Button("finalizar") {
+        formPlanilla.add(new Button("publicar") {
+
+            @Override
+            public void onSubmit() {
+                try {
+                    planillaService.publicarPlanilla(partido.getObject().getId());
+                } catch (NoxitException e) {
+                    error(exceptionConverter.convert(e));
+                }
+            }
+        });
+
+        formPlanilla.add(new Button("validar") {
 
             @Override
             public void onSubmit() {
                 try {
                     planillaService.validarPlanilla(partido.getObject().getId());
+                } catch (NoxitException e) {
+                    error(exceptionConverter.convert(e));
+                }
+            }
+        });
+
+        formPlanilla.add(new Button("rechazar") {
+
+            @Override
+            public void onSubmit() {
+                try {
+                    // TODO
+                    planillaService.rechazarPlanilla(partido.getObject().getId(), "");
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
