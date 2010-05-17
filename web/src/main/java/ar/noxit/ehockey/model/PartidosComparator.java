@@ -19,6 +19,13 @@ public class PartidosComparator implements Comparator<Partido> {
                 setThrowExceptionOnEquals(true);
     }
 
+    public static PartidosComparator comparatorPorRuedaFechaYPartido() {
+        return new PartidosComparator().
+                add(new RuedaComparator()).
+                add(new FechaDelTorneoComparator()).
+                add(new PartidoComparator());
+    }
+
     public PartidosComparator() {
     }
 
