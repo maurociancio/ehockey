@@ -214,6 +214,11 @@ public class Partido {
         return id;
     }
 
+    public String getEstadoPlanilla() {
+        return getPlanilla().getEstado();
+    }
+
     protected Partido() {
     }
+
 }

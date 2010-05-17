@@ -329,4 +329,8 @@ public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFi
     public Partido getPartido() {
         return this.partido;
     }
+
+    public String getEstado() {
+        return this.estado.toString();
+    }
 }
