@@ -63,7 +63,7 @@ public abstract class JugadorForm extends Panel {
         };
 
         PatternValidator stringOnlyValidator = new PatternValidator(
-                "([a-z]|[A-Z])+");
+                "([a-zñáéíóúA-ZÑÁÉÍÓÚ])+");
         form.add(new FeedBackLabelAttachedComponent<FormComponent<String>>(
                 "nombrefragment", "nombrepanel", "nombrefeedback",
                 new RequiredTextField<String>("nombre",
