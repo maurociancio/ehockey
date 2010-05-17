@@ -39,6 +39,15 @@ public class PlanillaPage extends AbstractHeaderPage {
             }
         }));
 
+        add(new Label("estado_partido", new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+                Partido object = partido.getObject();
+                return object.isJugado() ? "Jugado" : "No jugado";
+            }
+        }));
+
         add(new PlanillaPanel("panelPlanilla", new PlanillaModel(partido)));
 
         final Form<Void> formPlanilla = new Form<Void>("planillaForm") {
