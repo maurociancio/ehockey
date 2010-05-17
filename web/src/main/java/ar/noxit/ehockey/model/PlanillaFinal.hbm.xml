@@ -58,5 +58,7 @@
 
         <property name="observaciones"/>
         <one-to-one name="partido" class="Partido"/>
+
+        <property name="estado" column="estado" type="ar.noxit.ehockey.configuration.EstadoPlanillaUserType"/>
     </class>
 </hibernate-mapping>

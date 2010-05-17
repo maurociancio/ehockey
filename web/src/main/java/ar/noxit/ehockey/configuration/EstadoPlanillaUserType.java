@@ -23,10 +23,10 @@ public class EstadoPlanillaUserType implements UserType {
 
     static final List<EstadoPlanilla> estados = new ArrayList<EstadoPlanilla>();
     static {
-        estados.set(0, new EstadoPlanillaCargada());
-        estados.set(1, new EstadoPlanillaPublicada());
-        estados.set(2, new EstadoPlanillaRechazada());
-        estados.set(3, new EstadoPlanillaFinalizada());
+        estados.add(new EstadoPlanillaCargada());
+        estados.add(new EstadoPlanillaPublicada());
+        estados.add(new EstadoPlanillaRechazada());
+        estados.add(new EstadoPlanillaFinalizada());
     }
 
     @Override
