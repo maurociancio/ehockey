@@ -7,6 +7,8 @@ import ar.noxit.ehockey.model.PartidosComparator;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
+import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
+import ar.noxit.ehockey.web.pages.planilla.PlanillaPrecargadaPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.utils.Collections;
 import ar.noxit.web.wicket.column.AbstractLabelColumn;
@@ -17,6 +19,7 @@ import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.Validate;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -29,6 +32,8 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -72,6 +77,14 @@ public class VerPartidosPage extends AbstractHeaderPage {
             public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
                     IModel<Partido> rowModel) {
                 cellItem.add(new ReprogramarPartidoPanel(componentId, rowModel));
+            }
+        });
+        columns.add(new AbstractColumn<Partido>(Model.of("Planillas")) {
+
+            @Override
+            public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
+                    IModel<Partido> rowModel) {
+                cellItem.add(new PlanillasPanel(componentId, "planillas", getPage(), rowModel));
             }
         });
 
@@ -166,6 +179,28 @@ public class VerPartidosPage extends AbstractHeaderPage {
                 @Override
                 public boolean isVisible() {
                     return partido.getObject().isJugado();
+                }
+            });
+        }
+    }
+
+    private class PlanillasPanel extends Fragment {
+
+        public PlanillasPanel(String id, String markupId, MarkupContainer markupProvider, final IModel<Partido> rowModel) {
+            super(id, markupId, markupProvider);
+            add(new Link<Void>("precargada") {
+
+                @Override
+                public void onClick() {
+                    setResponsePage(new PlanillaPrecargadaPage(rowModel));
+                }
+
+            });
+            add(new Link<Void>("final") {
+
+                @Override
+                public void onClick() {
+                    setResponsePage(new PlanillaPage(rowModel));
                 }
             });
         }
