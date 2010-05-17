@@ -8,7 +8,6 @@ import ar.noxit.ehockey.exception.SinClubException;
 import ar.noxit.ehockey.exception.SinPartidosException;
 import ar.noxit.ehockey.exception.TarjetaYaUsadaException;
 import ar.noxit.ehockey.model.Tarjeta.TipoTarjeta;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -169,24 +168,23 @@ public class Jugador {
         Torneo torneo = partido.getTorneo();
 
         // partidos en los que el jugador va a estar suspendido
-        Collection<Partido> suspendidos = new ArrayList<Partido>();
+        Collection<Partido> suspendidos = new HashSet<Partido>();
 
         try {
             Partido partidoActual = partido;
-            while (sumarTarjetas(TipoTarjeta.ROJA) >= CANTIDADTARJETASROJASSANCION) {
-                partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
-                suspendidos.add(partidoActual);
-                descontarTarjetas(TipoTarjeta.ROJA, CANTIDADTARJETASROJASSANCION);
-            }
-            while (sumarTarjetas(TipoTarjeta.AMARILLA) >= CANTIDADTARJETASAMARILLASSANCION) {
-                partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
-                suspendidos.add(partidoActual);
-                descontarTarjetas(TipoTarjeta.AMARILLA, CANTIDADTARJETASAMARILLASSANCION);
-            }
-            while (sumarTarjetas(TipoTarjeta.VERDE) >= CANTIDADTARJETASVERDESSANCION) {
-                partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
-                suspendidos.add(partidoActual);
-                descontarTarjetas(TipoTarjeta.VERDE, CANTIDADTARJETASVERDESSANCION);
+            TipoTarjeta tiposTarjetas[] = { TipoTarjeta.ROJA, TipoTarjeta.AMARILLA, TipoTarjeta.VERDE };
+            Integer cantidades[] = { CANTIDADTARJETASROJASSANCION, CANTIDADTARJETASAMARILLASSANCION,
+                    CANTIDADTARJETASVERDESSANCION };
+
+            for (int i = 0; i < tiposTarjetas.length; i++) {
+                TipoTarjeta tipoTarjeta = tiposTarjetas[i];
+                Integer cantidad = cantidades[i];
+
+                while (sumarTarjetas(tipoTarjeta) >= cantidad) {
+                    partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
+                    suspendidos.add(partidoActual);
+                    descontarTarjetas(tipoTarjeta, cantidad);
+                }
             }
         } catch (NoHayPartidoSiguienteException e) {
             logger.debug("Sancion no aplicada, no hay más partidos", e);
@@ -210,7 +208,8 @@ public class Jugador {
     private int sumarTarjetas(TipoTarjeta tipo) {
         int suma = 0;
         for (Tarjeta tarjeta : tarjetas) {
-            if (tarjeta.getTipo().equals(tipo) && !tarjeta.isUsada()) suma++;
+            if (tarjeta.getTipo().equals(tipo) && !tarjeta.isUsada())
+                suma++;
         }
         return suma;
     }
@@ -221,10 +220,10 @@ public class Jugador {
         while (it.hasNext() && suma < cantidad) {
             Tarjeta tarjeta = it.next();
             try {
-            	if (tarjeta.getTipo().equals(tipo)) {
-            		tarjeta.usar();
-            		suma++;
-            	}
+                if (tarjeta.getTipo().equals(tipo)) {
+                    tarjeta.usar();
+                    suma++;
+                }
             } catch (TarjetaYaUsadaException e) {
                 logger.debug("seguimos buscando tarjetas", e);
                 // seguimos buscando tarjetas
