@@ -17,7 +17,7 @@
             <property name="arbitro" column="arbitro_local"/>
             <property name="goles" column="goles_local"/>
             <property name="goleadores" column="goleadores_local"/>
-            <set name="jugadores" table="jugadores_locales_en_planilla">
+            <set name="jugadores" table="jug_loc_planilla_final">
                 <key column="planilla_id"/>
                 <many-to-many entity-name="Jugador" column="jugador_id"/>
             </set>
@@ -41,7 +41,7 @@
             <property name="arbitro" column="arbitro_visitante"/>
             <property name="goles" column="goles_visitante"/>
             <property name="goleadores" column="goleadores_visitante"/>
-            <set name="jugadores" table="jugadores_visitantes_en_planilla">
+            <set name="jugadores" table="jug_vis_planilla_final">
                 <key column="planilla_id"/>
                 <many-to-many entity-name="Jugador" column="jugador_id"/>
             </set>
