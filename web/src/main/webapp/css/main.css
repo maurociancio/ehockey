@@ -388,3 +388,6 @@ dl#news dd span.date {
     font-size:85%;
     font-weight:bold;
 }
+table.fixture tr.odd {
+    background:#EFEFEF;
+}

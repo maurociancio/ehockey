@@ -26,6 +26,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColu
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
@@ -74,7 +75,21 @@ public class VerPartidosPage extends BaseTorneoPage {
         });
 
         this.dataTable = new DefaultDataTable<Partido>("partidos", columns,
-                new PartidosFromTorneoDataProvider(torneo), 20);
+                new PartidosFromTorneoDataProvider(torneo), 20) {
+
+            @Override
+            protected Item<Partido> newRowItem(String id, int index, final IModel<Partido> model) {
+                return new Item<Partido>(id, index, model) {
+
+                    @Override
+                    protected void onComponentTag(ComponentTag tag) {
+                        super.onComponentTag(tag);
+                        Partido partido = model.getObject();
+                        tag.put("class", (partido.getRueda() + partido.getFechaDelTorneo()) % 2 == 0 ? "even" : "odd");
+                    }
+                };
+            }
+        };
         this.dataTable.setOutputMarkupId(true);
         add(dataTable);
     }
