@@ -58,4 +58,22 @@
 			</map>
 		</property>
 	</bean>
+	<bean id="AltaUsuarioPagesProvider" class="ar.noxit.ehockey.configuration.AltaUsuarioPagesProvider">
+		<property name="usuarioPages">
+			<map>
+				<entry>
+					<key>
+						<value>Administrador</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioAdministradorPage</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Representante</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioRepresentantePage</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
 </beans>
