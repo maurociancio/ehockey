@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping default-access="field">
+    <class name="ar.noxit.ehockey.model.Usuario" entity-name="Usuario" table="Usuarios">
+        <id name="user" column="user_name"/>
+
+        <property name="password" column="pass" not-null="true"/>
+        <property name="nombre" column="nombre"/>
+        <property name="apellido" column="apellido"/>
+
+        <joined-subclass name="ar.noxit.ehockey.model.Administrador" table="Administradores">
+            <key column="user_admin"/>
+        </joined-subclass>
+
+        <joined-subclass name="ar.noxit.ehockey.model.Representante" table="Representantes">
+            <key column="user_repres"/>
+            <property name="cargo" column="cargo"/>
+            <many-to-one name="club" entity-name="Club" column="club_id" not-null="true" cascade="save-update,persist"/>
+        </joined-subclass>
+    </class>
+</hibernate-mapping>

@@ -38,6 +38,7 @@
                 <value>ar/noxit/ehockey/model/PlanillaPrecargada.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/Tarjeta.hbm.xml</value>
                 <value>ar/noxit/ehockey/model/SancionPartidosInhabilitados.hbm.xml</value>
+                <value>ar/noxit/ehockey/model/Usuario.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">
