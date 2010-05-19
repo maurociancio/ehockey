@@ -1,10 +1,14 @@
 package ar.noxit.ehockey.web.pages.usuarios;
 
-import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
-public class AltaUsuarioPage extends AbstractHeaderPage{
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+
+public abstract class AltaUsuarioPage extends AbstractContentPage{
 
     public AltaUsuarioPage() {
-        
+        super();
+
+        add(new FeedbackPanel("feedback"));
     }
 }
