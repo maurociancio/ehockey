@@ -1,25 +1,26 @@
 package ar.noxit.ehockey.web.pages.usuarios;
 
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
 
-public class AltaUsuarioAdministradorPage extends AltaUsuarioPage {
+public class FormularioAdministradorPanel extends Panel {
     private Administrador usuario;
 
-    public AltaUsuarioAdministradorPage() {
-        super();
+    public FormularioAdministradorPanel(String id, final String titulo, final String mensaje) {
+        super(id);
         add(new Form<Void>("usuarioPanel") {
 
             @Override
             protected void onSubmit() {
-                setResponsePage(new MensajePage("Alta de usuario", "Se ha completado el alta de usuario"));
+                setResponsePage(new MensajePage(titulo, mensaje));
             }
         });
 
-        add(new AltaUsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario")));
+        add(new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario")));
     }
 }
