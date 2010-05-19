@@ -10,5 +10,7 @@ public abstract class AltaUsuarioPage extends AbstractContentPage{
         super();
 
         add(new FeedbackPanel("feedback"));
+        add(new FormularioAdministradorPanel("administradorPanel", "Alta de usuario", "Se ha completado el alta de usuario"));
+        add(new FormularioRepresentantePanel("administradorPanel", "Alta de usuario", "Se ha completado el alta de usuario"));
     }
 }
