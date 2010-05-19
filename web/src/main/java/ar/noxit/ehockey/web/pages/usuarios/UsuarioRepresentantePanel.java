@@ -16,13 +16,13 @@ import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
 
-public class AltaUsuarioRepresentantePanel extends Panel {
+public class UsuarioRepresentantePanel extends Panel {
 
     @SpringBean
     IClubService clubService;
 
-    public AltaUsuarioRepresentantePanel(String id, IModel<Representante> usuarioRepres) {
-        super(id, usuarioRepres);
+    public UsuarioRepresentantePanel(String id, IModel<Representante> usuarioRepres) {
+        super(id);
 
         ClubModel club = new ClubModel(new Model<Integer>());
         add(new DropDownChoice<Club>("clubes", club, new ClubListModel(clubService), new ClubRenderer()).setRequired(true));

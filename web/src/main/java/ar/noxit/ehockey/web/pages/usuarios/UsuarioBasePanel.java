@@ -8,11 +8,11 @@ import org.apache.wicket.model.PropertyModel;
 
 import ar.noxit.ehockey.model.Usuario;
 
-public class AltaUsuarioBasePanel extends Panel {
+public class UsuarioBasePanel extends Panel {
 
     private String password;
 
-    public AltaUsuarioBasePanel(String id, IModel<Usuario> usuario) {
+    public UsuarioBasePanel(String id, IModel<Usuario> usuario) {
         super(id, usuario);
 
         add(new RequiredTextField<String>("usuario", new PropertyModel<String>(usuario, "user")));
