@@ -7,11 +7,11 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.LDM;
 
-public class TipoUsuarioPage extends AbstractHeaderPage{
+public class TipoUsuarioPage extends AbstractContentPage{
 
     @SpringBean
     private IAltaUsuarioPagesProvider provider;
