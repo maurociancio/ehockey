@@ -1,27 +1,5 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import java.util.Arrays;
-import java.util.Date;
-
-import org.apache.commons.lang.Validate;
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.apache.wicket.feedback.FeedbackMessage;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.FormComponent;
-import org.apache.wicket.markup.html.form.RadioChoice;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.validation.validator.PatternValidator;
-import org.joda.time.LocalDate;
-
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Sector;
@@ -39,6 +17,27 @@ import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import ar.noxit.ehockey.web.util.YearMonthDatePicker;
 import ar.noxit.web.wicket.model.Date2LocalDateModelAdapter;
+import java.util.Arrays;
+import java.util.Date;
+import org.apache.commons.lang.Validate;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
+import org.apache.wicket.feedback.FeedbackMessage;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.RadioChoice;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.validator.PatternValidator;
+import org.apache.wicket.validation.validator.StringValidator;
+import org.joda.time.LocalDate;
 
 public abstract class JugadorForm extends Panel {
 
@@ -106,7 +105,7 @@ public abstract class JugadorForm extends Panel {
 
         FormComponent<String> tel = new TextField<String>("telefono",
                 new PropertyModel<String>(jugador, "telefono"))
-                .add(new PatternValidator("\\d{7,15}"));
+                .add(StringValidator.lengthBetween(7, 20));
         form.add(new FeedBackLabelAttachedComponent<FormComponent<String>>(
                 "telefonofragment", "telefonopanel", "telefonofeedback", tel,
                 form));
