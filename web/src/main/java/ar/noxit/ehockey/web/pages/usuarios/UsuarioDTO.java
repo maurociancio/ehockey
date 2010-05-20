@@ -1,10 +1,12 @@
 package ar.noxit.ehockey.web.pages.usuarios;
 
+import java.io.Serializable;
+
 import org.apache.wicket.model.IModel;
 
 import ar.noxit.ehockey.model.Club;
 
-public class UsuarioDTO {
+public class UsuarioDTO implements Serializable {
 
     private String user;
     private String password;
