@@ -70,4 +70,5 @@
     <bean id="divisionDao" class="ar.noxit.ehockey.dao.impl.DivisionDao"  parent="baseDao"/>
     <bean id="sectorDao" class="ar.noxit.ehockey.dao.impl.SectorDao"  parent="baseDao"/>
     <bean id="planillaDao" class="ar.noxit.ehockey.dao.impl.PlanillaDao" parent="baseDao"/>
+    <bean id="usuarioDao" class="ar.noxit.ehockey.dao.impl.UsuarioDao" parent="baseDao"/>
 </beans>

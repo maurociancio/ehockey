@@ -61,4 +61,7 @@
         <property name="partidoDao" ref="partidoDao"/>
         <property name="jugadorDao" ref="jugadorDao"/>
     </bean>
+    <bean id="usuarioService" class="ar.noxit.ehockey.service.impl.UsuarioService">
+        <property name="usuarioDao" ref="usuarioDao"/>
+    </bean>
 </beans>
