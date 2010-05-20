@@ -5,7 +5,7 @@ import org.apache.wicket.model.IModel;
 
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 
-public abstract class AltaUsuarioPage extends AbstractContentPage{
+public class AltaUsuarioPage extends AbstractContentPage{
 
     public AltaUsuarioPage(IModel<UsuarioDTO> usuario) {
         super();
