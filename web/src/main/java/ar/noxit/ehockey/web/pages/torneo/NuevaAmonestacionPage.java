@@ -20,7 +20,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public abstract class NuevaAmonestacionPage extends AbstractColorBasePage {
 
-    private AmonestacionInfo amonestacionInfo = new AmonestacionInfo();
+    private AmonestacionInfo amonestacionInfo = new AmonestacionInfo(null, 0, 0, 0);
     @SpringBean
     private IJugadorService jugadorService;
 
