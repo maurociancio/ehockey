@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.validator.MinimumValidator;
 
 public abstract class NuevaAmonestacionPage extends AbstractColorBasePage {
 
@@ -38,12 +39,13 @@ public abstract class NuevaAmonestacionPage extends AbstractColorBasePage {
                 JugadorRenderer.get())
                 .setRequired(true));
 
+        MinimumValidator<Integer> minVal = new MinimumValidator<Integer>(0);
         form.add(new RequiredTextField<Integer>("rojas",
-                new PropertyModel<Integer>(amonestacionInfo, "rojas"), Integer.class));
+                new PropertyModel<Integer>(amonestacionInfo, "rojas"), Integer.class).add(minVal));
         form.add(new RequiredTextField<Integer>("amarillas",
-                new PropertyModel<Integer>(amonestacionInfo, "amarillas"), Integer.class));
+                new PropertyModel<Integer>(amonestacionInfo, "amarillas"), Integer.class).add(minVal));
         form.add(new RequiredTextField<Integer>("verdes",
-                new PropertyModel<Integer>(amonestacionInfo, "verdes"), Integer.class));
+                new PropertyModel<Integer>(amonestacionInfo, "verdes"), Integer.class).add(minVal));
 
         form.add(new AjaxButton("submit") {
 
