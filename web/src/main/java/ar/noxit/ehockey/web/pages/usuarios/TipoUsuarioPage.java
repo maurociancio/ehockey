@@ -19,7 +19,7 @@ public class TipoUsuarioPage extends AbstractContentPage{
     private String selected;
 
     public TipoUsuarioPage() {
-        add(new DropDownChoice<String>("tipos", new PropertyModel<String>(this, "selected"), new PaginasUsuariosListModel()));
+        add(new DropDownChoice<String>("tipos", new PropertyModel<String>(this, "selected"), new UsuarioListTypesModel()));
 
         add(new Form<Void>("form"){
 
@@ -30,11 +30,12 @@ public class TipoUsuarioPage extends AbstractContentPage{
         });
     }
 
-    public class PaginasUsuariosListModel extends LDM<List<String>> {
+    public class UsuarioListTypesModel extends LDM<List<String>> {
 
         @Override
         protected List<String> doLoad() throws NoxitException {
             return provider.getListaTipos();
         }
+        
     }
 }
