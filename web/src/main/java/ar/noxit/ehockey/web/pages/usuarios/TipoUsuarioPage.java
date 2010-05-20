@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -14,7 +15,7 @@ import ar.noxit.web.wicket.model.LDM;
 public class TipoUsuarioPage extends AbstractContentPage{
 
     @SpringBean
-    private IAltaUsuarioPagesProvider provider;
+    private IUsuarioDTOProvider provider;
     private String selected;
 
     public TipoUsuarioPage() {
@@ -24,7 +25,7 @@ public class TipoUsuarioPage extends AbstractContentPage{
 
             @Override
             protected void onSubmit() {
-                setResponsePage(provider.getPagina(selected));
+                setResponsePage(new AltaUsuarioPage(new Model<UsuarioDTO> (provider.createUsuarioDTO(selected))));
             }
         });
     }
@@ -33,7 +34,7 @@ public class TipoUsuarioPage extends AbstractContentPage{
 
         @Override
         protected List<String> doLoad() throws NoxitException {
-            return provider.getListaPaginas();
+            return provider.getListaTipos();
         }
     }
 }
