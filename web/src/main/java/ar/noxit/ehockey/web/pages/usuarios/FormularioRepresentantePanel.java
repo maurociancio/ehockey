@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.web.pages.usuarios;
 
+import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -14,6 +15,7 @@ public class FormularioRepresentantePanel extends Panel {
 
     public FormularioRepresentantePanel(String id, IModel<UsuarioDTO> usuario, final String titulo, final String mensaje) {
         super(id);
+        Validate.notNull(usuario, "El usuario no puede ser null");
 
         this.usuario = usuario;
         Form<Void> form = new Form<Void>("usuarioForm") {
@@ -32,6 +34,7 @@ public class FormularioRepresentantePanel extends Panel {
 
     @Override
     public boolean isVisible() {
+        if (usuario.getObject() == null) return false;
         return usuario.getObject().getTipo().equals(Representante.class);
     }
 }
