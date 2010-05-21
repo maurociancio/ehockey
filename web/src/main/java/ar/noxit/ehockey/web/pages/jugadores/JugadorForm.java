@@ -48,6 +48,9 @@ public abstract class JugadorForm extends Panel {
     @SpringBean
     private ISectorService sectorService;
     private final static String textPattern = "([a-zñáéíóúA-ZÑÁÉÍÓÚ])+";
+    private boolean clubActivo = true;
+    private boolean divisionActivo = true;
+    private boolean sectorActivo = true;
 
     public JugadorForm(String id, final IModel<JugadorPlano> jugador) {
         super(id);
@@ -113,7 +116,13 @@ public abstract class JugadorForm extends Panel {
         FormComponent<Club> club = new DropDownChoice<Club>("club",
                 new IdClubModel(new PropertyModel<Integer>(jugador, "clubId"),
                         clubService), new ClubListModel(clubService),
-                new ClubRenderer()).setRequired(true);
+                new ClubRenderer()) {
+
+            @Override
+            public boolean isEnabled() {
+                return clubActivo;
+            }
+        }.setRequired(true);
         form.add(club);
         form.add(new FeedBackLabelAttachedComponent<FormComponent<Club>>(
                 "clubfragment", "clubpanel", "clubfeedback", club, form,
@@ -122,8 +131,13 @@ public abstract class JugadorForm extends Panel {
         FormComponent<Division> division = new DropDownChoice<Division>(
                 "division", new IdDivisionModel(new PropertyModel<Integer>(
                         jugador, "divisionId"), divisionService),
-                new DivisionListModel(divisionService), new DivisionRenderer())
-                .setRequired(true);
+                new DivisionListModel(divisionService), new DivisionRenderer()) {
+
+            @Override
+            public boolean isEnabled() {
+                return divisionActivo;
+            }
+        }.setRequired(true);
         form.add(division);
         form.add(new FeedBackLabelAttachedComponent<FormComponent<Division>>(
                 "divisionfragment", "divisionpanel", "divisionfeedback",
@@ -132,7 +146,13 @@ public abstract class JugadorForm extends Panel {
         FormComponent<Sector> sector = new RadioChoice<Sector>("sector",
                 new IdSectorModel(new PropertyModel<Integer>(jugador,
                         "sectorId"), sectorService), new SectorListModel(
-                        sectorService), new SectorRenderer()).setRequired(true);
+                        sectorService), new SectorRenderer()) {
+
+            @Override
+            public boolean isEnabled() {
+                return sectorActivo;
+            }
+        }.setRequired(true);
         form.add(sector);
         form.add(new FeedbackLabel("sectorfeedback", sector));
 
@@ -140,10 +160,24 @@ public abstract class JugadorForm extends Panel {
         add(new FeedbackPanel("feedback").setFilter(
                 new ErrorLevelsFeedbackMessageFilter(
                         new int[] { FeedbackMessage.ERROR }))
-                .add(
-                        new AttributeModifier("class", true, Model
+                .add(new AttributeModifier("class", true, Model
                                 .of("feedbacklabel"))));
     }
 
     protected abstract void onSubmit(IModel<JugadorPlano> jugador);
+
+    public JugadorForm setClubActivo(boolean clubActivo) {
+        this.clubActivo = clubActivo;
+        return this;
+    }
+
+    public JugadorForm setDivisionActivo(boolean divisionActivo) {
+        this.divisionActivo = divisionActivo;
+        return this;
+    }
+
+    public JugadorForm setSectorActivo(boolean sectorActivo) {
+        this.sectorActivo = sectorActivo;
+        return this;
+    }
 }

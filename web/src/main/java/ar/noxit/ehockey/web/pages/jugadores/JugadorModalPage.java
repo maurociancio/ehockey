@@ -43,7 +43,7 @@ public class JugadorModalPage extends AbstractColorBasePage {
                     throw new RuntimeException(ex);
                 }
             }
-        });
+        }.setClubActivo(false).setDivisionActivo(false).setSectorActivo(false));
 
         add(new AjaxLink<Void>("cerrar") {
 
