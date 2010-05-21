@@ -33,6 +33,8 @@ public class JugadorModalPage extends AbstractColorBasePage {
             protected void onSubmit(IModel<JugadorPlano> jugador) {
                 try {
                     jugadorService.add(jugador.getObject());
+
+                    info("Se ha dado de alta correctamente.");
                 } catch (JugadorExistenteException ex) {
                     info("El jugador de "
                             + jugador.getObject().getTipoDocumento()
