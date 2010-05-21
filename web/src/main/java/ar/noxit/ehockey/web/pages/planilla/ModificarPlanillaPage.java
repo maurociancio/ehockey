@@ -1,14 +1,5 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
-import java.util.Map;
-
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
@@ -21,11 +12,18 @@ import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.AdapterModel;
+import java.util.Map;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class ModificarPlanillaPage extends AbstractContentPage {
 
-    private Integer golesLocal;
-    private Integer golesVisitante;
+    private IModel<Integer> golesLocal;
+    private IModel<Integer> golesVisitante;
     private IModel<EquipoInfo> infoLocal;
     private IModel<EquipoInfo> infoVisitante;
 
@@ -35,8 +33,8 @@ public class ModificarPlanillaPage extends AbstractContentPage {
     public ModificarPlanillaPage(final IModel<Partido> partido) {
         infoLocal = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido, "planilla.datosLocal"));
         infoVisitante = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido, "planilla.datosVisitante"));
-        golesLocal = partido.getObject().getPlanilla().getGolesLocal();
-        golesVisitante = partido.getObject().getPlanilla().getGolesVisitante();
+        golesLocal = new PropertyModel<Integer>(partido, "planilla.golesLocal");
+        golesVisitante = new PropertyModel<Integer>(partido, "planilla.golesVisitante");
 
         add(new FeedbackPanel("feedback"));
         Form<Void> form = new Form<Void>("edicion_planilla") {
@@ -44,8 +42,11 @@ public class ModificarPlanillaPage extends AbstractContentPage {
             @Override
             protected void onSubmit() {
                 try {
-                    planillaService.updatePlanilla(partido.getObject().getId(), golesLocal, golesVisitante, infoLocal
-                            .getObject(), infoVisitante.getObject());
+                    Integer golesLocalInt = golesLocal.getObject();
+                    Integer golesVisitanteInt = golesVisitante.getObject();
+                    Integer partidoId = partido.getObject().getId();
+                    planillaService.updatePlanilla(partidoId, golesLocalInt, golesVisitanteInt,
+                            infoLocal.getObject(), infoVisitante.getObject());
                     setResponsePage(new MensajePage("Planilla de Partido",
                             "Se completó la actualización de la planilla"));
                 } catch (NoxitException e) {
@@ -54,7 +55,7 @@ public class ModificarPlanillaPage extends AbstractContentPage {
             }
         };
         form.add(new PlanillaGeneralPanel("planillaGeneral", new PropertyModel<PlanillaFinal>(partido, "planilla"),
-                new PropertyModel<Integer>(this, "golesLocal"), new PropertyModel<Integer>(this, "golesVisitante")));
+                golesLocal, golesVisitante));
         form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(partido, "local"), infoLocal));
         form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(partido, "visitante"),
                 infoVisitante));
