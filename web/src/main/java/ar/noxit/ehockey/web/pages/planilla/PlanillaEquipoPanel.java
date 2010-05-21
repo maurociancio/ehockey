@@ -44,7 +44,7 @@ public class PlanillaEquipoPanel extends Panel {
     @SpringBean
     private IJugadorService jugadorService;
 
-    public PlanillaEquipoPanel(String id, IModel<Equipo> equipo, final IModel<EquipoInfo> info) {
+    public PlanillaEquipoPanel(String id, final IModel<Equipo> equipo, final IModel<EquipoInfo> info) {
         super(id);
 
         // VENTANA MODAL
@@ -84,7 +84,7 @@ public class PlanillaEquipoPanel extends Panel {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                modal.setPageCreator(new NuevoJugadorPC(modal));
+                modal.setPageCreator(new NuevoJugadorPC(modal, equipo));
                 modal.setWindowClosedCallback(new NuevoJugadorWCB(palette));
                 modal.show(target);
             }
@@ -134,14 +134,19 @@ public class PlanillaEquipoPanel extends Panel {
     private final class NuevoJugadorPC implements PageCreator {
 
         private ModalWindow modal;
+        private IModel<Equipo> equipo;
 
-        public NuevoJugadorPC(ModalWindow modal) {
+        public NuevoJugadorPC(ModalWindow modal, IModel<Equipo> equipo) {
             this.modal = modal;
+            this.equipo = equipo;
         }
 
         @Override
         public Page createPage() {
-            return new JugadorModalPage(modal);
+            IModel<Integer> clubId = new PropertyModel<Integer>(equipo, "club.id");
+            IModel<Integer> divisionId = new PropertyModel<Integer>(equipo, "division.id");
+            IModel<Integer> sectorId = new PropertyModel<Integer>(equipo, "sector.id");
+            return new JugadorModalPage(modal, clubId, divisionId, sectorId);
         }
     }
 

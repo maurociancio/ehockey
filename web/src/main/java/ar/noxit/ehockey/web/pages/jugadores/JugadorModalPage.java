@@ -16,8 +16,16 @@ public class JugadorModalPage extends AbstractColorBasePage {
     @SpringBean
     private IJugadorService jugadorService;
 
-    public JugadorModalPage(final ModalWindow modal) {
-        IModel<JugadorPlano> jugador = new Model<JugadorPlano>(new JugadorPlano());
+    public JugadorModalPage(final ModalWindow modal,
+            IModel<Integer> idClub,
+            IModel<Integer> idDivision,
+            IModel<Integer> idSector) {
+
+        JugadorPlano jp = new JugadorPlano();
+        jp.setClubId(idClub.getObject());
+        jp.setSectorId(idSector.getObject());
+        jp.setDivisionId(idDivision.getObject());
+        IModel<JugadorPlano> jugador = new Model<JugadorPlano>(jp);
 
         add(new JugadorForm("formulario", jugador) {
 
