@@ -19,5 +19,9 @@ public class UsuarioBasePanel extends Panel {
         add(new PasswordTextField("contrasena", new PropertyModel<String>(usuario, "password")).setRequired(true));
         add(new RequiredTextField<String>("nombre", new PropertyModel<String>(usuario, "nombre")));
         add(new RequiredTextField<String>("apellido", new PropertyModel<String>(usuario, "apellido")));
+        
+        //org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator
+        //org.apache.wicket.validation.validator.StringValidator.minimumLength(int)
+        //JugadorBajaPage.properties para el validador y los mensajes
     }
 }

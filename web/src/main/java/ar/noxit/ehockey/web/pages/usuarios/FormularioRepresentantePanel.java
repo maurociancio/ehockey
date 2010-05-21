@@ -16,20 +16,22 @@ public class FormularioRepresentantePanel extends Panel {
         super(id);
 
         this.usuario = usuario;
-        add(new Form<Void>("usuarioPanel") {
+        Form<Void> form = new Form<Void>("usuarioForm") {
 
             @Override
             protected void onSubmit() {
                 setResponsePage(new MensajePage(titulo, mensaje));
             }
-        });
-
-        add(new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario")));
-        add(new UsuarioRepresentantePanel("usuarioRepresentantePanel", new PropertyModel<Representante>(this, "usuario")));
+        };
+        
+        form.add(new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario")));
+        form.add(new UsuarioRepresentantePanel("usuarioRepresentantePanel", new PropertyModel<Representante>(this, "usuario")));
+        
+        add(form); 
     }
 
     @Override
     public boolean isVisible() {
-        return usuario.getObject().equals(Representante.class);
+        return usuario.getObject().getTipo().equals(Representante.class);
     }
 }

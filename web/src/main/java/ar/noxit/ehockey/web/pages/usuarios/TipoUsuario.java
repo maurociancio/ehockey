@@ -1,8 +1,10 @@
 package ar.noxit.ehockey.web.pages.usuarios;
 
+import java.io.Serializable;
+
 import ar.noxit.ehockey.model.Usuario;
 
-public class TipoUsuario {
+public class TipoUsuario implements Serializable {
 
     Class<? extends Usuario> tipo;
     public TipoUsuario(Class<? extends Usuario> tipo) {
@@ -11,6 +13,6 @@ public class TipoUsuario {
 
     @Override
     public boolean equals(Object obj) {
-        return obj.getClass().equals(tipo);
+        return tipo.equals(obj);
     }
 }
