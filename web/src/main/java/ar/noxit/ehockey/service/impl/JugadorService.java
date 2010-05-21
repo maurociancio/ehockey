@@ -1,18 +1,19 @@
 package ar.noxit.ehockey.service.impl;
 
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IDivisionDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.ISectorDao;
-import ar.noxit.ehockey.exception.JugadorYaBajaException;
 import ar.noxit.ehockey.exception.SinClubException;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorPlano;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.persistence.PersistenceException;
-import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
 public class JugadorService implements IJugadorService {
 
