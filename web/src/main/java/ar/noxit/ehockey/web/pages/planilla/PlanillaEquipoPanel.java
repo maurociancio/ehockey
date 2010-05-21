@@ -19,11 +19,13 @@ import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.PageCreator;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
+import org.apache.wicket.extensions.markup.html.form.palette.component.Recorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
@@ -61,7 +63,20 @@ public class PlanillaEquipoPanel extends Panel {
                 jugadoresModel,
                 JugadorRenderer.get(),
                 10,
-                false);
+                false) {
+
+            @Override
+            protected Recorder<Jugador> newRecorderComponent() {
+                Recorder<Jugador> recorder = super.newRecorderComponent();
+                recorder.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+
+                    @Override
+                    protected void onUpdate(AjaxRequestTarget target) {
+                    }
+                });
+                return recorder;
+            }
+        };
         palette.setOutputMarkupId(true);
         add(palette);
 
