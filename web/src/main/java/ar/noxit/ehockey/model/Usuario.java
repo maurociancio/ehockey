@@ -20,6 +20,9 @@ public abstract class Usuario {
         this.password = hasher.hash(password);
     }
 
+    protected Usuario() {
+    }
+
     public String getNombre() {
         return nombre;
     }

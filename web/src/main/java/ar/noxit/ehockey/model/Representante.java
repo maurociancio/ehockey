@@ -10,6 +10,10 @@ public class Representante extends Usuario {
         this.club = club;
     }
 
+    protected Representante() {
+        super();
+    }
+
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }

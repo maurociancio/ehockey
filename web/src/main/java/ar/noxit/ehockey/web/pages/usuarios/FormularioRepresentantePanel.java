@@ -18,27 +18,13 @@ public class FormularioRepresentantePanel extends Panel {
     @SpringBean
     private IUsuarioService usuarioService;
 
-    public FormularioRepresentantePanel(String id, final IModel<UsuarioDTO> usuario, final String titulo, final String mensaje) {
+    public FormularioRepresentantePanel(String id, final IModel<UsuarioDTO> usuario, Form<Void> form) {
         super(id);
         Validate.notNull(usuario, "El usuario no puede ser null");
-
         this.usuario = usuario;
-        Form<Void> form = new Form<Void>("usuarioForm") {
 
-            @Override
-            protected void onSubmit() {
-                try {
-                    usuarioService.add(usuario.getObject());
-                } catch (NoxitException e) {
-                    setResponsePage(new MensajePage(titulo, "Error en la operación, intente nuevamente"));
-                }
-                setResponsePage(new MensajePage(titulo, mensaje));
-            }
-        };
-        
         form.add(new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario")));
         form.add(new UsuarioRepresentantePanel("usuarioRepresentantePanel", new PropertyModel<Representante>(this, "usuario")));
-        
         add(form); 
     }
 

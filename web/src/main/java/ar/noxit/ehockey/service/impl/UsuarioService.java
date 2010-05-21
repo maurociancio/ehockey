@@ -5,20 +5,25 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.noxit.ehockey.dao.IUsuarioDao;
+import ar.noxit.ehockey.exception.UsuarioExistenteException;
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.exceptions.persistence.PersistenceException;
 
 public class UsuarioService implements IUsuarioService {
 
     private IUsuarioDao usuarioDao;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
     public void add(UsuarioDTO usuario) throws NoxitException {
+        validarUsuarioNoExistente(usuario);
+
         if (usuario.getTipo().equals(Administrador.class)) {
             Administrador nuevo = new Administrador(usuario.getUser(), usuario.getPassword());
             nuevo.setNombre(usuario.getNombre());
@@ -30,6 +35,15 @@ public class UsuarioService implements IUsuarioService {
             nuevo.setApellido(usuario.getApellido());
             nuevo.setCargo(usuario.getCargo());
             usuarioDao.save(nuevo);
+        }
+    }
+
+    private void validarUsuarioNoExistente(UsuarioDTO usuario) throws UsuarioExistenteException {
+        try {
+            Usuario temp = usuarioDao.get(usuario.getUser());
+            if (temp != null) throw new UsuarioExistenteException();
+        } catch (PersistenceException e) {
+            throw new NoxitRuntimeException("Error intentando verificar existencia de usuario");
         }
     }
 

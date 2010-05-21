@@ -15,26 +15,11 @@ import ar.noxit.exceptions.NoxitException;
 
 public class FormularioAdministradorPanel extends Panel {
     private IModel<UsuarioDTO> usuario;
-    @SpringBean
-    private IUsuarioService usuarioService;
 
-    public FormularioAdministradorPanel(String id, final IModel<UsuarioDTO> usuario, final String titulo, final String mensaje) {
+    public FormularioAdministradorPanel(String id, final IModel<UsuarioDTO> usuario, Form<Void> form) {
         super(id);
         Validate.notNull(usuario, "El usuario no puede ser null");
-        
         this.usuario = usuario;
-        Form<Void> form = new Form<Void>("usuarioForm") {
-
-            @Override
-            protected void onSubmit() {
-                try {
-                    usuarioService.add(usuario.getObject());
-                } catch (NoxitException e) {
-                    setResponsePage(new MensajePage(titulo, "Error en la operación, intente nuevamente"));
-                }
-                setResponsePage(new MensajePage(titulo, mensaje));
-            }
-        };
 
         form.add(new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario")));
         add(form);

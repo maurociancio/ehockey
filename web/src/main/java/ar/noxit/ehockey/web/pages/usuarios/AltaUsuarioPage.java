@@ -28,9 +28,10 @@ public class AltaUsuarioPage extends AbstractContentPage {
 
         // creo los dos paneles. Uno por cada tipo de alta de usuario
         // los paneles solo se muestan si el usuario es del tipo que corresponde
-        final Panel adminPanel = new FormularioAdministradorPanel("administradorPanel", usuario, titulo, mensaje);
-        final Panel represPanel = new FormularioRepresentantePanel("representantePanel", usuario, titulo, mensaje);
-this.setOutputMarkupId(true);
+        final Panel adminPanel = new FormularioAdministradorPanel("administradorPanel", usuario, new AltaUsuarioForm(usuario));
+        final Panel represPanel = new FormularioRepresentantePanel("representantePanel", usuario, new AltaUsuarioForm(usuario));
+        this.setOutputMarkupId(true);
+
         // panel para devolver errores de validación
         add(new FeedbackPanel("feedback"));
 
