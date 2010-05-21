@@ -55,6 +55,31 @@
 					</key>
 					<value>ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage </value>
 				</entry>
+				<entry>
+					<key>
+						<value>Usuarios</value>
+					</key>
+					<value>ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage </value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="usuarioDTOProvider" class="ar.noxit.ehockey.configuration.UsuarioDTOProvider">
+		<property name="usuarioTypes">
+			<map>
+				<entry>
+					<key>
+						<value>Administrador</value>
+					</key>
+					<value>ar.noxit.ehockey.model.Administrador</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Representante</value>
+					</key>
+					<value>ar.noxit.ehockey.model.Representante</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
