@@ -5,13 +5,9 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Usuario;
-import ar.noxit.ehockey.service.IUsuarioService;
-import ar.noxit.ehockey.web.pages.base.MensajePage;
-import ar.noxit.exceptions.NoxitException;
 
 public class FormularioAdministradorPanel extends Panel {
     private IModel<UsuarioDTO> usuario;
@@ -21,7 +17,10 @@ public class FormularioAdministradorPanel extends Panel {
         Validate.notNull(usuario, "El usuario no puede ser null");
         this.usuario = usuario;
 
-        form.add(new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario")));
+        UsuarioBasePanel basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario"));
+        basePanel.addValidators(form);
+        form.add(basePanel);
+
         add(form);
     }
 

@@ -23,8 +23,11 @@ public class FormularioRepresentantePanel extends Panel {
         Validate.notNull(usuario, "El usuario no puede ser null");
         this.usuario = usuario;
 
-        form.add(new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario")));
+        UsuarioBasePanel basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario"));
+        basePanel.addValidators(form);
+        form.add(basePanel);
         form.add(new UsuarioRepresentantePanel("usuarioRepresentantePanel", new PropertyModel<Representante>(this, "usuario")));
+
         add(form); 
     }
 
