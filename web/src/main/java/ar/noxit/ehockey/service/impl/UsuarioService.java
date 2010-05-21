@@ -23,11 +23,13 @@ public class UsuarioService implements IUsuarioService {
             Administrador nuevo = new Administrador(usuario.getUser(), usuario.getPassword());
             nuevo.setNombre(usuario.getNombre());
             nuevo.setApellido(usuario.getApellido());
+            usuarioDao.save(nuevo);
         } else if (usuario.getTipo().equals(Representante.class)) {
             Representante nuevo = new Representante(usuario.getUser(), usuario.getPassword(), usuario.getClub());
             nuevo.setNombre(usuario.getNombre());
             nuevo.setApellido(usuario.getApellido());
             nuevo.setCargo(usuario.getCargo());
+            usuarioDao.save(nuevo);
         }
     }
 
