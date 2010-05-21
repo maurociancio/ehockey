@@ -43,9 +43,17 @@ public class PlanillaEquipoPanel extends Panel {
     public PlanillaEquipoPanel(String id, IModel<Equipo> equipo, final IModel<EquipoInfo> info) {
         super(id);
 
+        // VENTANA MODAL
+        final ModalWindow modal = new ModalWindow("modal");
+        modal.setPageMapName("amonestaciones");
+        modal.setCookieName("amonestaciones");
+        add(modal);
+
+        // LISTA DE JUGADORES MODEL
         final IModel<List<Jugador>> jugadoresModel = new TodosJugadoresPorClubModel(
                 new PropertyModel<Integer>(equipo, "club.id"), clubService);
 
+        // PALETA DE JUGADORES
         add(new Palette<Jugador>("palette",
                 new JugadoresSeleccionadosModel(info, equipo),
                 jugadoresModel,
@@ -53,6 +61,7 @@ public class PlanillaEquipoPanel extends Panel {
                 10,
                 false));
 
+        // DATOS DEL PARTIDO
         add(new RequiredTextField<String>("goleadores", new PropertyModel<String>(info, "goleadores")));
         add(new RequiredTextField<String>("dt", new PropertyModel<String>(info, "dt")));
         add(new RequiredTextField<String>("pf", new PropertyModel<String>(info, "pf")));
@@ -61,6 +70,7 @@ public class PlanillaEquipoPanel extends Panel {
         add(new RequiredTextField<String>("juezmesa", new PropertyModel<String>(info, "juezMesa")));
         add(new RequiredTextField<String>("arbitro", new PropertyModel<String>(info, "arbitro")));
 
+        // AMONESTACIONES
         List<IColumn<AmonestacionInfo>> columns = new ArrayList<IColumn<AmonestacionInfo>>();
         columns.add(new AbstractLabelColumn<AmonestacionInfo>(Model.of("Nombre y Apellido")) {
 
@@ -81,38 +91,53 @@ public class PlanillaEquipoPanel extends Panel {
         amonestacionesTable.setOutputMarkupId(true);
         add(amonestacionesTable);
 
-        final ModalWindow modal = new ModalWindow("modal");
-        modal.setPageMapName("amonestaciones");
-        modal.setCookieName("amonestaciones");
-        modal.setWindowClosedCallback(new WindowClosedCallback() {
-
-            @Override
-            public void onClose(AjaxRequestTarget target) {
-                target.addComponent(amonestacionesTable);
-            }
-        });
-        add(modal);
-
         add(new AjaxLink<Void>("nueva_amonestacion") {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                modal.setPageCreator(new PageCreator() {
-
-                    @Override
-                    public Page createPage() {
-                        return new NuevaAmonestacionPage(jugadoresModel, modal) {
-
-                            @Override
-                            protected void onSubmit(AmonestacionInfo amonestacionInfo) {
-                                info.getObject().getAmonestaciones().add(amonestacionInfo);
-                            }
-                        };
-                    }
-                });
+                modal.setPageCreator(new AmonestacionPC(jugadoresModel, modal, info));
+                modal.setWindowClosedCallback(new AmonestacionWCB(amonestacionesTable));
                 modal.show(target);
             }
         });
+    }
+
+    private final class AmonestacionPC implements PageCreator {
+
+        private final IModel<List<Jugador>> jugadoresModel;
+        private final ModalWindow modal;
+        private final IModel<EquipoInfo> info;
+
+        private AmonestacionPC(IModel<List<Jugador>> jugadoresModel, ModalWindow modal, IModel<EquipoInfo> info) {
+            this.jugadoresModel = jugadoresModel;
+            this.modal = modal;
+            this.info = info;
+        }
+
+        @Override
+        public Page createPage() {
+            return new NuevaAmonestacionPage(jugadoresModel, modal) {
+
+                @Override
+                protected void onSubmit(AmonestacionInfo amonestacionInfo) {
+                    info.getObject().getAmonestaciones().add(amonestacionInfo);
+                }
+            };
+        }
+    }
+
+    private final class AmonestacionWCB implements WindowClosedCallback {
+
+        private final DefaultDataTable<AmonestacionInfo> amonestacionesTable;
+
+        private AmonestacionWCB(DefaultDataTable<AmonestacionInfo> amonestacionesTable) {
+            this.amonestacionesTable = amonestacionesTable;
+        }
+
+        @Override
+        public void onClose(AjaxRequestTarget target) {
+            target.addComponent(amonestacionesTable);
+        }
     }
 
     private class JugadoresSeleccionadosModel extends AdapterModel<List<Jugador>, EquipoInfo> {
