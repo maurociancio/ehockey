@@ -4,6 +4,7 @@ import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IJugadorService;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorModalPage;
 import ar.noxit.ehockey.web.pages.models.JugadorIdModel;
 import ar.noxit.ehockey.web.pages.models.TodosJugadoresPorClubModel;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
@@ -15,6 +16,7 @@ import ar.noxit.web.wicket.model.AdapterModel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -54,12 +56,24 @@ public class PlanillaEquipoPanel extends Panel {
                 new PropertyModel<Integer>(equipo, "club.id"), clubService);
 
         // PALETA DE JUGADORES
-        add(new Palette<Jugador>("palette",
+        final Component palette = new Palette<Jugador>("palette",
                 new JugadoresSeleccionadosModel(info, equipo),
                 jugadoresModel,
                 JugadorRenderer.get(),
                 10,
-                false));
+                false);
+        palette.setOutputMarkupId(true);
+        add(palette);
+
+        add(new AjaxLink<Void>("nuevo_jugador") {
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                modal.setPageCreator(new NuevoJugadorPC(modal));
+                modal.setWindowClosedCallback(new NuevoJugadorWCB(palette));
+                modal.show(target);
+            }
+        });
 
         // DATOS DEL PARTIDO
         add(new RequiredTextField<String>("goleadores", new PropertyModel<String>(info, "goleadores")));
@@ -100,6 +114,34 @@ public class PlanillaEquipoPanel extends Panel {
                 modal.show(target);
             }
         });
+    }
+
+    private final class NuevoJugadorPC implements PageCreator {
+
+        private ModalWindow modal;
+
+        public NuevoJugadorPC(ModalWindow modal) {
+            this.modal = modal;
+        }
+
+        @Override
+        public Page createPage() {
+            return new JugadorModalPage(modal);
+        }
+    }
+
+    private final class NuevoJugadorWCB implements WindowClosedCallback {
+
+        private Component palette;
+
+        public NuevoJugadorWCB(Component palette) {
+            this.palette = palette;
+        }
+
+        @Override
+        public void onClose(AjaxRequestTarget target) {
+            target.addComponent(palette);
+        }
     }
 
     private final class AmonestacionPC implements PageCreator {
