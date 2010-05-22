@@ -3,6 +3,8 @@ package ar.noxit.ehockey.web.pages.planilla;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
+import ar.noxit.ehockey.web.pages.header.IMenuItem;
+import ar.noxit.ehockey.web.pages.partido.PartidoPage;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -33,5 +35,10 @@ public class PlanillaPrecargadaPage extends AbstractHeaderPage {
                 return object.isJugado() ? "Jugado" : "No jugado";
             }
         }));
+    }
+
+    @Override
+    public boolean shouldBeSelected(IMenuItem menuItem) {
+        return menuItem.getPageLink().equals(PartidoPage.class);
     }
 }

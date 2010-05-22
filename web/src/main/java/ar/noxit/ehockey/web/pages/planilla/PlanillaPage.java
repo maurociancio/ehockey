@@ -4,6 +4,8 @@ import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
+import ar.noxit.ehockey.web.pages.header.IMenuItem;
+import ar.noxit.ehockey.web.pages.partido.PartidoPage;
 import ar.noxit.exceptions.NoxitException;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
@@ -103,5 +105,10 @@ public class PlanillaPage extends AbstractHeaderPage {
         });
 
         add(formPlanilla);
+    }
+
+    @Override
+    public boolean shouldBeSelected(IMenuItem menuItem) {
+        return menuItem.getPageLink().equals(PartidoPage.class);
     }
 }
