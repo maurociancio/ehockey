@@ -6,11 +6,8 @@ import org.apache.wicket.model.IModel;
 
 public class EditarUsuarioPage extends AbstractUsuariosPage {
 
-    private IModel<UsuarioDTO> usuario;
-
     public EditarUsuarioPage(IModel<UsuarioDTO> usuario) {
         Validate.notNull(usuario, "El usuario no puede ser null");
-        this.usuario = usuario;
 
         // creo los dos paneles. Uno por cada tipo de alta de usuario
         // los paneles solo se muestan si el usuario es del tipo que corresponde

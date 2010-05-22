@@ -21,7 +21,6 @@ public class AltaUsuarioPage extends AbstractUsuariosPage {
     private final IModel<UsuarioDTO> usuario = new Model<UsuarioDTO>();
 
     public AltaUsuarioPage() {
-
         // creo los dos paneles. Uno por cada tipo de alta de usuario
         // los paneles solo se muestan si el usuario es del tipo que corresponde
         final Panel adminPanel = new FormularioAdministradorPanel("administradorPanel", usuario, new AltaUsuarioForm(

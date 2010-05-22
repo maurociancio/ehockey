@@ -10,6 +10,7 @@ import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.exceptions.NoxitException;
 
 public class EditarUsuarioForm extends Form<Void> {
+
     @SpringBean
     private IUsuarioService usuarioService;
     private IModel<UsuarioDTO> usuario;
@@ -27,7 +28,8 @@ public class EditarUsuarioForm extends Form<Void> {
             usuarioService.update(usuario.getObject());
             setResponsePage(new MensajePage("Edición de usuario", "Se ha modificado el usuario correctamente"));
         } catch (NoxitException e) {
-            setResponsePage(new MensajePage("Edición de usuario", "Error en la modificación del usuario, intente nuevamente"));
+            setResponsePage(new MensajePage("Edición de usuario",
+                    "Error en la modificación del usuario, intente nuevamente"));
         }
     }
 }
