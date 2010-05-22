@@ -3,9 +3,10 @@ package ar.noxit.ehockey.model;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
+
 import ar.noxit.ehockey.exception.EquipoInexistenteException;
 import ar.noxit.ehockey.exception.SinClubException;
+import org.joda.time.LocalDate;
 import org.testng.annotations.Test;
 
 public class ClubTest {
@@ -19,11 +20,10 @@ public class ClubTest {
         assertEquals(club.getNombre(), "club");
     }
 
-    @Test
+    @Test(expectedExceptions = SinClubException.class)
     public void testRelacionarJugadores() throws SinClubException {
         Club club = new Club("club");
-        Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"),
-                new Division("d"));
+        Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"), new LocalDate());
 
         assertEquals(j.getClub(), club);
         assertTrue(club.contiene(j));
@@ -31,19 +31,14 @@ public class ClubTest {
         j.liberar();
         assertFalse(club.contiene(j));
 
-        try {
-            j.getClub();
-            fail();
-        } catch (SinClubException e) {
-            // anduvo bien
-        }
+        j.getClub();
     }
 
     @Test
     public void testRelacionarJugadores2() throws SinClubException {
         Club club = new Club("club");
         Club club2 = new Club("club");
-        Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"));
+        Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"), new LocalDate());
 
         club2.agregarJugador(j);
 
@@ -56,7 +51,7 @@ public class ClubTest {
     public void testRelacionarJugadores3() throws SinClubException {
         Club club = new Club("club");
         Club club2 = new Club("club2");
-        Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"));
+        Jugador j = club.crearNuevoJugador("ap", "no", new Sector("s"), new Division("d"), new LocalDate());
 
         j.asignarClub(club2);
 
@@ -68,8 +63,7 @@ public class ClubTest {
     @Test
     public void testRelacionarEquipos() throws EquipoInexistenteException {
         Club club = new Club("club");
-        Equipo equipo = club.crearNuevoEquipo("equipo", new Division("d"),
-                new Sector("s"));
+        Equipo equipo = club.crearNuevoEquipo("equipo", new Division("d"), new Sector("s"));
 
         assertEquals(club, equipo.getClub());
         assertEquals(club.iteratorEquipos().next(), equipo);

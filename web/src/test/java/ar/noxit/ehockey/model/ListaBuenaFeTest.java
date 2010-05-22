@@ -3,9 +3,11 @@ package ar.noxit.ehockey.model;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+
 import ar.noxit.ehockey.exception.ClubNoCoincideException;
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
+import org.joda.time.LocalDate;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -26,7 +28,8 @@ public class ListaBuenaFeTest {
     public void testAgregarJugador() throws ReglaNegocioException {
         assertFalse(lista.iterator().hasNext());
 
-        Jugador jugador = club.crearNuevoJugador("apellido", "nombre", new Sector("s"), new Division("d"));
+        Jugador jugador = club.crearNuevoJugador("apellido", "nombre", new Sector("s"), new Division("d"),
+                new LocalDate());
         lista.agregarJugador(jugador);
 
         assertTrue(lista.tieneJugador(jugador));
@@ -38,13 +41,15 @@ public class ListaBuenaFeTest {
     @Test(expectedExceptions = ClubNoCoincideException.class)
     public void testAgregarJugadorDeOtroClub() throws ReglaNegocioException {
         Club otroClub = new Club("otro");
-        Jugador jugador = otroClub.crearNuevoJugador("lala", "lala", new Sector("s"), new Division("s"));
+        Jugador jugador = otroClub.crearNuevoJugador("lala", "lala", new Sector("s"), new Division("s"),
+                new LocalDate());
         lista.agregarJugador(jugador);
     }
 
     @Test(expectedExceptions = JugadorYaPerteneceAListaException.class)
     public void testAgregarJugador2Veces() throws ReglaNegocioException {
-        Jugador jugador = club.crearNuevoJugador("apellido", "nombre", new Sector("s"), new Division("d"));
+        Jugador jugador = club.crearNuevoJugador("apellido", "nombre", new Sector("s"), new Division("d"),
+                new LocalDate());
         lista.agregarJugador(jugador);
         lista.agregarJugador(jugador);
     }

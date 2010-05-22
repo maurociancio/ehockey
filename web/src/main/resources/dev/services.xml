@@ -37,6 +37,7 @@
 		        <property name="clubDao" ref="clubDao"/>
 		        <property name="divisionDao" ref="divisionDao"/>
 		        <property name="sectorDao" ref="sectorDao"/>
+		        <property name="dateTimeProvider" ref="dateTimeProvider"/>
 		    </bean>
     	</property>
     	<property name="interceptorNames">
