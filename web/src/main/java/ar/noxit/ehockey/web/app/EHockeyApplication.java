@@ -1,7 +1,16 @@
 package ar.noxit.ehockey.web.app;
 
+import org.apache.commons.lang.Validate;
+import org.apache.wicket.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+
 import ar.noxit.ehockey.main.StartJetty;
 import ar.noxit.ehockey.web.pages.HomePage;
+import ar.noxit.ehockey.web.pages.authentication.AuthSession;
+import ar.noxit.ehockey.web.pages.authentication.LoginPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage;
@@ -25,11 +34,6 @@ import ar.noxit.ehockey.web.pages.torneo.VerPartidosPage;
 import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.EditarUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
-import org.apache.commons.lang.Validate;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
-import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 /**
  * Application object for your web application. If you want to run this
@@ -37,7 +41,7 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
  * 
  * @see StartJetty.myproject.Start#main(String[])
  */
-public class EHockeyApplication extends WebApplication {
+public class EHockeyApplication extends AuthenticatedWebApplication {
 
     private final String appMode;
 
@@ -78,6 +82,7 @@ public class EHockeyApplication extends WebApplication {
         mount(new HybridUrlCodingStrategy("/usuarios/modificar", EditarUsuarioPage.class, false));
         mount(new HybridUrlCodingStrategy("/resultado", MensajePage.class, false));
         mount(new HybridUrlCodingStrategy("/fechahora", FechaHoraPage.class, false));
+        // getApplicationSettings().setAccessDeniedPage(accessDeniedPage)
     }
 
     /**
@@ -91,5 +96,15 @@ public class EHockeyApplication extends WebApplication {
     @Override
     public String getConfigurationType() {
         return appMode;
+    }
+
+    @Override
+    protected Class<? extends WebPage> getSignInPageClass() {
+        return LoginPage.class;
+    }
+
+    @Override
+    protected Class<? extends AuthenticatedWebSession> getWebSessionClass() {
+        return AuthSession.class;
     }
 }

@@ -9,4 +9,9 @@ public class Administrador extends Usuario {
     protected Administrador() {
         super();
     }
+
+    @Override
+    public String[] getRoles() {
+        return new String[] { ADMIN };
+    }
 }

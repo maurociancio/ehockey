@@ -10,8 +10,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
-import ar.noxit.ehockey.web.pages.base.MensajePage;
-import ar.noxit.exceptions.NoxitException;
 
 public class FormularioRepresentantePanel extends Panel {
     private IModel<UsuarioDTO> usuario;

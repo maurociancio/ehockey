@@ -45,10 +45,12 @@ public class TablaPosicionesPanel extends Panel {
     private ITorneoService torneoService;
     @SpringBean
     private ITablaPosicionesService tablaService;
+    TablaPosicionesDataProvider tablaPosicionesDataProvider;
+    WebMarkupContainer contenedorTabla;
 
     public TablaPosicionesPanel(final IModel<TablaTransfer> tablaTransferModel) {
         super("formulariopanel");
-        
+
         List<IColumn<DatosTabla>> columnas = new ArrayList<IColumn<DatosTabla>>();
 
         IModel<Torneo> torneoModel = new IdTorneoModel(
@@ -72,10 +74,11 @@ public class TablaPosicionesPanel extends Panel {
                 "golesContra"));
         columnas.add(new PropertyColumn<DatosTabla>(Model.of("DG"),
                 "diferenciaGol"));
-        final WebMarkupContainer contenedorTabla = new WebMarkupContainer(
-                "contenedortabla");
+        
+        contenedorTabla = new WebMarkupContainer("contenedortabla");
         contenedorTabla.setOutputMarkupId(true);
-        final TablaPosicionesDataProvider tablaPosicionesDataProvider = new TablaPosicionesDataProvider(
+        
+        tablaPosicionesDataProvider = new TablaPosicionesDataProvider(
                 tablaService, torneoModel);
         DataTable<DatosTabla> tabla = new AjaxFallbackDefaultDataTable<DatosTabla>(
                 "tablaposiciones", columnas, tablaPosicionesDataProvider, 10) {

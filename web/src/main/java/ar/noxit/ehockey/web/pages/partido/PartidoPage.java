@@ -2,6 +2,7 @@ package ar.noxit.ehockey.web.pages.partido;
 
 import java.util.List;
 
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -18,6 +19,7 @@ import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.LDM;
 
+@AuthorizeAction(action = "ENABLE", roles = { "USER", "ADMIN" })
 public class PartidoPage extends AbstractContentPage {
 
     private final IChoiceRenderer<Partido> PARTIDORENDERER = new PartidoRenderer();
@@ -27,11 +29,12 @@ public class PartidoPage extends AbstractContentPage {
     public PartidoPage() {
         add(new FeedbackPanel("feedback"));
 
-        final IModel<Partido> partido = new PartidoModel(new Model<Integer>(), partidoService);
+        final IModel<Partido> partido = new PartidoModel(new Model<Integer>(),
+                partidoService);
         Form<Void> formPartidos = new Form<Void>("partidos");
 
-        formPartidos.add(new DropDownChoice<Partido>("partidos", partido, new PartidosListModel(), PARTIDORENDERER)
-                .setRequired(true));
+        formPartidos.add(new DropDownChoice<Partido>("partidos", partido,
+                new PartidosListModel(), PARTIDORENDERER).setRequired(true));
 
         formPartidos.add(new Button("ver") {
 
@@ -59,11 +62,9 @@ public class PartidoPage extends AbstractContentPage {
 
         @Override
         public Object getDisplayValue(Partido object) {
-            return String.format("%s vs %s (Fecha: %s, Rueda %s)",
-                    object.getLocal().getNombre(),
-                    object.getVisitante().getNombre(),
-                    object.getFechaDelTorneo(),
-                    object.getRueda());
+            return String.format("%s vs %s (Fecha: %s, Rueda %s)", object
+                    .getLocal().getNombre(), object.getVisitante().getNombre(),
+                    object.getFechaDelTorneo(), object.getRueda());
         }
 
         @Override
