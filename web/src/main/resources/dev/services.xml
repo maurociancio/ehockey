@@ -24,7 +24,7 @@
         <property name="torneoDao" ref="torneoDao"/>
         <property name="dateTimeProvider" ref="dateTimeProvider"/>
     </bean>
-    <bean id="dateTimeProvider" class="ar.noxit.ehockey.service.impl.DateTimeProvider"/>
+    <bean id="dateTimeProvider" class="ar.noxit.ehockey.service.impl.SingletonDateTimeProvider"/>
     <bean id="exceptionConverter" class="ar.noxit.ehockey.service.impl.ExceptionConverter"/>
     <bean id="horariosService" class="ar.noxit.ehockey.service.impl.HorarioService"/>
     
