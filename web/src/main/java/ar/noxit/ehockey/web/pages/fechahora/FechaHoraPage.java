@@ -31,6 +31,7 @@ public class FechaHoraPage extends AbstractContentPage {
             protected void onSubmit() {
                 try {
                     horarioService.definirHoraSistema(fecha);
+                    info("La modificación de la fecha y hora fue satisfactoria");
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
