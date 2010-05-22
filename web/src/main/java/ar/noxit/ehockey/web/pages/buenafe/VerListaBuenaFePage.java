@@ -1,10 +1,10 @@
 package ar.noxit.ehockey.web.pages.buenafe;
 
 import static ar.noxit.utils.Collections.toList;
+
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IEquiposService;
-import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
@@ -25,7 +25,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class VerListaBuenaFePage extends AbstractContentPage {
+public class VerListaBuenaFePage extends AbstractListaBuenaFePage {
 
     @SpringBean
     private IEquiposService equiposService;

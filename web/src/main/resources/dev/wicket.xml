@@ -19,16 +19,9 @@
 				</entry>
 				<entry>
 					<key>
-						<value>Ver Lista de Buena Fe</value>
+						<value>Lista de Buena Fe</value>
 					</key>
-					<value>ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage
-					</value>
-				</entry>
-				<entry>
-					<key>
-						<value>Editar Lista de Buena Fe</value>
-					</key>
-					<value>ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage
+					<value>ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage
 					</value>
 				</entry>
 				<entry>
