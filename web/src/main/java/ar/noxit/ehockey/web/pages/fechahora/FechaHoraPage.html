@@ -2,8 +2,19 @@
     <!-- Content -->
     <div class="content">
         <h2 class="content-title">Definir Fecha y Hora del Sistema</h2>
-
         <div class="content-in">
+        <p>
+            Utilice el siguiente formulario para definir la fecha y hora que utiliza el sistema:
+        </p>
+        <div wicket:id="feedback"></div>
+        <form wicket:id="form">
+            <p>
+                <div wicket:id="fechahora"></div>
+            </p>
+            <p>
+                <input type="submit" value="Aceptar"/>
+            </p>
+        </form>
         </div>
     </div> <!-- /content -->
 </wicket:extend>
