@@ -1,7 +1,10 @@
 package ar.noxit.ehockey.web.pages.fechahora;
 
+import ar.noxit.ehockey.service.IHorarioService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.Date2LocalDateTimeAdapterModel;
 import org.apache.wicket.datetime.PatternDateConverter;
 import org.apache.wicket.datetime.markup.html.form.DateTextField;
@@ -9,10 +12,13 @@ import org.apache.wicket.extensions.yui.calendar.DateTimeField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
 
 public class FechaHoraPage extends AbstractContentPage {
 
+    @SpringBean
+    private IHorarioService horarioService;
     private LocalDateTime fecha;
 
     public FechaHoraPage() {
@@ -22,7 +28,11 @@ public class FechaHoraPage extends AbstractContentPage {
 
             @Override
             protected void onSubmit() {
-                // TODO
+                try {
+                    horarioService.definirHoraSistema(fecha);
+                } catch (NoxitException e) {
+                    throw new NoxitRuntimeException(e);
+                }
             }
         };
 
