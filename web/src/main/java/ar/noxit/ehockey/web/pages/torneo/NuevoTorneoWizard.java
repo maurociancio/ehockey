@@ -3,6 +3,7 @@ package ar.noxit.ehockey.web.pages.torneo;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Sector;
+import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.ehockey.service.IExceptionConverter;
@@ -66,6 +67,8 @@ public class NuevoTorneoWizard extends Wizard {
     private IDivisionService divisionService;
     @SpringBean
     private ISectorService sectorService;
+    @SpringBean
+    private IDateTimeProvider dateTimeProvider;
     private static final Logger logger = LoggerFactory.getLogger(NuevoTorneoWizard.class);
 
     private String nombre;
@@ -136,7 +139,7 @@ public class NuevoTorneoWizard extends Wizard {
                             { 2, 3, 1, 4, 1 },
                             { 2, 3, 2, 2, 3 } };
 
-                    LocalDateTime now = new LocalDateTime();
+                    LocalDateTime now = dateTimeProvider.getLocalDateTime();
 
                     List<PartidoInfo> infoPartidos = partidos.getObject();
                     infoPartidos.clear();
