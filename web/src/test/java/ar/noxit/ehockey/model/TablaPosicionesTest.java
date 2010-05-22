@@ -2,13 +2,6 @@ package ar.noxit.ehockey.model;
 
 import static org.testng.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.joda.time.LocalDateTime;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoNoJugadoPorEquipoException;
@@ -16,6 +9,12 @@ import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
+import java.util.ArrayList;
+import java.util.List;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class TablaPosicionesTest {
 
@@ -45,7 +44,7 @@ public class TablaPosicionesTest {
 
         List<Jugador> jugadores = new ArrayList<Jugador>();
         for (int i = 0; i < 10; ++i) {
-            jugadores.add(new Jugador("", "", club, sector, division));
+            jugadores.add(new Jugador("", "", club, sector, division, new LocalDate()));
         }
         planilla.setJugadoresLocal(jugadores);
         planilla.setJugadoresVisitante(jugadores);

@@ -67,12 +67,13 @@ public class Jugador {
      * @throws IllegalArgumentException
      *             si ficha, apellido o nombre son null
      */
-    public Jugador(String apellido, String nombre, Club club, Sector sector, Division division) {
+    public Jugador(String apellido, String nombre, Club club, Sector sector, Division division, LocalDate now) {
         Validate.notNull(apellido, "apellido no puede ser null");
         Validate.notNull(nombre, "nombre no puede ser null");
         Validate.notNull(division, "division no puede ser null");
         Validate.notNull(sector, "sector no puede ser null");
         Validate.notNull(club, "club no puede ser null");
+        Validate.notNull(now, "now no puede ser null");
 
         this.apellido = apellido;
         this.nombre = nombre;
@@ -80,7 +81,7 @@ public class Jugador {
         this.division = division;
         this.club = club;
         this.documento = new DocumentoJugador();
-        this.fechaAlta = new LocalDate();
+        this.fechaAlta = now;
         this.activo = true;
     }
 

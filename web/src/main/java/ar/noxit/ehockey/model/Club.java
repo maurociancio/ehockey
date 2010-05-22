@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 
 public class Club {
 
@@ -39,8 +40,8 @@ public class Club {
         return equipo;
     }
 
-    public Jugador crearNuevoJugador(String apellido, String nombre, Sector sector, Division division) {
-        Jugador jugador = new Jugador(apellido, nombre, this, sector, division);
+    public Jugador crearNuevoJugador(String apellido, String nombre, Sector sector, Division division, LocalDate now) {
+        Jugador jugador = new Jugador(apellido, nombre, this, sector, division, now);
         agregarJugador(jugador);
         return jugador;
     }
@@ -109,8 +110,8 @@ public class Club {
     public Set<Equipo> getEquipos() {
         return equipos;
     }
-    
-    public String toString(){
+
+    public String toString() {
         return nombre;
     }
 

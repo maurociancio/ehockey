@@ -1,19 +1,21 @@
 package ar.noxit.ehockey.service.impl;
 
-import java.util.List;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IDivisionDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.ISectorDao;
 import ar.noxit.ehockey.exception.SinClubException;
+import ar.noxit.ehockey.model.Club;
+import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.model.Sector;
+import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorPlano;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.persistence.PersistenceException;
+import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 public class JugadorService implements IJugadorService {
 
@@ -21,6 +23,7 @@ public class JugadorService implements IJugadorService {
     private IClubDao clubDao;
     private IDivisionDao divisionDao;
     private ISectorDao sectorDao;
+    private IDateTimeProvider dateTimeProvider;
 
     @Override
     @Transactional
@@ -82,30 +85,17 @@ public class JugadorService implements IJugadorService {
                 divisionid, sectorid);
     }
 
-    public void setJugadorDao(IJugadorDao jugadorDao) {
-        this.jugadorDao = jugadorDao;
-    }
+    private Jugador ensamblar(JugadorPlano jugadorPlano) throws PersistenceException {
+        String apellido = jugadorPlano.getApellido();
+        String nombre = jugadorPlano.getNombre();
+        Sector sector = sectorDao.get(jugadorPlano.getSectorId());
+        Division division = divisionDao.get(jugadorPlano.getDivisionId());
+        Integer clubId = jugadorPlano.getClubId();
+        Club club = clubDao.get(clubId);
 
-    public void setClubDao(IClubDao clubDao) {
-        this.clubDao = clubDao;
-    }
-
-    public void setDivisionDao(IDivisionDao divisionDao) {
-        this.divisionDao = divisionDao;
-    }
-
-    public void setSectorDao(ISectorDao sectorDao) {
-        this.sectorDao = sectorDao;
-    }
-
-    private Jugador ensamblar(JugadorPlano jugadorPlano)
-            throws PersistenceException {
-        Jugador jugador = clubDao.get(jugadorPlano.getClubId())
-                .crearNuevoJugador(jugadorPlano.getApellido(),
-                        jugadorPlano.getNombre(),
-                        sectorDao.get(jugadorPlano.getSectorId()),
-                        divisionDao.get(jugadorPlano.getDivisionId()));
+        Jugador jugador = club.crearNuevoJugador(apellido, nombre, sector, division, dateTimeProvider.getLocalDate());
         setearDatos(jugadorPlano, jugador);
+
         return jugador;
     }
 
@@ -136,5 +126,25 @@ public class JugadorService implements IJugadorService {
         jugadorPlano.setTelefono(jugador.getTelefono());
         jugadorPlano.setTipoDocumento(jugador.getTipoDocumento());
         return jugadorPlano;
+    }
+
+    public void setJugadorDao(IJugadorDao jugadorDao) {
+        this.jugadorDao = jugadorDao;
+    }
+
+    public void setClubDao(IClubDao clubDao) {
+        this.clubDao = clubDao;
+    }
+
+    public void setDivisionDao(IDivisionDao divisionDao) {
+        this.divisionDao = divisionDao;
+    }
+
+    public void setSectorDao(ISectorDao sectorDao) {
+        this.sectorDao = sectorDao;
+    }
+
+    public void setDateTimeProvider(IDateTimeProvider dateTimeProvider) {
+        this.dateTimeProvider = dateTimeProvider;
     }
 }
