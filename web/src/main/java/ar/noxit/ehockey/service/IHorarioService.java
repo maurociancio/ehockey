@@ -6,4 +6,6 @@ import org.joda.time.LocalDateTime;
 public interface IHorarioService {
 
     void definirHoraSistema(LocalDateTime instante) throws NoxitException;
+
+    LocalDateTime getHoraSistema() throws NoxitException;
 }
