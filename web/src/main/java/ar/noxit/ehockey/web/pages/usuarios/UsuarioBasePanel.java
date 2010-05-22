@@ -19,6 +19,7 @@ public class UsuarioBasePanel extends Panel {
     private String password;
     private IFormValidator passwordValidator;
     private IFormValidator passwordLenghtValidator;
+    private boolean estadoUsuarioEditable = true;
 
     public UsuarioBasePanel(String id, IModel<Usuario> usuario) {
         super(id, usuario);
@@ -26,7 +27,13 @@ public class UsuarioBasePanel extends Panel {
         FormComponent passText = new PasswordTextField("contrasena", new PropertyModel<String>(usuario, "password"))
                 .add(new MinimumLengthValidator(6));
         FormComponent verifyText = new PasswordTextField("contrasena2", new PropertyModel<String>(usuario, "password"));
-        add(new RequiredTextField<String>("usuario", new PropertyModel<String>(usuario, "user")));
+        add(new RequiredTextField<String>("usuario", new PropertyModel<String>(usuario, "user")) {
+            @Override
+            public boolean isEnabled() {
+                return estadoUsuarioEditable;
+            }
+        });
+        
         add(passText);
         add(verifyText);
         add(new RequiredTextField<String>("nombre", new PropertyModel<String>(usuario, "nombre")));
@@ -40,5 +47,9 @@ public class UsuarioBasePanel extends Panel {
 
     public void addValidators(Form<Void> form) {
         form.add(passwordValidator);
+    }
+
+    public void setUsuarioEditable(boolean estado) {
+        this.estadoUsuarioEditable = estado;
     }
 }
