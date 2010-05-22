@@ -26,6 +26,7 @@
     </bean>
     <bean id="dateTimeProvider" class="ar.noxit.ehockey.service.impl.DateTimeProvider"/>
     <bean id="exceptionConverter" class="ar.noxit.ehockey.service.impl.ExceptionConverter"/>
+    <bean id="horariosService" class="ar.noxit.ehockey.service.impl.HorarioService"/>
     
 	<bean id="jugadorService" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="proxyInterfaces" value="ar.noxit.ehockey.service.IJugadorService"/>
