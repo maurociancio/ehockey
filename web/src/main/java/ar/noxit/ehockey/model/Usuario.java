@@ -23,6 +23,10 @@ public abstract class Usuario {
     protected Usuario() {
     }
 
+    public String getUser() {
+        return user;
+    }
+
     public String getNombre() {
         return nombre;
     }
