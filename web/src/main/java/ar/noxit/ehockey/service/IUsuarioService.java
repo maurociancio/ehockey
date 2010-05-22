@@ -12,5 +12,5 @@ public interface IUsuarioService {
     Usuario get(String user) throws NoxitException;
     void update(UsuarioDTO usuario) throws NoxitException;
     void add(UsuarioDTO usuario) throws NoxitException;
-    void remove(Usuario usuario) throws NoxitException;
+    void remove(String user) throws NoxitException;
 }
