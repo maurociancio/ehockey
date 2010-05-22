@@ -236,6 +236,14 @@ ul.ul-style01 ul li {
     font-style:italic;
     text-align:center;
 }
+#fechayhora {
+    position:absolute;
+    top:60px;
+    right:280px;
+    width:230px;
+    font-weight:normal;
+    text-align:center;
+}
 #nav {
     padding:0 15px 5px 6px;
     background:url("../design/nav.gif") 0 100% no-repeat;

@@ -3,6 +3,11 @@ package ar.noxit.ehockey.web;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
+
+import org.joda.time.LocalDateTime;
+
+import ar.noxit.ehockey.service.IHorarioService;
+
 import ar.noxit.ehockey.configuration.MenuItem;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
@@ -74,7 +79,7 @@ public class TestHomePage extends BaseSpringWicketTest {
     }
 
     @BeforeMethod
-    public void mockHeaderItems() {
+    public void mockHeaderItems() throws NoxitException {
         IMenuItemProvider menuItemProvider = createMock(IMenuItemProvider.class);
 
         ArrayList<IMenuItem> value = new ArrayList<IMenuItem>();
@@ -84,5 +89,10 @@ public class TestHomePage extends BaseSpringWicketTest {
         replay(menuItemProvider);
 
         MockableBeanInjector.mockBean("menuItemProvider", menuItemProvider);
+
+        IHorarioService horarioService = createMock(IHorarioService.class);
+        expect(horarioService.getHoraSistema()).andReturn(new LocalDateTime());
+
+        MockableBeanInjector.mockBean("horarioService", horarioService);
     }
 }

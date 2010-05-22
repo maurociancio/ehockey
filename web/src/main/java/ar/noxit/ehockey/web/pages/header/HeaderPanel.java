@@ -1,5 +1,9 @@
 package ar.noxit.ehockey.web.pages.header;
 
+import ar.noxit.ehockey.service.IHorarioService;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import java.util.List;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
@@ -12,11 +16,14 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.LocalDateTime;
 
 public class HeaderPanel extends Panel {
 
     @SpringBean
     private IMenuItemProvider menuItemProvider;
+    @SpringBean
+    private IHorarioService horarioService;
 
     public HeaderPanel(String id, final IMenuSelection menuSelection) {
         super(id);
@@ -45,6 +52,20 @@ public class HeaderPanel extends Panel {
                 }));
             }
         });
+
+        add(new Label("hora", new LocalDateTimeFormatModel(new FechaSistemaModel())).setRenderBodyOnly(true));
+    }
+
+    private class FechaSistemaModel extends AbstractReadOnlyModel<LocalDateTime> {
+
+        @Override
+        public LocalDateTime getObject() {
+            try {
+                return horarioService.getHoraSistema();
+            } catch (NoxitException e) {
+                throw new NoxitRuntimeException(e);
+            }
+        }
     }
 
     public class MenuItemModel extends LoadableDetachableModel<List<IMenuItem>> {
