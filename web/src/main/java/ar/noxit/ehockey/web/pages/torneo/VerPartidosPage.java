@@ -8,6 +8,7 @@ import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
+import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrecargadaPage;
 import ar.noxit.exceptions.NoxitException;
@@ -249,5 +250,10 @@ public class VerPartidosPage extends AbstractHeaderPage {
                 }
             });
         }
+    }
+
+    @Override
+    public boolean shouldBeSelected(IMenuItem menuItem) {
+        return menuItem.getPageLink().equals(TorneoPage.class);
     }
 }
