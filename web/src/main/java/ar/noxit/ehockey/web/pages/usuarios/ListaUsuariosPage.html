@@ -1,0 +1,28 @@
+<wicket:extend>
+	<!-- Content -->
+	<div class="content">
+	<h2 class="content-title">Lista de usuarios</h2>
+
+	<div class="content-in">
+	<form wicket:id="nuevo">
+		<input type="submit" value="Nuevo usuario"/>
+	</form>
+	<table>
+		<tbody>
+			<tr>
+				<th><span>Nombre de usuario</span></th>
+				<th><span>Nombre</span></th>
+				<th><span>Apellido</span></th>
+			</tr>
+			<tr wicket:id="usuarios">
+				<td><a href="#" wicket:id="editarUsuario"><span
+					wicket:id="usuario">Test ID</span></a></td>
+				<td><span wicket:id="nombre">Test ID</span></td>
+				<td><span wicket:id="apellido">Test ID</span></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<!-- /content-in --></div>
+	<!-- /content -->
+</wicket:extend>
