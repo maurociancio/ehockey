@@ -9,7 +9,6 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.noxit.ehockey.model.Club;
-import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.web.pages.models.ClubListModel;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
@@ -21,7 +20,7 @@ public class UsuarioRepresentantePanel extends Panel {
     @SpringBean
     IClubService clubService;
 
-    public UsuarioRepresentantePanel(String id, IModel<Representante> usuarioRepres) {
+    public UsuarioRepresentantePanel(String id, IModel<UsuarioDTO> usuarioRepres) {
         super(id);
 
         ClubModel club = new ClubModel(new Model<Integer>());

@@ -7,7 +7,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
 import ar.noxit.ehockey.model.Administrador;
-import ar.noxit.ehockey.model.Usuario;
 
 public class FormularioAdministradorPanel extends Panel {
     private IModel<UsuarioDTO> usuario;
@@ -18,7 +17,7 @@ public class FormularioAdministradorPanel extends Panel {
         Validate.notNull(usuario, "El usuario no puede ser null");
         this.usuario = usuario;
 
-        basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario"));
+        basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<UsuarioDTO>(this, "usuario"));
         basePanel.addValidators(form);
         form.add(basePanel);
 

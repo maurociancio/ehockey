@@ -12,8 +12,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.validator.StringValidator.MinimumLengthValidator;
 
-import ar.noxit.ehockey.model.Usuario;
-
 public class UsuarioBasePanel extends Panel {
 
     private String password;
@@ -21,7 +19,7 @@ public class UsuarioBasePanel extends Panel {
     private IFormValidator passwordLenghtValidator;
     private boolean estadoUsuarioEditable = true;
 
-    public UsuarioBasePanel(String id, IModel<Usuario> usuario) {
+    public UsuarioBasePanel(String id, IModel<UsuarioDTO> usuario) {
         super(id, usuario);
 
         FormComponent passText = new PasswordTextField("contrasena", new PropertyModel<String>(usuario, "password"))
