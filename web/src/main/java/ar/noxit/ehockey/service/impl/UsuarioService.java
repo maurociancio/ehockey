@@ -79,7 +79,8 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public void remove(Usuario usuario) throws NoxitException {
-        this.usuarioDao.delete(usuario);
+    @Transactional
+    public void remove(String user) throws NoxitException {
+        this.usuarioDao.delete(this.usuarioDao.get(user));
     }
 }

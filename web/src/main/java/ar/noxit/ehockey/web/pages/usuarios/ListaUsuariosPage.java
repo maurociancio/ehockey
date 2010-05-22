@@ -2,8 +2,6 @@ package ar.noxit.ehockey.web.pages.usuarios;
 
 import java.util.List;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
@@ -51,7 +49,7 @@ public class ListaUsuariosPage extends AbstractContentPage {
                     @Override
                     public void onClick() {
                         try {
-                            usuarioService.remove(item.getModelObject());
+                            usuarioService.remove(item.getModelObject().getUser());
                             setResponsePage(new MensajePage("Baja de usuario", String.format("El usuario %s ha sido dado de baja", item.getModelObject().getUser())));
                         } catch (NoxitException e) {
                             setResponsePage(new MensajePage("Baja de usuario", "No se pudo dar de baja el usuario, ocurrió un error durante la operación"));
