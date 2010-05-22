@@ -25,4 +25,9 @@ public class Representante extends Usuario {
     public String getCargo() {
         return cargo;
     }
+
+    @Override
+    public String[] getRoles() {
+        return new String[] { USER };
+    }
 }
