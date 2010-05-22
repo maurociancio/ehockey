@@ -1,7 +1,16 @@
 package ar.noxit.ehockey.web.app;
 
+import org.apache.commons.lang.Validate;
+import org.apache.wicket.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+
 import ar.noxit.ehockey.main.StartJetty;
 import ar.noxit.ehockey.web.pages.HomePage;
+import ar.noxit.ehockey.web.pages.authentication.AuthSession;
+import ar.noxit.ehockey.web.pages.authentication.LoginPage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
@@ -22,11 +31,6 @@ import ar.noxit.ehockey.web.pages.torneo.ReprogramacionPartidoPage;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.VerPartidosPage;
 import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
-import org.apache.commons.lang.Validate;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
-import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 /**
  * Application object for your web application. If you want to run this
@@ -34,7 +38,7 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
  * 
  * @see StartJetty.myproject.Start#main(String[])
  */
-public class EHockeyApplication extends WebApplication {
+public class EHockeyApplication extends AuthenticatedWebApplication {
 
     private final String appMode;
 
@@ -52,26 +56,45 @@ public class EHockeyApplication extends WebApplication {
 
         addComponentInstantiationListener(new SpringComponentInjector(this));
 
-        mount(new HybridUrlCodingStrategy("/listabuenafe", ListaBuenaFePage.class, false));
-        mount(new HybridUrlCodingStrategy("/listabuenafe/ver", VerListaBuenaFePage.class, false));
-        mount(new HybridUrlCodingStrategy("/listabuenafe/editar", EditarListaBuenaFePage.class, false));
+        mount(new HybridUrlCodingStrategy("/listabuenafe",
+                ListaBuenaFePage.class, false));
+        mount(new HybridUrlCodingStrategy("/listabuenafe/ver",
+                VerListaBuenaFePage.class, false));
+        mount(new HybridUrlCodingStrategy("/listabuenafe/editar",
+                EditarListaBuenaFePage.class, false));
         mount(new HybridUrlCodingStrategy("/partidos", PartidoPage.class, false));
-        mount(new HybridUrlCodingStrategy("/planillas/final", PlanillaPage.class, false));
-        mount(new HybridUrlCodingStrategy("/planillas/print", PlanillaPrinterFriendly.class, false));
-        mount(new HybridUrlCodingStrategy("/planillas/precargada", PlanillaPrecargadaPage.class, false));
+        mount(new HybridUrlCodingStrategy("/planillas/final",
+                PlanillaPage.class, false));
+        mount(new HybridUrlCodingStrategy("/planillas/print",
+                PlanillaPrinterFriendly.class, false));
+        mount(new HybridUrlCodingStrategy("/planillas/precargada",
+                PlanillaPrecargadaPage.class, false));
         mount(new HybridUrlCodingStrategy("/torneos", TorneoPage.class, false));
-        mount(new HybridUrlCodingStrategy("/torneos/crear", NuevoTorneoPage.class, false));
-        mount(new HybridUrlCodingStrategy("/torneos/listado", ListadoTorneoPage.class, false));
-        mount(new HybridUrlCodingStrategy("/torneos/ver", VerPartidosPage.class, false));
-        mount(new HybridUrlCodingStrategy("/partidos/reprogramar", ReprogramacionPartidoPage.class, false));
-        mount(new HybridUrlCodingStrategy("/jugadores", JugadorPage.class, false));
-        mount(new HybridUrlCodingStrategy("/jugadores/alta", JugadorAltaPage.class, false));
-        mount(new HybridUrlCodingStrategy("/jugadores/baja", JugadorBajaPage.class, false));
-        mount(new HybridUrlCodingStrategy("/jugadores/modificar", JugadorModificarPage.class, false));
-        mount(new HybridUrlCodingStrategy("/jugadores/ver", JugadorVerPage.class, false));
-        mount(new HybridUrlCodingStrategy("/tablaposiciones", TablaPosicionesPage.class, false));
-        mount(new HybridUrlCodingStrategy("/usuarios/alta", AltaUsuarioPage.class, false));
-        mount(new HybridUrlCodingStrategy("/fechahora", FechaHoraPage.class, false));
+        mount(new HybridUrlCodingStrategy("/torneos/crear",
+                NuevoTorneoPage.class, false));
+        mount(new HybridUrlCodingStrategy("/torneos/listado",
+                ListadoTorneoPage.class, false));
+        mount(new HybridUrlCodingStrategy("/torneos/ver",
+                VerPartidosPage.class, false));
+        mount(new HybridUrlCodingStrategy("/partidos/reprogramar",
+                ReprogramacionPartidoPage.class, false));
+        mount(new HybridUrlCodingStrategy("/jugadores", JugadorPage.class,
+                false));
+        mount(new HybridUrlCodingStrategy("/jugadores/alta",
+                JugadorAltaPage.class, false));
+        mount(new HybridUrlCodingStrategy("/jugadores/baja",
+                JugadorBajaPage.class, false));
+        mount(new HybridUrlCodingStrategy("/jugadores/modificar",
+                JugadorModificarPage.class, false));
+        mount(new HybridUrlCodingStrategy("/jugadores/ver",
+                JugadorVerPage.class, false));
+        mount(new HybridUrlCodingStrategy("/tablaposiciones",
+                TablaPosicionesPage.class, false));
+        mount(new HybridUrlCodingStrategy("/usuarios/alta",
+                AltaUsuarioPage.class, false));
+        mount(new HybridUrlCodingStrategy("/fechahora", FechaHoraPage.class,
+                false));
+        // getApplicationSettings().setAccessDeniedPage(accessDeniedPage)
     }
 
     /**
@@ -85,5 +108,15 @@ public class EHockeyApplication extends WebApplication {
     @Override
     public String getConfigurationType() {
         return appMode;
+    }
+
+    @Override
+    protected Class<? extends WebPage> getSignInPageClass() {
+        return LoginPage.class;
+    }
+
+    @Override
+    protected Class<? extends AuthenticatedWebSession> getWebSessionClass() {
+        return AuthSession.class;
     }
 }
