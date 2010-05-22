@@ -54,6 +54,12 @@
 					</key>
 					<value>ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage </value>
 				</entry>
+                <entry>
+                    <key>
+                        <value>Fecha y Hora</value>
+                    </key>
+                    <value>ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage</value>
+                </entry>
 			</map>
 		</property>
 	</bean>
