@@ -17,4 +17,12 @@ public class Representante extends Usuario {
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
+
+    public Club getClub() {
+        return club;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
 }

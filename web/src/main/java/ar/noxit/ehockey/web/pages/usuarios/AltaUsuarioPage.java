@@ -7,6 +7,7 @@ import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -20,9 +21,7 @@ public class AltaUsuarioPage extends AbstractContentPage {
     @SpringBean
     private IUsuarioDTOProvider provider;
     private String selected;
-    private final Model<UsuarioDTO> usuario = new Model<UsuarioDTO>();
-    private static final String titulo = "Alta de usuario";
-    private static final String mensaje = "Se ha dado de alta correctamente el usuario";
+    private final IModel<UsuarioDTO> usuario = new Model<UsuarioDTO>();
 
     public AltaUsuarioPage() {
 

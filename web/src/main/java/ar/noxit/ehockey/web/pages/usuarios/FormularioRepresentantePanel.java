@@ -17,13 +17,14 @@ public class FormularioRepresentantePanel extends Panel {
     private IModel<UsuarioDTO> usuario;
     @SpringBean
     private IUsuarioService usuarioService;
+    private UsuarioBasePanel basePanel;
 
     public FormularioRepresentantePanel(String id, final IModel<UsuarioDTO> usuario, Form<Void> form) {
         super(id);
         Validate.notNull(usuario, "El usuario no puede ser null");
         this.usuario = usuario;
 
-        UsuarioBasePanel basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario"));
+        basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario"));
         basePanel.addValidators(form);
         form.add(basePanel);
         form.add(new UsuarioRepresentantePanel("usuarioRepresentantePanel", new PropertyModel<Representante>(this, "usuario")));
@@ -35,5 +36,9 @@ public class FormularioRepresentantePanel extends Panel {
     public boolean isVisible() {
         if (usuario.getObject() == null) return false;
         return usuario.getObject().getTipo().equals(Representante.class);
+    }
+
+    public void setUsuarioEditable(boolean estado) {
+        basePanel.setUsuarioEditable(estado);
     }
 }

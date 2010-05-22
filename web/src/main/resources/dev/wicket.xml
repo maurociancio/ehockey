@@ -52,7 +52,7 @@
 					<key>
 						<value>Usuarios</value>
 					</key>
-					<value>ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage </value>
+					<value>ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage </value>
 				</entry>
                 <entry>
                     <key>

@@ -11,13 +11,14 @@ import ar.noxit.ehockey.model.Usuario;
 
 public class FormularioAdministradorPanel extends Panel {
     private IModel<UsuarioDTO> usuario;
+    private UsuarioBasePanel basePanel;
 
     public FormularioAdministradorPanel(String id, final IModel<UsuarioDTO> usuario, Form<Void> form) {
         super(id);
         Validate.notNull(usuario, "El usuario no puede ser null");
         this.usuario = usuario;
 
-        UsuarioBasePanel basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario"));
+        basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<Usuario>(this, "usuario"));
         basePanel.addValidators(form);
         form.add(basePanel);
 
@@ -28,5 +29,9 @@ public class FormularioAdministradorPanel extends Panel {
     public boolean isVisible() {
         if (usuario.getObject() == null) return false;
         return usuario.getObject().getTipo().equals(Administrador.class);
+    }
+
+    public void setUsuarioEditable(boolean estado) {
+        basePanel.setUsuarioEditable(estado);
     }
 }
