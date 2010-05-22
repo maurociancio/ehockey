@@ -11,6 +11,7 @@ import ar.noxit.ehockey.web.pages.jugadores.JugadorPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorVerPage;
 import ar.noxit.ehockey.web.pages.partido.PartidoPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
+import ar.noxit.ehockey.web.pages.planilla.PlanillaPrecargadaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrinterFriendly;
 import ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage;
 import ar.noxit.ehockey.web.pages.torneo.ListadoTorneoPage;
@@ -53,6 +54,7 @@ public class EHockeyApplication extends WebApplication {
         mount(new HybridUrlCodingStrategy("/partidos", PartidoPage.class, false));
         mount(new HybridUrlCodingStrategy("/planillas", PlanillaPage.class, false));
         mount(new HybridUrlCodingStrategy("/planillas/print", PlanillaPrinterFriendly.class, false));
+        mount(new HybridUrlCodingStrategy("/planillas/precargada", PlanillaPrecargadaPage.class, false));
         mount(new HybridUrlCodingStrategy("/torneos", TorneoPage.class, false));
         mount(new HybridUrlCodingStrategy("/torneos/crear", NuevoTorneoPage.class, false));
         mount(new HybridUrlCodingStrategy("/torneos/listado", ListadoTorneoPage.class, false));
