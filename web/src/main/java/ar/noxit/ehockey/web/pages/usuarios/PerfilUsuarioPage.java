@@ -9,7 +9,9 @@ public class PerfilUsuarioPage extends AbstractContentPage{
 
     public PerfilUsuarioPage(IModel<UsuarioDTO> usuario) {
         add(new FeedbackPanel("feedback"));
-        add(new UsuarioBasePanel("basePanel", usuario));
+        UsuarioBasePanel basePanel = new UsuarioBasePanel("basePanel", usuario);
+        basePanel.setUsuarioEditable(false);
+        add(basePanel);
         add(new InfoRepresentantePanel("representantePanel", usuario));
     }
 }
