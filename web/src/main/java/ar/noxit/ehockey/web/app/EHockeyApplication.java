@@ -52,7 +52,7 @@ public class EHockeyApplication extends WebApplication {
         mount(new HybridUrlCodingStrategy("/listabuenafe/ver", VerListaBuenaFePage.class, false));
         mount(new HybridUrlCodingStrategy("/listabuenafe/editar", EditarListaBuenaFePage.class, false));
         mount(new HybridUrlCodingStrategy("/partidos", PartidoPage.class, false));
-        mount(new HybridUrlCodingStrategy("/planillas", PlanillaPage.class, false));
+        mount(new HybridUrlCodingStrategy("/planillas/final", PlanillaPage.class, false));
         mount(new HybridUrlCodingStrategy("/planillas/print", PlanillaPrinterFriendly.class, false));
         mount(new HybridUrlCodingStrategy("/planillas/precargada", PlanillaPrecargadaPage.class, false));
         mount(new HybridUrlCodingStrategy("/torneos", TorneoPage.class, false));
