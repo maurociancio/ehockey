@@ -3,7 +3,6 @@ package ar.noxit.ehockey.web.pages.usuarios;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 
@@ -11,7 +10,7 @@ public class EditarUsuarioPage extends AbstractContentPage{
 
     private IModel<UsuarioDTO> usuario;
 
-    public EditarUsuarioPage(Model<UsuarioDTO> usuario) {
+    public EditarUsuarioPage(IModel<UsuarioDTO> usuario) {
         Validate.notNull(usuario, "El usuario no puede ser null");
         this.usuario = usuario;
 
