@@ -11,6 +11,7 @@ import org.apache.wicket.datetime.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DateTimeField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
@@ -36,8 +37,7 @@ public class FechaHoraPage extends AbstractContentPage {
             }
         };
 
-        form.add(new DateTimeField("fechahora", new Date2LocalDateTimeAdapterModel(
-                new PropertyModel<LocalDateTime>(this, "fecha"))) {
+        form.add(new DateTimeField("fechahora", new Date2LocalDateTimeAdapterModel(new FechaSistemaModel())) {
 
             @SuppressWarnings("unchecked")
             @Override
@@ -51,5 +51,33 @@ public class FechaHoraPage extends AbstractContentPage {
     @Override
     public boolean shouldBeSelected(IMenuItem menuItem) {
         return menuItem.getPageLink().equals(FechaHoraPage.class);
+    }
+
+    public class FechaSistemaModel implements IModel<LocalDateTime> {
+
+        private boolean loaded = false;
+
+        @Override
+        public LocalDateTime getObject() {
+            try {
+                if (!loaded) {
+                    fecha = horarioService.getHoraSistema();
+                    loaded = true;
+                }
+                return fecha;
+            } catch (NoxitException e) {
+                throw new NoxitRuntimeException(e);
+            }
+        }
+
+        @Override
+        public void setObject(LocalDateTime object) {
+            this.loaded = true;
+            fecha = object;
+        }
+
+        @Override
+        public void detach() {
+        }
     }
 }
