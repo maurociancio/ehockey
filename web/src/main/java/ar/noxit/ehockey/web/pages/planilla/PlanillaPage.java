@@ -8,6 +8,7 @@ import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.partido.PartidoPage;
 import ar.noxit.exceptions.NoxitException;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -17,6 +18,7 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+@AuthorizeAction(action = "ENABLE", roles = { "USER", "ADMIN" })
 public class PlanillaPage extends AbstractHeaderPage {
 
     @SpringBean
@@ -29,8 +31,9 @@ public class PlanillaPage extends AbstractHeaderPage {
 
         add(new FeedbackPanel("feedback"));
 
-        add(new BookmarkablePageLink<Void>("html_planilla", PlanillaPrinterFriendly.class,
-                new PageParameters(String.format("partido=%s,final=1", partidoId))));
+        add(new BookmarkablePageLink<Void>("html_planilla",
+                PlanillaPrinterFriendly.class, new PageParameters(String
+                        .format("partido=%s,final=1", partidoId))));
 
         add(new Label("estado", new AbstractReadOnlyModel<String>() {
 
@@ -72,7 +75,8 @@ public class PlanillaPage extends AbstractHeaderPage {
             @Override
             public void onSubmit() {
                 try {
-                    planillaService.publicarPlanilla(partido.getObject().getId());
+                    planillaService.publicarPlanilla(partido.getObject()
+                            .getId());
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
@@ -84,7 +88,8 @@ public class PlanillaPage extends AbstractHeaderPage {
             @Override
             public void onSubmit() {
                 try {
-                    planillaService.validarPlanilla(partido.getObject().getId());
+                    planillaService
+                            .validarPlanilla(partido.getObject().getId());
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
@@ -97,7 +102,8 @@ public class PlanillaPage extends AbstractHeaderPage {
             public void onSubmit() {
                 try {
                     // TODO
-                    planillaService.rechazarPlanilla(partido.getObject().getId(), "");
+                    planillaService.rechazarPlanilla(partido.getObject()
+                            .getId(), "");
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
