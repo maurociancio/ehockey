@@ -2,6 +2,7 @@ package ar.noxit.ehockey.web.app;
 
 import ar.noxit.ehockey.main.StartJetty;
 import ar.noxit.ehockey.web.pages.HomePage;
+import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
@@ -22,6 +23,8 @@ import ar.noxit.ehockey.web.pages.torneo.ReprogramacionPartidoPage;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.VerPartidosPage;
 import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
+import ar.noxit.ehockey.web.pages.usuarios.EditarUsuarioPage;
+import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -70,7 +73,10 @@ public class EHockeyApplication extends WebApplication {
         mount(new HybridUrlCodingStrategy("/jugadores/modificar", JugadorModificarPage.class, false));
         mount(new HybridUrlCodingStrategy("/jugadores/ver", JugadorVerPage.class, false));
         mount(new HybridUrlCodingStrategy("/tablaposiciones", TablaPosicionesPage.class, false));
+        mount(new HybridUrlCodingStrategy("/usuarios/listado", ListaUsuariosPage.class, false));
         mount(new HybridUrlCodingStrategy("/usuarios/alta", AltaUsuarioPage.class, false));
+        mount(new HybridUrlCodingStrategy("/usuarios/modificar", EditarUsuarioPage.class, false));
+        mount(new HybridUrlCodingStrategy("/resultado", MensajePage.class, false));
         mount(new HybridUrlCodingStrategy("/fechahora", FechaHoraPage.class, false));
     }
 
