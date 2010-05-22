@@ -1,0 +1,22 @@
+<wicket:panel>
+
+	<div wicket:id="feedback" class="feedbacklabel" />
+	<form wicket:id="signInForm">
+		<table>
+		<tr>
+			<td><span>Usuario: </span></td>
+			<td><input  type="text" wicket:id="username" /></td> 
+		</tr>
+		<tr>
+			<td><span>Contraseña: </span></td>
+			<td><input type="password" wicket:id="password" /></td>
+		</tr>
+		<tr wicket:id="rememberMeRow">
+			<td><input type=checkbox" wicket:id="rememberMe" /><span> Recordarme</span></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="Login" /></td>
+		</tr>
+		</table>
+		</form>
+</wicket:panel>
