@@ -77,4 +77,9 @@ public class UsuarioService implements IUsuarioService {
     public void setUsuarioDao(IUsuarioDao usuarioDao) {
         this.usuarioDao = usuarioDao;
     }
+
+    @Override
+    public void remove(Usuario usuario) throws NoxitException {
+        this.usuarioDao.delete(usuario);
+    }
 }
