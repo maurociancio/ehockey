@@ -231,13 +231,6 @@
             </exclusions>
         </dependency>
         
-        <!-- Apache Wicket Auth Roles  -->
-        <dependency>
-   			<groupId>org.apache.wicket</groupId>
-   			<artifactId>wicket-auth-roles</artifactId>
-   			<version>1.4.4</version>
-		</dependency>
-
         <!--  TESTNG DEPENDENCY FOR TESTING -->
         <dependency>
             <groupId>org.testng</groupId>
