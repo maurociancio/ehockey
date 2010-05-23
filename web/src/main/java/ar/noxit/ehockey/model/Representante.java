@@ -1,12 +1,14 @@
 package ar.noxit.ehockey.model;
 
+import ar.noxit.hasher.Hasher;
+
 public class Representante extends Usuario {
 
     private Club club;
     private String cargo;
 
-    public Representante(String user, String password, Club club) {
-        super(user, password);
+    public Representante(String user, String password, Hasher hasher, Club club) {
+        super(user, password, hasher);
         this.club = club;
     }
 

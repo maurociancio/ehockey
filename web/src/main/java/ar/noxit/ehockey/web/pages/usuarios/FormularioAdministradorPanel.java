@@ -20,6 +20,7 @@ public class FormularioAdministradorPanel extends Panel {
 
         basePanel = new UsuarioBasePanel("usuarioBasePanel", new PropertyModel<UsuarioDTO>(this, "usuario"));
         basePanel.addValidators(form);
+
         form.add(basePanel);
 
         add(form);
@@ -32,7 +33,7 @@ public class FormularioAdministradorPanel extends Panel {
         return usuario.getObject().getTipo().equals(Administrador.class);
     }
 
-    public void setUsuarioEditable(boolean estado) {
+    public void setModoEditable(boolean estado) {
         basePanel.setUsuarioEditable(estado);
     }
 }

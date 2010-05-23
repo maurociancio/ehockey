@@ -66,5 +66,8 @@
     <bean id="usuarioService" class="ar.noxit.ehockey.service.impl.UsuarioService">
         <property name="usuarioDao" ref="usuarioDao"/>
         <property name="clubDao" ref="clubDao"/>
+        <property name="hasher">
+            <bean class="ar.noxit.hasher.MD5Hasher"/>
+        </property>
     </bean>
 </beans>

@@ -21,7 +21,7 @@ public class EditarUsuarioPage extends AbstractUsuariosPage {
         add(new FeedbackPanel("feedback"));
 
         // hace que no se pueda cambiar el nombre de usuario en el panel
-        adminPanel.setUsuarioEditable(false);
+        adminPanel.setModoEditable(false);
         represPanel.setUsuarioEditable(false);
 
         add(adminPanel);

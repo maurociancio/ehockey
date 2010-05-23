@@ -16,9 +16,8 @@ public abstract class Usuario {
 
     // estos atributos no se persisten
     private boolean logueado = false;
-    private Hasher hasher = new MD5Hasher();
 
-    public Usuario(String user, String password) {
+    public Usuario(String user, String password, Hasher hasher) {
         this.user = user;
         this.password = hasher.hash(password);
     }
@@ -46,6 +45,10 @@ public abstract class Usuario {
         this.apellido = apellido;
     }
 
+    public void setPassword(String password, Hasher hasher) {
+        this.password = hasher.hash(password);
+    }
+
     public abstract String[] getRoles();
 
     /**
@@ -56,7 +59,7 @@ public abstract class Usuario {
      * @throws ErrorDeLoginException
      *             cuando no se puede loguear por error de contraseña
      */
-    public void loguearse(String password) throws ErrorDeLoginException {
+    public void loguearse(String password, Hasher hasher) throws ErrorDeLoginException {
         if (!this.password.equals(hasher.hash(password))) {
             throw new ErrorDeLoginException("Password incorrecto");
         }

@@ -18,11 +18,13 @@ import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.exceptions.persistence.PersistenceException;
+import ar.noxit.hasher.Hasher;
 
 public class UsuarioService implements IUsuarioService {
 
     private IUsuarioDao usuarioDao;
     private IClubDao clubDao;
+    private Hasher hasher;
 
     @Override
     @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
@@ -30,13 +32,13 @@ public class UsuarioService implements IUsuarioService {
         validarUsuarioNoExistente(usuario);
 
         if (usuario.getTipo().equals(Administrador.class)) {
-            Administrador nuevo = new Administrador(usuario.getUser(), usuario
-                    .getPassword());
+            Administrador nuevo = new Administrador(usuario.getUser(), usuario.getPassword(), hasher);
             nuevo.setNombre(usuario.getNombre());
             nuevo.setApellido(usuario.getApellido());
             usuarioDao.save(nuevo);
         } else if (usuario.getTipo().equals(Representante.class)) {
-            Representante nuevo = new Representante(usuario.getUser(), usuario.getPassword(), clubDao.get(usuario.getClubId()));
+            Representante nuevo = new Representante(usuario.getUser(), usuario.getPassword(), hasher, clubDao
+                    .get(usuario.getClubId()));
             nuevo.setNombre(usuario.getNombre());
             nuevo.setApellido(usuario.getApellido());
             nuevo.setCargo(usuario.getCargo());
@@ -44,15 +46,13 @@ public class UsuarioService implements IUsuarioService {
         }
     }
 
-    private void validarUsuarioNoExistente(UsuarioDTO usuario)
-            throws UsuarioExistenteException {
+    private void validarUsuarioNoExistente(UsuarioDTO usuario) throws UsuarioExistenteException {
         try {
             Usuario temp = usuarioDao.get(usuario.getUser());
             if (temp != null)
                 throw new UsuarioExistenteException();
         } catch (PersistenceException e) {
-            throw new NoxitRuntimeException(
-                    "Error intentando verificar existencia de usuario");
+            throw new NoxitRuntimeException("Error intentando verificar existencia de usuario");
         }
     }
 
@@ -75,6 +75,9 @@ public class UsuarioService implements IUsuarioService {
             Administrador original = (Administrador) get(usuario.getUser());
             original.setNombre(usuario.getNombre());
             original.setApellido(usuario.getApellido());
+            if (usuario.getPassword() != null) {
+                original.setPassword(usuario.getPassword(), hasher);
+            }
         } else if (usuario.getTipo().equals(Representante.class)) {
             Representante original = (Representante) get(usuario.getUser());
             original.setNombre(usuario.getNombre());
@@ -91,6 +94,10 @@ public class UsuarioService implements IUsuarioService {
         this.clubDao = clubDao;
     }
 
+    public void setHasher(Hasher hasher) {
+        this.hasher = hasher;
+    }
+
     @Override
     @Transactional
     public void remove(String user) throws NoxitException {
@@ -101,7 +108,7 @@ public class UsuarioService implements IUsuarioService {
     public boolean logInUsuario(Usuario usuario, String password) {
         boolean logged = false;
         try {
-            usuario.loguearse(password);
+            usuario.loguearse(password, hasher);
             logged = usuario.estaLogueado();
         } catch (ErrorDeLoginException e) {
             // Hubo un error de login, no se permite el logins, para debug lanzo
