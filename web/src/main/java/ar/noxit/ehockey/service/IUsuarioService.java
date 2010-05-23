@@ -1,10 +1,14 @@
 package ar.noxit.ehockey.service;
 
+import java.util.List;
+
+import org.apache.wicket.Session;
+
+import ar.noxit.ehockey.exception.ErrorDeLoginException;
+import ar.noxit.ehockey.exception.SessionClosedException;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.exceptions.NoxitException;
-import java.util.List;
-import org.apache.wicket.Session;
 
 public interface IUsuarioService {
 
@@ -18,9 +22,9 @@ public interface IUsuarioService {
 
     void remove(String user) throws NoxitException;
 
-    public boolean logInUsuario(Usuario usuario, String password);
+    public boolean logInUsuario(Usuario usuario, String password) throws ErrorDeLoginException;
 
-    public String getUsuarioConectado(Session session);
+    public String getUsuarioConectado(Session session) throws SessionClosedException ;
 
-    public void logOutUser(Session session);
+    public void logOutUser(Session session) throws SessionClosedException ;
 }
