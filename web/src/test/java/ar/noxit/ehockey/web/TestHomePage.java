@@ -4,19 +4,19 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 
-import org.joda.time.LocalDateTime;
-
-import ar.noxit.ehockey.service.IHorarioService;
-
 import ar.noxit.ehockey.configuration.MenuItem;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.Sector;
+import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.IHorarioService;
 import ar.noxit.ehockey.service.IPartidoService;
+import ar.noxit.ehockey.service.ITablaPosicionesService;
+import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
@@ -27,6 +27,7 @@ import ar.noxit.exceptions.NoxitException;
 import com.ttdev.wicketpagetest.MockableBeanInjector;
 import java.util.ArrayList;
 import java.util.List;
+import org.joda.time.LocalDateTime;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -80,19 +81,30 @@ public class TestHomePage extends BaseSpringWicketTest {
 
     @BeforeMethod
     public void mockHeaderItems() throws NoxitException {
+        // menu item provider
         IMenuItemProvider menuItemProvider = createMock(IMenuItemProvider.class);
 
         ArrayList<IMenuItem> value = new ArrayList<IMenuItem>();
         value.add(new MenuItem("home", HomePage.class));
-
         expect(menuItemProvider.getMenuItems()).andReturn(value);
-        replay(menuItemProvider);
 
         MockableBeanInjector.mockBean("menuItemProvider", menuItemProvider);
 
+        // horario service
         IHorarioService horarioService = createMock(IHorarioService.class);
         expect(horarioService.getHoraSistema()).andReturn(new LocalDateTime());
-
         MockableBeanInjector.mockBean("horarioService", horarioService);
+
+        // torneo service
+        ITorneoService torneoService = createMock(ITorneoService.class);
+        expect(torneoService.getAll()).andReturn(new ArrayList<Torneo>());
+        MockableBeanInjector.mockBean("torneoService", torneoService);
+
+        // tabla service
+        ITablaPosicionesService tablaService = createMock(ITablaPosicionesService.class);
+        MockableBeanInjector.mockBean("tablaService", tablaService);
+
+        // replay
+        replay(torneoService, horarioService, menuItemProvider, tablaService);
     }
 }
