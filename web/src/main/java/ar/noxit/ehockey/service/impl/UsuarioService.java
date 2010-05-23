@@ -2,6 +2,7 @@ package ar.noxit.ehockey.service.impl;
 
 import java.util.List;
 
+import org.apache.wicket.Session;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.noxit.ehockey.dao.IUsuarioDao;
@@ -11,6 +12,7 @@ import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
+import ar.noxit.ehockey.web.pages.authentication.AuthSession;
 import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
@@ -102,5 +104,17 @@ public class UsuarioService implements IUsuarioService {
             throw new NoxitRuntimeException(e);
         }
         return logged;
+    }
+
+    @Override
+    public String getUsuarioConectado(Session session) {
+        AuthSession authSession = (AuthSession) session;
+        return authSession.getUserLogged().getUser();
+    }
+
+    @Override
+    public void logOutUser(Session session) {
+        AuthSession authSession = (AuthSession) session;
+        authSession.signOut();
     }
 }

@@ -2,7 +2,7 @@ package ar.noxit.ehockey.service;
 
 import java.util.List;
 
-import org.apache.wicket.model.IModel;
+import org.apache.wicket.Session;
 
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
@@ -21,4 +21,8 @@ public interface IUsuarioService {
     void remove(String user) throws NoxitException;
 
     public boolean logInUsuario(Usuario usuario, String password);
+
+    public String getUsuarioConectado(Session session);
+
+    public void logOutUser(Session session);
 }
