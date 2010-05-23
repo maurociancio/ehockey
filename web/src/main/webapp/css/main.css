@@ -101,6 +101,9 @@ legend {
   2) Universal styles (display, float, margin, text-align...)
   ----------------------------------------------------------------------------------------------------------
  */
+.encajonado{
+    border: 1px solid #d0d0d0;
+}
 .box {
     min-height:1px;
 }
@@ -243,6 +246,14 @@ ul.ul-style01 ul li {
     width:230px;
     font-weight:normal;
     text-align:center;
+}
+#underheader {
+    position:absolute;
+    top:75px;
+    right:280px;
+    width:300px;
+    font-weight:normal;
+    text-align:right;
 }
 #nav {
     padding:0 15px 5px 6px;

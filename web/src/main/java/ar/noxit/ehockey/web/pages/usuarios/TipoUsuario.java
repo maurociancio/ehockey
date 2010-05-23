@@ -6,7 +6,8 @@ import ar.noxit.ehockey.model.Usuario;
 
 public class TipoUsuario implements Serializable {
 
-    Class<? extends Usuario> tipo;
+    private Class<? extends Usuario> tipo;
+
     public TipoUsuario(Class<? extends Usuario> tipo) {
         this.tipo = tipo;
     }

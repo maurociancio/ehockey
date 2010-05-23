@@ -1,12 +1,8 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.Fragment;
-import org.apache.wicket.model.Model;
 
 public class FeedBackLabelAttachedComponent<T extends FormComponent<?>> extends
         Fragment {

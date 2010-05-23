@@ -9,6 +9,7 @@ import org.apache.wicket.model.PropertyModel;
 import ar.noxit.ehockey.model.Administrador;
 
 public class FormularioAdministradorPanel extends Panel {
+
     private IModel<UsuarioDTO> usuario;
     private UsuarioBasePanel basePanel;
 
@@ -26,7 +27,8 @@ public class FormularioAdministradorPanel extends Panel {
 
     @Override
     public boolean isVisible() {
-        if (usuario.getObject() == null) return false;
+        if (usuario.getObject() == null)
+            return false;
         return usuario.getObject().getTipo().equals(Administrador.class);
     }
 

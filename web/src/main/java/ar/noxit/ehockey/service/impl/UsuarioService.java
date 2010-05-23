@@ -2,15 +2,18 @@ package ar.noxit.ehockey.service.impl;
 
 import java.util.List;
 
+import org.apache.wicket.Session;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IUsuarioDao;
+import ar.noxit.ehockey.exception.ErrorDeLoginException;
 import ar.noxit.ehockey.exception.UsuarioExistenteException;
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
+import ar.noxit.ehockey.web.pages.authentication.AuthSession;
 import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
@@ -27,7 +30,8 @@ public class UsuarioService implements IUsuarioService {
         validarUsuarioNoExistente(usuario);
 
         if (usuario.getTipo().equals(Administrador.class)) {
-            Administrador nuevo = new Administrador(usuario.getUser(), usuario.getPassword());
+            Administrador nuevo = new Administrador(usuario.getUser(), usuario
+                    .getPassword());
             nuevo.setNombre(usuario.getNombre());
             nuevo.setApellido(usuario.getApellido());
             usuarioDao.save(nuevo);
@@ -40,12 +44,15 @@ public class UsuarioService implements IUsuarioService {
         }
     }
 
-    private void validarUsuarioNoExistente(UsuarioDTO usuario) throws UsuarioExistenteException {
+    private void validarUsuarioNoExistente(UsuarioDTO usuario)
+            throws UsuarioExistenteException {
         try {
             Usuario temp = usuarioDao.get(usuario.getUser());
-            if (temp != null) throw new UsuarioExistenteException();
+            if (temp != null)
+                throw new UsuarioExistenteException();
         } catch (PersistenceException e) {
-            throw new NoxitRuntimeException("Error intentando verificar existencia de usuario");
+            throw new NoxitRuntimeException(
+                    "Error intentando verificar existencia de usuario");
         }
     }
 
@@ -65,11 +72,11 @@ public class UsuarioService implements IUsuarioService {
     @Transactional
     public void update(UsuarioDTO usuario) throws NoxitException {
         if (usuario.getTipo().equals(Administrador.class)) {
-            Administrador original = (Administrador)get(usuario.getUser());
+            Administrador original = (Administrador) get(usuario.getUser());
             original.setNombre(usuario.getNombre());
             original.setApellido(usuario.getApellido());
         } else if (usuario.getTipo().equals(Representante.class)) {
-            Representante original = (Representante)get(usuario.getUser());
+            Representante original = (Representante) get(usuario.getUser());
             original.setNombre(usuario.getNombre());
             original.setApellido(usuario.getApellido());
             original.setCargo(usuario.getCargo());
@@ -88,5 +95,31 @@ public class UsuarioService implements IUsuarioService {
     @Transactional
     public void remove(String user) throws NoxitException {
         this.usuarioDao.delete(this.usuarioDao.get(user));
+    }
+
+    @Override
+    public boolean logInUsuario(Usuario usuario, String password) {
+        boolean logged = false;
+        try {
+            usuario.loguearse(password);
+            logged = usuario.estaLogueado();
+        } catch (ErrorDeLoginException e) {
+            // Hubo un error de login, no se permite el logins, para debug lanzo
+            // una excepcion en runtime
+            throw new NoxitRuntimeException(e);
+        }
+        return logged;
+    }
+
+    @Override
+    public String getUsuarioConectado(Session session) {
+        AuthSession authSession = (AuthSession) session;
+        return authSession.getUserLogged().getUser();
+    }
+
+    @Override
+    public void logOutUser(Session session) {
+        AuthSession authSession = (AuthSession) session;
+        authSession.signOut();
     }
 }

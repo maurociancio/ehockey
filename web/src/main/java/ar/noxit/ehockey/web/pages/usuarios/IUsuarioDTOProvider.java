@@ -5,5 +5,6 @@ import java.util.List;
 public interface IUsuarioDTOProvider {
 
     List<String> getListaTipos();
+
     UsuarioDTO createUsuarioDTO(String tipo);
 }

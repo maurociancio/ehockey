@@ -12,7 +12,7 @@ import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.web.pages.models.IdClubModel;
 
-public class InfoRepresentantePanel extends Panel{
+public class InfoRepresentantePanel extends Panel {
 
     private IModel<UsuarioDTO> usuario;
     @SpringBean

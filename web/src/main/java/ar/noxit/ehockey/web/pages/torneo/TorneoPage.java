@@ -1,7 +1,6 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeAction;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 @AuthorizeAction(action = "ENABLE", roles = { "USER", "ADMIN" })

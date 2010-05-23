@@ -10,7 +10,7 @@ import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.exceptions.NoxitException;
 
-public class PerfilUsuarioPage extends AbstractContentPage{
+public class PerfilUsuarioPage extends AbstractContentPage {
     @SpringBean
     IUsuarioService usuarioService;
 

@@ -9,6 +9,8 @@ import ar.noxit.ehockey.model.TarjetasPartido;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
+import ar.noxit.ehockey.web.pages.header.IMenuItem;
+import ar.noxit.ehockey.web.pages.partido.PartidoPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.AdapterModel;
@@ -107,5 +109,10 @@ public class ModificarPlanillaPage extends AbstractContentPage {
             this.equipoInfo.setObject(equipoInfo);
             this.cargado = true;
         }
+    }
+
+    @Override
+    public boolean shouldBeSelected(IMenuItem menuItem) {
+        return menuItem.getPageLink().equals(PartidoPage.class);
     }
 }

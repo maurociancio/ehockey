@@ -7,11 +7,9 @@ import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import ar.noxit.ehockey.exception.ErrorDeLoginException;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.LDM;
 
 public class AuthSession extends AuthenticatedWebSession {
@@ -33,13 +31,10 @@ public class AuthSession extends AuthenticatedWebSession {
     @Override
     public boolean authenticate(String username, String password) {
         boolean resultado = false;
-        try {
-            usuarioModel = new UsuarioIdModel(username);
-            Usuario usuario = usuarioModel.getObject();
-            usuario.loguearse(password);
-            resultado = usuario.estaLogueado();
-        } catch (ErrorDeLoginException ex) {
-            throw new NoxitRuntimeException(ex);
+        usuarioModel = new UsuarioIdModel(username);
+        Usuario usuario = usuarioModel.getObject();
+        if (usuario != null) {
+            resultado = usuarioService.logInUsuario(usuario, password);
         }
         return resultado;
     }
@@ -50,6 +45,16 @@ public class AuthSession extends AuthenticatedWebSession {
         if (usuario == null)
             return new Roles();
         return new Roles(usuario.getRoles());
+    }
+
+    public Usuario getUserLogged() {
+        return this.usuarioModel.getObject();
+    }
+
+    @Override
+    public void signOut() {
+        super.signOut();
+        this.usuarioModel.setObject(null);
     }
 
     private class UsuarioIdModel extends LDM<Usuario> {
@@ -68,7 +73,14 @@ public class AuthSession extends AuthenticatedWebSession {
         protected Usuario doLoad() throws NoxitException {
             if (this.username == null)
                 return null;
-            return usuarioService.get(username);
+            Usuario usuario = null;
+            try {
+                usuario = usuarioService.get(username);
+            } catch (NoxitException ex) {
+                // Error de login. Se loguea la excepcion
+                usuario = null;
+            }
+            return usuario;
         }
     }
 }
