@@ -17,9 +17,9 @@ import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.models.UsuarioAdapterModel;
+import ar.noxit.ehockey.web.pages.models.UsuarioModel;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
-import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.provider.DataProvider;
 
 public class ListaUsuariosPage extends AbstractUsuariosPage {
@@ -81,25 +81,8 @@ public class ListaUsuariosPage extends AbstractUsuariosPage {
 
         @Override
         public IModel<Usuario> model(Usuario object) {
-            return new UsuarioModel(new Model<String>(object.getUser()));
+            return new UsuarioModel(new Model<String>(object.getUser()), usuarioService);
         }
 
-    }
-
-    public class UsuarioModel extends IdLDM<Usuario, String> {
-
-        public UsuarioModel(IModel<String> idModel) {
-            super(idModel);
-        }
-
-        @Override
-        protected Usuario doLoad(String id) throws NoxitException {
-            return usuarioService.get(id);
-        }
-
-        @Override
-        protected String getObjectId(Usuario object) {
-            return object.getUser();
-        }
     }
 }
