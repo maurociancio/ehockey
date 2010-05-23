@@ -56,6 +56,18 @@ table.table-style01 tr.bg td {
 #fechayhora {
     color:#AFAFAF;
 }
+#underheader {
+    color:#AFAFAF;
+}
+#underheader span {
+    color:#FFF;
+}
+#underheader a{
+    color:#FFF;
+}
+#underheader a:hover{
+    color:#02AAFC;
+}
 #nav {
     background-color:#D9D9D9;
 }

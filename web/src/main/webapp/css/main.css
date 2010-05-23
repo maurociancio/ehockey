@@ -247,6 +247,14 @@ ul.ul-style01 ul li {
     font-weight:normal;
     text-align:center;
 }
+#underheader {
+    position:absolute;
+    top:75px;
+    right:280px;
+    width:145px;
+    font-weight:normal;
+    text-align:center;
+}
 #nav {
     padding:0 15px 5px 6px;
     background:url("../design/nav.gif") 0 100% no-repeat;
