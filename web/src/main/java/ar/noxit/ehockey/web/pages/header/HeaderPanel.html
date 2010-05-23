@@ -1,12 +1,15 @@
 <wicket:panel>
 	<!-- Header -->
 	<div id="header"><!-- Your logo -->
+
 	<h1 id="logo"><a class="italicas">e<span class="italicas">hockey</span></a></h1>
 	<hr class="noscreen" />
 
-    <!-- Your slogan -->
-    <div id="fechayhora">Fecha y Hora Actual: <p wicket:id="hora"></p></div>
-    <hr class="noscreen" />
+	<!-- Your slogan -->
+	<div id="fechayhora">Fecha y Hora Actual:
+	<p wicket:id="hora"></p>
+	</div>
+	<hr class="noscreen" />
 
 	<!-- Your slogan -->
 	<div id="slogan">Confederación Argentina de Hockey</div>
@@ -19,10 +22,13 @@
 
 	</div>
 	<!-- /header -->
-
 	<!-- Navigation -->
 	<div id="nav">
-
+	<div id="under_header" class="italicas encajonado">
+		<span> Usuario: </span>
+		<span wicket:id="usuario" /> | 
+		<a href="#" wicket:id="signout"> LogOut </a>
+	</div>
 	<ul class="box">
 		<li wicket:id="links"><a wicket:id="link"> <span
 			wicket:id="titulo" /></a></li>

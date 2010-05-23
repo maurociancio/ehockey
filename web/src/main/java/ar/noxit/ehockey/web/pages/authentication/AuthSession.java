@@ -47,6 +47,16 @@ public class AuthSession extends AuthenticatedWebSession {
         return new Roles(usuario.getRoles());
     }
 
+    public Usuario getUserLogged() {
+        return this.usuarioModel.getObject();
+    }
+
+    @Override
+    public void signOut() {
+        super.signOut();
+        this.usuarioModel.setObject(null);
+    }
+
     private class UsuarioIdModel extends LDM<Usuario> {
 
         private String username;

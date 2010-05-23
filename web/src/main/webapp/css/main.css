@@ -101,6 +101,9 @@ legend {
   2) Universal styles (display, float, margin, text-align...)
   ----------------------------------------------------------------------------------------------------------
  */
+.encajonado{
+    border: 1px solid #d0d0d0;
+}
 .box {
     min-height:1px;
 }
