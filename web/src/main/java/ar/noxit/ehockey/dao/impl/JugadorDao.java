@@ -1,15 +1,13 @@
 package ar.noxit.ehockey.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.Validate;
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import ar.noxit.dataaccessobject.hibernate.HibernateDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.model.Jugador;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.lang.Validate;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 public class JugadorDao extends HibernateDao<Jugador, Integer> implements
         IJugadorDao {
@@ -67,7 +65,6 @@ public class JugadorDao extends HibernateDao<Jugador, Integer> implements
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Jugador> getJugadoresFromClubDivisionSector(Integer clubId,
             Integer divisionId, Integer sectorId) {
@@ -79,7 +76,8 @@ public class JugadorDao extends HibernateDao<Jugador, Integer> implements
         }
     }
 
-    private List generateQuery(Integer clubid, Integer divisionid,
+    @SuppressWarnings("unchecked")
+    private List<Jugador> generateQuery(Integer clubid, Integer divisionid,
             Integer sectorid) {
         List<Integer> parametros = new ArrayList<Integer>();
         String queryString = "FROM Jugador j WHERE ";

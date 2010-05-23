@@ -1,12 +1,10 @@
 package ar.noxit.ehockey.service;
 
-import java.util.List;
-
-import org.apache.wicket.Session;
-
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.exceptions.NoxitException;
+import java.util.List;
+import org.apache.wicket.Session;
 
 public interface IUsuarioService {
 
