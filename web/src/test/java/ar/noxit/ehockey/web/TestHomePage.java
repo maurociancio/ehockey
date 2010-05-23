@@ -17,6 +17,7 @@ import ar.noxit.ehockey.service.IHorarioService;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.ehockey.service.ITorneoService;
+import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
@@ -103,6 +104,10 @@ public class TestHomePage extends BaseSpringWicketTest {
         // tabla service
         ITablaPosicionesService tablaService = createMock(ITablaPosicionesService.class);
         MockableBeanInjector.mockBean("tablaService", tablaService);
+
+        // usuarios service
+        IUsuarioService usuariosService = createMock(IUsuarioService.class);
+        MockableBeanInjector.mockBean("usuarioService", usuariosService);
 
         // replay
         replay(torneoService, horarioService, menuItemProvider, tablaService);
