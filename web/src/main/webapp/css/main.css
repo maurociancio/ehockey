@@ -251,9 +251,9 @@ ul.ul-style01 ul li {
     position:absolute;
     top:75px;
     right:280px;
-    width:145px;
+    width:300px;
     font-weight:normal;
-    text-align:center;
+    text-align:right;
 }
 #nav {
     padding:0 15px 5px 6px;
