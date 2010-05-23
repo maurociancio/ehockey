@@ -1,9 +1,9 @@
 package ar.noxit.ehockey.model;
 
-import org.apache.commons.lang.Validate;
-
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import ar.noxit.ehockey.exception.TransicionEstadoInvalidaException;
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
 
 public class EstadoPlanillaCargada extends EstadoPlanilla {
 
@@ -29,4 +29,10 @@ public class EstadoPlanillaCargada extends EstadoPlanilla {
     public String toString() {
         return "Carga de datos parcialmente completa";
     }
+
+    @Override
+    public EstadoPlanilla verificarVencimiento(PlanillaVencible vencible, LocalDateTime now) {
+        return vencerPlanillaCargada(vencible, now);
+    }
+
 }

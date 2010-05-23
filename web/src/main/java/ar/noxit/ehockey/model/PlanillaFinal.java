@@ -3,12 +3,17 @@ package ar.noxit.ehockey.model;
 import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
 import ar.noxit.ehockey.exception.JugadorYaPerteneceAListaException;
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
+import ar.noxit.ehockey.exception.PlanillaNoVencidaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import ar.noxit.ehockey.exception.ViolacionReglaNegocioException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.LocalDateTime;
 
 public class PlanillaFinal implements PlanillaPublicable, Planilla {
 
@@ -26,22 +31,27 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
     private String comentario;
     private EstadoPlanilla estado;
 
+    private static final Duration DURACION_VENCIMIENTO = Duration.standardDays(2);
+
     protected PlanillaFinal() {
     }
 
-    public PlanillaFinal(PlanillaPrecargada original) {
+    public PlanillaFinal(PlanillaPrecargada original, LocalDateTime now) {
         Validate.notNull(original);
+        Validate.notNull(now, "now no puede ser null");
 
+        // partido
         this.partido = original.getPartido();
+
+        // estado inicial
         this.estado = new EstadoPlanillaCargada();
 
-        // que hace temp? TODO
-        Set<Jugador> temp = this.datosLocal.getJugadores();
-        temp.clear();
-        temp.addAll(original.getJugadoresLocales());
+        // jugadores en la planilla
+        this.datosLocal.asignarJugadores(original.getJugadoresLocales());
+        this.datosVisitante.asignarJugadores(original.getJugadoresVisitantes());
 
-        temp = this.datosVisitante.getJugadores();
-        temp.addAll(original.getJugadoresVisitantes());
+        // verificar que no este vencida
+        this.estado = this.estado.verificarVencimiento(new PlanillaFinalVencible(), now);
     }
 
     private void agregarJugador(Jugador jugador, Set<Jugador> jugadores) throws JugadorYaPerteneceAListaException {
@@ -112,6 +122,29 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
         composite.throwsIfNotEmpty();
     }
 
+    public boolean isVencida(LocalDateTime now) {
+        Validate.notNull(now, "now no puede ser null");
+
+        LocalDateTime inicioPartido = this.partido.getInicio();
+
+        DateTime inicioPartidoUTC = inicioPartido.toDateTime(DateTimeZone.UTC);
+        DateTime nowUTC = now.toDateTime(DateTimeZone.UTC);
+
+        // diferencia = now - inicio
+        Duration diferencia = new Duration(inicioPartidoUTC, nowUTC);
+        return diferencia.isLongerThan(DURACION_VENCIMIENTO);
+    }
+
+    private class PlanillaFinalVencible implements PlanillaVencible {
+
+        @Override
+        public void checkVencimiento(LocalDateTime now) throws PlanillaNoVencidaException {
+            if (!isVencida(now)) {
+                throw new PlanillaNoVencidaException("la planilla no esta para vencer");
+            }
+        }
+    }
+
     private class PlanillaFinalComentable implements Comentable {
 
         @Override
@@ -139,6 +172,10 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
 
     public void rechazar(String comentario) throws ReglaNegocioException {
         estado = estado.rechazar(new PlanillaFinalComentable(), comentario);
+    }
+
+    public void verificarVencimiento(LocalDateTime now) {
+        estado = estado.verificarVencimiento(new PlanillaFinalVencible(), now);
     }
 
     public TarjetasPartido getTarjetasDe(Jugador object) throws JugadorSinTarjetasException {

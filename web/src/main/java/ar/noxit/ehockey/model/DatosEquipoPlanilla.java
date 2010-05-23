@@ -147,4 +147,8 @@ public class DatosEquipoPlanilla {
         }
         return tarjetasPartido;
     }
+
+    public void asignarJugadores(Set<Jugador> jugadores) {
+        this.jugadores.addAll(jugadores);
+    }
 }
