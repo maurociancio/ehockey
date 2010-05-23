@@ -13,7 +13,7 @@ public class UsuarioDTO implements Serializable {
     private String nombre;
     private String apellido;
     private String cargo;
-    private IModel<Club> club;
+    private Integer clubId;
     private TipoUsuario tipo;
 
     public UsuarioDTO(TipoUsuario tipo) {
@@ -64,15 +64,11 @@ public class UsuarioDTO implements Serializable {
         this.cargo = cargo;
     }
 
-    public Club getClub() {
-        return club.getObject();
+    public Integer getClubId() {
+        return clubId;
     }
 
-    public void setClubModel(IModel<Club> club) {
-        this.club = club;
-    }
-
-    public void setClub(Club club) {
-        this.club.setObject(club);
+    public void setClubId(Integer clubId) {
+        this.clubId = clubId;
     }
 }

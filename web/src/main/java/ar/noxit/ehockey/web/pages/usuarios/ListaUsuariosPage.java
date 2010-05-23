@@ -1,16 +1,7 @@
 package ar.noxit.ehockey.web.pages.usuarios;
 
-import ar.noxit.ehockey.model.Usuario;
-import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.service.IUsuarioService;
-import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
-import ar.noxit.ehockey.web.pages.base.MensajePage;
-import ar.noxit.ehockey.web.pages.models.UsuarioAdapterModel;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
-import ar.noxit.web.wicket.model.IdLDM;
-import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.List;
+
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
@@ -21,12 +12,20 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.noxit.ehockey.model.Usuario;
+import ar.noxit.ehockey.service.IUsuarioService;
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
+import ar.noxit.ehockey.web.pages.base.MensajePage;
+import ar.noxit.ehockey.web.pages.models.UsuarioAdapterModel;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.web.wicket.model.IdLDM;
+import ar.noxit.web.wicket.provider.DataProvider;
+
 public class ListaUsuariosPage extends AbstractUsuariosPage {
 
     @SpringBean
     private IUsuarioService usuarioService;
-    @SpringBean
-    private IClubService clubService;
 
     public ListaUsuariosPage() {
         DataView<Usuario> tabla = new DataView<Usuario>("usuarios", new UsuariosProvider()) {
@@ -37,7 +36,8 @@ public class ListaUsuariosPage extends AbstractUsuariosPage {
 
                     @Override
                     public void onClick() {
-                        setResponsePage(new EditarUsuarioPage(new UsuarioAdapterModel(item.getModel(), clubService)));
+                        //setResponsePage(new EditarUsuarioPage(new UsuarioAdapterModel(item.getModel())));
+                        setResponsePage(new PerfilUsuarioPage(new UsuarioAdapterModel(item.getModel())));
                     }
                 }.add(new Label("usuario", new PropertyModel<String>(item.getModel(), "user"))));
                 item.add(new Label("nombre", new PropertyModel<String>(item.getModel(), "nombre")));

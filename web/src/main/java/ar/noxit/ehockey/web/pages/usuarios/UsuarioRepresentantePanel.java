@@ -21,7 +21,7 @@ public class UsuarioRepresentantePanel extends Panel {
     public UsuarioRepresentantePanel(String id, IModel<UsuarioDTO> usuarioRepres) {
         super(id);
 
-        IModel<Club> club = new IdClubModel(new Model<Integer>(), clubService);
+        IModel<Club> club = new IdClubModel(new PropertyModel<Integer>(usuarioRepres, "clubId"), clubService);
         add(new DropDownChoice<Club>("clubes", club, new ClubListModel(clubService), new ClubRenderer())
                 .setRequired(true));
         add(new RequiredTextField<String>("cargo", new PropertyModel<String>(usuarioRepres, "cargo")));

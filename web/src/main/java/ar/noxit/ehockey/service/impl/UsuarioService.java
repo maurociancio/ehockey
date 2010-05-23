@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IUsuarioDao;
 import ar.noxit.ehockey.exception.UsuarioExistenteException;
 import ar.noxit.ehockey.model.Administrador;
@@ -18,6 +19,7 @@ import ar.noxit.exceptions.persistence.PersistenceException;
 public class UsuarioService implements IUsuarioService {
 
     private IUsuarioDao usuarioDao;
+    private IClubDao clubDao;
 
     @Override
     @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
@@ -30,7 +32,7 @@ public class UsuarioService implements IUsuarioService {
             nuevo.setApellido(usuario.getApellido());
             usuarioDao.save(nuevo);
         } else if (usuario.getTipo().equals(Representante.class)) {
-            Representante nuevo = new Representante(usuario.getUser(), usuario.getPassword(), usuario.getClub());
+            Representante nuevo = new Representante(usuario.getUser(), usuario.getPassword(), clubDao.get(usuario.getClubId()));
             nuevo.setNombre(usuario.getNombre());
             nuevo.setApellido(usuario.getApellido());
             nuevo.setCargo(usuario.getCargo());
@@ -76,6 +78,10 @@ public class UsuarioService implements IUsuarioService {
 
     public void setUsuarioDao(IUsuarioDao usuarioDao) {
         this.usuarioDao = usuarioDao;
+    }
+
+    public void setClubDao(IClubDao clubDao) {
+        this.clubDao = clubDao;
     }
 
     @Override

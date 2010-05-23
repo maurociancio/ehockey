@@ -2,22 +2,18 @@ package ar.noxit.ehockey.web.pages.models;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.model.Usuario;
-import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.web.pages.usuarios.TipoUsuario;
 import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.web.wicket.model.AdapterModel;
 
 public class UsuarioAdapterModel extends AdapterModel<UsuarioDTO, Usuario> {
-    IClubService clubService;
     UsuarioDTO usuario;
 
-    public UsuarioAdapterModel(IModel<Usuario> delegate, IClubService clubService) {
+    public UsuarioAdapterModel(IModel<Usuario> delegate) {
         super(delegate);
-        this.clubService = clubService;
     }
 
     @Override
@@ -30,7 +26,7 @@ public class UsuarioAdapterModel extends AdapterModel<UsuarioDTO, Usuario> {
             usuario.setUser(original.getObject().getUser());
             if (original.getObject() instanceof Representante) {
                 Representante rep = (Representante) original.getObject();
-                usuario.setClubModel(new IdClubModel(new Model<Integer>(rep.getClub().getId()), clubService));
+                usuario.setClubId(rep.getClub().getId());
                 usuario.setCargo(rep.getCargo());
             }
         }
