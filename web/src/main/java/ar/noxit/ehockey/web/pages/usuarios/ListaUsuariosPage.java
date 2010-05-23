@@ -1,17 +1,5 @@
 package ar.noxit.ehockey.web.pages.usuarios;
 
-import java.util.List;
-
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IUsuarioService;
@@ -22,8 +10,18 @@ import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.provider.DataProvider;
+import java.util.List;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class ListaUsuariosPage extends AbstractContentPage {
+public class ListaUsuariosPage extends AbstractUsuariosPage {
 
     @SpringBean
     private IUsuarioService usuarioService;
@@ -39,7 +37,7 @@ public class ListaUsuariosPage extends AbstractContentPage {
 
                     @Override
                     public void onClick() {
-                        setResponsePage(new EditarUsuarioPage(new UsuarioAdapterModel(item.getModel(),clubService)));
+                        setResponsePage(new EditarUsuarioPage(new UsuarioAdapterModel(item.getModel(), clubService)));
                     }
                 }.add(new Label("usuario", new PropertyModel<String>(item.getModel(), "user"))));
                 item.add(new Label("nombre", new PropertyModel<String>(item.getModel(), "nombre")));
@@ -50,9 +48,11 @@ public class ListaUsuariosPage extends AbstractContentPage {
                     public void onClick() {
                         try {
                             usuarioService.remove(item.getModelObject().getUser());
-                            setResponsePage(new MensajePage("Baja de usuario", String.format("El usuario %s ha sido dado de baja", item.getModelObject().getUser())));
+                            setResponsePage(new MensajePage("Baja de usuario", String.format(
+                                    "El usuario %s ha sido dado de baja", item.getModelObject().getUser())));
                         } catch (NoxitException e) {
-                            setResponsePage(new MensajePage("Baja de usuario", "No se pudo dar de baja el usuario, ocurrió un error durante la operación"));
+                            setResponsePage(new MensajePage("Baja de usuario",
+                                    "No se pudo dar de baja el usuario, ocurrió un error durante la operación"));
                         }
                     }
                 });
@@ -83,10 +83,10 @@ public class ListaUsuariosPage extends AbstractContentPage {
         public IModel<Usuario> model(Usuario object) {
             return new UsuarioModel(new Model<String>(object.getUser()));
         }
-        
+
     }
 
-    public class UsuarioModel extends IdLDM<Usuario, String>{
+    public class UsuarioModel extends IdLDM<Usuario, String> {
 
         public UsuarioModel(IModel<String> idModel) {
             super(idModel);
@@ -101,6 +101,5 @@ public class ListaUsuariosPage extends AbstractContentPage {
         protected String getObjectId(Usuario object) {
             return object.getUser();
         }
-
     }
 }

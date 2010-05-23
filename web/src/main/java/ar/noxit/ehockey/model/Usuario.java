@@ -6,6 +6,9 @@ import ar.noxit.hasher.MD5Hasher;
 
 public abstract class Usuario {
 
+    protected static final String ADMIN = "ADMIN";
+    protected static final String USER = "USER";
+
     private String user; // id del usuario
     private String password;
     private String nombre;
@@ -43,6 +46,8 @@ public abstract class Usuario {
         this.apellido = apellido;
     }
 
+    public abstract String[] getRoles();
+
     /**
      * Logueo del usuario después de verificar la contraseña
      * 
@@ -70,7 +75,8 @@ public abstract class Usuario {
     public boolean equals(Object obj) {
         if (obj.getClass().equals(this.getClass())) {
             Usuario otro = (Usuario) obj;
-            return (this.user.equals(otro.user) && this.password.equals(otro.password));
+            return (this.user.equals(otro.user) && this.password
+                    .equals(otro.password));
         } else {
             return false;
         }
