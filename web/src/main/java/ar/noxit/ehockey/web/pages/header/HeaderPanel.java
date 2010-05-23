@@ -20,6 +20,9 @@ import org.joda.time.LocalDateTime;
 import ar.noxit.ehockey.service.IHorarioService;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.HomePage;
+import ar.noxit.ehockey.web.pages.models.UsuarioAdapterModel;
+import ar.noxit.ehockey.web.pages.models.UsuarioModel;
+import ar.noxit.ehockey.web.pages.usuarios.PerfilUsuarioPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
@@ -45,6 +48,14 @@ public class HeaderPanel extends Panel {
             public void onClick() {
                 usuarioService.logOutUser(getSession());
                 setResponsePage(HomePage.class);
+            }
+        });
+
+        add(new Link<String>("perfil") {
+            @Override
+            public void onClick() {
+                setResponsePage(new PerfilUsuarioPage(new UsuarioAdapterModel(new UsuarioModel(Model.of(usuarioService
+                        .getUsuarioConectado(getSession())), usuarioService))));
             }
         });
 
