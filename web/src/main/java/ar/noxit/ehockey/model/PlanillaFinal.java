@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
 
-public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFinalizable, Planilla {
+public class PlanillaFinal implements PlanillaPublicable, Comentable, Planilla {
 
     private int id;
 
@@ -119,13 +119,13 @@ public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFi
         this.comentario = comentario;
     }
 
-    /**
-     * solo para uso del estado
-     */
-    @Override
-    public void finalizarPlanilla() throws ReglaNegocioException {
-        amonestar(datosLocal.getTarjetas());
-        amonestar(datosVisitante.getTarjetas());
+    private class PlanillaFinalFinalizable implements PlanillaFinalizable {
+
+        @Override
+        public void finalizarPlanilla() throws ReglaNegocioException {
+            amonestar(datosLocal.getTarjetas());
+            amonestar(datosVisitante.getTarjetas());
+        }
     }
 
     public void publicar() throws ReglaNegocioException {
@@ -133,7 +133,7 @@ public class PlanillaFinal implements PlanillaPublicable, Comentable, PlanillaFi
     }
 
     public void validar() throws ReglaNegocioException {
-        estado = estado.validar(this);
+        estado = estado.validar(new PlanillaFinalFinalizable());
     }
 
     public void rechazar(String comentario) throws ReglaNegocioException {
