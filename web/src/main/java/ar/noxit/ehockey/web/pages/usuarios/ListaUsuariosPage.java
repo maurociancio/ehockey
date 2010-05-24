@@ -36,8 +36,7 @@ public class ListaUsuariosPage extends AbstractUsuariosPage {
 
                     @Override
                     public void onClick() {
-                        //setResponsePage(new EditarUsuarioPage(new UsuarioAdapterModel(item.getModel())));
-                        setResponsePage(new PerfilUsuarioPage(new UsuarioAdapterModel(item.getModel())));
+                        setResponsePage(new EditarUsuarioPage(new UsuarioAdapterModel(item.getModel())));
                     }
                 }.add(new Label("usuario", new PropertyModel<String>(item.getModel(), "user"))));
                 item.add(new Label("nombre", new PropertyModel<String>(item.getModel(), "nombre")));
