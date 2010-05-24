@@ -5,6 +5,7 @@ import ar.noxit.ehockey.dao.IPartidoDao;
 import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.PlanillaFinal;
+import ar.noxit.ehockey.model.PlanillaPrecargada;
 import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.planilla.AmonestacionInfo;
@@ -110,5 +111,11 @@ public class PlanillaService implements IPlanillaService {
 
     public void setDateTimeProvider(IDateTimeProvider dateTimeProvider) {
         this.dateTimeProvider = dateTimeProvider;
+    }
+
+    @Override
+    @Transactional
+    public PlanillaPrecargada getPlanillaPrecargada(Integer idPartido) throws NoxitException {
+        return partidoDao.get(idPartido).getPlanillaPrecargada(this.dateTimeProvider.getLocalDateTime());
     }
 }
