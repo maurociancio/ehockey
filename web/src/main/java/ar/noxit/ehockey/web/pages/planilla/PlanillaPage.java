@@ -1,6 +1,8 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
 import ar.noxit.ehockey.model.Partido;
+import ar.noxit.ehockey.model.PlanillaFinal;
+import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
@@ -25,6 +27,8 @@ public class PlanillaPage extends AbstractHeaderPage {
     private IPlanillaService planillaService;
     @SpringBean
     private IExceptionConverter exceptionConverter;
+    @SpringBean
+    private IDateTimeProvider dateTimeProvider;
 
     public PlanillaPage(final IModel<Partido> partido) {
         Integer partidoId = partido.getObject().getId();
@@ -35,12 +39,13 @@ public class PlanillaPage extends AbstractHeaderPage {
                 PlanillaPrinterFriendly.class, new PageParameters(String
                         .format("partido=%s,final=1", partidoId))));
 
+        final IModel<PlanillaFinal> planillaModel = new PlanillaFinalModel(partido, dateTimeProvider);
+
         add(new Label("estado", new AbstractReadOnlyModel<String>() {
 
             @Override
             public String getObject() {
-                Partido object = partido.getObject();
-                return object.getEstadoPlanilla();
+                return planillaModel.getObject().getEstado();
             }
         }));
 
@@ -53,13 +58,13 @@ public class PlanillaPage extends AbstractHeaderPage {
             }
         }));
 
-        add(new PlanillaPanel("panelPlanilla", new PlanillaModel(partido)));
+        add(new PlanillaPanel("panelPlanilla", planillaModel));
 
         final Form<Void> formPlanilla = new Form<Void>("planillaForm") {
 
             @Override
             public boolean isEnabled() {
-                return !partido.getObject().getPlanilla().isFinalizada();
+                return !planillaModel.getObject().isFinalizada();
             }
         };
         formPlanilla.add(new Button("editar") {
@@ -75,8 +80,8 @@ public class PlanillaPage extends AbstractHeaderPage {
             @Override
             public void onSubmit() {
                 try {
-                    planillaService.publicarPlanilla(partido.getObject()
-                            .getId());
+                    Integer id = partido.getObject().getId();
+                    planillaService.publicarPlanilla(id);
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
@@ -88,8 +93,8 @@ public class PlanillaPage extends AbstractHeaderPage {
             @Override
             public void onSubmit() {
                 try {
-                    planillaService
-                            .validarPlanilla(partido.getObject().getId());
+                    Integer id = partido.getObject().getId();
+                    planillaService.validarPlanilla(id);
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
@@ -102,8 +107,8 @@ public class PlanillaPage extends AbstractHeaderPage {
             public void onSubmit() {
                 try {
                     // TODO
-                    planillaService.rechazarPlanilla(partido.getObject()
-                            .getId(), "");
+                    Integer id = partido.getObject().getId();
+                    planillaService.rechazarPlanilla(id, "");
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }

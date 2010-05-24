@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.model;
 
+import org.joda.time.LocalDateTime;
+
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import ar.noxit.ehockey.exception.TransicionEstadoInvalidaException;
@@ -34,5 +36,10 @@ public class EstadoPlanillaFinalizada extends EstadoPlanilla {
     @Override
     public String toString() {
         return "Planilla Validada";
+    }
+
+    @Override
+    public EstadoPlanilla verificarVencimiento(PlanillaVencible vencible, LocalDateTime now) {
+        return this;
     }
 }

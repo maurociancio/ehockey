@@ -1,5 +1,6 @@
 package ar.noxit.ehockey.web.app;
 
+import ar.noxit.ehockey.exception.PlanillaNoDisponibleRuntimeException;
 import ar.noxit.ehockey.main.StartJetty;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.authentication.AuthSession;
@@ -29,9 +30,12 @@ import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.EditarUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
 import org.apache.commons.lang.Validate;
+import org.apache.wicket.Page;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
+import org.apache.wicket.request.IRequestCycleProcessor;
 import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
@@ -85,6 +89,23 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/fechahora", FechaHoraPage.class, false));
         mount(new HybridUrlCodingStrategy("/login", LoginPage.class, false));
         // getApplicationSettings().setAccessDeniedPage(accessDeniedPage)
+    }
+
+    @Override
+    protected IRequestCycleProcessor newRequestCycleProcessor() {
+        return new WebRequestCycleProcessor() {
+
+            @Override
+            protected Page onRuntimeException(Page page, RuntimeException e) {
+                if (e.getCause() instanceof PlanillaNoDisponibleRuntimeException) {
+                    return new MensajePage(
+                            "Planilla no disponible",
+                            "La planilla no se encuentra disponible. La misma se puede acceder a" +
+                                    " partir de una semana antes del partido");
+                }
+                return super.onRuntimeException(page, e);
+            }
+        };
     }
 
     /**

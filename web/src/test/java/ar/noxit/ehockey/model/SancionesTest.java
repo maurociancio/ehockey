@@ -88,7 +88,7 @@ public class SancionesTest {
 
     @Test
     public void testSinSanciones() throws ReglaNegocioException {
-        PlanillaFinal planilla1 = partido1.getPlanilla();
+        PlanillaFinal planilla1 = partido1.getPlanilla(new LocalDateTime());
         rellenarPlanilla(planilla1);
         planilla1.setGolesLocal(0);
         planilla1.setGolesVisitante(1);
@@ -102,7 +102,7 @@ public class SancionesTest {
 
     @Test(expectedExceptions = PlanillaYaFinalizadaException.class)
     public void testFinalizar2Veces() throws ReglaNegocioException {
-        PlanillaFinal planilla1 = partido1.getPlanilla();
+        PlanillaFinal planilla1 = partido1.getPlanilla(new LocalDateTime());
         rellenarPlanilla(planilla1);
         planilla1.setGolesLocal(0);
         planilla1.setGolesVisitante(1);
@@ -113,7 +113,7 @@ public class SancionesTest {
 
     @Test
     public void testJugadoresEnListaBuenaFe() throws ReglaNegocioException {
-        PlanillaPrecargada planillaPrecargada = partido1.getPlanillaPrecargada();
+        PlanillaPrecargada planillaPrecargada = partido1.getPlanillaPrecargada(new LocalDateTime());
 
         Set<Jugador> jugadoresLocales = planillaPrecargada.getJugadoresLocales();
         checkJugadoresEnListaBuenaFe(jugadoresLocales, locales);
@@ -123,7 +123,7 @@ public class SancionesTest {
 
     @Test
     public void testSanciones() throws ReglaNegocioException {
-        PlanillaFinal planilla = partido1.getPlanilla();
+        PlanillaFinal planilla = partido1.getPlanilla(new LocalDateTime());
         Jugador jugador = locales.get(0);
 
         // tarjetas
@@ -139,7 +139,7 @@ public class SancionesTest {
 
         Assert.assertFalse(jugador.puedeJugar(partido2));
 
-        PlanillaPrecargada planillaPrecargada = partido2.getPlanillaPrecargada();
+        PlanillaPrecargada planillaPrecargada = partido2.getPlanillaPrecargada(new LocalDateTime());
         Assert.assertFalse(planillaPrecargada.getJugadoresVisitantes().contains(jugador));
         Assert.assertFalse(planillaPrecargada.getJugadoresLocales().contains(jugador));
         Assert.assertTrue(planillaPrecargada.getJugadoresVisitantes().contains(locales.get(1)));

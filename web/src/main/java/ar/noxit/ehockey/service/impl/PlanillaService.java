@@ -1,39 +1,34 @@
 package ar.noxit.ehockey.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.dao.IPartidoDao;
 import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.PlanillaFinal;
+import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.planilla.AmonestacionInfo;
 import ar.noxit.ehockey.web.pages.planilla.EquipoInfo;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.persistence.PersistenceException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.joda.time.LocalDateTime;
+import org.springframework.transaction.annotation.Transactional;
 
 public class PlanillaService implements IPlanillaService {
 
     private IPartidoDao partidoDao;
     private IJugadorDao jugadorDao;
+    private IDateTimeProvider dateTimeProvider;
 
     @Override
     @Transactional(readOnly = true)
     public PlanillaFinal get(Integer idPartido) throws NoxitException {
-        return partidoDao.get(idPartido).getPlanilla();
-    }
+        LocalDateTime now = dateTimeProvider.getLocalDateTime();
 
-    public void setPartidoDao(IPartidoDao partidoDao) {
-        this.partidoDao = partidoDao;
-    }
-
-    public void setJugadorDao(IJugadorDao jugadorDao) {
-        this.jugadorDao = jugadorDao;
+        return partidoDao.get(idPartido).getPlanilla(now);
     }
 
     private Collection<Jugador> crearColeccionJugadores(PlanillaFinal planilla, EquipoInfo info) throws NoxitException {
@@ -48,7 +43,9 @@ public class PlanillaService implements IPlanillaService {
     @Transactional
     public void updatePlanilla(int idPartido, Integer golesLocal, Integer golesVisitante, EquipoInfo infoLocal,
             EquipoInfo infoVisitante) throws NoxitException {
-        PlanillaFinal planilla = this.partidoDao.get(idPartido).getPlanilla();
+        LocalDateTime now = dateTimeProvider.getLocalDateTime();
+
+        PlanillaFinal planilla = this.partidoDao.get(idPartido).getPlanilla(now);
         planilla.setGolesLocal(golesLocal);
         planilla.setGolesVisitante(golesVisitante);
         planilla.setArbitroL(infoLocal.getArbitro());
@@ -101,5 +98,17 @@ public class PlanillaService implements IPlanillaService {
     @Transactional
     public void rechazarPlanilla(Integer idPartido, String comentario) throws NoxitException {
         partidoDao.get(idPartido).rechazarPlanilla(comentario);
+    }
+
+    public void setPartidoDao(IPartidoDao partidoDao) {
+        this.partidoDao = partidoDao;
+    }
+
+    public void setJugadorDao(IJugadorDao jugadorDao) {
+        this.jugadorDao = jugadorDao;
+    }
+
+    public void setDateTimeProvider(IDateTimeProvider dateTimeProvider) {
+        this.dateTimeProvider = dateTimeProvider;
     }
 }

@@ -1,15 +1,18 @@
 package ar.noxit.ehockey.model;
 
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDateTime;
-
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
 import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
+import ar.noxit.ehockey.exception.PlanillaNoDisponibleException;
 import ar.noxit.ehockey.exception.PlanillaNoFinalizadaException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
+import org.apache.commons.lang.Validate;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.LocalDateTime;
 
 public class Partido {
 
@@ -29,6 +32,8 @@ public class Partido {
     private Integer partido;
 
     private boolean jugado;
+
+    private static final Duration TIEMPO_PREVIO_PLANILLA = Duration.standardDays(7);
 
     public Partido(Torneo torneo, Equipo local, Equipo visitante,
             Integer fechaDelTorneo, Integer rueda, Integer partido, LocalDateTime inicio, LocalDateTime now)
@@ -61,22 +66,17 @@ public class Partido {
         this.partido = partido;
     }
 
-    private void crearPlanillas() {
-        planillaPrecargada = new PlanillaPrecargada(this);
-        planillaFinal = new PlanillaFinal(planillaPrecargada);
-    }
-
     /**
      * La primera vez se crea la planilla, luego se devuelve siempre la misma.
      * Esto asegura que la planilla del partido sea la misma en cualquier
      * momento.
      * 
      * @return planilla del partido precargada. No es editable.
+     * @throws PlanillaNoFinalizadaException
      */
-    public PlanillaPrecargada getPlanillaPrecargada() {
-        if (planillaPrecargada == null) {
-            crearPlanillas();
-        }
+    public PlanillaPrecargada getPlanillaPrecargada(LocalDateTime now) throws PlanillaNoDisponibleException {
+        checkPlanillas(now);
+
         return planillaPrecargada;
     }
 
@@ -84,12 +84,43 @@ public class Partido {
      * Devuelve la planilla del partido.
      * 
      * @return planilla del partido
+     * @throws PlanillaNoFinalizadaException
      */
-    public PlanillaFinal getPlanilla() {
-        if (planillaFinal == null) {
-            crearPlanillas();
-        }
+    public PlanillaFinal getPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
+        checkPlanillas(now);
+
         return planillaFinal;
+    }
+
+    private void checkPlanillas(LocalDateTime now) throws PlanillaNoDisponibleException {
+        verificarTiempoPlanilla(now);
+        crearPlanillasSiCorresponde(now);
+
+        planillaFinal.verificarVencimiento(now);
+    }
+
+    private void crearPlanillasSiCorresponde(LocalDateTime now) {
+        if (planillaPrecargada == null) {
+            crearPlanillas(now);
+        }
+    }
+
+    private void crearPlanillas(LocalDateTime now) {
+        planillaPrecargada = new PlanillaPrecargada(this);
+        planillaFinal = new PlanillaFinal(planillaPrecargada, now);
+    }
+
+    private void verificarTiempoPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
+        Validate.notNull(now);
+
+        DateTime nowUTC = now.toDateTime(DateTimeZone.UTC);
+        DateTime inicioPartidoUTC = inicio.toDateTime(DateTimeZone.UTC);
+
+        // now - inicio partido
+        Duration duration = new Duration(nowUTC, inicioPartidoUTC);
+        if (duration.isLongerThan(TIEMPO_PREVIO_PLANILLA)) {
+            throw new PlanillaNoDisponibleException("la planilla no está disponible");
+        }
     }
 
     /**
@@ -98,7 +129,8 @@ public class Partido {
      * @throws PlanillaYaFinalizadaException
      * @throws PartidoNoTerminadoException
      */
-    public void validarPlanilla() throws PlanillaYaFinalizadaException, PartidoNoTerminadoException, ReglaNegocioException {
+    public void validarPlanilla() throws PlanillaYaFinalizadaException, PartidoNoTerminadoException,
+            ReglaNegocioException {
         validarPartidoJugado();
 
         planillaFinal.validar();
@@ -214,11 +246,10 @@ public class Partido {
         return id;
     }
 
-    public String getEstadoPlanilla() {
-        return getPlanilla().getEstado();
+    public String getEstadoPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
+        return getPlanilla(now).getEstado();
     }
 
     protected Partido() {
     }
-
 }

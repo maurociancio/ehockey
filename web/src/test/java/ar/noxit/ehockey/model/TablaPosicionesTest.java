@@ -51,11 +51,11 @@ public class TablaPosicionesTest {
     }
 
     private void terminarPartido(Partido partido, int golesLocal, int golesVisitante) throws ReglaNegocioException {
-        PlanillaFinal planilla = partido.getPlanilla();
+        PlanillaFinal planilla = partido.getPlanilla(new LocalDateTime());
         planilla.setGolesLocal(golesLocal);
         planilla.setGolesVisitante(golesVisitante);
         partido.terminarPartido();
-        rellenarPlanilla(partido.getPlanilla());
+        rellenarPlanilla(partido.getPlanilla(new LocalDateTime()));
         partido.publicarPlanilla();
         partido.validarPlanilla();
     }

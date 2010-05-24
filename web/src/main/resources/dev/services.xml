@@ -62,6 +62,7 @@
     <bean id="planillaService" class="ar.noxit.ehockey.service.impl.PlanillaService">
         <property name="partidoDao" ref="partidoDao"/>
         <property name="jugadorDao" ref="jugadorDao"/>
+        <property name="dateTimeProvider" ref="dateTimeProvider"></property>
     </bean>
     <bean id="usuarioService" class="ar.noxit.ehockey.service.impl.UsuarioService">
         <property name="usuarioDao" ref="usuarioDao"/>
