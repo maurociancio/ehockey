@@ -41,7 +41,7 @@ public class PartidoService implements IPartidoService {
     @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
     public void terminarPartido(Integer id) throws NoxitException {
         Partido partido = partidoDao.get(id);
-        partido.terminarPartido();
+        partido.terminarPartido(dateTimeProvider.getLocalDateTime());
     }
 
     @Override

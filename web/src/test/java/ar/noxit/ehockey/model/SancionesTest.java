@@ -1,13 +1,12 @@
 package ar.noxit.ehockey.model;
 
-import org.joda.time.LocalDate;
-
 import ar.noxit.ehockey.exception.PlanillaNoModificableException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -72,7 +71,7 @@ public class SancionesTest {
         this.partido1 = equipo1.jugarContra(torneo, equipo2, 1, 1, 1, inicio, now);
         this.partido2 = equipo2.jugarContra(torneo, equipo1, 1, 2, 1, inicio, now);
 
-        this.partido1.terminarPartido();
+        this.partido1.terminarPartido(inicio.plusDays(1));
     }
 
     private void llenarJugadores(List<Jugador> locales, Club club) {

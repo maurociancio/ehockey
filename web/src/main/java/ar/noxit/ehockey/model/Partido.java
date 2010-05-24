@@ -2,6 +2,7 @@ package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.EquiposInvalidosException;
 import ar.noxit.ehockey.exception.FechaInvalidaException;
+import ar.noxit.ehockey.exception.FechaPartidoAunNoSucedidaException;
 import ar.noxit.ehockey.exception.PartidoNoTerminadoException;
 import ar.noxit.ehockey.exception.PartidoYaTerminadoException;
 import ar.noxit.ehockey.exception.PlanillaNoDisponibleException;
@@ -75,8 +76,10 @@ public class Partido {
      * @throws PlanillaNoFinalizadaException
      */
     public PlanillaPrecargada getPlanillaPrecargada(LocalDateTime now) throws PlanillaNoDisponibleException {
+        Validate.notNull(now);
+
         verificarTiempoPlanillaPrecargada(now);
-        crearPlanillasPrecargadaSiNoExiste(now);
+        crearPlanillaPrecargadaSiNoExiste(now);
         checkVencimientoSiExistePlanillaFinal(now);
 
         return planillaPrecargada;
@@ -89,8 +92,9 @@ public class Partido {
      * @throws PlanillaNoFinalizadaException
      */
     public PlanillaFinal getPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
+        Validate.notNull(now);
+
         try {
-            checkExistePlanillaPrecargada();
             checkPartidoTerminado();
             crearPlanillaFinalSiNoExiste(now);
             checkVencimientoSiExistePlanillaFinal(now);
@@ -101,14 +105,17 @@ public class Partido {
         }
     }
 
-    private void crearPlanillasPrecargadaSiNoExiste(LocalDateTime now) {
+    private void crearPlanillaPrecargadaSiNoExiste(LocalDateTime now) {
         if (planillaPrecargada == null) {
             planillaPrecargada = new PlanillaPrecargada(this);
         }
     }
 
     private void crearPlanillaFinalSiNoExiste(LocalDateTime now) {
-        this.planillaFinal = new PlanillaFinal(planillaPrecargada, now);
+        crearPlanillaPrecargadaSiNoExiste(now);
+        if (this.planillaFinal == null) {
+            this.planillaFinal = new PlanillaFinal(planillaPrecargada, now);
+        }
     }
 
     private void checkPartidoTerminado() throws PartidoNoTerminadoException {
@@ -165,6 +172,8 @@ public class Partido {
     }
 
     public boolean puedeTerminarPartido(LocalDateTime now) {
+        Validate.notNull(now);
+
         return now.isAfter(inicio);
     }
 
@@ -209,8 +218,14 @@ public class Partido {
         this.inicio = nuevaFecha;
     }
 
-    public void terminarPartido() throws PartidoYaTerminadoException {
+    public void terminarPartido(LocalDateTime now) throws PartidoYaTerminadoException,
+            FechaPartidoAunNoSucedidaException {
+
         validarPartidoNoJugado();
+        if (!puedeTerminarPartido(now)) {
+            throw new FechaPartidoAunNoSucedidaException();
+        }
+
         this.jugado = true;
     }
 
