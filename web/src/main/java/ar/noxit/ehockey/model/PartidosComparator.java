@@ -23,7 +23,8 @@ public class PartidosComparator implements Comparator<Partido> {
         return new PartidosComparator().
                 add(new RuedaComparator()).
                 add(new FechaDelTorneoComparator()).
-                add(new PartidoComparator());
+                add(new PartidoComparator()).
+                setThrowExceptionOnEquals(true);
     }
 
     public PartidosComparator() {
