@@ -20,7 +20,6 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-@AuthorizeAction(action = "ENABLE", roles = { "USER", "ADMIN" })
 public class PlanillaPage extends AbstractHeaderPage {
 
     @SpringBean
