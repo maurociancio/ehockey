@@ -14,4 +14,6 @@ public interface IPartidoService {
     void reprogramar(PartidoInfo pi) throws NoxitException;
 
     void terminarPartido(Integer id) throws NoxitException;
+
+    void actualizarEstados() throws NoxitException;
 }
