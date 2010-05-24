@@ -5,6 +5,7 @@ import ar.noxit.ehockey.model.EstadoPlanillaCargada;
 import ar.noxit.ehockey.model.EstadoPlanillaFinalizada;
 import ar.noxit.ehockey.model.EstadoPlanillaPublicada;
 import ar.noxit.ehockey.model.EstadoPlanillaRechazada;
+import ar.noxit.ehockey.model.EstadoPlanillaVencida;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -27,6 +28,7 @@ public class EstadoPlanillaUserType implements UserType {
         states.put(1, EstadoPlanillaPublicada.class);
         states.put(2, EstadoPlanillaRechazada.class);
         states.put(3, EstadoPlanillaFinalizada.class);
+        states.put(4, EstadoPlanillaVencida.class);
     }
 
     @Override
