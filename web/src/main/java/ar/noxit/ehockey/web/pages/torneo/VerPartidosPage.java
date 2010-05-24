@@ -39,6 +39,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -113,8 +114,51 @@ public class VerPartidosPage extends AbstractHeaderPage {
                 };
             }
         };
+        this.dataTable.setItemReuseStrategy(new ReuseIfModelsEqualStrategy());
         this.dataTable.setOutputMarkupId(true);
         add(dataTable);
+    }
+
+    private static final class PartidoModel extends LDM<Partido> {
+
+        private Integer id;
+        private IPartidoService partidoService;
+
+        private PartidoModel(IPartidoService partidoService, Partido object) {
+            super(object);
+            this.id = object.getId();
+            this.partidoService = partidoService;
+        }
+
+        @Override
+        protected Partido doLoad() throws NoxitException {
+            return partidoService.get(id);
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((id == null) ? 0 : id.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            PartidoModel other = (PartidoModel) obj;
+            if (id == null) {
+                if (other.id != null)
+                    return false;
+            } else if (!id.equals(other.id))
+                return false;
+            return true;
+        }
     }
 
     private final class PartidosFromTorneoDataProvider extends DataProvider<Partido> {
@@ -136,14 +180,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
 
         @Override
         public IModel<Partido> model(Partido object) {
-            final Integer id = object.getId();
-            return new LDM<Partido>(object) {
-
-                @Override
-                protected Partido doLoad() throws NoxitException {
-                    return partidoService.get(id);
-                }
-            };
+            return new PartidoModel(partidoService, object);
         }
     }
 
@@ -244,6 +281,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
                 public void onClick() {
                     try {
                         partidoService.terminarPartido(rowModel.getObject().getId());
+                        rowModel.detach();
                     } catch (NoxitException e) {
                         error(converter.convert(e));
                     }
