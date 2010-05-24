@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-3.0.xsd
+       ">
 
 	<bean id="wicketApplication" class="ar.noxit.ehockey.web.app.EHockeyApplication">
 		<constructor-arg value="development" />
@@ -16,37 +20,51 @@
 	           <bean parent="menuItem">
 	               <constructor-arg value="Home"/>
 	               <constructor-arg value="ar.noxit.ehockey.web.pages.HomePage"/>
-	               <constructor-arg value="HOME"/>
+	               <constructor-arg>
+	                   <util:constant static-field="ar.noxit.ehockey.model.Rol.HOME"/>
+	               </constructor-arg>
 	           </bean>
                <bean parent="menuItem">
                    <constructor-arg value="Lista de Buena Fe"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage"/>
-                   <constructor-arg value="HOME"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.BUENA_FE"/>
+                   </constructor-arg>
                </bean>
                <bean parent="menuItem">
                    <constructor-arg value="Torneos"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.torneo.TorneoPage"/>
-                   <constructor-arg value="HOME"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.TORNEOS"/>
+                   </constructor-arg>
                </bean>
                <bean parent="menuItem">
                    <constructor-arg value="Jugadores"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.jugadores.JugadorPage"/>
-                   <constructor-arg value="HOME"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.JUGADORES"/>
+                   </constructor-arg>
                </bean>
                <bean parent="menuItem">
                    <constructor-arg value="Tabla de Posiciones"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage"/>
-                   <constructor-arg value="HOME"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.TABLA_POSICIONES"/>
+                   </constructor-arg>
                </bean>
                <bean parent="menuItem">
                    <constructor-arg value="Usuarios"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage"/>
-                   <constructor-arg value="HOME"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.USUARIOS"/>
+                   </constructor-arg>
                </bean>
                <bean parent="menuItem">
                    <constructor-arg value="Fecha y Hora"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage"/>
-                   <constructor-arg value="HOME"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.FECHA_HORA"/>
+                   </constructor-arg>
                </bean>
 	       </list>
 	   </property>
