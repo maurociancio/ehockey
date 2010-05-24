@@ -3,21 +3,25 @@ package ar.noxit.ehockey.web.pages.models;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.model.LDM;
+import ar.noxit.web.wicket.model.IdLDM;
+import org.apache.wicket.model.IModel;
 
-public class EquipoModel extends LDM<Equipo> {
+public class EquipoModel extends IdLDM<Equipo, Integer> {
 
     private IEquiposService equipoService;
-    private Integer equipoI;
 
-    public EquipoModel(Integer equipoId, IEquiposService equipoService) {
+    public EquipoModel(IModel<Integer> equipoId, IEquiposService equipoService) {
+        super(equipoId);
         this.equipoService = equipoService;
-        this.equipoI = equipoId;
     }
 
     @Override
-    protected Equipo doLoad() throws NoxitException {
-        return equipoService.get(equipoI);
+    protected Equipo doLoad(Integer id) throws NoxitException {
+        return equipoService.get(id);
     }
 
+    @Override
+    protected Integer getObjectId(Equipo object) {
+        return object.getId();
+    }
 }

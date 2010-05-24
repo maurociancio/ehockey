@@ -5,10 +5,9 @@ import static ar.noxit.utils.Collections.toList;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.web.pages.models.EquipoModel;
 import ar.noxit.ehockey.web.pages.models.TodosEquiposModel;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
@@ -35,7 +34,7 @@ public class VerListaBuenaFePage extends AbstractListaBuenaFePage {
 
         Form<Void> form = new Form<Void>("equipos");
 
-        final IModel<Equipo> equipo = new EquipoModel(new Model<Integer>());
+        final IModel<Equipo> equipo = new EquipoModel(new Model<Integer>(), equiposService);
         form.add(new DropDownChoice<Equipo>("equipos",
                 equipo,
                 new TodosEquiposModel(equiposService),
@@ -107,23 +106,6 @@ public class VerListaBuenaFePage extends AbstractListaBuenaFePage {
         public void detach() {
             super.detach();
             equipo.detach();
-        }
-    }
-
-    private class EquipoModel extends IdLDM<Equipo, Integer> {
-
-        private EquipoModel(IModel<Integer> idModel) {
-            super(idModel);
-        }
-
-        @Override
-        protected Equipo doLoad(Integer id) throws NoxitException {
-            return equiposService.get(id);
-        }
-
-        @Override
-        protected Integer getObjectId(Equipo equipo) {
-            return equipo.getId();
         }
     }
 }
