@@ -14,6 +14,6 @@ public class Administrador extends Usuario {
 
     @Override
     public String[] getRoles() {
-        return new String[] { ADMIN };
+        return Rol.ADMIN;
     }
 }
