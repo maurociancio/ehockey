@@ -6,7 +6,6 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeActi
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-@AuthorizeAction(action = "ENABLE", roles = { "USER", "ADMIN" })
 public class TablaPosicionesPage extends AbstractContentPage {
 
     private IModel<TablaTransfer> transferModel;
