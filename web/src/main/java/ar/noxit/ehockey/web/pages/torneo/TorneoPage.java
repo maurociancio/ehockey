@@ -1,6 +1,5 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 public class TorneoPage extends BaseTorneoPage {
