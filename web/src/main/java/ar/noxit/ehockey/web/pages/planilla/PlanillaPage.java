@@ -87,6 +87,11 @@ public class PlanillaPage extends AbstractHeaderPage {
             public void onSubmit() {
                 setResponsePage(new ModificarPlanillaPage(partido));
             }
+
+            @Override
+            public boolean isVisible() {
+                return planillaModel.getObject().isEditable();
+            }
         });
 
         formPlanilla.add(new Button("publicar") {
@@ -99,6 +104,11 @@ public class PlanillaPage extends AbstractHeaderPage {
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
+            }
+
+            @Override
+            public boolean isVisible() {
+                return planillaModel.getObject().isEditable();
             }
         });
 
@@ -113,6 +123,11 @@ public class PlanillaPage extends AbstractHeaderPage {
                     error(exceptionConverter.convert(e));
                 }
             }
+
+            @Override
+            public boolean isVisible() {
+                return planillaModel.getObject().isPublicada();
+            }
         });
 
         formPlanilla.add(new Button("rechazar") {
@@ -126,6 +141,11 @@ public class PlanillaPage extends AbstractHeaderPage {
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
+            }
+
+            @Override
+            public boolean isVisible() {
+                return planillaModel.getObject().isPublicada();
             }
         });
 

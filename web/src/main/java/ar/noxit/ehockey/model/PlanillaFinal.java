@@ -375,4 +375,12 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
     public boolean isRechazada() {
         return this.estado.estaRechazada();
     }
+
+    public boolean isEditable() {
+        return this.estado.esEditable();
+    }
+
+    public boolean isPublicada() {
+        return this.estado.estaPublicada();
+    }
 }

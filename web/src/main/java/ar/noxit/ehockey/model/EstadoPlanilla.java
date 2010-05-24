@@ -65,4 +65,12 @@ public abstract class EstadoPlanilla {
 
     @Override
     public abstract String toString();
+
+    public boolean esEditable() {
+        return false;
+    }
+
+    public boolean estaPublicada() {
+        return false;
+    }
 }

@@ -51,4 +51,9 @@ public class EstadoPlanillaPublicada extends EstadoPlanilla {
             return this;
         }
     }
+
+    @Override
+    public boolean estaPublicada() {
+        return true;
+    }
 }

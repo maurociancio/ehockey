@@ -35,4 +35,8 @@ public class EstadoPlanillaCargada extends EstadoPlanilla {
         return vencerPlanillaCargada(vencible, now);
     }
 
+    @Override
+    public boolean esEditable() {
+        return true;
+    }
 }
