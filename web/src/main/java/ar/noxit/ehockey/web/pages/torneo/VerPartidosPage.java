@@ -97,8 +97,8 @@ public class VerPartidosPage extends AbstractHeaderPage {
             }
         });
 
-        this.dataTable = new DefaultDataTable<Partido>("partidos", columns,
-                new PartidosFromTorneoDataProvider(torneo), 20) {
+        this.dataTable = new DefaultDataTable<Partido>("partidos", columns, new PartidosFromTorneoDataProvider(torneo),
+                20) {
 
             @Override
             protected Item<Partido> newRowItem(String id, int index, final IModel<Partido> model) {
@@ -200,12 +200,22 @@ public class VerPartidosPage extends AbstractHeaderPage {
             add(new Link<Void>("precargada") {
 
                 @Override
+                public boolean isEnabled() {
+                    return rowModel.getObject().puedeVersePlanillaPrecargada(dateTimeProvider.getLocalDateTime());
+                }
+
+                @Override
                 public void onClick() {
                     setResponsePage(new PlanillaPrecargadaPage(rowModel));
                 }
 
             });
             add(new Link<Void>("final") {
+
+                @Override
+                public boolean isEnabled() {
+                    return rowModel.getObject().puedeVersePlanillaFinal(dateTimeProvider.getLocalDateTime());
+                }
 
                 @Override
                 public void onClick() {
@@ -241,7 +251,8 @@ public class VerPartidosPage extends AbstractHeaderPage {
 
                 @Override
                 public boolean isVisible() {
-                    return !rowModel.getObject().isJugado() && rowModel.getObject().puedeTerminarPartido(dateTimeProvider.getLocalDateTime());
+                    return !rowModel.getObject().isJugado()
+                            && rowModel.getObject().puedeTerminarPartido(dateTimeProvider.getLocalDateTime());
                 }
             });
         }
