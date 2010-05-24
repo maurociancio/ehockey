@@ -1,7 +1,16 @@
 package ar.noxit.ehockey.web.pages.header;
 
+import ar.noxit.ehockey.exception.SessionClosedException;
+import ar.noxit.ehockey.service.IHorarioService;
+import ar.noxit.ehockey.service.IUsuarioService;
+import ar.noxit.ehockey.web.pages.HomePage;
+import ar.noxit.ehockey.web.pages.models.UsuarioAdapterModel;
+import ar.noxit.ehockey.web.pages.models.UsuarioModel;
+import ar.noxit.ehockey.web.pages.usuarios.PerfilUsuarioPage;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import java.util.List;
-
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -16,17 +25,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
-
-import ar.noxit.ehockey.exception.SessionClosedException;
-import ar.noxit.ehockey.service.IHorarioService;
-import ar.noxit.ehockey.service.IUsuarioService;
-import ar.noxit.ehockey.web.pages.HomePage;
-import ar.noxit.ehockey.web.pages.models.UsuarioAdapterModel;
-import ar.noxit.ehockey.web.pages.models.UsuarioModel;
-import ar.noxit.ehockey.web.pages.usuarios.PerfilUsuarioPage;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
-import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 
 public class HeaderPanel extends Panel {
 
@@ -61,6 +59,7 @@ public class HeaderPanel extends Panel {
         });
 
         add(new Link<String>("perfil") {
+
             @Override
             public void onClick() {
                 try {
@@ -95,6 +94,12 @@ public class HeaderPanel extends Panel {
                         return "";
                     }
                 }));
+            }
+
+            @Override
+            protected ListItem<IMenuItem> newItem(int index) {
+                IModel<IMenuItem> modelMenuItem = getListItemModel(getModel(), index);
+                return new MenuItemListItem(index, modelMenuItem);
             }
         });
 

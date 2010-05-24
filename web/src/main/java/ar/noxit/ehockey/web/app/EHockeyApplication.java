@@ -1,27 +1,5 @@
 package ar.noxit.ehockey.web.app;
 
-import org.apache.commons.lang.Validate;
-import org.apache.wicket.Page;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.authentication.AuthenticatedWebApplication;
-import org.apache.wicket.authentication.AuthenticatedWebSession;
-import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
-import org.apache.wicket.injection.web.InjectorHolder;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.protocol.http.WebRequestCycle;
-import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
-import org.apache.wicket.protocol.http.WebResponse;
-import org.apache.wicket.request.IRequestCycleProcessor;
-import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ar.noxit.ehockey.exception.PlanillaNoDisponibleRuntimeException;
 import ar.noxit.ehockey.main.StartJetty;
 import ar.noxit.ehockey.model.Rol;
@@ -29,6 +7,7 @@ import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.authentication.AuthSession;
 import ar.noxit.ehockey.web.pages.authentication.LoginPage;
+import ar.noxit.ehockey.web.pages.authentication.RolRenderableStrategy;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage;
@@ -49,15 +28,36 @@ import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.ReprogramacionPartidoPage;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.VerPartidosPage;
-import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoWizard.CrearPartidosStep;
 import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.EditarUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
 import ar.noxit.exceptions.NoxitException;
+import org.apache.commons.lang.Validate;
+import org.apache.wicket.Page;
+import org.apache.wicket.Request;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Response;
+import org.apache.wicket.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authorization.strategies.role.RoleAuthorizationStrategy;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
+import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.protocol.http.WebRequestCycle;
+import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
+import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.request.IRequestCycleProcessor;
+import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Application object for your web application. If you want to run this application without deploying, run the Start
- * class.
+ * Application object for your web application. If you want to run this
+ * application without deploying, run the Start class.
  * 
  * @see StartJetty.myproject.Start#main(String[])
  */
@@ -141,8 +141,11 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/login", LoginPage.class, false));
         // getApplicationSettings().setAccessDeniedPage(accessDeniedPage)
 
-        authorizationStrategy();
+        RoleAuthorizationStrategy strategy = new RoleAuthorizationStrategy(this);
+        strategy.add(new RolRenderableStrategy());
+        getSecuritySettings().setAuthorizationStrategy(strategy);
 
+        authorizationStrategy();
     }
 
     private void authorizationStrategy() {
@@ -168,7 +171,8 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy
                 .authorize(PlanillaPrecargadaPage.class, Rol.VER_PLANILLAS_PRECARGADAS_TORNEOS);
 
-        // MetaDataRoleAuthorizationStrategy.authorize( ReprogramacionPartidoPage.class, false));
+        // MetaDataRoleAuthorizationStrategy.authorize(
+        // ReprogramacionPartidoPage.class, false));
         MetaDataRoleAuthorizationStrategy.authorize(JugadorPage.class, Rol.JUGADORES);
         MetaDataRoleAuthorizationStrategy.authorize(JugadorAltaPage.class, Rol.ALTA_JUGADORES);
         MetaDataRoleAuthorizationStrategy.authorize(JugadorBajaPage.class, Rol.BAJA_JUGADORES);
@@ -184,6 +188,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy.authorize(MensajePage.class, Rol.MENSAJE);
 
         MetaDataRoleAuthorizationStrategy.authorize(FechaHoraPage.class, Rol.FECHA_HORA);
+
     }
 
     @Override

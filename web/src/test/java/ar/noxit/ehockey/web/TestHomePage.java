@@ -73,7 +73,7 @@ public class TestHomePage extends BaseSpringWicketTest {
         IMenuItemProvider menuItemProvider = createMock(IMenuItemProvider.class);
 
         ArrayList<IMenuItem> value = new ArrayList<IMenuItem>();
-        value.add(new MenuItem("home", HomePage.class));
+        value.add(new MenuItem("home", HomePage.class, null));
         expect(menuItemProvider.getMenuItems()).andReturn(value);
 
         MockableBeanInjector.mockBean("menuItemProvider", menuItemProvider);

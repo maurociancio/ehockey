@@ -8,54 +8,48 @@
 		<constructor-arg value="development" />
 	</bean>
 
+    <bean id="menuItem" class="ar.noxit.ehockey.configuration.MenuItem" abstract="true"/>
+
 	<bean id="menuItemProvider" class="ar.noxit.ehockey.configuration.MenuItemProvider">
-		<property name="items">
-			<map>
-				<entry>
-					<key>
-						<value>Home</value>
-					</key>
-					<value>ar.noxit.ehockey.web.pages.HomePage</value>
-				</entry>
-				<entry>
-					<key>
-						<value>Lista de Buena Fe</value>
-					</key>
-					<value>ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage
-					</value>
-				</entry>
-				<entry>
-					<key>
-						<value>Torneos</value>
-					</key>
-					<value>ar.noxit.ehockey.web.pages.torneo.TorneoPage</value>
-				</entry>
-				<entry>
-					<key>
-						<value>Jugadores</value>
-					</key>
-					<value>ar.noxit.ehockey.web.pages.jugadores.JugadorPage</value>
-				</entry>
-				<entry>
-					<key>
-						<value>Tabla Posiciones</value>
-					</key>
-					<value>ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage </value>
-				</entry>
-				<entry>
-					<key>
-						<value>Usuarios</value>
-					</key>
-					<value>ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage </value>
-				</entry>
-                <entry>
-                    <key>
-                        <value>Fecha y Hora</value>
-                    </key>
-                    <value>ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage</value>
-                </entry>
-			</map>
-		</property>
+	   <property name="menuItems">
+	       <list>
+	           <bean parent="menuItem">
+	               <constructor-arg value="Home"/>
+	               <constructor-arg value="ar.noxit.ehockey.web.pages.HomePage"/>
+	               <constructor-arg value="HOME"/>
+	           </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Lista de Buena Fe"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage"/>
+                   <constructor-arg value="HOME"/>
+               </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Torneos"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.torneo.TorneoPage"/>
+                   <constructor-arg value="HOME"/>
+               </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Jugadores"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.jugadores.JugadorPage"/>
+                   <constructor-arg value="HOME"/>
+               </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Tabla de Posiciones"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage"/>
+                   <constructor-arg value="HOME"/>
+               </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Usuarios"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage"/>
+                   <constructor-arg value="HOME"/>
+               </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Fecha y Hora"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage"/>
+                   <constructor-arg value="HOME"/>
+               </bean>
+	       </list>
+	   </property>
 	</bean>
 	<bean id="usuarioDTOProvider" class="ar.noxit.ehockey.configuration.UsuarioDTOProvider">
 		<property name="usuarioTypes">
