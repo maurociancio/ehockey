@@ -70,13 +70,6 @@ public class VerPartidosPage extends AbstractHeaderPage {
                 return new LocalDateTimeFormatModel(new PropertyModel<LocalDateTime>(rowModel, "inicio"));
             }
         });
-        columns.add(new AbstractReadOnlyColumn<Partido>(Model.of("Jugado?")) {
-
-            @Override
-            protected String getLabelString(Partido object) {
-                return object.isJugado() ? "Si" : "No";
-            }
-        });
         columns.add(new AbstractColumn<Partido>(Model.of("Jugado?")) {
 
             @Override
