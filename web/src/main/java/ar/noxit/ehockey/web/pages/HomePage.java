@@ -5,7 +5,6 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPanel;
 
-@AuthorizeInstantiation( { "USER", "ADMIN" })
 public class HomePage extends AbstractContentPage {
 
     public HomePage() {

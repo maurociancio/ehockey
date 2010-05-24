@@ -6,9 +6,6 @@ import ar.noxit.hasher.MD5Hasher;
 
 public abstract class Usuario {
 
-    protected static final String ADMIN = "ADMIN";
-    protected static final String USER = "USER";
-
     private String user; // id del usuario
     private String password;
     private String nombre;

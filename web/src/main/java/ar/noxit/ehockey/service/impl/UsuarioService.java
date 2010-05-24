@@ -12,6 +12,7 @@ import ar.noxit.ehockey.exception.SessionClosedException;
 import ar.noxit.ehockey.exception.UsuarioExistenteException;
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Representante;
+import ar.noxit.ehockey.model.Rol;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.authentication.AuthSession;
@@ -87,18 +88,6 @@ public class UsuarioService implements IUsuarioService {
         }
     }
 
-    public void setUsuarioDao(IUsuarioDao usuarioDao) {
-        this.usuarioDao = usuarioDao;
-    }
-
-    public void setClubDao(IClubDao clubDao) {
-        this.clubDao = clubDao;
-    }
-
-    public void setHasher(Hasher hasher) {
-        this.hasher = hasher;
-    }
-
     @Override
     @Transactional
     public void remove(String user) throws NoxitException {
@@ -118,7 +107,7 @@ public class UsuarioService implements IUsuarioService {
         AuthSession authSession = (AuthSession) session;
         Usuario userLogged = authSession.getUserLogged();
         if (userLogged == null)
-            return null;
+            return Rol.GUEST;
         else
             return userLogged.getUser();
     }
@@ -129,5 +118,17 @@ public class UsuarioService implements IUsuarioService {
             throw new SessionClosedException();
         AuthSession authSession = (AuthSession) session;
         authSession.signOut();
+    }
+    
+    public void setUsuarioDao(IUsuarioDao usuarioDao) {
+        this.usuarioDao = usuarioDao;
+    }
+
+    public void setClubDao(IClubDao clubDao) {
+        this.clubDao = clubDao;
+    }
+
+    public void setHasher(Hasher hasher) {
+        this.hasher = hasher;
     }
 }
