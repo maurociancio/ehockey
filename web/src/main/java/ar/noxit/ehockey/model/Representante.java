@@ -30,6 +30,6 @@ public class Representante extends Usuario {
 
     @Override
     public String[] getRoles() {
-        return Rol.USER;
+        return Rol.REPRESENTANTE;
     }
 }

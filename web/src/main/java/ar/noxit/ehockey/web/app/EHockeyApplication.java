@@ -6,6 +6,7 @@ import ar.noxit.ehockey.model.Rol;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.authentication.AuthSession;
+import ar.noxit.ehockey.web.pages.authentication.EHockeyPageFactory;
 import ar.noxit.ehockey.web.pages.authentication.ForbiddenAccessPage;
 import ar.noxit.ehockey.web.pages.authentication.LoginPage;
 import ar.noxit.ehockey.web.pages.authentication.RolRenderableStrategy;
@@ -143,6 +144,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/denegado", ForbiddenAccessPage.class, false));
 
         getApplicationSettings().setAccessDeniedPage(ForbiddenAccessPage.class);
+        getSessionSettings().setPageFactory(new EHockeyPageFactory());
 
         RoleAuthorizationStrategy strategy = new RoleAuthorizationStrategy(this);
         strategy.add(new RolRenderableStrategy());
