@@ -9,12 +9,10 @@ import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import ar.noxit.exceptions.NoxitException;
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
@@ -30,13 +28,15 @@ public class PlanillaPage extends AbstractHeaderPage {
     private IDateTimeProvider dateTimeProvider;
 
     public PlanillaPage(final IModel<Partido> partido) {
-        Integer partidoId = partido.getObject().getId();
-
         add(new FeedbackPanel("feedback"));
 
-        add(new BookmarkablePageLink<Void>("html_planilla",
-                PlanillaPrinterFriendly.class, new PageParameters(String
-                        .format("partido=%s,final=1", partidoId))));
+        add(new Link<Void>("html_planilla") {
+
+            @Override
+            public void onClick() {
+                setResponsePage(new PlanillaPrinterFriendly(new PlanillaFinalModel(partido, dateTimeProvider)));
+            }
+        });
 
         final IModel<PlanillaFinal> planillaModel = new PlanillaFinalModel(partido, dateTimeProvider);
 
