@@ -6,6 +6,7 @@ import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PlanillaFinal;
 import ar.noxit.ehockey.model.TarjetasPartido;
+import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
@@ -31,12 +32,15 @@ public class ModificarPlanillaPage extends AbstractContentPage {
 
     @SpringBean
     private IPlanillaService planillaService;
+    @SpringBean
+    private IDateTimeProvider dateTimeProvider;
 
     public ModificarPlanillaPage(final IModel<Partido> partido) {
-        infoLocal = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido, "planilla.datosLocal"));
-        infoVisitante = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(partido, "planilla.datosVisitante"));
-        golesLocal = new PropertyModel<Integer>(partido, "planilla.golesLocal");
-        golesVisitante = new PropertyModel<Integer>(partido, "planilla.golesVisitante");
+        IModel<PlanillaFinal> planillaFinal = new PlanillaFinalModel(partido, dateTimeProvider);
+        infoLocal = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(planillaFinal, "datosLocal"));
+        infoVisitante = new EquipoInfoModel(new PropertyModel<DatosEquipoPlanilla>(planillaFinal, "datosVisitante"));
+        golesLocal = new PropertyModel<Integer>(planillaFinal, "golesLocal");
+        golesVisitante = new PropertyModel<Integer>(planillaFinal, "golesVisitante");
 
         add(new FeedbackPanel("feedback"));
         Form<Void> form = new Form<Void>("edicion_planilla") {
@@ -56,8 +60,7 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                 }
             }
         };
-        form.add(new PlanillaGeneralPanel("planillaGeneral", new PropertyModel<PlanillaFinal>(partido, "planilla"),
-                golesLocal, golesVisitante));
+        form.add(new PlanillaGeneralPanel("planillaGeneral", planillaFinal, golesLocal, golesVisitante));
         form.add(new PlanillaEquipoPanel("planillaLocal", new PropertyModel<Equipo>(partido, "local"), infoLocal));
         form.add(new PlanillaEquipoPanel("planillaVisitante", new PropertyModel<Equipo>(partido, "visitante"),
                 infoVisitante));
