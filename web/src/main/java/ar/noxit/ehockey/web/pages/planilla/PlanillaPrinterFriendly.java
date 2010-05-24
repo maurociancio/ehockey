@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import ar.noxit.ehockey.web.pages.models.PartidoModel;
+
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.model.PlanillaFinal;
@@ -7,7 +9,6 @@ import ar.noxit.ehockey.model.PlanillaPrecargada;
 import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractColorLessBasePage;
-import ar.noxit.ehockey.web.pages.partido.PartidoModel;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;

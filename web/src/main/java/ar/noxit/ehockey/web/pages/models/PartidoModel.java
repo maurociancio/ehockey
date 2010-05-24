@@ -1,4 +1,4 @@
-package ar.noxit.ehockey.web.pages.partido;
+package ar.noxit.ehockey.web.pages.models;
 
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.service.IPartidoService;

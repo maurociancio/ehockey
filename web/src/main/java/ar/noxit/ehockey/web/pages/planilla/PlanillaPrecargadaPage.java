@@ -4,7 +4,7 @@ import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
-import ar.noxit.ehockey.web.pages.partido.PartidoPage;
+import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -37,6 +37,6 @@ public class PlanillaPrecargadaPage extends AbstractHeaderPage {
 
     @Override
     public boolean shouldBeSelected(IMenuItem menuItem) {
-        return menuItem.getPageLink().equals(PartidoPage.class);
+        return menuItem.getPageLink().equals(TorneoPage.class);
     }
 }

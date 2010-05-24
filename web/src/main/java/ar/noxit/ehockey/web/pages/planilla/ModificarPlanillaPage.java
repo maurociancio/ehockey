@@ -11,7 +11,7 @@ import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
-import ar.noxit.ehockey.web.pages.partido.PartidoPage;
+import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.AdapterModel;
@@ -116,6 +116,6 @@ public class ModificarPlanillaPage extends AbstractContentPage {
 
     @Override
     public boolean shouldBeSelected(IMenuItem menuItem) {
-        return menuItem.getPageLink().equals(PartidoPage.class);
+        return menuItem.getPageLink().equals(TorneoPage.class);
     }
 }

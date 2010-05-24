@@ -26,12 +26,6 @@
 				</entry>
 				<entry>
 					<key>
-						<value>Partidos</value>
-					</key>
-					<value>ar.noxit.ehockey.web.pages.partido.PartidoPage</value>
-				</entry>
-				<entry>
-					<key>
 						<value>Torneos</value>
 					</key>
 					<value>ar.noxit.ehockey.web.pages.torneo.TorneoPage</value>

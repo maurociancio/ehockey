@@ -7,7 +7,7 @@ import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
-import ar.noxit.ehockey.web.pages.partido.PartidoPage;
+import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import ar.noxit.exceptions.NoxitException;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeAction;
@@ -154,6 +154,6 @@ public class PlanillaPage extends AbstractHeaderPage {
 
     @Override
     public boolean shouldBeSelected(IMenuItem menuItem) {
-        return menuItem.getPageLink().equals(PartidoPage.class);
+        return menuItem.getPageLink().equals(TorneoPage.class);
     }
 }

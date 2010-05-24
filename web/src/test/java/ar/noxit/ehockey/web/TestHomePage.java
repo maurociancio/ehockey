@@ -8,13 +8,11 @@ import ar.noxit.ehockey.configuration.MenuItem;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IEquiposService;
 import ar.noxit.ehockey.service.IHorarioService;
-import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.IUsuarioService;
@@ -23,7 +21,6 @@ import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.header.IMenuItemProvider;
-import ar.noxit.ehockey.web.pages.partido.PartidoPage;
 import ar.noxit.exceptions.NoxitException;
 import com.ttdev.wicketpagetest.MockableBeanInjector;
 import java.util.ArrayList;
@@ -68,16 +65,6 @@ public class TestHomePage extends BaseSpringWicketTest {
         MockableBeanInjector.mockBean("clubService", clubService);
 
         startPageAndTestRendered(EditarListaBuenaFePage.class);
-    }
-
-    @Test
-    public void testRenderPartidos() throws NoxitException {
-        IPartidoService partidoService = createMock(IPartidoService.class);
-        expect(partidoService.getAll()).andReturn(new ArrayList<Partido>());
-        replay(partidoService);
-        MockableBeanInjector.mockBean("partidoService", partidoService);
-
-        startPageAndTestRendered(PartidoPage.class);
     }
 
     @BeforeMethod
