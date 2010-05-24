@@ -3,6 +3,7 @@ package ar.noxit.ehockey.web.pages.authentication;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -28,12 +29,18 @@ public class LoginPage extends AbstractColorBasePage {
         crearAdministradorSiNoExisteUno(usuario);
 
         add(new LoginHeaderPanel("header"));
-        
+
+        add(new FeedbackPanel("feedback") {
+            @Override
+            public boolean isVisible() {
+                return !mostrarPanelLogin(usuario);
+            }
+        });
+
         add(new LoginPanel("signInPanel",true) {
             @Override
             public boolean isVisible() {
-                if (usuario.getObject() == null) return true;
-                return !usuario.getObject().getTipo().equals(Administrador.class);
+                return mostrarPanelLogin(usuario);
             }
         });
 
@@ -49,6 +56,11 @@ public class LoginPage extends AbstractColorBasePage {
         }));
 
         add(new FooterPanel("footer"));
+    }
+
+    private boolean mostrarPanelLogin(IModel<UsuarioDTO> usuario) {
+        if (usuario.getObject() == null) return true;
+        return !usuario.getObject().getTipo().equals(Administrador.class);
     }
 
     private void crearAdministradorSiNoExisteUno(IModel<UsuarioDTO> usuario) {
