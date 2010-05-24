@@ -14,7 +14,6 @@ import ar.noxit.ehockey.web.pages.planilla.PlanillaPrecargadaPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.utils.Collections;
 import ar.noxit.web.wicket.column.AbstractLabelColumn;
-import ar.noxit.web.wicket.column.AbstractReadOnlyColumn;
 import ar.noxit.web.wicket.model.LDM;
 import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import ar.noxit.web.wicket.provider.DataProvider;
