@@ -17,6 +17,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
 
+import ar.noxit.ehockey.exception.SessionClosedException;
 import ar.noxit.ehockey.service.IHorarioService;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.HomePage;
@@ -38,24 +39,37 @@ public class HeaderPanel extends Panel {
 
     public HeaderPanel(String id, final IMenuSelection menuSelection) {
         super(id);
-        add(new Label("usuario", Model.of(usuarioService
-                .getUsuarioConectado(getSession()))));
-        
+        String usuarioConectado = null;
+        try {
+            usuarioConectado = usuarioService.getUsuarioConectado(getSession());
+        } catch (SessionClosedException e) {
+            usuarioConectado = null;
+        }
+        add(new Label("usuario", Model.of(usuarioConectado)));
 
         add(new Link<String>("signout") {
 
             @Override
             public void onClick() {
-                usuarioService.logOutUser(getSession());
-                setResponsePage(HomePage.class);
+                try {
+                    usuarioService.logOutUser(getSession());
+                    setResponsePage(HomePage.class);
+                } catch (NoxitException ex) {
+                    setResponsePage(HomePage.class);
+                }
             }
         });
 
         add(new Link<String>("perfil") {
             @Override
             public void onClick() {
-                setResponsePage(new PerfilUsuarioPage(new UsuarioAdapterModel(new UsuarioModel(Model.of(usuarioService
-                        .getUsuarioConectado(getSession())), usuarioService))));
+                try {
+                    String usuario = usuarioService.getUsuarioConectado(getSession());
+                    setResponsePage(new PerfilUsuarioPage(new UsuarioAdapterModel(new UsuarioModel(Model.of(usuario),
+                            usuarioService))));
+                } catch (NoxitException ex) {
+                    setResponsePage(HomePage.class);
+                }
             }
         });
 
@@ -65,34 +79,29 @@ public class HeaderPanel extends Panel {
             protected void populateItem(ListItem<IMenuItem> item) {
                 final IModel<IMenuItem> model = item.getModel();
 
-                BookmarkablePageLink<Void> link = new BookmarkablePageLink<Void>(
-                        "link", model.getObject().getPageLink());
-                link.add(new Label("titulo", new PropertyModel<String>(model,
-                        "titulo")));
+                BookmarkablePageLink<Void> link = new BookmarkablePageLink<Void>("link", model.getObject()
+                        .getPageLink());
+                link.add(new Label("titulo", new PropertyModel<String>(model, "titulo")));
                 item.add(link);
 
-                item.add(new AttributeModifier("class", true,
-                        new AbstractReadOnlyModel<String>() {
+                item.add(new AttributeModifier("class", true, new AbstractReadOnlyModel<String>() {
 
-                            @Override
-                            public String getObject() {
-                                boolean shouldBeSelected = menuSelection
-                                        .shouldBeSelected(model.getObject());
-                                if (shouldBeSelected) {
-                                    return "nav-active";
-                                }
-                                return "";
-                            }
-                        }));
+                    @Override
+                    public String getObject() {
+                        boolean shouldBeSelected = menuSelection.shouldBeSelected(model.getObject());
+                        if (shouldBeSelected) {
+                            return "nav-active";
+                        }
+                        return "";
+                    }
+                }));
             }
         });
 
-        add(new Label("hora", new LocalDateTimeFormatModel(
-                new FechaSistemaModel())).setRenderBodyOnly(true));
+        add(new Label("hora", new LocalDateTimeFormatModel(new FechaSistemaModel())).setRenderBodyOnly(true));
     }
 
-    private class FechaSistemaModel extends
-            AbstractReadOnlyModel<LocalDateTime> {
+    private class FechaSistemaModel extends AbstractReadOnlyModel<LocalDateTime> {
 
         @Override
         public LocalDateTime getObject() {

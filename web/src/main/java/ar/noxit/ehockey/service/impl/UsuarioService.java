@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IUsuarioDao;
 import ar.noxit.ehockey.exception.ErrorDeLoginException;
+import ar.noxit.ehockey.exception.SessionClosedException;
 import ar.noxit.ehockey.exception.UsuarioExistenteException;
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Representante;
@@ -105,27 +106,27 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public boolean logInUsuario(Usuario usuario, String password) {
-        boolean logged = false;
-        try {
-            usuario.loguearse(password, hasher);
-            logged = usuario.estaLogueado();
-        } catch (ErrorDeLoginException e) {
-            // Hubo un error de login, no se permite el logins, para debug lanzo
-            // una excepcion en runtime
-            throw new NoxitRuntimeException(e);
-        }
-        return logged;
+    public boolean logInUsuario(Usuario usuario, String password) throws ErrorDeLoginException {
+        usuario.loguearse(password, hasher);
+        return usuario.estaLogueado();
     }
 
     @Override
-    public String getUsuarioConectado(Session session) {
+    public String getUsuarioConectado(Session session) throws SessionClosedException {
+        if (session == null)
+            throw new SessionClosedException();
         AuthSession authSession = (AuthSession) session;
-        return authSession.getUserLogged().getUser();
+        Usuario userLogged = authSession.getUserLogged();
+        if (userLogged == null)
+            return null;
+        else
+            return userLogged.getUser();
     }
 
     @Override
-    public void logOutUser(Session session) {
+    public void logOutUser(Session session) throws SessionClosedException {
+        if (session == null)
+            throw new SessionClosedException();
         AuthSession authSession = (AuthSession) session;
         authSession.signOut();
     }
