@@ -371,4 +371,8 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
     public String getEstado() {
         return this.estado.toString();
     }
+
+    public boolean isRechazada() {
+        return this.estado.estaRechazada();
+    }
 }

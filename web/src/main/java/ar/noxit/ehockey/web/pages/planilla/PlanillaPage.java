@@ -58,6 +58,20 @@ public class PlanillaPage extends AbstractHeaderPage {
             }
         }));
 
+        add(new Label("comentario", new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+                return planillaModel.getObject().getComentario();
+            }
+        }) {
+
+            @Override
+            public boolean isVisible() {
+                return planillaModel.getObject().isRechazada();
+            }
+        });
+
         add(new PlanillaPanel("panelPlanilla", planillaModel));
 
         final Form<Void> formPlanilla = new Form<Void>("planillaForm") {
