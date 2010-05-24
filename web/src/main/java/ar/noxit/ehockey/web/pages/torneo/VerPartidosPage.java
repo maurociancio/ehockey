@@ -5,6 +5,7 @@ import static java.util.Collections.sort;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PartidosComparator;
 import ar.noxit.ehockey.model.Torneo;
+import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
@@ -52,6 +53,8 @@ public class VerPartidosPage extends AbstractHeaderPage {
     private DefaultDataTable<Partido> dataTable;
     @SpringBean
     private IExceptionConverter converter;
+    @SpringBean
+    private IDateTimeProvider dateTimeProvider;
 
     public VerPartidosPage(IModel<Torneo> torneo) {
         Validate.notNull(torneo, "torneo no puede ser null");
@@ -69,7 +72,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
                 return new LocalDateTimeFormatModel(new PropertyModel<LocalDateTime>(rowModel, "inicio"));
             }
         });
-        columns.add(new AbstractColumn<Partido>(Model.of("Jugado?")) {
+        columns.add(new AbstractColumn<Partido>(Model.of("Jugado")) {
 
             @Override
             public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
@@ -238,7 +241,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
 
                 @Override
                 public boolean isVisible() {
-                    return !rowModel.getObject().isJugado();
+                    return !rowModel.getObject().isJugado() && rowModel.getObject().puedeTerminarPartido(dateTimeProvider.getLocalDateTime());
                 }
             });
         }
