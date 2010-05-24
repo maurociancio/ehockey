@@ -75,7 +75,9 @@ public class Partido {
      * @throws PlanillaNoFinalizadaException
      */
     public PlanillaPrecargada getPlanillaPrecargada(LocalDateTime now) throws PlanillaNoDisponibleException {
-        checkPlanillas(now);
+        verificarTiempoPlanillaPrecargada(now);
+        crearPlanillasPrecargadaSiNoExiste(now);
+        checkVencimientoSiExistePlanillaFinal(now);
 
         return planillaPrecargada;
     }
@@ -87,30 +89,48 @@ public class Partido {
      * @throws PlanillaNoFinalizadaException
      */
     public PlanillaFinal getPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
-        checkPlanillas(now);
+        try {
+            checkExistePlanillaPrecargada();
+            checkPartidoTerminado();
+            crearPlanillaFinalSiNoExiste(now);
+            checkVencimientoSiExistePlanillaFinal(now);
 
-        return planillaFinal;
-    }
-
-    private void checkPlanillas(LocalDateTime now) throws PlanillaNoDisponibleException {
-        verificarTiempoPlanilla(now);
-        crearPlanillasSiCorresponde(now);
-
-        planillaFinal.verificarVencimiento(now);
-    }
-
-    private void crearPlanillasSiCorresponde(LocalDateTime now) {
-        if (planillaPrecargada == null) {
-            crearPlanillas(now);
+            return planillaFinal;
+        } catch (PartidoNoTerminadoException e) {
+            throw new PlanillaNoDisponibleException(e);
         }
     }
 
-    private void crearPlanillas(LocalDateTime now) {
-        planillaPrecargada = new PlanillaPrecargada(this);
-        planillaFinal = new PlanillaFinal(planillaPrecargada, now);
+    private void crearPlanillasPrecargadaSiNoExiste(LocalDateTime now) {
+        if (planillaPrecargada == null) {
+            planillaPrecargada = new PlanillaPrecargada(this);
+        }
     }
 
-    private void verificarTiempoPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
+    private void crearPlanillaFinalSiNoExiste(LocalDateTime now) {
+        this.planillaFinal = new PlanillaFinal(planillaPrecargada, now);
+    }
+
+    private void checkPartidoTerminado() throws PartidoNoTerminadoException {
+        if (!isJugado()) {
+            throw new PartidoNoTerminadoException();
+        }
+    }
+
+    private void checkExistePlanillaPrecargada() throws PlanillaNoDisponibleException {
+        if (planillaPrecargada == null) {
+            throw new PlanillaNoDisponibleException(
+                    "la planilla precargada no esta creada, no se puede obtener planilla final");
+        }
+    }
+
+    private void checkVencimientoSiExistePlanillaFinal(LocalDateTime now) {
+        if (planillaFinal != null) {
+            planillaFinal.verificarVencimiento(now);
+        }
+    }
+
+    private void verificarTiempoPlanillaPrecargada(LocalDateTime now) throws PlanillaNoDisponibleException {
         Validate.notNull(now);
 
         DateTime nowUTC = now.toDateTime(DateTimeZone.UTC);
@@ -121,6 +141,31 @@ public class Partido {
         if (duration.isLongerThan(TIEMPO_PREVIO_PLANILLA)) {
             throw new PlanillaNoDisponibleException("la planilla no está disponible");
         }
+    }
+
+    public boolean puedeVersePlanillaPrecargada(LocalDateTime now) {
+        try {
+            verificarTiempoPlanillaPrecargada(now);
+            return true;
+        } catch (PlanillaNoDisponibleException e) {
+            return false;
+        }
+    }
+
+    public boolean puedeVersePlanillaFinal(LocalDateTime now) {
+        try {
+            checkExistePlanillaPrecargada();
+            checkPartidoTerminado();
+            return true;
+        } catch (PlanillaNoDisponibleException e) {
+            return false;
+        } catch (PartidoNoTerminadoException e) {
+            return false;
+        }
+    }
+
+    public boolean puedeTerminarPartido(LocalDateTime now) {
+        return now.isAfter(inicio);
     }
 
     /**
