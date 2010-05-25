@@ -13,11 +13,16 @@
             <tr>
                 <td><b>Acciones Planilla</b></td>
                 <td>
+                  <form wicket:id="acciones_form">
+                        <span wicket:id="acciones"></span>
+                        <div wicket:id="comentario">
+                            <textarea rows="4" cols="40" wicket:id="comentario"></textarea>
+                        </div>
+                        <input type="submit" value="Aceptar"/>
+                  </form>
                   <form wicket:id="planillaForm">
                        <input type="submit" wicket:id="editar" value="Editar planilla"/>
                        <input type="submit" wicket:id="publicar" value="Publicar planilla"/>
-                       <input type="submit" wicket:id="validar" value="Validar planilla"/>
-                       <input type="submit" wicket:id="rechazar" value="Rechazar planilla"/>
                    </form>
                 </td>
             </tr>
