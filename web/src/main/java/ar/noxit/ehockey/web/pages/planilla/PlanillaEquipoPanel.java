@@ -1,21 +1,9 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
-import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.service.IJugadorService;
-import ar.noxit.ehockey.web.pages.jugadores.JugadorModalPage;
-import ar.noxit.ehockey.web.pages.models.JugadorIdModel;
-import ar.noxit.ehockey.web.pages.models.TodosJugadoresPorClubModel;
-import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
-import ar.noxit.ehockey.web.pages.torneo.NuevaAmonestacionPage;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.exceptions.NoxitRuntimeException;
-import ar.noxit.web.wicket.column.AbstractLabelColumn;
-import ar.noxit.web.wicket.model.AdapterModel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -30,12 +18,26 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataT
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
-import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.service.IClubService;
+import ar.noxit.ehockey.service.IJugadorService;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorModalPage;
+import ar.noxit.ehockey.web.pages.models.JugadorIdModel;
+import ar.noxit.ehockey.web.pages.models.TodosJugadoresPorClubModel;
+import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
+import ar.noxit.ehockey.web.pages.torneo.NuevaAmonestacionPage;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
+import ar.noxit.web.wicket.column.AbstractLabelColumn;
+import ar.noxit.web.wicket.model.AdapterModel;
 
 public class PlanillaEquipoPanel extends Panel {
 
@@ -91,13 +93,13 @@ public class PlanillaEquipoPanel extends Panel {
         });
 
         // DATOS DEL PARTIDO
-        add(new RequiredTextField<String>("goleadores", new PropertyModel<String>(info, "goleadores")));
-        add(new RequiredTextField<String>("dt", new PropertyModel<String>(info, "dt")));
-        add(new RequiredTextField<String>("pf", new PropertyModel<String>(info, "pf")));
-        add(new RequiredTextField<String>("medico", new PropertyModel<String>(info, "medico")));
-        add(new RequiredTextField<String>("capitan", new PropertyModel<String>(info, "capitan")));
-        add(new RequiredTextField<String>("juezmesa", new PropertyModel<String>(info, "juezMesa")));
-        add(new RequiredTextField<String>("arbitro", new PropertyModel<String>(info, "arbitro")));
+        add(new TextField<String>("goleadores", new PropertyModel<String>(info, "goleadores")));
+        add(new TextField<String>("dt", new PropertyModel<String>(info, "dt")));
+        add(new TextField<String>("pf", new PropertyModel<String>(info, "pf")));
+        add(new TextField<String>("medico", new PropertyModel<String>(info, "medico")));
+        add(new TextField<String>("capitan", new PropertyModel<String>(info, "capitan")));
+        add(new TextField<String>("juezmesa", new PropertyModel<String>(info, "juezMesa")));
+        add(new TextField<String>("arbitro", new PropertyModel<String>(info, "arbitro")));
 
         // AMONESTACIONES
         List<IColumn<AmonestacionInfo>> columns = new ArrayList<IColumn<AmonestacionInfo>>();
