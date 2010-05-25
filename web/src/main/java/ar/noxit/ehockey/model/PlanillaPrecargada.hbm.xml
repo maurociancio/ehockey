@@ -22,6 +22,6 @@
             </set>
         </component>
 
-        <one-to-one name="partido" class="Partido"/>
+        <one-to-one name="partido" entity-name="Partido" property-ref="planillaPrecargada"/>
     </class>
 </hibernate-mapping>

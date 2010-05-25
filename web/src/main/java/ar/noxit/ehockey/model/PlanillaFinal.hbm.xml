@@ -57,7 +57,7 @@
         </component>
 
         <property name="observaciones"/>
-        <one-to-one name="partido" class="Partido"/>
+        <one-to-one name="partido" entity-name="Partido" property-ref="planillaFinal"/>
 
         <property name="estado" column="estado" type="ar.noxit.ehockey.configuration.EstadoPlanillaUserType" not-null="true"/>
     </class>
