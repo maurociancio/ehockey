@@ -226,6 +226,9 @@ public class Partido {
             throw new FechaPartidoAunNoSucedidaException();
         }
 
+        // TODO aca se puede sancion si no esta creada la planilla.
+        crearPlanillaFinalSiNoExiste(now);
+
         this.jugado = true;
     }
 
