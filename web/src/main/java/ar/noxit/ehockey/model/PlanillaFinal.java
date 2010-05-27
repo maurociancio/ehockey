@@ -15,7 +15,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
 import org.joda.time.LocalDateTime;
 
-public class PlanillaFinal implements PlanillaPublicable, Planilla {
+public class PlanillaFinal implements Planilla {
 
     private int id;
 
@@ -106,22 +106,6 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
         }
     }
 
-    @Override
-    public void checkPublicable() throws ReglaNegocioException {
-        CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
-
-        DatosEquipoPlanilla datos[] = { datosLocal, datosVisitante };
-        for (DatosEquipoPlanilla dep : datos) {
-            try {
-                dep.checkCompleta();
-            } catch (ReglaNegocioException e) {
-                composite.add(e);
-            }
-        }
-
-        composite.throwsIfNotEmpty();
-    }
-
     public boolean isVencida(LocalDateTime now) {
         Validate.notNull(now, "now no puede ser null");
 
@@ -153,6 +137,25 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
         }
     }
 
+    private class PlanillaFinalPublicable implements PlanillaPublicable {
+
+        @Override
+        public void checkPublicable() throws ReglaNegocioException {
+            CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
+
+            DatosEquipoPlanilla datos[] = { datosLocal, datosVisitante };
+            for (DatosEquipoPlanilla dep : datos) {
+                try {
+                    dep.checkCompleta();
+                } catch (ReglaNegocioException e) {
+                    composite.add(e);
+                }
+            }
+
+            composite.throwsIfNotEmpty();
+        }
+    }
+
     private class PlanillaFinalFinalizable implements PlanillaFinalizable {
 
         @Override
@@ -163,7 +166,7 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
     }
 
     public void publicar() throws ReglaNegocioException {
-        estado = estado.publicar(this);
+        estado = estado.publicar(new PlanillaFinalPublicable());
     }
 
     public void validar() throws ReglaNegocioException {
@@ -176,6 +179,10 @@ public class PlanillaFinal implements PlanillaPublicable, Planilla {
 
     public void verificarVencimiento(LocalDateTime now) {
         estado = estado.verificarVencimiento(new PlanillaFinalVencible(), now);
+    }
+
+    public void finalizar() throws ReglaNegocioException {
+        
     }
 
     public TarjetasPartido getTarjetasDe(Jugador object) throws JugadorSinTarjetasException {
