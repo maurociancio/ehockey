@@ -31,7 +31,7 @@ import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorModalPage;
 import ar.noxit.ehockey.web.pages.models.JugadorIdModel;
-import ar.noxit.ehockey.web.pages.models.TodosJugadoresPorClubModel;
+import ar.noxit.ehockey.web.pages.models.TodosJugadoresParaEquipoModel;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.ehockey.web.pages.torneo.NuevaAmonestacionPage;
 import ar.noxit.exceptions.NoxitException;
@@ -56,7 +56,7 @@ public class PlanillaEquipoPanel extends Panel {
         add(modal);
 
         // LISTA DE JUGADORES MODEL
-        final IModel<List<Jugador>> jugadoresModel = new TodosJugadoresPorClubModel(
+        final IModel<List<Jugador>> jugadoresModel = new TodosJugadoresParaEquipoModel(
                 new PropertyModel<Integer>(equipo, "club.id"), clubService);
 
         // PALETA DE JUGADORES

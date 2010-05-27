@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.service.impl;
 
 import ar.noxit.ehockey.dao.IClubDao;
+import ar.noxit.ehockey.dao.IEquipoDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Equipo;
@@ -16,13 +17,26 @@ public class ClubService implements IClubService {
 
     private IClubDao clubDao;
     private IJugadorDao jugadorDao;
+    private IEquipoDao equipoDao;
+
+    @Transactional(readOnly = true)
+    private List<Jugador> getJugadoresPorClub(Integer clubId) throws NoxitException {
+        Club club = clubDao.get(clubId);
+        return new ArrayList<Jugador>(club.getJugadores());
+    }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Jugador> getJugadoresPorClub(Integer clubId)
-            throws NoxitException {
-        Club club = clubDao.get(clubId);
-        return new ArrayList<Jugador>(club.getJugadores());
+    public List<Jugador> getJugadoresParaEquipo(Integer equipoId) throws NoxitException {
+        Equipo equipo = equipoDao.get(equipoId);
+        List<Jugador> jugadores = getJugadoresPorClub(equipo.getClub().getId());
+        List<Jugador> nueva = new ArrayList<Jugador>();
+        for (Jugador jug : jugadores) {
+            if (jug.getDivision().equals(equipo.getDivision()) && jug.getSector().equals(equipo.getSector())) {
+                nueva.add(jug);
+            }
+        }
+        return nueva;
     }
 
     @Override
@@ -39,8 +53,7 @@ public class ClubService implements IClubService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Jugador> getJugadoresPorClub(Integer clubId,
-            List<Integer> idJugadores) throws NoxitException {
+    public List<Jugador> getJugadoresPorClub(Integer clubId, List<Integer> idJugadores) throws NoxitException {
         return jugadorDao.getJugadoresFromClub(clubId, idJugadores);
     }
 
@@ -74,5 +87,9 @@ public class ClubService implements IClubService {
 
     public void setJugadorDao(IJugadorDao jugadorDao) {
         this.jugadorDao = jugadorDao;
+    }
+
+    public void setEquipoDao(IEquipoDao equipoDao) {
+        this.equipoDao = equipoDao;
     }
 }

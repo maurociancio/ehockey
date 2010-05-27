@@ -9,19 +9,19 @@ import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.LDM;
 
-public class TodosJugadoresPorClubModel extends LDM<List<Jugador>> {
+public class TodosJugadoresParaEquipoModel extends LDM<List<Jugador>> {
 
     private IClubService clubService;
-    private IModel<Integer> clubId;
+    private IModel<Integer> equipoId;
 
-    public TodosJugadoresPorClubModel(IModel<Integer> clubId, IClubService service) {
+    public TodosJugadoresParaEquipoModel(IModel<Integer> equipoId, IClubService service) {
         this.clubService = service;
-        this.clubId = clubId;
+        this.equipoId = equipoId;
     }
 
     @Override
     protected List<Jugador> doLoad() throws NoxitException {
-        return clubService.getJugadoresPorClub(clubId.getObject());
+        return clubService.getJugadoresParaEquipo(equipoId.getObject());
     }
 
 }

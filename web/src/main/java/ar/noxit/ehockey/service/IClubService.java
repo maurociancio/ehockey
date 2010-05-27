@@ -8,8 +8,12 @@ import ar.noxit.exceptions.NoxitException;
 import java.util.List;
 
 public interface IClubService {
-
-    List<Jugador> getJugadoresPorClub(Integer clubId) throws NoxitException;
+    /**
+     * Devuelve todos los jugadores del club, que pueden jugar en el equipo
+     * @param equipoId id del equipo para el cual se obtienen los jugadores
+     * @return
+     */
+    List<Jugador> getJugadoresParaEquipo(Integer equipoId) throws NoxitException;
 
     public Club get(Integer id) throws NoxitException;
 

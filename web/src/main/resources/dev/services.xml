@@ -14,6 +14,7 @@
     <bean id="clubService" class="ar.noxit.ehockey.service.impl.ClubService">
         <property name="clubDao" ref="clubDao"/>
         <property name="jugadorDao" ref="jugadorDao"/>
+        <property name="equipoDao" ref="equipoDao"/>
     </bean>
     <bean id="partidoService" class="ar.noxit.ehockey.service.impl.PartidoService">
         <property name="partidoDao" ref="partidoDao"/>
