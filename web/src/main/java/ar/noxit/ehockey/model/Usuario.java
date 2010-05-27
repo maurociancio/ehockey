@@ -2,7 +2,6 @@ package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.ErrorDeLoginException;
 import ar.noxit.hasher.Hasher;
-import ar.noxit.hasher.MD5Hasher;
 
 public abstract class Usuario {
 
@@ -81,4 +80,6 @@ public abstract class Usuario {
             return false;
         }
     }
+
+    public abstract boolean puedeVer(Club club);
 }

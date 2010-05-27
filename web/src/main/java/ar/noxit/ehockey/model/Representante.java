@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.model;
 
 import ar.noxit.hasher.Hasher;
+import org.apache.commons.lang.Validate;
 
 public class Representante extends Usuario {
 
@@ -9,6 +10,8 @@ public class Representante extends Usuario {
 
     public Representante(String user, String password, Hasher hasher, Club club) {
         super(user, password, hasher);
+
+        Validate.notNull(club);
         this.club = club;
     }
 
@@ -31,5 +34,10 @@ public class Representante extends Usuario {
     @Override
     public String[] getRoles() {
         return Rol.REPRESENTANTE;
+    }
+
+    @Override
+    public boolean puedeVer(Club club) {
+        return this.club.equals(club);
     }
 }

@@ -16,4 +16,9 @@ public class Administrador extends Usuario {
     public String[] getRoles() {
         return Rol.ADMIN;
     }
+
+    @Override
+    public boolean puedeVer(Club club) {
+        return true;
+    }
 }
