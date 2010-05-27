@@ -43,14 +43,6 @@ public abstract class EstadoPlanilla {
         }
     }
 
-    public boolean estaRechazada() {
-        return false;
-    }
-
-    public boolean estaFinalizada() {
-        return false;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null)
@@ -71,6 +63,18 @@ public abstract class EstadoPlanilla {
     }
 
     public boolean estaPublicada() {
+        return false;
+    }
+
+    public boolean estaRechazada() {
+        return false;
+    }
+
+    public boolean estaFinalizada() {
+        return false;
+    }
+
+    public boolean estaVencida() {
         return false;
     }
 }

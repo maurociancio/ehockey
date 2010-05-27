@@ -200,6 +200,10 @@ public class Partido {
         planillaFinal.rechazar(comentario);
     }
 
+    public void finalizarPlanilla() throws ReglaNegocioException{
+        planillaFinal.finalizar();
+    }
+
     private void validarPartidoJugado() throws PartidoNoTerminadoException {
         if (!this.jugado) {
             throw new PartidoNoTerminadoException("el partido no está terminado");

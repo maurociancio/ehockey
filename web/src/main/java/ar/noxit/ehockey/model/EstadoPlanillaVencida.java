@@ -40,4 +40,9 @@ public class EstadoPlanillaVencida extends EstadoPlanilla {
 
         return new EstadoPlanillaFinalizada();
     }
+
+    @Override
+    public boolean estaVencida() {
+        return true;
+    }
 }

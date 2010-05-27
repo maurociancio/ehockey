@@ -101,6 +101,12 @@ public class PlanillaService implements IPlanillaService {
         partidoDao.get(idPartido).rechazarPlanilla(comentario);
     }
 
+    @Override
+    @Transactional
+    public void finalizarPlanilla(Integer idPartido) throws NoxitException {
+        partidoDao.get(idPartido).finalizarPlanilla();
+    }
+
     public void setPartidoDao(IPartidoDao partidoDao) {
         this.partidoDao = partidoDao;
     }

@@ -1,7 +1,5 @@
 package ar.noxit.ehockey.service;
 
-import org.joda.time.LocalDateTime;
-
 import ar.noxit.ehockey.model.PlanillaFinal;
 import ar.noxit.ehockey.model.PlanillaPrecargada;
 import ar.noxit.ehockey.web.pages.planilla.EquipoInfo;
@@ -19,6 +17,8 @@ public interface IPlanillaService {
     public void publicarPlanilla(Integer idPartido) throws NoxitException;
     
     public void rechazarPlanilla(Integer idPartido, String comentario) throws NoxitException;
+
+    public void finalizarPlanilla(Integer idPartido) throws NoxitException;
 
     public PlanillaPrecargada getPlanillaPrecargada(Integer idPartido) throws NoxitException;
 }

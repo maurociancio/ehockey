@@ -145,7 +145,7 @@ public class PlanillaPage extends AbstractHeaderPage {
 
             @Override
             public boolean isVisible() {
-                return planillaModel.getObject().isEditable();
+                return planillaModel.getObject().isEditable() || planillaModel.getObject().isVencida();
             }
         });
 
@@ -165,6 +165,25 @@ public class PlanillaPage extends AbstractHeaderPage {
             public boolean isVisible() {
                 return planillaModel.getObject().isEditable();
             }
+        });
+
+        formPlanilla.add(new Button("finalizar") {
+
+            @Override
+            public void onSubmit() {
+                try {
+                    Integer id = partido.getObject().getId();
+                    planillaService.finalizarPlanilla(id);
+                } catch (NoxitException e) {
+                    error(exceptionConverter.convert(e));
+                }
+            }
+
+            @Override
+            public boolean isVisible() {
+                return planillaModel.getObject().isVencida();
+            }
+            
         });
 
         add(formPlanilla);

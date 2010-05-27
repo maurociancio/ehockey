@@ -387,6 +387,10 @@ public class PlanillaFinal implements Planilla {
         return this.estado.esEditable();
     }
 
+    public boolean isVencida() {
+        return this.estado.estaVencida();
+    }
+
     public boolean isPublicada() {
         return this.estado.estaPublicada();
     }
