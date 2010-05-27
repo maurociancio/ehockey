@@ -33,9 +33,10 @@ public class EstadoPlanillaVencida extends EstadoPlanilla {
     }
 
     @Override
-    public EstadoPlanilla cerrarPlanillaVencida(PlanillaPublicable publicable) throws ReglaNegocioException {
+    public EstadoPlanilla cerrarPlanillaVencida(PlanillaPublicable publicable, PlanillaFinalizable finalizable) throws ReglaNegocioException {
         Validate.notNull(publicable);
         publicable.checkPublicable();
+        finalizable.finalizarPlanilla();
 
         return new EstadoPlanillaFinalizada();
     }

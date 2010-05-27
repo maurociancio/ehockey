@@ -182,7 +182,7 @@ public class PlanillaFinal implements Planilla {
     }
 
     public void finalizar() throws ReglaNegocioException {
-        
+        estado = estado.cerrarPlanillaVencida(new PlanillaFinalPublicable(), new PlanillaFinalFinalizable());
     }
 
     public TarjetasPartido getTarjetasDe(Jugador object) throws JugadorSinTarjetasException {

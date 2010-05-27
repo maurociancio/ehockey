@@ -20,8 +20,8 @@ public abstract class EstadoPlanilla {
 
     public abstract EstadoPlanilla verificarVencimiento(PlanillaVencible vencible, LocalDateTime now);
 
-    public EstadoPlanilla cerrarPlanillaVencida(PlanillaPublicable publicable) throws ReglaNegocioException {
-        throw new TransicionEstadoInvalidaException("la plnialla no puede ser cerrada");
+    public EstadoPlanilla cerrarPlanillaVencida(PlanillaPublicable publicable, PlanillaFinalizable finalizable) throws ReglaNegocioException {
+        throw new TransicionEstadoInvalidaException("la planilla no puede ser cerrada");
     }
 
     protected EstadoPlanilla vencerPlanillaCargada(PlanillaVencible vencible, LocalDateTime now) {
