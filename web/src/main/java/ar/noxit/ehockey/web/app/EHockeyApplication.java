@@ -1,9 +1,7 @@
 package ar.noxit.ehockey.web.app;
 
-import ar.noxit.ehockey.exception.PlanillaNoDisponibleRuntimeException;
 import ar.noxit.ehockey.main.StartJetty;
 import ar.noxit.ehockey.model.Rol;
-import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.authentication.AuthSession;
 import ar.noxit.ehockey.web.pages.authentication.EHockeyPageFactory;
@@ -33,9 +31,7 @@ import ar.noxit.ehockey.web.pages.torneo.VerPartidosPage;
 import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.EditarUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
-import ar.noxit.exceptions.NoxitException;
 import org.apache.commons.lang.Validate;
-import org.apache.wicket.Page;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
@@ -43,19 +39,12 @@ import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.RoleAuthorizationStrategy;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
-import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.protocol.http.WebRequestCycle;
-import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
 import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.request.IRequestCycleProcessor;
 import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
-import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Application object for your web application. If you want to run this
@@ -64,42 +53,6 @@ import org.slf4j.LoggerFactory;
  * @see StartJetty.myproject.Start#main(String[])
  */
 public class EHockeyApplication extends AuthenticatedWebApplication {
-
-    private static final class EHockeyWebRequestCycle extends WebRequestCycle {
-
-        @SpringBean
-        private transient IPartidoService partidoService;
-        private static final Logger logger = LoggerFactory.getLogger(EHockeyWebRequestCycle.class);
-
-        public EHockeyWebRequestCycle(WebApplication application, WebRequest request, Response response) {
-            super(application, request, response);
-            InjectorHolder.getInjector().inject(this);
-
-            try {
-                partidoService.actualizarEstados();
-            } catch (NoxitException e) {
-                logger.warn("error actualizando estados", e);
-            }
-
-            partidoService = null;
-        }
-    }
-
-    private final class EHockeyRequestCycleProcessor extends WebRequestCycleProcessor {
-
-        public EHockeyRequestCycleProcessor() {
-        }
-
-        @Override
-        protected Page onRuntimeException(Page page, RuntimeException e) {
-            if (e.getCause() instanceof PlanillaNoDisponibleRuntimeException) {
-                return new MensajePage("Planilla no disponible",
-                        "La planilla no se encuentra disponible. La misma se puede acceder a"
-                                + " partir de una semana antes del partido");
-            }
-            return super.onRuntimeException(page, e);
-        }
-    }
 
     private final String appMode;
 
@@ -193,7 +146,6 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy.authorize(MensajePage.class, Rol.MENSAJE);
 
         MetaDataRoleAuthorizationStrategy.authorize(FechaHoraPage.class, Rol.FECHA_HORA);
-
     }
 
     @Override
