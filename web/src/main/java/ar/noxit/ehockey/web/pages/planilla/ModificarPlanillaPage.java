@@ -1,5 +1,14 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import java.util.Map;
+
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
 import ar.noxit.ehockey.model.DatosEquipoPlanilla;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
@@ -9,19 +18,11 @@ import ar.noxit.ehockey.model.TarjetasPartido;
 import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
-import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.model.AdapterModel;
-import java.util.Map;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class ModificarPlanillaPage extends AbstractContentPage {
 
@@ -53,8 +54,7 @@ public class ModificarPlanillaPage extends AbstractContentPage {
                     Integer partidoId = partido.getObject().getId();
                     planillaService.updatePlanilla(partidoId, golesLocalInt, golesVisitanteInt,
                             infoLocal.getObject(), infoVisitante.getObject());
-                    setResponsePage(new MensajePage("Planilla de Partido",
-                            "Se completó la actualización de la planilla"));
+                    setResponsePage(new PlanillaPage(partido));
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
