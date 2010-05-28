@@ -1,17 +1,5 @@
 package ar.noxit.ehockey.web.pages.usuarios;
 
-import java.util.List;
-
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
@@ -21,6 +9,16 @@ import ar.noxit.ehockey.web.pages.models.UsuarioModel;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.provider.DataProvider;
+import java.util.List;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class ListaUsuariosPage extends AbstractUsuariosPage {
 
@@ -58,13 +56,8 @@ public class ListaUsuariosPage extends AbstractUsuariosPage {
             }
         };
         add(tabla);
-        add(new Form<Void>("nuevo") {
 
-            @Override
-            protected void onSubmit() {
-                setResponsePage(new AltaUsuarioPage());
-            }
-        });
+        add(new BookmarkablePageLink<Void>("nuevo", AltaUsuarioPage.class));
     }
 
     public class UsuariosProvider extends DataProvider<Usuario> {
