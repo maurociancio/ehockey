@@ -18,12 +18,15 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoginPage extends AbstractColorBasePage {
 
     @SpringBean
     private IUsuarioService usuarioService;
     private boolean crearUsuario = false;
+    private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
     public LoginPage() {
         final IModel<UsuarioDTO> usuario = new Model<UsuarioDTO>();
@@ -64,6 +67,7 @@ public class LoginPage extends AbstractColorBasePage {
                     crearAdministradorSiNoExisteUno(usuario);
                     crearUsuario = false;
                 } catch (NoxitException e) {
+                    logger.debug("excepcion creando usuario", e);
                 }
             }
         }));
@@ -92,6 +96,7 @@ public class LoginPage extends AbstractColorBasePage {
             } else
                 usuario.setObject(null);
         } catch (NoxitException e) {
+            logger.debug("excepcion creando usuario", e);
             // no hago nada, muestra solo la pantalla de login si hay error
         }
     }
