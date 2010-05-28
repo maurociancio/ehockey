@@ -18,11 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.Page;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
@@ -185,32 +181,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
             modalWindow.setCookieName("modal-1");
             add(modalWindow);
 
-            add(new AjaxLink<Void>("reprogramar") {
-
-                @Override
-                public void onClick(AjaxRequestTarget target) {
-                    modalWindow.setPageCreator(new ModalWindow.PageCreator() {
-
-                        @Override
-                        public Page createPage() {
-                            return new ReprogramacionPartidoPage(modalWindow, partido);
-                        }
-                    });
-                    modalWindow.setWindowClosedCallback(new WindowClosedCallback() {
-
-                        @Override
-                        public void onClose(AjaxRequestTarget target) {
-                            target.addComponent(dataTable);
-                        }
-                    });
-                    modalWindow.show(target);
-                }
-
-                @Override
-                public boolean isVisible() {
-                    return !partido.getObject().isJugado();
-                }
-            });
+            add(new ReprogramarPartidoLink("reprogramar", modalWindow, partido, dataTable));
             add(new WebMarkupContainer("no_reprogramar") {
 
                 @Override
