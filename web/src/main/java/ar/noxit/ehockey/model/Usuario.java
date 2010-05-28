@@ -72,13 +72,18 @@ public abstract class Usuario {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj.getClass().equals(this.getClass())) {
-            Usuario otro = (Usuario) obj;
-            return (this.user.equals(otro.user) && this.password
-                    .equals(otro.password));
-        } else {
+        if (obj == null)
             return false;
-        }
+        if (!this.getClass().equals(obj.getClass()))
+            return false;
+
+        Usuario otro = (Usuario) obj;
+        return this.user.equals(otro.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.user.hashCode();
     }
 
     public abstract boolean puedeVer(Club club);
