@@ -233,8 +233,27 @@ public class VerPartidosPage extends AbstractHeaderPage {
         public PlanillasPanel(String id, String markupId, MarkupContainer markupProvider, final IModel<Partido> rowModel) {
             super(id, markupId, markupProvider);
 
-            add(new PlanillaPrecargadaLink("precargada", rowModel));
-            add(new PlanillaFinalLink("final", rowModel));
+            final PlanillaPrecargadaLink planillaPrecargadaLink = new PlanillaPrecargadaLink("precargada", rowModel);
+            add(planillaPrecargadaLink);
+
+            final PlanillaFinalLink planillaFinalLink = new PlanillaFinalLink("final", rowModel);
+            add(planillaFinalLink);
+
+            add(new WebMarkupContainer("separator") {
+
+                @Override
+                public boolean isVisible() {
+                    return planillaFinalLink.determineVisibility() && planillaPrecargadaLink.determineVisibility();
+                }
+            }.setRenderBodyOnly(true));
+
+            add(new WebMarkupContainer("no_acciones") {
+
+                @Override
+                public boolean isVisible() {
+                    return !planillaFinalLink.determineVisibility() && !planillaPrecargadaLink.determineVisibility();
+                }
+            }.setRenderBodyOnly(true));
         }
     }
 

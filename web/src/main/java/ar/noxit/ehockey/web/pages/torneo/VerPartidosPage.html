@@ -11,7 +11,9 @@
     <!-- /cols -->
     <wicket:fragment wicket:id="planillas">
         <a wicket:id="precargada">Ver Precargada</a>
-        <wicket:enclosure> | <a wicket:id="final">Ver Final</a> </wicket:enclosure>
+        <div wicket:id="separator">|</div>
+        <a wicket:id="final">Ver Final</a>
+        <div wicket:id="no_acciones">Sin acciones</div>
     </wicket:fragment>
     <wicket:fragment wicket:id="jugado">
         <span wicket:id="jugado"></span>
