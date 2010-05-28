@@ -10,8 +10,6 @@ import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
-import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
-import ar.noxit.ehockey.web.pages.planilla.PlanillaPrecargadaPage;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.utils.Collections;
 import ar.noxit.web.wicket.column.AbstractLabelColumn;
@@ -234,31 +232,9 @@ public class VerPartidosPage extends AbstractHeaderPage {
 
         public PlanillasPanel(String id, String markupId, MarkupContainer markupProvider, final IModel<Partido> rowModel) {
             super(id, markupId, markupProvider);
-            add(new Link<Void>("precargada") {
 
-                @Override
-                public boolean isEnabled() {
-                    return rowModel.getObject().puedeVersePlanillaPrecargada(dateTimeProvider.getLocalDateTime());
-                }
-
-                @Override
-                public void onClick() {
-                    setResponsePage(new PlanillaPrecargadaPage(rowModel));
-                }
-
-            });
-            add(new Link<Void>("final") {
-
-                @Override
-                public boolean isEnabled() {
-                    return rowModel.getObject().puedeVersePlanillaFinal(dateTimeProvider.getLocalDateTime());
-                }
-
-                @Override
-                public void onClick() {
-                    setResponsePage(new PlanillaPage(rowModel));
-                }
-            });
+            add(new PlanillaPrecargadaLink("precargada", rowModel));
+            add(new PlanillaFinalLink("final", rowModel));
         }
     }
 
