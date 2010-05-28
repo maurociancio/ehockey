@@ -1,15 +1,18 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
 import ar.noxit.ehockey.model.Partido;
+import ar.noxit.ehockey.model.Rol;
 import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.exceptions.NoxitException;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
 
+@AuthorizeAction(action = "RENDER", roles = Rol.TERMINAR_PARTIDO)
 public class TerminarPartidoLink extends Link<Void> {
 
     private final IModel<Partido> rowModel;
