@@ -4,6 +4,7 @@ import ar.noxit.ehockey.exception.SessionClosedException;
 import ar.noxit.ehockey.service.IHorarioService;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.HomePage;
+import ar.noxit.ehockey.web.pages.authentication.AuthSession;
 import ar.noxit.ehockey.web.pages.models.UsuarioAdapterModel;
 import ar.noxit.ehockey.web.pages.models.UsuarioModel;
 import ar.noxit.ehockey.web.pages.usuarios.PerfilUsuarioPage;
@@ -25,6 +26,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HeaderPanel extends Panel {
 
@@ -34,6 +37,7 @@ public class HeaderPanel extends Panel {
     private IHorarioService horarioService;
     @SpringBean
     private IUsuarioService usuarioService;
+    private final static Logger logger = LoggerFactory.getLogger(HeaderPanel.class);
 
     public HeaderPanel(String id, final IMenuSelection menuSelection) {
         super(id);
@@ -50,11 +54,13 @@ public class HeaderPanel extends Panel {
             @Override
             public void onClick() {
                 try {
-                    usuarioService.logOutUser(getSession());
-                    setResponsePage(HomePage.class);
+                    AuthSession authSession = AuthSession.get();
+                    authSession.signOut();
+                    usuarioService.logOutUser(authSession);
                 } catch (NoxitException ex) {
-                    setResponsePage(HomePage.class);
+                    logger.warn("excepcion deslogueando ", ex);
                 }
+                setResponsePage(HomePage.class);
             }
         });
 

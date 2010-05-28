@@ -9,6 +9,7 @@ import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -57,7 +58,13 @@ public class AuthSession extends AuthenticatedWebSession {
     @Override
     public void signOut() {
         super.signOut();
-        this.usuarioModel.setObject(null);
+        this.usuarioModel = new AbstractReadOnlyModel<Usuario>() {
+
+            @Override
+            public Usuario getObject() {
+                return null;
+            }
+        };
     }
 
     private class UsuarioIdModel extends LDM<Usuario> {
