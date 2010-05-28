@@ -90,4 +90,10 @@ public class AuthSession extends AuthenticatedWebSession {
     public static AuthSession get() {
         return (AuthSession) AuthenticatedWebSession.get();
     }
+
+    @Override
+    protected void detach() {
+        super.detach();
+        usuarioModel.detach();
+    }
 }
