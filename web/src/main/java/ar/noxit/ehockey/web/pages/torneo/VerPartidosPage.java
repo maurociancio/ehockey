@@ -181,12 +181,21 @@ public class VerPartidosPage extends AbstractHeaderPage {
             modalWindow.setCookieName("modal-1");
             add(modalWindow);
 
-            add(new ReprogramarPartidoLink("reprogramar", modalWindow, partido, dataTable));
+            final ReprogramarPartidoLink reprogramarPartidoLink = new ReprogramarPartidoLink("reprogramar",
+                    modalWindow, partido, dataTable);
+            add(reprogramarPartidoLink);
             add(new WebMarkupContainer("no_reprogramar") {
 
                 @Override
                 public boolean isVisible() {
-                    return partido.getObject().isJugado();
+                    return partido.getObject().isJugado() && !reprogramarPartidoLink.determineVisibility();
+                }
+            });
+            add(new WebMarkupContainer("no_acciones") {
+
+                @Override
+                public boolean isVisible() {
+                    return !partido.getObject().isJugado() && !reprogramarPartidoLink.determineVisibility();
                 }
             });
         }
