@@ -1,13 +1,5 @@
 package ar.noxit.ehockey.web.pages.authentication;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
@@ -18,26 +10,45 @@ import ar.noxit.ehockey.web.pages.usuarios.FormularioAdministradorPanel;
 import ar.noxit.ehockey.web.pages.usuarios.TipoUsuario;
 import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.exceptions.NoxitException;
+import java.util.Iterator;
+import java.util.List;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class LoginPage extends AbstractColorBasePage {
+
     @SpringBean
-    IUsuarioService usuarioService;
+    private IUsuarioService usuarioService;
+    private boolean crearUsuario = false;
 
     public LoginPage() {
         final IModel<UsuarioDTO> usuario = new Model<UsuarioDTO>();
-        //el panel de alta de usuario solo se muestra si no hay administrador
+        // el panel de alta de usuario solo se muestra si no hay administrador
         crearAdministradorSiNoExisteUno(usuario);
+        add(new Label("titulo", new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+                return crearUsuario ? "Crear usuario Administrador" : "Login de Usuarios";
+            }
+        }));
 
         add(new LoginHeaderPanel("header"));
 
         add(new FeedbackPanel("feedback") {
+
             @Override
             public boolean isVisible() {
                 return !mostrarPanelLogin(usuario);
             }
         });
 
-        add(new LoginPanel("signInPanel",true) {
+        add(new LoginPanel("signInPanel", true) {
+
             @Override
             public boolean isVisible() {
                 return mostrarPanelLogin(usuario);
@@ -45,11 +56,13 @@ public class LoginPage extends AbstractColorBasePage {
         });
 
         add(new FormularioAdministradorPanel("usuario", usuario, new AltaUsuarioForm(usuario) {
+
             @Override
             protected void onSubmit() {
                 try {
                     usuarioService.add(usuario.getObject());
                     crearAdministradorSiNoExisteUno(usuario);
+                    crearUsuario = false;
                 } catch (NoxitException e) {
                 }
             }
@@ -59,7 +72,8 @@ public class LoginPage extends AbstractColorBasePage {
     }
 
     private boolean mostrarPanelLogin(IModel<UsuarioDTO> usuario) {
-        if (usuario.getObject() == null) return true;
+        if (usuario.getObject() == null)
+            return true;
         return !usuario.getObject().getTipo().equals(Administrador.class);
     }
 
@@ -69,14 +83,16 @@ public class LoginPage extends AbstractColorBasePage {
             Iterator<Usuario> it = lista.iterator();
             boolean encontrado = false;
             while (it.hasNext() && !encontrado) {
-                if (it.next() instanceof Administrador) encontrado = true;
+                if (it.next() instanceof Administrador)
+                    encontrado = true;
             }
-            if (!encontrado)
+            if (!encontrado) {
                 usuario.setObject(new UsuarioDTO(new TipoUsuario(Administrador.class)));
-            else
+                crearUsuario = true;
+            } else
                 usuario.setObject(null);
-        } catch (NoxitException e){
-            //no hago nada, muestra solo la pantalla de login si hay error
+        } catch (NoxitException e) {
+            // no hago nada, muestra solo la pantalla de login si hay error
         }
     }
 }

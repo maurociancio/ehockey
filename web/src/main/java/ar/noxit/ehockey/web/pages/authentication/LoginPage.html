@@ -3,12 +3,15 @@
 	<div class="colsancho cols box">
 	<div wicket:id="header" /><!-- Content -->
 	<div class="contentancho content">
-	<h2 class="content-titleancho content-title">Usuarios Login</h2>
+	<h2 class="content-titleancho content-title" wicket:id="titulo">Usuarios Login</h2>
 
 	<div class="content-in">
 		<div wicket:id="feedback"/>
 		<div wicket:id="signInPanel" />
-		<div wicket:id="usuario" />
+		<wicket:enclosure>
+		  En el sistema no existe un usuario Administrador. Por favor cree uno:
+		  <div wicket:id="usuario" />
+		</wicket:enclosure>
 	</div>
 	<!-- /content-in --></div>
 	<!-- /content --></div>
