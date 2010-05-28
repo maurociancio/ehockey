@@ -5,8 +5,6 @@ import static java.util.Collections.sort;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PartidosComparator;
 import ar.noxit.ehockey.model.Torneo;
-import ar.noxit.ehockey.service.IDateTimeProvider;
-import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
@@ -33,7 +31,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColu
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
@@ -50,10 +47,6 @@ public class VerPartidosPage extends AbstractHeaderPage {
     @SpringBean
     private IPartidoService partidoService;
     private DefaultDataTable<Partido> dataTable;
-    @SpringBean
-    private IExceptionConverter converter;
-    @SpringBean
-    private IDateTimeProvider dateTimeProvider;
 
     public VerPartidosPage(IModel<Torneo> torneo) {
         Validate.notNull(torneo, "torneo no puede ser null");
@@ -270,24 +263,8 @@ public class VerPartidosPage extends AbstractHeaderPage {
                     return rowModel.getObject().isJugado() ? "Si" : "No";
                 }
             }));
-            add(new Link<Void>("terminar") {
 
-                @Override
-                public void onClick() {
-                    try {
-                        partidoService.terminarPartido(rowModel.getObject().getId());
-                        rowModel.detach();
-                    } catch (NoxitException e) {
-                        error(converter.convert(e));
-                    }
-                }
-
-                @Override
-                public boolean isVisible() {
-                    return !rowModel.getObject().isJugado()
-                            && rowModel.getObject().puedeTerminarPartido(dateTimeProvider.getLocalDateTime());
-                }
-            });
+            add(new TerminarPartidoLink("terminar", rowModel));
         }
     }
 
