@@ -12,6 +12,7 @@ import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
+import ar.noxit.ehockey.web.pages.equipos.EquiposPage;
 import ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorAltaOkPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorAltaPage;
@@ -94,6 +95,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/usuarios/listado", ListaUsuariosPage.class, false));
         mount(new HybridUrlCodingStrategy("/usuarios/alta", AltaUsuarioPage.class, false));
         mount(new HybridUrlCodingStrategy("/usuarios/modificar", EditarUsuarioPage.class, false));
+        mount(new HybridUrlCodingStrategy("/equipos", EquiposPage.class, false));
         mount(new HybridUrlCodingStrategy("/resultado", MensajePage.class, false));
         mount(new HybridUrlCodingStrategy("/fechahora", FechaHoraPage.class, false));
         mount(new HybridUrlCodingStrategy("/login", LoginPage.class, false));
