@@ -1,9 +1,5 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
-import ar.noxit.ehockey.service.IEquiposService;
-import ar.noxit.ehockey.service.transfer.PartidoInfo;
-import ar.noxit.ehockey.web.pages.models.EquipoModel;
-import ar.noxit.web.wicket.model.Date2LocalDateTimeAdapterModel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.datetime.PatternDateConverter;
@@ -19,10 +15,15 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
 
+import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.service.transfer.PartidoInfo;
+import ar.noxit.ehockey.web.pages.models.EquipoModel;
+import ar.noxit.web.wicket.model.Date2LocalDateTimeAdapterModel;
+
 public abstract class PartidoFormPanel extends Panel {
 
     @SpringBean
-    private IEquiposService equiposService;
+    private IEquipoService equipoService;
     @SuppressWarnings("unused")
     private String botonSubmit;
     private boolean localActivo = true;
@@ -40,8 +41,15 @@ public abstract class PartidoFormPanel extends Panel {
 
         Form<Void> form = new Form<Void>("form");
 
-        form.add(new Label("local", new EquipoModel(new PropertyModel<Integer>(partido, "equipoLocalId"), equiposService)).setRenderBodyOnly(true));
-        form.add(new Label("visitante", new EquipoModel(new PropertyModel<Integer>(partido, "equipoVisitanteId"), equiposService)).setRenderBodyOnly(true));
+        form.add(new Label("local", new PropertyModel<String>(new EquipoModel(
+                new PropertyModel<Integer>(partido, "equipoLocalId"), 
+                equipoService), "nombre"))
+        .setRenderBodyOnly(true));
+
+        form.add(new Label("visitante", new PropertyModel<String>(new EquipoModel(
+                new PropertyModel<Integer>(partido, "equipoVisitanteId"), 
+                equipoService), "nombre"))
+        .setRenderBodyOnly(true));
 
         form.add(new RequiredTextField<Integer>("numero_fecha",
                 new PropertyModel<Integer>(partido, "numeroFecha"), Integer.class) {

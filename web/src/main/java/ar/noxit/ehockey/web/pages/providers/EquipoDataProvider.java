@@ -1,7 +1,7 @@
 package ar.noxit.ehockey.web.pages.providers;
 
 import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.IEquipoService;
 import ar.noxit.ehockey.web.pages.models.EquipoModel;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.provider.DataProvider;
@@ -12,9 +12,9 @@ import org.apache.wicket.model.Model;
 
 public class EquipoDataProvider extends DataProvider<Equipo> {
 
-    private IEquiposService equipoService;
+    private IEquipoService equipoService;
 
-    public EquipoDataProvider(IEquiposService equipoService) {
+    public EquipoDataProvider(IEquipoService equipoService) {
         this.equipoService = equipoService;
     }
 

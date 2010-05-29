@@ -4,13 +4,13 @@ import ar.noxit.ehockey.dao.IEquipoDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.IEquipoService;
 import ar.noxit.exceptions.NoxitException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
-public class EquipoService implements IEquiposService {
+public class EquipoService implements IEquipoService {
 
     private IEquipoDao equipoDao;
     private IJugadorDao jugadorDao;

@@ -1,19 +1,24 @@
 package ar.noxit.ehockey.web.pages.models;
 
 import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.IEquipoService;
 import ar.noxit.exceptions.NoxitException;
+import ar.noxit.web.wicket.model.LDM;
+
 import java.util.List;
 import org.apache.wicket.model.IModel;
 
-public class EquiposDeSectorYDivisionModel extends AbstractListEquipoModel {
+public class EquiposDeSectorYDivisionModel extends LDM<List<Equipo>> {
 
     private IModel<Integer> sectorId;
     private IModel<Integer> divisionId;
+    private IEquipoService equipoService;
 
-    public EquiposDeSectorYDivisionModel(IEquiposService equiposService, IModel<Integer> sectorId,
+    public EquiposDeSectorYDivisionModel(IEquipoService equipoService, IModel<Integer> sectorId,
             IModel<Integer> divisionId) {
-        super(equiposService);
+        super();
+
+        this.equipoService = equipoService;
 
         this.sectorId = sectorId;
         this.divisionId = divisionId;
@@ -24,6 +29,6 @@ public class EquiposDeSectorYDivisionModel extends AbstractListEquipoModel {
         Integer sector = sectorId.getObject();
         Integer division = divisionId.getObject();
 
-        return this.equiposService.getEquiposDe(sector, division);
+        return this.equipoService.getEquiposDe(sector, division);
     }
 }

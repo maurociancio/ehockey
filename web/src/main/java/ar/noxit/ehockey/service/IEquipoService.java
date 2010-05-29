@@ -4,7 +4,7 @@ import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.exceptions.NoxitException;
 import java.util.List;
 
-public interface IEquiposService {
+public interface IEquipoService {
 
     List<Equipo> getAll() throws NoxitException;
 

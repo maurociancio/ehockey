@@ -1,29 +1,8 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
-import ar.noxit.ehockey.model.Division;
-import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Sector;
-import ar.noxit.ehockey.service.IDateTimeProvider;
-import ar.noxit.ehockey.service.IDivisionService;
-import ar.noxit.ehockey.service.IEquiposService;
-import ar.noxit.ehockey.service.IExceptionConverter;
-import ar.noxit.ehockey.service.ISectorService;
-import ar.noxit.ehockey.service.ITorneoService;
-import ar.noxit.ehockey.service.transfer.PartidoInfo;
-import ar.noxit.ehockey.web.pages.models.DivisionListModel;
-import ar.noxit.ehockey.web.pages.models.EquiposDeSectorYDivisionModel;
-import ar.noxit.ehockey.web.pages.models.EquiposSeleccionadosModel;
-import ar.noxit.ehockey.web.pages.models.IdDivisionModel;
-import ar.noxit.ehockey.web.pages.models.IdSectorModel;
-import ar.noxit.ehockey.web.pages.models.SectorListModel;
-import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
-import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
-import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
-import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.wicket.Page;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -55,10 +34,33 @@ import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ar.noxit.ehockey.model.Division;
+import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.model.Sector;
+import ar.noxit.ehockey.service.IDateTimeProvider;
+import ar.noxit.ehockey.service.IDivisionService;
+import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.service.IExceptionConverter;
+import ar.noxit.ehockey.service.ISectorService;
+import ar.noxit.ehockey.service.ITorneoService;
+import ar.noxit.ehockey.service.transfer.PartidoInfo;
+import ar.noxit.ehockey.web.pages.models.DivisionListModel;
+import ar.noxit.ehockey.web.pages.models.EquipoModel;
+import ar.noxit.ehockey.web.pages.models.EquiposDeSectorYDivisionModel;
+import ar.noxit.ehockey.web.pages.models.EquiposSeleccionadosModel;
+import ar.noxit.ehockey.web.pages.models.IdDivisionModel;
+import ar.noxit.ehockey.web.pages.models.IdSectorModel;
+import ar.noxit.ehockey.web.pages.models.SectorListModel;
+import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
+import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
+import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
+
 public class NuevoTorneoWizard extends Wizard {
 
     @SpringBean
-    private IEquiposService equiposService;
+    private IEquipoService equiposService;
     @SpringBean
     private ITorneoService torneoService;
     @SpringBean
@@ -287,7 +289,7 @@ public class NuevoTorneoWizard extends Wizard {
 
                 private IModel<String> getEquipoModel(IModel<PartidoInfo> model, String expression) {
                     return new PropertyModel<String>(
-                            new SelectedEquipoModel(new PropertyModel<Integer>(model, expression), equiposService),
+                            new EquipoModel(new PropertyModel<Integer>(model, expression), equiposService),
                             "nombre");
                 }
             });
