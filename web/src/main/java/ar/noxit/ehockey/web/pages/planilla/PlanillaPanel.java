@@ -43,9 +43,9 @@ public class PlanillaPanel extends Panel {
         add(new Label("goles_visitante", new PropertyModel<Integer>(planillaModel, "datosVisitante.goles")));
 
         IModel<LocalDateTime> modelTime = new PropertyModel<LocalDateTime>(planillaModel, "partido.inicio");
-        add(new Label("dia", new DiaAdapterModel(modelTime)));
-        add(new Label("mes", new MesAdapterModel(modelTime)));
-        add(new Label("año", new AnoAdapterModel(modelTime)));
+        add(new Label("dia", new PatternLocalDateTimeModel(modelTime, "dd")));
+        add(new Label("mes", new PatternLocalDateTimeModel(modelTime, "MM")));
+        add(new Label("año", new PatternLocalDateTimeModel(modelTime, "YYYY")));
         add(new Label("lugar", "Paseo Colón"));
         add(new Label("nombreLocal", new PropertyModel<String>(planillaModel, "local.nombre")));
         add(new Label("nombreVisitante", new PropertyModel<String>(planillaModel, "visitante.nombre")));
@@ -74,39 +74,18 @@ public class PlanillaPanel extends Panel {
         add(new Label("observaciones", new PropertyModel<String>(planillaModel, "observaciones")));
     }
 
-    private class DiaAdapterModel extends AbstractLocalDateTimeFormatModel {
+    private class PatternLocalDateTimeModel extends AbstractLocalDateTimeFormatModel {
 
-        public DiaAdapterModel(IModel<LocalDateTime> delegate) {
+        private String pattern;
+
+        public PatternLocalDateTimeModel(IModel<LocalDateTime> delegate, String pattern) {
             super(delegate);
+            this.pattern = pattern;
         }
 
         @Override
         protected DateTimeFormatter getFormatter() {
-            return DateTimeFormat.forPattern("dd");
-        }
-    }
-
-    private class MesAdapterModel extends AbstractLocalDateTimeFormatModel {
-
-        public MesAdapterModel(IModel<LocalDateTime> delegate) {
-            super(delegate);
-        }
-
-        @Override
-        protected DateTimeFormatter getFormatter() {
-            return DateTimeFormat.forPattern("MM");
-        }
-    }
-
-    private class AnoAdapterModel extends AbstractLocalDateTimeFormatModel {
-
-        public AnoAdapterModel(IModel<LocalDateTime> delegate) {
-            super(delegate);
-        }
-
-        @Override
-        protected DateTimeFormatter getFormatter() {
-            return DateTimeFormat.forPattern("YYYY");
+            return DateTimeFormat.forPattern(pattern);
         }
     }
 
