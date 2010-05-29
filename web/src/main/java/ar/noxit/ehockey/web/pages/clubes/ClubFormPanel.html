@@ -1,5 +1,55 @@
 <wicket:panel>
+
+	<div wicket:id="feedback" />
 	<form wicket:id="formulario">
-	   <input type=submit " value="Enviar" />
+
+	<table>
+		<tr>
+            <td>Nomnbre:(*)</td>
+			<td><input type="text" wicket:id="nombre" /></td>
+		</tr>
+		<tr>
+            <td>Nombre Completo:(*)</td>
+			<td><input type="text" wicket:id="nombrecompleto" /></td>
+		</tr>
+		<tr>
+			<td>Dirección:(*)</td>
+			<td><input type="text" wicket:id="direccion" /></td>
+		</tr>
+		<tr>
+			<td>Ciudad:(*)</td>
+			<td><input type="text" wicket:id="ciudad" /></td>
+		</tr>
+		<tr>
+			<td>Código Postal:(*)</td>
+			<td><input type="text" wicket:id="codigopostal" /></td>
+		</tr>
+		<tr>
+			<td>Provincia:(*)</td>
+			<td><input type="text" wicket:id="provincia" /></td>
+		</tr>
+		<tr>
+			<td>Teléfono:(*)</td>
+			<td><input type="text" wicket:id="telefono" /></td>
+		</tr>
+		<tr>
+			<td>E-mail:</td>
+			<td><input type="text" wicket:id="email" /></td>
+		</tr>
+		<tr>
+			<td>Página Web:</td>
+			<td><input type="text" wicket:id="web" /></td>
+		</tr>
+		<tr>
+			<td>Observaciones:</td>
+			<td><input type="text" wicket:id="observaciones" /></td>
+		</tr>
+		<tr>
+            <td>
+                <input type="submit" value="Enviar" />
+                <input type="reset" value="Reset" />
+            </td>
+		</tr>
+	</table>
 	</form>
 </wicket:panel>
