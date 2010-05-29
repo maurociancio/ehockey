@@ -1,15 +1,17 @@
 package ar.noxit.ehockey.model;
 
-import ar.noxit.ehockey.exception.NoHayPartidoSiguienteException;
-import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
-import ar.noxit.ehockey.exception.TorneoNoCoincideException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.lang.Validate;
+
+import ar.noxit.ehockey.exception.NoHayPartidoSiguienteException;
+import ar.noxit.ehockey.exception.PartidoYaPerteneceATorneoExcepcion;
+import ar.noxit.ehockey.exception.TorneoNoCoincideException;
 
 public class Torneo {
 
@@ -84,6 +86,10 @@ public class Torneo {
 
     public Integer getId() {
         return id;
+    }
+    
+    public String toString(){
+        return this.nombre;
     }
 
     public Torneo() {
