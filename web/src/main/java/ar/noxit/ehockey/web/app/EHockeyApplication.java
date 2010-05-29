@@ -12,6 +12,9 @@ import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
+import ar.noxit.ehockey.web.pages.clubes.ClubAltaPage;
+import ar.noxit.ehockey.web.pages.clubes.ClubPage;
+import ar.noxit.ehockey.web.pages.clubes.ClubVerPage;
 import ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorAltaPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorBajaPage;
@@ -95,7 +98,10 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/fechahora", FechaHoraPage.class, false));
         mount(new HybridUrlCodingStrategy("/login", LoginPage.class, false));
         mount(new HybridUrlCodingStrategy("/denegado", ForbiddenAccessPage.class, false));
-
+        mount(new HybridUrlCodingStrategy("/clubes", ClubPage.class, false));
+        mount(new HybridUrlCodingStrategy("/clubes/alta", ClubAltaPage.class, false));
+        mount(new HybridUrlCodingStrategy("/clubes/ver", ClubVerPage.class, false));
+        
         getApplicationSettings().setAccessDeniedPage(ForbiddenAccessPage.class);
         getSessionSettings().setPageFactory(new EHockeyPageFactory());
 
@@ -143,6 +149,10 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy.authorize(AltaUsuarioPage.class, Rol.ALTA_USUARIOS);
         MetaDataRoleAuthorizationStrategy.authorize(EditarUsuarioPage.class, Rol.MODIF_USUARIOS);
 
+        MetaDataRoleAuthorizationStrategy.authorize(ClubPage.class, Rol.CLUBES);
+        MetaDataRoleAuthorizationStrategy.authorize(ClubAltaPage.class, Rol.ALTA_CLUBES);
+        MetaDataRoleAuthorizationStrategy.authorize(ClubVerPage.class, Rol.MODIF_CLUBES);
+        
         MetaDataRoleAuthorizationStrategy.authorize(MensajePage.class, Rol.MENSAJE);
 
         MetaDataRoleAuthorizationStrategy.authorize(FechaHoraPage.class, Rol.FECHA_HORA);
