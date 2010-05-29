@@ -3,6 +3,8 @@ package ar.noxit.ehockey.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,7 +97,16 @@ public class ClubService implements IClubService {
     @Override
     @Transactional
     public void update(ClubPlano clubPlano) throws NoxitException {
+        Club club = clubDao.get(clubPlano.getId());
         // Modifico los valores del club.
+        BeanUtils.copyProperties(clubPlano, club);
+    }
+
+    @Override
+    public IModel<ClubPlano> aplanar(IModel<Club> model) {
+        ClubPlano clubPlano = new ClubPlano();
+        BeanUtils.copyProperties(model.getObject(), clubPlano);
+        return new Model<ClubPlano>(clubPlano);
     }
 
     public void setClubDao(IClubDao clubDao) {
