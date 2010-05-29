@@ -6,36 +6,40 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
-
-import ar.noxit.ehockey.model.Club;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 
 public abstract class ClubFormPanel extends Panel {
-    
-    public ClubFormPanel(String id) {
+
+    private IModel<ClubPlano> clubPlano;
+
+    public ClubFormPanel(String id, IModel<ClubPlano> clubModel) {
         super(id);
-        
-        Form<Club> clubForm = new Form<Club>("formulario"){
+        this.clubPlano = clubModel;
+        Form<ClubPlano> clubForm = new Form<ClubPlano>("formulario") {
             @Override
             protected void onSubmit() {
-                ClubFormPanel.this.onSubmit();
+                ClubFormPanel.this.onSubmit(clubPlano);
             }
         };
-        
-        clubForm.add(new RequiredTextField<String>("nombre"));
-        clubForm.add(new RequiredTextField<String>("nombrecompleto"));
-        clubForm.add(new RequiredTextField<String>("direccion"));
-        clubForm.add(new RequiredTextField<String>("ciudad"));
-        clubForm.add(new RequiredTextField<String>("codigopostal"));
-        clubForm.add(new RequiredTextField<String>("provincia"));
-        clubForm.add(new RequiredTextField<String>("telefono"));
-        clubForm.add(new TextField<String>("email"));
-        clubForm.add(new TextField<String>("web"));
-        clubForm.add(new TextArea<String>("observaciones"));
-        
+
+        clubForm.add(new RequiredTextField<ClubPlano>("nombre", new PropertyModel<ClubPlano>(clubPlano, "nombre")));
+        clubForm.add(new RequiredTextField<ClubPlano>("nombrecompleto", new PropertyModel<ClubPlano>(clubPlano,
+                "nombreCompleto")));
+        clubForm.add(new RequiredTextField<ClubPlano>("direccion", new PropertyModel<ClubPlano>(clubPlano, "direccion")));
+        clubForm.add(new RequiredTextField<ClubPlano>("ciudad", new PropertyModel<ClubPlano>(clubPlano, "ciudad")));
+        clubForm.add(new RequiredTextField<ClubPlano>("codigopostal", new PropertyModel<ClubPlano>(clubPlano,
+                "codigoPostal")));
+        clubForm.add(new RequiredTextField<ClubPlano>("provincia", new PropertyModel<ClubPlano>(clubPlano, "provincia")));
+        clubForm.add(new RequiredTextField<ClubPlano>("telefono", new PropertyModel<ClubPlano>(clubPlano, "telefono")));
+        clubForm.add(new TextField<ClubPlano>("email", new PropertyModel<ClubPlano>(clubPlano, "email")));
+        clubForm.add(new TextField<ClubPlano>("web", new PropertyModel<ClubPlano>(clubPlano, "web")));
+        clubForm.add(new TextArea<ClubPlano>("observaciones", new PropertyModel<ClubPlano>(clubPlano, "observaciones")));
+
         add(clubForm);
         add(new FeedbackPanel("feedback"));
     }
-    
-    public abstract void onSubmit();
+
+    public abstract void onSubmit(IModel<ClubPlano> clubPlano);
 
 }

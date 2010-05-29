@@ -1,11 +1,12 @@
 <wicket:panel>
 
-	<div wicket:id="feedback" />
+	<div class="feedbacklabel" wicket:id="feedback" />
 	<form wicket:id="formulario">
 
 	<table>
+	   <fieldset><legend>Datos del Club</legend>
 		<tr>
-            <td>Nomnbre:(*)</td>
+            <td>Nombre:(*)</td>
 			<td><input type="text" wicket:id="nombre" /></td>
 		</tr>
 		<tr>
@@ -50,6 +51,8 @@
                 <input type="reset" value="Reset" />
             </td>
 		</tr>
+	</fieldset>
 	</table>
 	</form>
+	<span>(*): Datos Requeridos</span>
 </wicket:panel>
