@@ -46,6 +46,13 @@
                    </constructor-arg>
                </bean>
                <bean parent="menuItem">
+                   <constructor-arg value="Equipos"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.equipos.EquiposPage"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.EQUIPOS"/>
+                   </constructor-arg>
+               </bean>
+               <bean parent="menuItem">
                    <constructor-arg value="Tabla de Posiciones"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage"/>
                    <constructor-arg>
