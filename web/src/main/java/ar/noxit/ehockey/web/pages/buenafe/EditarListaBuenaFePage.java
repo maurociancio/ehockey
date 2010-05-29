@@ -30,7 +30,7 @@ public class EditarListaBuenaFePage extends AbstractListaBuenaFePage {
     private IClubService clubService;
     @SpringBean
     private IEquipoService equipoService;
-    private Integer equipoId;
+    private IModel<Integer> equipoId = new Model<Integer>();
     private List<Integer> seleccionados = new ArrayList<Integer>();
 
     public EditarListaBuenaFePage() {
@@ -40,19 +40,20 @@ public class EditarListaBuenaFePage extends AbstractListaBuenaFePage {
             @Override
             protected void onSubmit() {
                 try {
-                    equipoService.asignarListaBuenaFe(equipoId, seleccionados);
+                    equipoService.asignarListaBuenaFe(equipoId.getObject(), seleccionados);
                 } catch (NoxitException e) {
                     throw new NoxitRuntimeException(e);
                 }
             }
         };
 
-        IModel<Integer> equipoIdModel = new PropertyModel<Integer>(this, "equipoId");
+        final IModel<Equipo> equipoSeleccionado = new EquipoModel(equipoId, equipoService);
+        IModel<Integer> clubId = new PropertyModel<Integer>(equipoSeleccionado, "club.id");
+        IModel<List<Integer>> seleccionadosModel = new PropertyModel<List<Integer>>(this, "seleccionados");
 
         formInclusion.add(new Palette<Jugador>("palette",
-                new JugadoresSeleccionadosModel(new Model<Integer>(),
-                        clubService, new PropertyModel<List<Integer>>(this, "seleccionados")),
-                new TodosJugadoresParaEquipoModel(equipoIdModel, clubService),
+                new JugadoresSeleccionadosModel(clubId, clubService, seleccionadosModel),
+                new TodosJugadoresParaEquipoModel(equipoId, clubService),
                 JugadorRenderer.get(),
                 10,
                 false));
@@ -61,8 +62,6 @@ public class EditarListaBuenaFePage extends AbstractListaBuenaFePage {
         add(formInclusion);
 
         // seleccionar club
-        final IModel<Equipo> equipoSeleccionado = new EquipoModel(equipoIdModel,
-                equipoService);
         Form<Equipo> form = new Form<Equipo>("form") {
 
             @Override

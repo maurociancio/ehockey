@@ -10,6 +10,8 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -32,8 +34,8 @@ public class TablaPosicionesPanel extends Panel {
     private ITorneoService torneoService;
     @SpringBean
     private ITablaPosicionesService tablaService;
-    TablaPosicionesDataProvider tablaPosicionesDataProvider;
-    WebMarkupContainer contenedorTabla;
+    private TablaPosicionesDataProvider tablaPosicionesDataProvider;
+    private WebMarkupContainer contenedorTabla;
 
     public TablaPosicionesPanel() {
         this(Model.of(new TablaTransfer()));
@@ -72,12 +74,25 @@ public class TablaPosicionesPanel extends Panel {
         add(contenedorTabla);
 
         add(new HybridSingleAndMultipleChoicePanel<Torneo>("panelhibrido", torneoModel, new TorneoListModel(
-                torneoService), new TorneoRenderer()).add(new AjaxFormComponentUpdatingBehavior("onchange") {
+                torneoService), new TorneoRenderer()) {
 
             @Override
-            protected void onUpdate(AjaxRequestTarget target) {
-                target.addComponent(contenedorTabla);
+            protected FormComponent<Torneo> createMultivalueComponent(String id,
+                    IModel<Torneo> model,
+                    IModel<? extends List<? extends Torneo>> choices,
+                    IChoiceRenderer<? super Torneo> renderer) {
+
+                FormComponent<Torneo> obj = super.createMultivalueComponent(id, model, choices, renderer);
+
+                obj.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+
+                    @Override
+                    protected void onUpdate(AjaxRequestTarget target) {
+                        target.addComponent(contenedorTabla);
+                    }
+                });
+                return obj;
             }
-        }));
+        });
     }
 }

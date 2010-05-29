@@ -1,8 +1,11 @@
 package ar.noxit.ehockey.web.pages.components;
 
+import java.util.List;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -19,29 +22,52 @@ import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 
 public class EquipoSelectorPanel extends Panel {
 
-    private IModel<Integer> idClub = new Model<Integer>();
     @SpringBean
     private IClubService clubService;
 
     public EquipoSelectorPanel(String id, IModel<Equipo> equipo) {
         super(id);
+        IModel<Integer> idClub = new Model<Integer>();
 
-        final DropDownChoice<Equipo> dropDownEquipo = new DropDownChoice<Equipo>("equipo", equipo,
-                new TodosEquiposPorClubModel(idClub, clubService), 
-                EquipoRenderer.get());
+        final HybridSingleAndMultipleChoicePanel<Equipo> dropDownEquipo =
+                new HybridSingleAndMultipleChoicePanel<Equipo>(
+                        "equipo",
+                        equipo,
+                        new TodosEquiposPorClubModel(idClub, clubService),
+                        EquipoRenderer.get());
 
-        dropDownEquipo.setRequired(true).setOutputMarkupId(true);
+        dropDownEquipo.setRequired(true);
+        dropDownEquipo.setOutputMarkupId(true);
+        add(dropDownEquipo);
 
-        add(new DropDownChoice<Club>("club", new ClubModel(idClub, clubService),
-                new ClubListModel(clubService), new ClubRenderer()).add(new AjaxFormComponentUpdatingBehavior(
-                "onchange") {
+        add(new HybridSingleAndMultipleChoicePanel<Club>("club",
+                new ClubModel(idClub, clubService),
+                new ClubListModel(clubService),
+                new ClubRenderer()) {
 
             @Override
-            protected void onUpdate(AjaxRequestTarget target) {
-                target.addComponent(dropDownEquipo);
-            }
-        }));
+            protected FormComponent<Club> createMultivalueComponent(String id,
+                    IModel<Club> model,
+                    IModel<? extends List<? extends Club>> choices,
+                    IChoiceRenderer<? super Club> renderer) {
 
-        add(dropDownEquipo);
+                FormComponent<Club> obj = super.createMultivalueComponent(
+                        id, model, choices, renderer);
+
+                obj.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+
+                    @Override
+                    protected void onUpdate(AjaxRequestTarget target) {
+                        target.addComponent(dropDownEquipo);
+                    }
+                });
+                return obj;
+            };
+        });
+    }
+    
+    @Override
+    protected boolean getStatelessHint() {
+        return false;
     }
 }
