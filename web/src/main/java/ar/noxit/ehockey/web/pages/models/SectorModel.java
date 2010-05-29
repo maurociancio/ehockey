@@ -7,17 +7,13 @@ import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
 
-public class IdSectorModel extends IdLDM<Sector, Integer> {
+public class SectorModel extends IdLDM<Sector, Integer> {
 
     private ISectorService sectorService;
 
-    public IdSectorModel(IModel<Integer> idModel, ISectorService sectorService) {
+    public SectorModel(IModel<Integer> idModel, ISectorService sectorService) {
         super(idModel);
         this.sectorService = sectorService;
-    }
-
-    public IdSectorModel(IModel<Integer> idModel, Sector object) {
-        super(idModel, object);
     }
 
     @Override

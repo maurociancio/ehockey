@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -17,6 +18,7 @@ import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IEquipoService;
 import ar.noxit.ehockey.web.pages.components.EquipoSelectorPanel;
 import ar.noxit.ehockey.web.pages.models.EquipoModel;
+import ar.noxit.ehockey.web.pages.models.JugadoresSeleccionadosModel;
 import ar.noxit.ehockey.web.pages.models.TodosJugadoresParaEquipoModel;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.exceptions.NoxitException;
@@ -29,7 +31,6 @@ public class EditarListaBuenaFePage extends AbstractListaBuenaFePage {
     @SpringBean
     private IEquipoService equipoService;
     private Integer equipoId;
-    private Integer clubId;
     private List<Integer> seleccionados = new ArrayList<Integer>();
 
     public EditarListaBuenaFePage() {
@@ -46,9 +47,12 @@ public class EditarListaBuenaFePage extends AbstractListaBuenaFePage {
             }
         };
 
+        IModel<Integer> equipoIdModel = new PropertyModel<Integer>(this, "equipoId");
+
         formInclusion.add(new Palette<Jugador>("palette",
-                new JugadoresSeleccionadosModel(),
-                new TodosJugadoresParaEquipoModel(new PropertyModel<Integer>(this, "equipoId"), clubService),
+                new JugadoresSeleccionadosModel(new Model<Integer>(),
+                        clubService, new PropertyModel<List<Integer>>(this, "seleccionados")),
+                new TodosJugadoresParaEquipoModel(equipoIdModel, clubService),
                 JugadorRenderer.get(),
                 10,
                 false));
@@ -57,7 +61,7 @@ public class EditarListaBuenaFePage extends AbstractListaBuenaFePage {
         add(formInclusion);
 
         // seleccionar club
-        final IModel<Equipo> equipoSeleccionado = new EquipoModel(new PropertyModel<Integer>(this, "equipoId"),
+        final IModel<Equipo> equipoSeleccionado = new EquipoModel(equipoIdModel,
                 equipoService);
         Form<Equipo> form = new Form<Equipo>("form") {
 
@@ -77,30 +81,5 @@ public class EditarListaBuenaFePage extends AbstractListaBuenaFePage {
         form.add(new EquipoSelectorPanel("equipo", equipoSeleccionado));
 
         add(form);
-    }
-
-    private final class JugadoresSeleccionadosModel implements IModel<List<Jugador>> {
-
-        @Override
-        public List<Jugador> getObject() {
-            try {
-                Equipo equipo = equipoService.get(equipoId);
-                return clubService.getJugadoresPorClub(equipo.getClub().getId(), seleccionados);
-            } catch (NoxitException e) {
-                throw new NoxitRuntimeException(e);
-            }
-        }
-
-        @Override
-        public void setObject(List<Jugador> object) {
-            seleccionados.clear();
-            for (Jugador jugador : object) {
-                seleccionados.add(jugador.getFicha());
-            }
-        }
-
-        @Override
-        public void detach() {
-        }
     }
 }

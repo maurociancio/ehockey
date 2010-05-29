@@ -27,14 +27,14 @@ import ar.noxit.web.wicket.provider.DataProvider;
 public class VerListaBuenaFePage extends AbstractListaBuenaFePage {
 
     @SpringBean
-    private IEquipoService equiposService;
+    private IEquipoService equipoService;
 
     public VerListaBuenaFePage() {
         add(new FeedbackPanel("feedback"));
 
         Form<Void> form = new Form<Void>("equipos");
 
-        final IModel<Equipo> equipo = new EquipoModel(new Model<Integer>(), equiposService);
+        final IModel<Equipo> equipo = new EquipoModel(new Model<Integer>(), equipoService);
         form.add(new EquipoSelectorPanel("equipo", equipo));
 
         add(form);

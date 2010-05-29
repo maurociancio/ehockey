@@ -21,7 +21,7 @@ import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.web.pages.models.ClubListModel;
-import ar.noxit.ehockey.web.pages.models.IdClubModel;
+import ar.noxit.ehockey.web.pages.models.ClubModel;
 import ar.noxit.ehockey.web.pages.models.JugadorModelListModel;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.JugadorModelRenderer;
@@ -58,8 +58,8 @@ public class JugadorBajaPage extends AbstractJugadorPage {
                 }
             }
         };
-
-        form.add(new DropDownChoice<Club>("club", new IdClubModel(
+//TODO REEMPLAZAR COMPONENTE EQUIPO SELECTOR
+        form.add(new DropDownChoice<Club>("club", new ClubModel(
                 new PropertyModel<Integer>(this, "clubid"), clubService),
                 new ClubListModel(clubService), new ClubRenderer())
                 .setRequired(true).add(

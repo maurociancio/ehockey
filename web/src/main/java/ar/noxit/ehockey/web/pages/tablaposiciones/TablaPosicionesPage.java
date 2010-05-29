@@ -1,10 +1,9 @@
 package ar.noxit.ehockey.web.pages.tablaposiciones;
 
-import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
-
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+
+import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 
 public class TablaPosicionesPage extends AbstractContentPage {
 

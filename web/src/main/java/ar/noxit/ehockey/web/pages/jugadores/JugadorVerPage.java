@@ -11,9 +11,9 @@ import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.models.ClubListModel;
 import ar.noxit.ehockey.web.pages.models.DivisionListModel;
-import ar.noxit.ehockey.web.pages.models.IdClubModel;
-import ar.noxit.ehockey.web.pages.models.IdDivisionModel;
-import ar.noxit.ehockey.web.pages.models.IdSectorModel;
+import ar.noxit.ehockey.web.pages.models.ClubModel;
+import ar.noxit.ehockey.web.pages.models.DivisionModel;
+import ar.noxit.ehockey.web.pages.models.SectorModel;
 import ar.noxit.ehockey.web.pages.models.SectorListModel;
 import ar.noxit.ehockey.web.pages.providers.JugadorDataProvider;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
@@ -49,17 +49,17 @@ public class JugadorVerPage extends AbstractHeaderPage {
         JugadorVerPanel jugadorVerPanel = new JugadorVerPanel(jugadorService,
                 new JugadorByClubDivisionSectorDataProvider(jugadorService));
         jugadorVerPanel.setOutputMarkupId(true);
-        add(new DropDownChoice<Club>("club", new IdClubModel(clubid,
+        add(new DropDownChoice<Club>("club", new ClubModel(clubid,
                 clubService), new ClubListModel(clubService),
                 new ClubRenderer()).setNullValid(true).add(
                 new AjaxJugadorVerUpdater("onchange")));
 
-        add(new DropDownChoice<Division>("division", new IdDivisionModel(
+        add(new DropDownChoice<Division>("division", new DivisionModel(
                 divisionid, divisionService), new DivisionListModel(
                 divisionService), new DivisionRenderer()).setNullValid(true)
                 .add(new AjaxJugadorVerUpdater("onchange")));
 
-        add(new DropDownChoice<Sector>("sector", new IdSectorModel(sectorid,
+        add(new DropDownChoice<Sector>("sector", new SectorModel(sectorid,
                 sectorService), new SectorListModel(sectorService),
                 new SectorRenderer()).setNullValid(true).add(
                 new AjaxJugadorVerUpdater("onchange")));

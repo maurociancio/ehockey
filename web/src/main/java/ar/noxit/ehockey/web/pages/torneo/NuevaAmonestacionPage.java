@@ -3,7 +3,7 @@ package ar.noxit.ehockey.web.pages.torneo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.web.pages.base.AbstractColorBasePage;
-import ar.noxit.ehockey.web.pages.models.IdJugadorModel;
+import ar.noxit.ehockey.web.pages.models.JugadorModel;
 import ar.noxit.ehockey.web.pages.planilla.AmonestacionInfo;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import java.util.List;
@@ -34,7 +34,7 @@ public abstract class NuevaAmonestacionPage extends AbstractColorBasePage {
         form.add(feedbackPanel);
 
         form.add(new DropDownChoice<Jugador>("jugadores",
-                new IdJugadorModel(new PropertyModel<Integer>(amonestacionInfo, "jugadorId"), jugadorService),
+                new JugadorModel(new PropertyModel<Integer>(amonestacionInfo, "jugadorId"), jugadorService),
                 jugadores,
                 JugadorRenderer.get())
                 .setRequired(true));

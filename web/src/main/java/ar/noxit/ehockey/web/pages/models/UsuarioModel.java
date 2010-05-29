@@ -9,6 +9,7 @@ import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
 
 public class UsuarioModel extends IdLDM<Usuario, String> {
+
     private IUsuarioService usuarioService;
 
     public UsuarioModel(IModel<String> idModel, IUsuarioService usuarioService) {

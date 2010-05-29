@@ -12,13 +12,13 @@ import ar.noxit.exceptions.NoxitException;
 
 public class PerfilUsuarioPage extends AbstractContentPage {
     @SpringBean
-    IUsuarioService usuarioService;
+    private IUsuarioService usuarioService;
 
     public PerfilUsuarioPage(final IModel<UsuarioDTO> usuario) {
         add(new FeedbackPanel("feedback"));
         UsuarioBasePanel basePanel = new UsuarioBasePanel("basePanel", usuario);
         basePanel.setUsuarioEditable(false);
-        Form form = new Form<Void>("perfilForm") {
+        Form<Void> form = new Form<Void>("perfilForm") {
             @Override
             protected void onSubmit() {
                 try {

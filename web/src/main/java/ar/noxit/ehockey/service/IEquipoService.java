@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface IEquipoService {
 
-    List<Equipo> getAll() throws NoxitException;
-
     Equipo get(Integer id) throws NoxitException;
 
     void asignarListaBuenaFe(Integer equipoId, List<Integer> jugadoresIds) throws NoxitException;

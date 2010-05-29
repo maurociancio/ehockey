@@ -48,8 +48,8 @@ import ar.noxit.ehockey.web.pages.models.DivisionListModel;
 import ar.noxit.ehockey.web.pages.models.EquipoModel;
 import ar.noxit.ehockey.web.pages.models.EquiposDeSectorYDivisionModel;
 import ar.noxit.ehockey.web.pages.models.EquiposSeleccionadosModel;
-import ar.noxit.ehockey.web.pages.models.IdDivisionModel;
-import ar.noxit.ehockey.web.pages.models.IdSectorModel;
+import ar.noxit.ehockey.web.pages.models.DivisionModel;
+import ar.noxit.ehockey.web.pages.models.SectorModel;
 import ar.noxit.ehockey.web.pages.models.SectorListModel;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
@@ -191,12 +191,12 @@ public class NuevoTorneoWizard extends Wizard {
             setTitleModel(Model.of("Características del torneo"));
             setSummaryModel(Model.of("Defina la sección y la división del torneo"));
 
-            add(new DropDownChoice<Division>("division", new IdDivisionModel(
+            add(new DropDownChoice<Division>("division", new DivisionModel(
                     division,
                     divisionService), new DivisionListModel(divisionService),
                     new DivisionRenderer()).setRequired(true));
 
-            add(new DropDownChoice<Sector>("sector", new IdSectorModel(
+            add(new DropDownChoice<Sector>("sector", new SectorModel(
                     sector,
                     sectorService), new SectorListModel(sectorService),
                     new SectorRenderer()).setRequired(true));

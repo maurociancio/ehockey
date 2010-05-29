@@ -3,6 +3,7 @@ package ar.noxit.ehockey.web.pages.providers;
 import java.util.List;
 
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IJugadorService;
@@ -31,7 +32,7 @@ public abstract class JugadorDataProvider extends DataProvider<Jugador> {
 
     @Override
     public IModel<Jugador> model(Jugador object) {
-        return new JugadorModel(object.getFicha(), jugadorService);
+        return new JugadorModel(Model.of(object.getFicha()), jugadorService);
     }
 
     public IJugadorService getService() {
