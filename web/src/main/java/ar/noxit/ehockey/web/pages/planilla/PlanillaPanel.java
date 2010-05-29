@@ -4,15 +4,15 @@ import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.model.TarjetasPartido;
+import ar.noxit.ehockey.web.pages.models.JugadorLocalModelItem;
+import ar.noxit.ehockey.web.pages.models.JugadorVisitanteModelItem;
 import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.Loop;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.joda.time.LocalDateTime;
@@ -72,40 +72,6 @@ public class PlanillaPanel extends Panel {
         add(new Label("arbitro_visitante", new PropertyModel<String>(planillaModel, "datosVisitante.arbitro")));
 
         add(new Label("observaciones", new PropertyModel<String>(planillaModel, "observaciones")));
-    }
-
-    private class JugadorLocalModelItem extends
-            LoadableDetachableModel<List<Jugador>> {
-
-        private IModel<? extends Planilla> planillaModel;
-
-        public JugadorLocalModelItem(IModel<? extends Planilla> planillaModel) {
-            this.planillaModel = planillaModel;
-        }
-
-        @Override
-        protected List<Jugador> load() {
-            List<Jugador> result = new ArrayList<Jugador>();
-            result.addAll(planillaModel.getObject().getJugadoresL());
-            return (result);
-        }
-    }
-
-    private class JugadorVisitanteModelItem extends
-            LoadableDetachableModel<List<Jugador>> {
-
-        private IModel<? extends Planilla> planillaModel;
-
-        public JugadorVisitanteModelItem(IModel<? extends Planilla> planillaModel) {
-            this.planillaModel = planillaModel;
-        }
-
-        @Override
-        protected List<Jugador> load() {
-            List<Jugador> result = new ArrayList<Jugador>();
-            result.addAll(planillaModel.getObject().getJugadoresV());
-            return result;
-        }
     }
 
     private class DiaAdapterModel extends AbstractLocalDateTimeFormatModel {
