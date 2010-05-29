@@ -1,5 +1,9 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
+import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.transfer.PartidoInfo;
+import ar.noxit.ehockey.web.pages.models.EquipoModel;
+import ar.noxit.web.wicket.model.Date2LocalDateTimeAdapterModel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.datetime.PatternDateConverter;
@@ -15,15 +19,10 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
 
-import ar.noxit.ehockey.service.IEquipoService;
-import ar.noxit.ehockey.service.transfer.PartidoInfo;
-import ar.noxit.ehockey.web.pages.models.EquipoModel;
-import ar.noxit.web.wicket.model.Date2LocalDateTimeAdapterModel;
-
 public abstract class PartidoFormPanel extends Panel {
 
     @SpringBean
-    private IEquipoService equiposService;
+    private IEquiposService equiposService;
     @SuppressWarnings("unused")
     private String botonSubmit;
     private boolean localActivo = true;
