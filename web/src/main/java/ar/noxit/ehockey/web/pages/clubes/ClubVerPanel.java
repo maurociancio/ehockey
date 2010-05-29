@@ -3,10 +3,16 @@ package ar.noxit.ehockey.web.pages.clubes;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -27,7 +33,14 @@ public class ClubVerPanel extends Panel {
 
         List<IColumn<Club>> columnas = new ArrayList<IColumn<Club>>();
 
-        columnas.add(new PropertyColumn<Club>(Model.of("Nombre del Club"), "nombre"));
+        columnas.add(new AbstractColumn<Club>(Model.of("Nombre")) {
+
+            @Override
+            public void populateItem(Item<ICellPopulator<Club>> cellItem, String componentId, IModel<Club> rowModel) {
+
+                cellItem.add(new AccionPanel(componentId, rowModel));
+            }
+        });
         columnas.add(new PropertyColumn<Club>(Model.of("Direccion"), "direccion"));
         columnas.add(new PropertyColumn<Club>(Model.of("Ciudad"), "ciudad"));
         columnas.add(new PropertyColumn<Club>(Model.of("Povincia"), "provincia"));
@@ -35,6 +48,24 @@ public class ClubVerPanel extends Panel {
         DefaultDataTable<Club> tabla = new DefaultDataTable<Club>("clubes", columnas,
                 new ClubDataProvider(clubService), 10);
         add(tabla);
+    }
+
+    private class AccionPanel extends Panel {
+        public AccionPanel(String id, final IModel<Club> model) {
+            super(id);
+
+            add(new Link<String>("nombre") {
+                @Override
+                public void onClick() {
+                    setResponsePage(new ClubEditarPage(clubService.aplanar(model)));
+                }
+            }.add(new Label("label", new AbstractReadOnlyModel() {
+                @Override
+                public Object getObject() {
+                    return model.getObject().getNombre();
+                }
+            })));
+        }
     }
 
     private class ClubDataProvider extends DataProvider<Club> {
