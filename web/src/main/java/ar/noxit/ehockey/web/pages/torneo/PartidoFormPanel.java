@@ -1,21 +1,12 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
-import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.service.IEquiposService;
-import ar.noxit.ehockey.service.transfer.PartidoInfo;
-import ar.noxit.ehockey.web.pages.models.SelectedEquipoModel;
-import ar.noxit.ehockey.web.pages.models.TodosEquiposModel;
-import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
-import ar.noxit.web.wicket.model.Date2LocalDateTimeAdapterModel;
-import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.datetime.PatternDateConverter;
 import org.apache.wicket.datetime.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DateTimeField;
-import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -24,10 +15,15 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
 
+import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.service.transfer.PartidoInfo;
+import ar.noxit.ehockey.web.pages.models.EquipoModel;
+import ar.noxit.web.wicket.model.Date2LocalDateTimeAdapterModel;
+
 public abstract class PartidoFormPanel extends Panel {
 
     @SpringBean
-    private IEquiposService equiposService;
+    private IEquipoService equiposService;
     @SuppressWarnings("unused")
     private String botonSubmit;
     private boolean localActivo = true;
@@ -45,34 +41,8 @@ public abstract class PartidoFormPanel extends Panel {
 
         Form<Void> form = new Form<Void>("form");
 
-        // choices
-        IModel<List<Equipo>> choices = new TodosEquiposModel(equiposService);
-        // renderer
-        IChoiceRenderer<Equipo> renderer = EquipoRenderer.get();
-
-        form.add(new DropDownChoice<Equipo>("local",
-                new SelectedEquipoModel(new PropertyModel<Integer>(partido, "equipoLocalId"), equiposService),
-                choices,
-                renderer) {
-
-            @Override
-            public boolean isEnabled() {
-                return localActivo;
-            }
-
-        }.setRequired(true));
-
-        form.add(new DropDownChoice<Equipo>("visitante",
-                new SelectedEquipoModel(new PropertyModel<Integer>(partido, "equipoVisitanteId"), equiposService),
-                choices,
-                renderer) {
-
-            @Override
-            public boolean isEnabled() {
-                return visitanteActivo;
-            }
-
-        }.setRequired(true));
+        form.add(new Label("local", new EquipoModel(new PropertyModel<Integer>(partido, "equipoLocalId"), equiposService)).setRenderBodyOnly(true));
+        form.add(new Label("visitante", new EquipoModel(new PropertyModel<Integer>(partido, "equipoVisitanteId"), equiposService)).setRenderBodyOnly(true));
 
         form.add(new RequiredTextField<Integer>("numero_fecha",
                 new PropertyModel<Integer>(partido, "numeroFecha"), Integer.class) {
