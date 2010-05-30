@@ -1,26 +1,12 @@
 package ar.noxit.ehockey.web.pages.jugadores;
 
-import java.util.List;
-
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.FormComponent;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.exception.JugadorYaBajaException;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.JugadoresPorClubListModel;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IJugadorService;
+import ar.noxit.ehockey.web.pages.components.AjaxHybridSingleAndMultipleChoicePanel;
 import ar.noxit.ehockey.web.pages.components.HybridSingleAndMultipleChoicePanel;
 import ar.noxit.ehockey.web.pages.models.ClubModel;
 import ar.noxit.ehockey.web.pages.models.ClubesListModel;
@@ -29,6 +15,15 @@ import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class JugadorBajaPage extends AbstractJugadorPage {
 
@@ -65,25 +60,13 @@ public class JugadorBajaPage extends AbstractJugadorPage {
         };
 
         HybridSingleAndMultipleChoicePanel<Club> component =
-                new HybridSingleAndMultipleChoicePanel<Club>("club",
+                new AjaxHybridSingleAndMultipleChoicePanel<Club>("club",
                         new ClubModel(clubid, clubService),
                         new ClubesListModel(clubService), new ClubRenderer()) {
 
                     @Override
-                    protected FormComponent<Club> createMultivalueComponent(String id, IModel<Club> model,
-                            IModel<? extends List<? extends Club>> choices, IChoiceRenderer<? super Club> renderer) {
-
-                        FormComponent<Club> obj = super.createMultivalueComponent(id, model, choices, renderer);
-
-                        obj.add(new AjaxFormComponentUpdatingBehavior("onchange") {
-
-                            @Override
-                            protected void onUpdate(AjaxRequestTarget target) {
-                                target.addComponent(jugadoresDropDown);
-                            }
-                        });
-
-                        return obj;
+                    protected void onUpdate(AjaxRequestTarget target) {
+                        target.addComponent(jugadoresDropDown);
                     }
                 };
 
