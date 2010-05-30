@@ -76,6 +76,7 @@ public class JugadorBajaPage extends AbstractJugadorPage {
                         FormComponent<Club> obj = super.createMultivalueComponent(id, model, choices, renderer);
 
                         obj.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+
                             @Override
                             protected void onUpdate(AjaxRequestTarget target) {
                                 target.addComponent(jugadoresDropDown);
