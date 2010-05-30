@@ -10,6 +10,9 @@
     <bean id="equiposService" class="ar.noxit.ehockey.service.impl.EquipoService">
         <property name="equipoDao" ref="equipoDao"/>
         <property name="jugadorDao" ref="jugadorDao"/>
+        <property name="clubDao" ref="clubDao"/>
+        <property name="divisionDao" ref="divisionDao"/>
+        <property name="sectorDao" ref="sectorDao"/>
     </bean>
     <bean id="clubService" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="proxyInterfaces" value="ar.noxit.ehockey.service.IClubService"/>

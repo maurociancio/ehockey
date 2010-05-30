@@ -19,6 +19,7 @@ import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
 import java.util.List;
+import org.apache.commons.lang.Validate;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -28,7 +29,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class EquipoFormPanel extends Panel {
+public abstract class EquipoFormPanel extends Panel {
 
     @SpringBean
     private IClubService clubService;
@@ -39,13 +40,15 @@ public class EquipoFormPanel extends Panel {
 
     public EquipoFormPanel(String id, IModel<EquipoPlano> equipo) {
         super(id);
+        Validate.notNull(equipo);
 
         add(new FeedbackPanel("feedback"));
 
-        Form<EquipoPlano> form = new Form<EquipoPlano>("form") {
+        Form<EquipoPlano> form = new Form<EquipoPlano>("form", equipo) {
 
             @Override
             protected void onSubmit() {
+                EquipoFormPanel.this.onSubmit(getModelObject());
             }
         };
 
@@ -96,4 +99,6 @@ public class EquipoFormPanel extends Panel {
 
         return new RequiredHybridSingleAndMultipleChoicePanel<Sector>(id, sector, divisiones, divisionRenderer);
     }
+
+    protected abstract void onSubmit(EquipoPlano modelObject);
 }
