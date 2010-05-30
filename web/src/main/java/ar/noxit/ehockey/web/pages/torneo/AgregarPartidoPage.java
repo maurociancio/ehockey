@@ -16,8 +16,6 @@ public class AgregarPartidoPage extends AbstractColorBasePage {
                 modalWindow.close(target);
             }
         }.setSubmitLabel("Asignar fecha")
-                .setLocalActivo(false)
-                .setVisitanteActivo(false)
                 .setNumeroFechaActivo(false)
                 .setRuedaActivo(false));
     }
