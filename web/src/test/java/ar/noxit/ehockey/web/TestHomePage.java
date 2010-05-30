@@ -43,12 +43,9 @@ public class TestHomePage extends BaseSpringWicketTest {
     public void testRenderVerListaBuenaFe() throws NoxitException {
         IEquipoService equipoService = createMock(IEquipoService.class);
         IClubService clubService = createMock(IClubService.class);
-        Club c = new Club("Prueba");
-        c.setId(1);
         List<Club> value = new ArrayList<Club>();
-        value.add(c);
 
-        expect(clubService.getAll()).andReturn(value);
+        expect(clubService.getAll()).andReturn(value).times(3);
         replay(equipoService);
         replay(clubService);
 
@@ -65,12 +62,9 @@ public class TestHomePage extends BaseSpringWicketTest {
         MockableBeanInjector.mockBean("equipoService", equiposService);
 
         IClubService clubService = createMock(IClubService.class);
-        Club c = new Club("Prueba");
-        c.setId(1);
         List<Club> value = new ArrayList<Club>();
-        value.add(c);
 
-        expect(clubService.getAll()).andReturn(value);
+        expect(clubService.getAll()).andReturn(value).times(3);
         replay(clubService);
         MockableBeanInjector.mockBean("clubService", clubService);
 
@@ -95,7 +89,7 @@ public class TestHomePage extends BaseSpringWicketTest {
 
         // torneo service
         ITorneoService torneoService = createMock(ITorneoService.class);
-        expect(torneoService.getAll()).andReturn(new ArrayList<Torneo>());
+        expect(torneoService.getAll()).andReturn(new ArrayList<Torneo>()).times(3);
         MockableBeanInjector.mockBean("torneoService", torneoService);
 
         // tabla service
