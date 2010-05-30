@@ -9,9 +9,10 @@ import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
+import ar.noxit.ehockey.web.pages.components.AjaxHybridSingleAndMultipleChoicePanel;
+import ar.noxit.ehockey.web.pages.models.ClubModel;
 import ar.noxit.ehockey.web.pages.models.ClubesListModel;
 import ar.noxit.ehockey.web.pages.models.DivisionListModel;
-import ar.noxit.ehockey.web.pages.models.ClubModel;
 import ar.noxit.ehockey.web.pages.models.DivisionModel;
 import ar.noxit.ehockey.web.pages.models.SectorModel;
 import ar.noxit.ehockey.web.pages.models.SectoresListModel;
@@ -24,6 +25,8 @@ import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -46,13 +49,28 @@ public class JugadorVerPage extends AbstractHeaderPage {
     public JugadorVerPage() {
         super();
 
-        JugadorVerPanel jugadorVerPanel = new JugadorVerPanel(jugadorService,
-                new JugadorByClubDivisionSectorDataProvider(jugadorService));
+        JugadorVerPanel jugadorVerPanel = new JugadorVerPanel(
+                jugadorService, new JugadorByClubDivisionSectorDataProvider(jugadorService));
         jugadorVerPanel.setOutputMarkupId(true);
-        add(new DropDownChoice<Club>("club", new ClubModel(clubid,
-                clubService), new ClubesListModel(clubService),
-                new ClubRenderer()).setNullValid(true).add(
-                new AjaxJugadorVerUpdater("onchange")));
+        add(jugadorVerPanel);
+
+        add(new AjaxHybridSingleAndMultipleChoicePanel<Club>("club",
+                new ClubModel(clubid, clubService),
+                new ClubesListModel(clubService),
+                new ClubRenderer()) {
+
+            @Override
+            protected FormComponent<Club> createMultivalueComponent(String id, IModel<Club> model,
+                            IModel<? extends List<? extends Club>> choices, IChoiceRenderer<? super Club> renderer) {
+                return ((DropDownChoice<Club>) super.createMultivalueComponent(id, model, choices, renderer))
+                        .setNullValid(true);
+            }
+
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+                refresh(target);
+            }
+        });
 
         add(new DropDownChoice<Division>("division", new DivisionModel(
                 divisionid, divisionService), new DivisionListModel(
@@ -64,13 +82,14 @@ public class JugadorVerPage extends AbstractHeaderPage {
                 new SectorRenderer()).setNullValid(true).add(
                 new AjaxJugadorVerUpdater("onchange")));
 
-        add(jugadorVerPanel);
-
         add(new BookmarkablePageLink<AbstractJugadorPage>("menujugador", JugadorPage.class));
     }
 
-    private class AjaxJugadorVerUpdater extends
-            AjaxFormComponentUpdatingBehavior {
+    private void refresh(AjaxRequestTarget target) {
+        target.addComponent(getPage().get("jugadorespanel"));
+    }
+
+    private class AjaxJugadorVerUpdater extends AjaxFormComponentUpdatingBehavior {
 
         public AjaxJugadorVerUpdater(String event) {
             super(event);
@@ -78,22 +97,23 @@ public class JugadorVerPage extends AbstractHeaderPage {
 
         @Override
         protected void onUpdate(AjaxRequestTarget target) {
-            target.addComponent(getPage().get("jugadorespanel"));
+            refresh(target);
         }
     }
 
-    private class JugadorByClubDivisionSectorDataProvider extends
-            JugadorDataProvider {
+    private class JugadorByClubDivisionSectorDataProvider extends JugadorDataProvider {
 
-        public JugadorByClubDivisionSectorDataProvider(
-                IJugadorService jugadorService) {
+        public JugadorByClubDivisionSectorDataProvider(IJugadorService jugadorService) {
             super(jugadorService);
         }
 
         @Override
         public List<Jugador> listoToLoad() throws NoxitException {
-            return getService().getAllByClubDivisionSector(clubid.getObject(),
-                    divisionid.getObject(), sectorid.getObject());
+            Integer clubId = clubid.getObject();
+            Integer sectorId = sectorid.getObject();
+            Integer divisionId = divisionid.getObject();
+            IJugadorService service = getService();
+            return service.getAllByClubDivisionSector(clubId, divisionId, sectorId);
         }
     }
 }
