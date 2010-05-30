@@ -9,12 +9,12 @@ import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
-import ar.noxit.ehockey.web.pages.models.ClubListModel;
+import ar.noxit.ehockey.web.pages.models.ClubesListModel;
 import ar.noxit.ehockey.web.pages.models.DivisionListModel;
 import ar.noxit.ehockey.web.pages.models.ClubModel;
 import ar.noxit.ehockey.web.pages.models.DivisionModel;
 import ar.noxit.ehockey.web.pages.models.SectorModel;
-import ar.noxit.ehockey.web.pages.models.SectorListModel;
+import ar.noxit.ehockey.web.pages.models.SectoresListModel;
 import ar.noxit.ehockey.web.pages.providers.JugadorDataProvider;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
@@ -50,7 +50,7 @@ public class JugadorVerPage extends AbstractHeaderPage {
                 new JugadorByClubDivisionSectorDataProvider(jugadorService));
         jugadorVerPanel.setOutputMarkupId(true);
         add(new DropDownChoice<Club>("club", new ClubModel(clubid,
-                clubService), new ClubListModel(clubService),
+                clubService), new ClubesListModel(clubService),
                 new ClubRenderer()).setNullValid(true).add(
                 new AjaxJugadorVerUpdater("onchange")));
 
@@ -60,7 +60,7 @@ public class JugadorVerPage extends AbstractHeaderPage {
                 .add(new AjaxJugadorVerUpdater("onchange")));
 
         add(new DropDownChoice<Sector>("sector", new SectorModel(sectorid,
-                sectorService), new SectorListModel(sectorService),
+                sectorService), new SectoresListModel(sectorService),
                 new SectorRenderer()).setNullValid(true).add(
                 new AjaxJugadorVerUpdater("onchange")));
 

@@ -11,8 +11,7 @@ public class DivisionModel extends IdLDM<Division, Integer> {
 
     private IDivisionService divisionService;
 
-    public DivisionModel(IModel<Integer> idModel,
-            IDivisionService divisionService) {
+    public DivisionModel(IModel<Integer> idModel, IDivisionService divisionService) {
         super(idModel);
         this.divisionService = divisionService;
     }
@@ -26,5 +25,4 @@ public class DivisionModel extends IdLDM<Division, Integer> {
     protected Integer getObjectId(Division object) {
         return object.getId();
     }
-
 }

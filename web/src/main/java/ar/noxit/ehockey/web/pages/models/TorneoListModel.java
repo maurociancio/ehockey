@@ -28,5 +28,4 @@ public class TorneoListModel extends LoadableDetachableModel<List<Torneo>> {
             throw new NoxitRuntimeException(ex);
         }
     }
-
 }

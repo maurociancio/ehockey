@@ -30,8 +30,8 @@ import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorModalPage;
-import ar.noxit.ehockey.web.pages.models.JugadorIdModel;
-import ar.noxit.ehockey.web.pages.models.TodosJugadoresParaEquipoModel;
+import ar.noxit.ehockey.web.pages.models.JugadorModel;
+import ar.noxit.ehockey.web.pages.models.JugadoresParaEquipoListModel;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.ehockey.web.pages.torneo.NuevaAmonestacionPage;
 import ar.noxit.exceptions.NoxitException;
@@ -56,7 +56,7 @@ public class PlanillaEquipoPanel extends Panel {
         add(modal);
 
         // LISTA DE JUGADORES MODEL
-        final IModel<List<Jugador>> jugadoresModel = new TodosJugadoresParaEquipoModel(
+        final IModel<List<Jugador>> jugadoresModel = new JugadoresParaEquipoListModel(
                 new PropertyModel<Integer>(equipo, "club.id"), clubService);
 
         // PALETA DE JUGADORES
@@ -108,7 +108,7 @@ public class PlanillaEquipoPanel extends Panel {
             @Override
             protected IModel<String> createDisplayModel(IModel<AmonestacionInfo> rowModel) {
                 IModel<Integer> id = new PropertyModel<Integer>(rowModel, "jugadorId");
-                return new PropertyModel<String>(new JugadorIdModel(jugadorService, id), "apellido");
+                return new PropertyModel<String>(new JugadorModel(id, jugadorService), "apellido");
             }
         });
         columns.add(new PropertyColumn<AmonestacionInfo>(Model.of("Rojas"), "rojas"));

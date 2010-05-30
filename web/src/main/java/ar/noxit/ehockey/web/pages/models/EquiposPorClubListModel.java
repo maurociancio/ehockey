@@ -11,12 +11,12 @@ import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.LDM;
 
-public class TodosEquiposPorClubModel extends LDM<List<Equipo>> {
+public class EquiposPorClubListModel extends LDM<List<Equipo>> {
 
     private IClubService clubService;
     private IModel<Integer> idClub;
 
-    public TodosEquiposPorClubModel(IModel<Integer> idClub, IClubService clubService) {
+    public EquiposPorClubListModel(IModel<Integer> idClub, IClubService clubService) {
         super();
         Validate.notNull(clubService);
         Validate.notNull(idClub);

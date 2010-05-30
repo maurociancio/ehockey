@@ -9,7 +9,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.web.pages.models.ClubListModel;
+import ar.noxit.ehockey.web.pages.models.ClubesListModel;
 import ar.noxit.ehockey.web.pages.models.ClubModel;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 
@@ -22,7 +22,7 @@ public class UsuarioRepresentantePanel extends Panel {
         super(id);
 
         IModel<Club> club = new ClubModel(new PropertyModel<Integer>(usuarioRepres, "clubId"), clubService);
-        add(new DropDownChoice<Club>("clubes", club, new ClubListModel(clubService), new ClubRenderer())
+        add(new DropDownChoice<Club>("clubes", club, new ClubesListModel(clubService), new ClubRenderer())
                 .setRequired(true));
         add(new RequiredTextField<String>("cargo", new PropertyModel<String>(usuarioRepres, "cargo")));
     }

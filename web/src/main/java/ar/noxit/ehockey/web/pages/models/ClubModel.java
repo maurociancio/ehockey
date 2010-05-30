@@ -25,5 +25,4 @@ public class ClubModel extends IdLDM<Club, Integer> {
     protected Integer getObjectId(Club object) {
         return object.getId();
     }
-
 }

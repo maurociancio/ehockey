@@ -46,11 +46,11 @@ import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.transfer.PartidoInfo;
 import ar.noxit.ehockey.web.pages.models.DivisionListModel;
 import ar.noxit.ehockey.web.pages.models.EquipoModel;
-import ar.noxit.ehockey.web.pages.models.EquiposDeSectorYDivisionModel;
-import ar.noxit.ehockey.web.pages.models.EquiposSeleccionadosModel;
+import ar.noxit.ehockey.web.pages.models.EquiposDeSectorYDivisionListModel;
+import ar.noxit.ehockey.web.pages.models.EquiposSeleccionadosListModel;
 import ar.noxit.ehockey.web.pages.models.DivisionModel;
 import ar.noxit.ehockey.web.pages.models.SectorModel;
-import ar.noxit.ehockey.web.pages.models.SectorListModel;
+import ar.noxit.ehockey.web.pages.models.SectoresListModel;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
@@ -198,7 +198,7 @@ public class NuevoTorneoWizard extends Wizard {
 
             add(new DropDownChoice<Sector>("sector", new SectorModel(
                     sector,
-                    sectorService), new SectorListModel(sectorService),
+                    sectorService), new SectoresListModel(sectorService),
                     new SectorRenderer()).setRequired(true));
         }
     }
@@ -210,8 +210,8 @@ public class NuevoTorneoWizard extends Wizard {
             setSummaryModel(Model.of("Elija cuatro equipos para conformar el torneo"));
 
             final Palette<Equipo> palette = new Palette<Equipo>("equipos",
-                    new EquiposSeleccionadosModel(equiposService, equipos),
-                    new EquiposDeSectorYDivisionModel(equiposService, sector, division),
+                    new EquiposSeleccionadosListModel(equiposService, equipos),
+                    new EquiposDeSectorYDivisionListModel(equiposService, sector, division),
                     EquipoRenderer.get(),
                     6,
                     true);

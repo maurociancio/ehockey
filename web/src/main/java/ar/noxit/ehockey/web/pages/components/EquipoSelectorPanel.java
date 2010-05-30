@@ -14,9 +14,9 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.web.pages.models.ClubListModel;
+import ar.noxit.ehockey.web.pages.models.ClubesListModel;
 import ar.noxit.ehockey.web.pages.models.ClubModel;
-import ar.noxit.ehockey.web.pages.models.TodosEquiposPorClubModel;
+import ar.noxit.ehockey.web.pages.models.EquiposPorClubListModel;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 
@@ -33,7 +33,7 @@ public class EquipoSelectorPanel extends Panel {
                 new HybridSingleAndMultipleChoicePanel<Equipo>(
                         "equipo",
                         equipo,
-                        new TodosEquiposPorClubModel(idClub, clubService),
+                        new EquiposPorClubListModel(idClub, clubService),
                         EquipoRenderer.get());
 
         dropDownEquipo.setRequired(true);
@@ -42,7 +42,7 @@ public class EquipoSelectorPanel extends Panel {
 
         add(new HybridSingleAndMultipleChoicePanel<Club>("club",
                 new ClubModel(idClub, clubService),
-                new ClubListModel(clubService),
+                new ClubesListModel(clubService),
                 new ClubRenderer()) {
 
             @Override

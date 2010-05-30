@@ -8,13 +8,13 @@ import ar.noxit.web.wicket.model.LDM;
 import java.util.List;
 import org.apache.wicket.model.IModel;
 
-public class EquiposDeSectorYDivisionModel extends LDM<List<Equipo>> {
+public class EquiposDeSectorYDivisionListModel extends LDM<List<Equipo>> {
 
     private IModel<Integer> sectorId;
     private IModel<Integer> divisionId;
     private IEquipoService equipoService;
 
-    public EquiposDeSectorYDivisionModel(IEquipoService equipoService, IModel<Integer> sectorId,
+    public EquiposDeSectorYDivisionListModel(IEquipoService equipoService, IModel<Integer> sectorId,
             IModel<Integer> divisionId) {
         super();
 

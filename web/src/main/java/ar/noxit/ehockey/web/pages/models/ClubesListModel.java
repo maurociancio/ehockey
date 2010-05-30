@@ -10,11 +10,11 @@ import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 
-public class ClubListModel extends LoadableDetachableModel<List<Club>> {
+public class ClubesListModel extends LoadableDetachableModel<List<Club>> {
 
     private IClubService clubService;
 
-    public ClubListModel(IClubService clubService) {
+    public ClubesListModel(IClubService clubService) {
         Validate.notNull(clubService);
 
         this.clubService = clubService;

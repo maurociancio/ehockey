@@ -9,14 +9,13 @@ import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 
-public class JugadoresSeleccionadosModel implements IModel<List<Jugador>> {
+public class JugadoresSeleccionadosListModel implements IModel<List<Jugador>> {
 
     private IModel<Integer> clubId;
     private IClubService clubService;
     private IModel<? extends List<Integer>> seleccionados;
 
-    
-    public JugadoresSeleccionadosModel(IModel<Integer> clubId, IClubService clubService,
+    public JugadoresSeleccionadosListModel(IModel<Integer> clubId, IClubService clubService,
             IModel<? extends List<Integer>> seleccionados) {
         super();
         this.clubId = clubId;

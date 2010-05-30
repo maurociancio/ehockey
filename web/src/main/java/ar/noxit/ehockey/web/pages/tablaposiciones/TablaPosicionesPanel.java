@@ -23,7 +23,7 @@ import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.web.pages.components.HybridSingleAndMultipleChoicePanel;
-import ar.noxit.ehockey.web.pages.models.IdTorneoModel;
+import ar.noxit.ehockey.web.pages.models.TorneoModel;
 import ar.noxit.ehockey.web.pages.models.TorneoListModel;
 import ar.noxit.ehockey.web.pages.providers.TablaPosicionesDataProvider;
 import ar.noxit.ehockey.web.pages.renderers.TorneoRenderer;
@@ -46,7 +46,7 @@ public class TablaPosicionesPanel extends Panel {
 
         List<IColumn<DatosTabla>> columnas = new ArrayList<IColumn<DatosTabla>>();
 
-        IModel<Torneo> torneoModel = new IdTorneoModel(new PropertyModel<Integer>(tablaTransferModel, "torneoId"),
+        IModel<Torneo> torneoModel = new TorneoModel(new PropertyModel<Integer>(tablaTransferModel, "torneoId"),
                 torneoService);
 
         columnas.add(new PropertyColumn<DatosTabla>(Model.of("Nombre"), "nombre"));

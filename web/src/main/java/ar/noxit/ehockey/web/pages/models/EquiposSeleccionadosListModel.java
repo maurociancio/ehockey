@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.model.IModel;
 
-public class EquiposSeleccionadosModel implements IModel<List<Equipo>> {
+public class EquiposSeleccionadosListModel implements IModel<List<Equipo>> {
 
     private IEquipoService equiposService;
     private IModel<? extends List<Integer>> idsModel;
 
-    public EquiposSeleccionadosModel(IEquipoService equiposService, IModel<? extends List<Integer>> ids) {
+    public EquiposSeleccionadosListModel(IEquipoService equiposService, IModel<? extends List<Integer>> ids) {
         this.equiposService = equiposService;
         this.idsModel = ids;
     }

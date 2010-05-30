@@ -25,5 +25,4 @@ public class SectorModel extends IdLDM<Sector, Integer> {
     protected Integer getObjectId(Sector object) {
         return object.getId();
     }
-
 }

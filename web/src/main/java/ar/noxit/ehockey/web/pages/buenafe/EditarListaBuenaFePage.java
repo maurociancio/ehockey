@@ -18,8 +18,8 @@ import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IEquipoService;
 import ar.noxit.ehockey.web.pages.components.EquipoSelectorPanel;
 import ar.noxit.ehockey.web.pages.models.EquipoModel;
-import ar.noxit.ehockey.web.pages.models.JugadoresSeleccionadosModel;
-import ar.noxit.ehockey.web.pages.models.TodosJugadoresParaEquipoModel;
+import ar.noxit.ehockey.web.pages.models.JugadoresSeleccionadosListModel;
+import ar.noxit.ehockey.web.pages.models.JugadoresParaEquipoListModel;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
@@ -52,8 +52,8 @@ public class EditarListaBuenaFePage extends AbstractListaBuenaFePage {
         IModel<List<Integer>> seleccionadosModel = new PropertyModel<List<Integer>>(this, "seleccionados");
 
         formInclusion.add(new Palette<Jugador>("palette",
-                new JugadoresSeleccionadosModel(clubId, clubService, seleccionadosModel),
-                new TodosJugadoresParaEquipoModel(equipoId, clubService),
+                new JugadoresSeleccionadosListModel(clubId, clubService, seleccionadosModel),
+                new JugadoresParaEquipoListModel(equipoId, clubService),
                 JugadorRenderer.get(),
                 10,
                 false));

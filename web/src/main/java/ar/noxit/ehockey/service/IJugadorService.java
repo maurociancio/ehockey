@@ -12,7 +12,7 @@ public interface IJugadorService {
 
     public void update(JugadorPlano jugadorPlano) throws NoxitException;
 
-    public void remove(Jugador jugador) throws NoxitException;
+    public void remove(Integer integer) throws NoxitException;
 
     public List<Jugador> getAll() throws NoxitException;
 
