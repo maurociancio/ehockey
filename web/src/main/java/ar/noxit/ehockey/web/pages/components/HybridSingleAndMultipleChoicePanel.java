@@ -1,7 +1,6 @@
 package ar.noxit.ehockey.web.pages.components;
 
 import java.util.List;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -102,6 +101,11 @@ public class HybridSingleAndMultipleChoicePanel<T> extends Panel {
             public boolean isVisible() {
                 return !multipleChoices.getObject() && !noChoices.getObject();
             }
+
+            @Override
+            public boolean isEnabled() {
+                return HybridSingleAndMultipleChoicePanel.this.isEnabled();
+            }
         };
     }
 
@@ -115,6 +119,11 @@ public class HybridSingleAndMultipleChoicePanel<T> extends Panel {
             @Override
             public boolean isVisible() {
                 return multipleChoices.getObject();
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return HybridSingleAndMultipleChoicePanel.this.isEnabled();
             }
         };
     }
