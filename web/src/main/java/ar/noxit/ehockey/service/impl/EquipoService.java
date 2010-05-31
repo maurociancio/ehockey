@@ -66,7 +66,7 @@ public class EquipoService implements IEquipoService {
     @Override
     @Transactional(readOnly = true)
     public List<Equipo> getAll() throws NoxitException {
-        return equipoDao.getAll();
+        return equipoDao.getAllActivo();
     }
 
     @Override
@@ -76,7 +76,6 @@ public class EquipoService implements IEquipoService {
 
         Equipo equipo = equipoDao.get(modelObject.getId());
         equipo.setNombre(modelObject.getNombre());
-        // TODO cambiar sector y division
     }
 
     @Override
@@ -85,7 +84,7 @@ public class EquipoService implements IEquipoService {
         Validate.notNull(id);
 
         Equipo equipo = equipoDao.get(id);
-        // TODO
+        equipo.darDeBaja();
     }
 
     public void setEquipoDao(IEquipoDao equipoDao) {
