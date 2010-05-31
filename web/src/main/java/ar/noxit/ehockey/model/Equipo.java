@@ -19,6 +19,8 @@ public class Equipo {
 
     private ListaBuenaFe listaBuenaFe;
 
+    private boolean activo = true;
+
     /**
      * No debe ser usado por los clientes
      * 
@@ -93,6 +95,10 @@ public class Equipo {
         Validate.notNull(nombre);
 
         this.nombre = nombre;
+    }
+
+    public void darDeBaja() {
+        this.activo = false;
     }
 
     /**
