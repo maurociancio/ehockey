@@ -2,6 +2,7 @@ package ar.noxit.ehockey.web.pages.equipos;
 
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.web.pages.models.EquipoAdapterModel;
 import ar.noxit.ehockey.web.pages.providers.EquiposDataProvider;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class EquipoListadoPage extends BaseEquipoPage {
 
                 @Override
                 public void onClick() {
+                    setResponsePage(new EquipoModificarPage(new EquipoAdapterModel(getModel())));
                 }
             });
             add(new Link<Equipo>("baja", model) {
