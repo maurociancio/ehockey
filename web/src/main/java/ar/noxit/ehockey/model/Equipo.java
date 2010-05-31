@@ -46,13 +46,20 @@ public class Equipo {
 
     /**
      * 
-     * @param torneo torneo
-     * @param visitante equipo visitante
-     * @param fechaDelTorneo número de fecha del torneo (de 1 a cantidad de equipos - 1)
-     * @param rueda dice si el partido es ida o vuelta
-     * @param partidoN partido número de la fecha (de 1 a cantidad de equipos / 2)
-     * @param inicio fecha y hora del inicio del partido
-     * @param now instante actual
+     * @param torneo
+     *            torneo
+     * @param visitante
+     *            equipo visitante
+     * @param fechaDelTorneo
+     *            número de fecha del torneo (de 1 a cantidad de equipos - 1)
+     * @param rueda
+     *            dice si el partido es ida o vuelta
+     * @param partidoN
+     *            partido número de la fecha (de 1 a cantidad de equipos / 2)
+     * @param inicio
+     *            fecha y hora del inicio del partido
+     * @param now
+     *            instante actual
      * @return
      * @throws EquiposInvalidosException
      * @throws FechaInvalidaException
@@ -82,6 +89,12 @@ public class Equipo {
         return sector;
     }
 
+    public void setNombre(String nombre) {
+        Validate.notNull(nombre);
+
+        this.nombre = nombre;
+    }
+
     /**
      * No debe ser llamados por los clientes
      */
@@ -107,4 +120,5 @@ public class Equipo {
 
     protected Equipo() {
     }
+
 }

@@ -16,4 +16,6 @@ public interface IEquipoService {
     void add(EquipoPlano equipoPlano) throws NoxitException;
 
     List<Equipo> getAll() throws NoxitException;
+
+    void update(EquipoPlano modelObject) throws NoxitException;
 }

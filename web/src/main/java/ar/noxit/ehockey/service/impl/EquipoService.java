@@ -69,6 +69,16 @@ public class EquipoService implements IEquipoService {
         return equipoDao.getAll();
     }
 
+    @Override
+    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
+    public void update(EquipoPlano modelObject) throws NoxitException {
+        Validate.notNull(modelObject);
+
+        Equipo equipo = equipoDao.get(modelObject.getId());
+        equipo.setNombre(modelObject.getNombre());
+        // TODO cambiar sector y division
+    }
+
     public void setEquipoDao(IEquipoDao equipoDao) {
         this.equipoDao = equipoDao;
     }
