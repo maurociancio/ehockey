@@ -14,6 +14,6 @@ public class EquipoModificarPage extends BaseEquipoPage {
             @Override
             protected void onSubmit(EquipoPlano modelObject) {
             }
-        });
+        }.setClubActivo(false));
     }
 }

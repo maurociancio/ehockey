@@ -37,6 +37,7 @@ public abstract class EquipoFormPanel extends Panel {
     private IDivisionService divisionService;
     @SpringBean
     private ISectorService sectorService;
+    private boolean clubActivo = true;
 
     public EquipoFormPanel(String id, IModel<EquipoPlano> equipo) {
         super(id);
@@ -77,7 +78,13 @@ public abstract class EquipoFormPanel extends Panel {
         IModel<List<Club>> clubes = new ClubesListModel(clubService);
         IChoiceRenderer<Club> clubRenderer = new ClubRenderer();
 
-        return new RequiredHybridSingleAndMultipleChoicePanel<Club>(id, club, clubes, clubRenderer);
+        return new RequiredHybridSingleAndMultipleChoicePanel<Club>(id, club, clubes, clubRenderer) {
+
+            @Override
+            public boolean isEnabled() {
+                return clubActivo;
+            }
+        };
     }
 
     protected HybridSingleAndMultipleChoicePanel<Division> crearHybridDivisionChoice(
@@ -98,6 +105,11 @@ public abstract class EquipoFormPanel extends Panel {
         IChoiceRenderer<Sector> divisionRenderer = new SectorRenderer();
 
         return new RequiredHybridSingleAndMultipleChoicePanel<Sector>(id, sector, divisiones, divisionRenderer);
+    }
+
+    public EquipoFormPanel setClubActivo(boolean clubActivo) {
+        this.clubActivo = clubActivo;
+        return this;
     }
 
     protected abstract void onSubmit(EquipoPlano modelObject);
