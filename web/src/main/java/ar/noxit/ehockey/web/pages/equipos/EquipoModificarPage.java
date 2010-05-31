@@ -3,6 +3,7 @@ package ar.noxit.ehockey.web.pages.equipos;
 import ar.noxit.ehockey.service.IEquipoService;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.transfer.EquipoPlano;
+import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.exceptions.NoxitException;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.model.IModel;
@@ -24,6 +25,8 @@ public class EquipoModificarPage extends BaseEquipoPage {
             protected void onSubmit(EquipoPlano modelObject) {
                 try {
                     equipoService.update(modelObject);
+                    setResponsePage(new MensajePage("Modificación de Equipo",
+                            "Se ha modificado correctamente el equipo."));
                 } catch (NoxitException e) {
                     error(exceptionConverter.convert(e));
                 }
