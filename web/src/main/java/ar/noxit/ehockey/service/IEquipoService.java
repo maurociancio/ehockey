@@ -18,4 +18,6 @@ public interface IEquipoService {
     List<Equipo> getAll() throws NoxitException;
 
     void update(EquipoPlano modelObject) throws NoxitException;
+
+    void baja(Integer id) throws NoxitException;
 }

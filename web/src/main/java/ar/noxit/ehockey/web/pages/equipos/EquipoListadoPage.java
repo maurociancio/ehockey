@@ -56,6 +56,7 @@ public class EquipoListadoPage extends BaseEquipoPage {
 
                 @Override
                 public void onClick() {
+                    setResponsePage(new EquipoBajaPage(getModel()));
                 }
             });
         }
