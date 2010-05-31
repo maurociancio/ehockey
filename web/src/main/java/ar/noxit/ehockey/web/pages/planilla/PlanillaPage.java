@@ -136,18 +136,7 @@ public class PlanillaPage extends AbstractHeaderPage {
                 return !planillaModel.getObject().isFinalizada();
             }
         };
-        formPlanilla.add(new Button("editar") {
-
-            @Override
-            public void onSubmit() {
-                setResponsePage(new ModificarPlanillaPage(partido));
-            }
-
-            @Override
-            public boolean isVisible() {
-                return planillaModel.getObject().isEditable() || planillaModel.getObject().isVencida();
-            }
-        });
+        formPlanilla.add(new EditarPlanillaButton("editar", planillaModel, partido));
 
         formPlanilla.add(new Button("publicar") {
 
@@ -167,24 +156,7 @@ public class PlanillaPage extends AbstractHeaderPage {
             }
         });
 
-        formPlanilla.add(new Button("finalizar") {
-
-            @Override
-            public void onSubmit() {
-                try {
-                    Integer id = partido.getObject().getId();
-                    planillaService.finalizarPlanilla(id);
-                } catch (NoxitException e) {
-                    error(exceptionConverter.convert(e));
-                }
-            }
-
-            @Override
-            public boolean isVisible() {
-                return planillaModel.getObject().isVencida();
-            }
-            
-        });
+        formPlanilla.add(new FinalizarPlanillaButton("finalizar", partido, planillaModel));
 
         add(formPlanilla);
     }
