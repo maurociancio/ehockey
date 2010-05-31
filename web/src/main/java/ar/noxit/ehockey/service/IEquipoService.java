@@ -15,6 +15,12 @@ public interface IEquipoService {
 
     void add(EquipoPlano equipoPlano) throws NoxitException;
 
+    /**
+     * Usar solo en pantalla de Equipos
+     * 
+     * @return
+     * @throws NoxitException
+     */
     List<Equipo> getAll() throws NoxitException;
 
     void update(EquipoPlano modelObject) throws NoxitException;
