@@ -1,0 +1,28 @@
+package ar.noxit.ehockey.web.pages.equipos;
+
+import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.web.pages.providers.EquiposDataProvider;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
+public class EquipoListadoPage extends BaseEquipoPage {
+
+    @SpringBean
+    private IEquipoService equipoService;
+
+    public EquipoListadoPage() {
+        List<IColumn<Equipo>> columns = new ArrayList<IColumn<Equipo>>();
+        columns.add(new PropertyColumn<Equipo>(Model.of("Club"), "club.nombre"));
+        columns.add(new PropertyColumn<Equipo>(Model.of("Nombre de Equipo"), "nombre"));
+        columns.add(new PropertyColumn<Equipo>(Model.of("División"), "division"));
+        columns.add(new PropertyColumn<Equipo>(Model.of("Sector"), "sector.sector"));
+
+        add(new DefaultDataTable<Equipo>("listado", columns, new EquiposDataProvider(equipoService), 20));
+    }
+}

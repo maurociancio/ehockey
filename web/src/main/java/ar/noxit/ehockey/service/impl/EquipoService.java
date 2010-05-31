@@ -58,8 +58,15 @@ public class EquipoService implements IEquipoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Equipo> getEquiposDe(Integer sector, Integer division) throws NoxitException {
         return equipoDao.getEquiposDe(sector, division);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Equipo> getAll() throws NoxitException {
+        return equipoDao.getAll();
     }
 
     public void setEquipoDao(IEquipoDao equipoDao) {

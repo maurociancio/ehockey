@@ -14,4 +14,6 @@ public interface IEquipoService {
     List<Equipo> getEquiposDe(Integer sector, Integer division) throws NoxitException;
 
     void add(EquipoPlano equipoPlano) throws NoxitException;
+
+    List<Equipo> getAll() throws NoxitException;
 }
