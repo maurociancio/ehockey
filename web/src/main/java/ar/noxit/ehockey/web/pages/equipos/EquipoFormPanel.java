@@ -38,6 +38,8 @@ public abstract class EquipoFormPanel extends Panel {
     @SpringBean
     private ISectorService sectorService;
     private boolean clubActivo = true;
+    private boolean divisionActivo = true;
+    private boolean sectorActivo = true;
 
     public EquipoFormPanel(String id, IModel<EquipoPlano> equipo) {
         super(id);
@@ -95,7 +97,13 @@ public abstract class EquipoFormPanel extends Panel {
         IModel<List<Division>> divisiones = new DivisionListModel(divisionService);
         IChoiceRenderer<Division> divisionRenderer = new DivisionRenderer();
 
-        return new RequiredHybridSingleAndMultipleChoicePanel<Division>(id, division, divisiones, divisionRenderer);
+        return new RequiredHybridSingleAndMultipleChoicePanel<Division>(id, division, divisiones, divisionRenderer) {
+
+            @Override
+            public boolean isEnabled() {
+                return divisionActivo;
+            }
+        };
     }
 
     protected HybridSingleAndMultipleChoicePanel<Sector> crearHybridSectorChoice(String id, IModel<EquipoPlano> equipo) {
@@ -104,11 +112,27 @@ public abstract class EquipoFormPanel extends Panel {
         IModel<List<Sector>> divisiones = new SectoresListModel(sectorService);
         IChoiceRenderer<Sector> divisionRenderer = new SectorRenderer();
 
-        return new RequiredHybridSingleAndMultipleChoicePanel<Sector>(id, sector, divisiones, divisionRenderer);
+        return new RequiredHybridSingleAndMultipleChoicePanel<Sector>(id, sector, divisiones, divisionRenderer) {
+
+            @Override
+            public boolean isEnabled() {
+                return sectorActivo;
+            }
+        };
     }
 
     public EquipoFormPanel setClubActivo(boolean clubActivo) {
         this.clubActivo = clubActivo;
+        return this;
+    }
+
+    public EquipoFormPanel setDivisionActivo(boolean divisionActivo) {
+        this.divisionActivo = divisionActivo;
+        return this;
+    }
+
+    public EquipoFormPanel setSectorActivo(boolean sectorActivo) {
+        this.sectorActivo = sectorActivo;
         return this;
     }
 

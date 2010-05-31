@@ -31,6 +31,6 @@ public class EquipoModificarPage extends BaseEquipoPage {
                     error(exceptionConverter.convert(e));
                 }
             }
-        }.setClubActivo(false));
+        }.setClubActivo(false).setSectorActivo(false).setDivisionActivo(false));
     }
 }
