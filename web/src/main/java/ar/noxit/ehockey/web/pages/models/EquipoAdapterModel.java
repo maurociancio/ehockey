@@ -20,6 +20,7 @@ public class EquipoAdapterModel extends AdapterModel<EquipoPlano, Equipo> {
             loaded = true;
             if (plano != null) {
                 Equipo equipo = delegate.getObject();
+                plano.setId(equipo.getId());
                 plano.setNombre(equipo.getNombre());
                 plano.setClubId(equipo.getClub().getId());
                 plano.setDivisionId(equipo.getDivision().getId());
