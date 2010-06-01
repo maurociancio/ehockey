@@ -31,6 +31,7 @@ public class PerfilUsuarioPage extends AbstractContentPage {
         }; 
         form.add(basePanel);
         form.add(new InfoRepresentantePanel("representantePanel", usuario));
+        basePanel.addValidators(form);
         add(form);
     }
 }
