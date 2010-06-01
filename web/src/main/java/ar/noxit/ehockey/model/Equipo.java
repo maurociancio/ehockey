@@ -124,6 +124,10 @@ public class Equipo {
         this.id = id;
     }
 
+    public boolean isActivo() {
+        return activo;
+    }
+
     protected Equipo() {
     }
 
