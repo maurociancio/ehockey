@@ -1,15 +1,20 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PlanillaFinal;
+import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPlanillaService;
+import ar.noxit.ehockey.web.pages.authentication.AuthSession;
+import ar.noxit.ehockey.web.pages.authentication.IRenderable;
 import ar.noxit.exceptions.NoxitException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
+import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -19,7 +24,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public final class RechazoAceptacionPlanillaForm extends Form<Void> {
+public final class RechazoAceptacionPlanillaForm extends Form<Void> implements IRenderable {
 
     @SpringBean
     private IExceptionConverter exceptionConverter;
@@ -76,6 +81,13 @@ public final class RechazoAceptacionPlanillaForm extends Form<Void> {
     }
 
     @Override
+    public boolean couldBeRendered(Roles roles) {
+        Usuario userLogged = AuthSession.get().getUserLogged();
+        Club clubVisitante = partido.getObject().getVisitante().getClub();
+        return userLogged.puedeVer(clubVisitante);
+    }
+
+    @Override
     public boolean isVisible() {
         return planillaModel.getObject().isPublicada();
     }
@@ -95,4 +107,5 @@ public final class RechazoAceptacionPlanillaForm extends Form<Void> {
             error(exceptionConverter.convert(e));
         }
     }
+
 }
