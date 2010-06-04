@@ -3,15 +3,18 @@ package ar.noxit.ehockey.web.pages.planilla;
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PlanillaFinal;
+import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPlanillaService;
 import ar.noxit.ehockey.web.pages.authentication.AuthSession;
+import ar.noxit.ehockey.web.pages.authentication.IRenderable;
 import ar.noxit.exceptions.NoxitException;
+import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public final class FinalizarPlanillaButton extends Button {
+public final class FinalizarPlanillaButton extends Button implements IRenderable {
 
     private final IModel<Partido> partido;
     private final IModel<PlanillaFinal> planillaModel;
@@ -38,6 +41,12 @@ public final class FinalizarPlanillaButton extends Button {
 
     @Override
     public boolean isVisible() {
-        return planillaModel.getObject().isVencida() && AuthSession.get().getUserLogged() instanceof Administrador;
+        return planillaModel.getObject().isVencida();
+    }
+
+    @Override
+    public boolean couldBeRendered(Roles roles) {
+        Usuario userLogged = AuthSession.get().getUserLogged();
+        return userLogged instanceof Administrador;
     }
 }

@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.web.pages.planilla;
 
+import ar.noxit.ehockey.model.Representante;
+
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PlanillaFinal;
@@ -84,7 +86,7 @@ public final class RechazoAceptacionPlanillaForm extends Form<Void> implements I
     public boolean couldBeRendered(Roles roles) {
         Usuario userLogged = AuthSession.get().getUserLogged();
         Club clubVisitante = partido.getObject().getVisitante().getClub();
-        return userLogged.puedeVer(clubVisitante);
+        return userLogged.puedeVer(clubVisitante) && userLogged instanceof Representante;
     }
 
     @Override
