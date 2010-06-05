@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.wicket.model.IModel;
 
+import ar.noxit.ehockey.exception.ClubYaExistenteException;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
@@ -34,5 +35,7 @@ public interface IClubService {
 
     public void update(ClubPlano clubPlano) throws NoxitException;
 
-    IModel<ClubPlano> aplanar(IModel<Club> model);
+    public IModel<ClubPlano> aplanar(IModel<Club> model);
+
+    public void verificarNombreClub(ClubPlano clubPlano) throws ClubYaExistenteException;
 }

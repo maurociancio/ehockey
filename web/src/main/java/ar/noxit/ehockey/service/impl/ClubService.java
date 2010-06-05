@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IEquipoDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
+import ar.noxit.ehockey.exception.ClubYaExistenteException;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
@@ -107,6 +108,14 @@ public class ClubService implements IClubService {
         ClubPlano clubPlano = new ClubPlano();
         BeanUtils.copyProperties(model.getObject(), clubPlano);
         return new Model<ClubPlano>(clubPlano);
+    }
+
+    @Override
+    public void verificarNombreClub(ClubPlano clubPlano) throws ClubYaExistenteException {
+        String nombre = clubPlano.getNombre();
+        String nombreCompleto = clubPlano.getNombreCompleto();
+        if (clubDao.getClubPorNombre(nombre, nombreCompleto).size() != 0)
+            throw new ClubYaExistenteException("Club de nombre: " + nombre + " ya existente.");
     }
 
     public void setClubDao(IClubDao clubDao) {
