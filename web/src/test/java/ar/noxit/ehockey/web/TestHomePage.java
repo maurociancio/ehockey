@@ -4,14 +4,18 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.time.LocalDateTime;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import ar.noxit.ehockey.configuration.MenuItem;
 import ar.noxit.ehockey.model.Club;
-import ar.noxit.ehockey.model.Division;
-import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.IEquipoService;
 import ar.noxit.ehockey.service.IHorarioService;
 import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.ehockey.service.ITorneoService;
@@ -22,12 +26,8 @@ import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.header.IMenuItemProvider;
 import ar.noxit.exceptions.NoxitException;
+
 import com.ttdev.wicketpagetest.MockableBeanInjector;
-import java.util.ArrayList;
-import java.util.List;
-import org.joda.time.LocalDateTime;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * Simple test using the WicketTester
@@ -41,26 +41,30 @@ public class TestHomePage extends BaseSpringWicketTest {
 
     @Test
     public void testRenderVerListaBuenaFe() throws NoxitException {
-        IEquiposService equiposService = createMock(IEquiposService.class);
-        List<Equipo> value = new ArrayList<Equipo>();
-        Equipo e = new Equipo("nombre", new Club(""), new Division("d"), new Sector("s"));
-        e.setId(1);
-        value.add(e);
-        expect(equiposService.getAll()).andReturn(value);
-        replay(equiposService);
-        MockableBeanInjector.mockBean("equiposService", equiposService);
+        IEquipoService equipoService = createMock(IEquipoService.class);
+        IClubService clubService = createMock(IClubService.class);
+        List<Club> value = new ArrayList<Club>();
+
+        expect(clubService.getAll()).andReturn(value).times(3);
+        replay(equipoService);
+        replay(clubService);
+
+        MockableBeanInjector.mockBean("equipoService", equipoService);
+        MockableBeanInjector.mockBean("clubService", clubService);
 
         startPageAndTestRendered(VerListaBuenaFePage.class);
     }
 
     @Test
     public void testRenderEditarListaBuenaFe() throws NoxitException {
-        IEquiposService equiposService = createMock(IEquiposService.class);
-        expect(equiposService.getAll()).andReturn(new ArrayList<Equipo>());
+        IEquipoService equiposService = createMock(IEquipoService.class);
         replay(equiposService);
-        MockableBeanInjector.mockBean("equiposService", equiposService);
+        MockableBeanInjector.mockBean("equipoService", equiposService);
 
         IClubService clubService = createMock(IClubService.class);
+        List<Club> value = new ArrayList<Club>();
+
+        expect(clubService.getAll()).andReturn(value).times(3);
         replay(clubService);
         MockableBeanInjector.mockBean("clubService", clubService);
 
@@ -85,7 +89,7 @@ public class TestHomePage extends BaseSpringWicketTest {
 
         // torneo service
         ITorneoService torneoService = createMock(ITorneoService.class);
-        expect(torneoService.getAll()).andReturn(new ArrayList<Torneo>());
+        expect(torneoService.getAll()).andReturn(new ArrayList<Torneo>()).times(3);
         MockableBeanInjector.mockBean("torneoService", torneoService);
 
         // tabla service

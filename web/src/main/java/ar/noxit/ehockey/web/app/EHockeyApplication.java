@@ -31,7 +31,13 @@ import ar.noxit.ehockey.web.pages.clubes.ClubAltaPage;
 import ar.noxit.ehockey.web.pages.clubes.ClubEditarPage;
 import ar.noxit.ehockey.web.pages.clubes.ClubPage;
 import ar.noxit.ehockey.web.pages.clubes.ClubVerPage;
+import ar.noxit.ehockey.web.pages.equipos.EquipoAltaPage;
+import ar.noxit.ehockey.web.pages.equipos.EquipoBajaPage;
+import ar.noxit.ehockey.web.pages.equipos.EquipoListadoPage;
+import ar.noxit.ehockey.web.pages.equipos.EquipoModificarPage;
+import ar.noxit.ehockey.web.pages.equipos.EquiposPage;
 import ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorAltaOkPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorAltaPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorBajaPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorModificarPage;
@@ -50,10 +56,11 @@ import ar.noxit.ehockey.web.pages.torneo.VerPartidosPage;
 import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.EditarUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
+import ar.noxit.ehockey.web.pages.usuarios.PerfilUsuarioPage;
 
 /**
- * Application object for your web application. If you want to run this
- * application without deploying, run the Start class.
+ * Application object for your web application. If you want to run this application without deploying, run the Start
+ * class.
  * 
  * @see StartJetty.myproject.Start#main(String[])
  */
@@ -89,6 +96,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/partidos/reprogramar", ReprogramacionPartidoPage.class, false));
         mount(new HybridUrlCodingStrategy("/jugadores", JugadorPage.class, false));
         mount(new HybridUrlCodingStrategy("/jugadores/alta", JugadorAltaPage.class, false));
+        mount(new HybridUrlCodingStrategy("/jugadores/alta/ver", JugadorAltaOkPage.class, false));
         mount(new HybridUrlCodingStrategy("/jugadores/baja", JugadorBajaPage.class, false));
         mount(new HybridUrlCodingStrategy("/jugadores/modificar", JugadorModificarPage.class, false));
         mount(new HybridUrlCodingStrategy("/jugadores/ver", JugadorVerPage.class, false));
@@ -96,6 +104,11 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/usuarios/listado", ListaUsuariosPage.class, false));
         mount(new HybridUrlCodingStrategy("/usuarios/alta", AltaUsuarioPage.class, false));
         mount(new HybridUrlCodingStrategy("/usuarios/modificar", EditarUsuarioPage.class, false));
+        mount(new HybridUrlCodingStrategy("/equipos", EquiposPage.class, false));
+        mount(new HybridUrlCodingStrategy("/equipos/alta", EquipoAltaPage.class, false));
+        mount(new HybridUrlCodingStrategy("/equipos/listado", EquipoListadoPage.class, false));
+        mount(new HybridUrlCodingStrategy("/equipos/modificar", EquipoModificarPage.class, false));
+        mount(new HybridUrlCodingStrategy("/equipos/baja", EquipoBajaPage.class, false));
         mount(new HybridUrlCodingStrategy("/resultado", MensajePage.class, false));
         mount(new HybridUrlCodingStrategy("/fechahora", FechaHoraPage.class, false));
         mount(new HybridUrlCodingStrategy("/login", LoginPage.class, false));
@@ -104,7 +117,9 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/clubes/alta", ClubAltaPage.class, false));
         mount(new HybridUrlCodingStrategy("/clubes/ver", ClubVerPage.class, false));
         mount(new HybridUrlCodingStrategy("/clubes/editar", ClubEditarPage.class, false));
-        
+
+        mount(new HybridUrlCodingStrategy("/perfil", PerfilUsuarioPage.class, false));
+
         getApplicationSettings().setAccessDeniedPage(ForbiddenAccessPage.class);
         getSessionSettings().setPageFactory(new EHockeyPageFactory());
 
@@ -156,7 +171,13 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy.authorize(ClubAltaPage.class, Rol.ALTA_CLUBES);
         MetaDataRoleAuthorizationStrategy.authorize(ClubVerPage.class, Rol.VER_CLUBES);
         MetaDataRoleAuthorizationStrategy.authorize(ClubEditarPage.class, Rol.MODIF_CLUBES);
-        
+
+        MetaDataRoleAuthorizationStrategy.authorize(EquiposPage.class, Rol.EQUIPOS);
+        MetaDataRoleAuthorizationStrategy.authorize(EquipoAltaPage.class, Rol.ALTA_EQUIPOS);
+        MetaDataRoleAuthorizationStrategy.authorize(EquipoListadoPage.class, Rol.LISTADO_EQUIPOS);
+        MetaDataRoleAuthorizationStrategy.authorize(EquipoModificarPage.class, Rol.MODIF_EQUIPOS);
+        MetaDataRoleAuthorizationStrategy.authorize(EquipoBajaPage.class, Rol.BAJA_EQUIPOS);
+
         MetaDataRoleAuthorizationStrategy.authorize(MensajePage.class, Rol.MENSAJE);
 
         MetaDataRoleAuthorizationStrategy.authorize(FechaHoraPage.class, Rol.FECHA_HORA);

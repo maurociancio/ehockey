@@ -7,11 +7,11 @@ import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
 
-public class IdTorneoModel extends IdLDM<Torneo, Integer> {
+public class TorneoModel extends IdLDM<Torneo, Integer> {
 
     private ITorneoService torneoService;
 
-    public IdTorneoModel(IModel<Integer> idModel, ITorneoService torneoService) {
+    public TorneoModel(IModel<Integer> idModel, ITorneoService torneoService) {
         super(idModel);
         this.torneoService = torneoService;
     }
@@ -25,5 +25,4 @@ public class IdTorneoModel extends IdLDM<Torneo, Integer> {
     protected Integer getObjectId(Torneo object) {
         return object.getId();
     }
-
 }

@@ -17,9 +17,17 @@ public class EquipoDao extends HibernateDao<Equipo, Integer> implements IEquipoD
     @Override
     public List<Equipo> getEquiposDe(Integer sector, Integer division) throws PersistenceException {
         Session session = getSession();
-        return session.createQuery("from Equipo e where e.division.id = :division and e.sector.id = :sector")
+        return session.createQuery(
+                "from Equipo e where e.division.id = :division and e.sector.id = :sector and e.activo = true")
                 .setParameter("division", division)
                 .setParameter("sector", sector)
                 .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Equipo> getAllActivo() throws PersistenceException {
+        Session session = getSession();
+        return session.createQuery("from Equipo e where e.activo = true").list();
     }
 }

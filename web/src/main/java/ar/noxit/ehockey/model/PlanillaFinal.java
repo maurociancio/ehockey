@@ -106,7 +106,7 @@ public class PlanillaFinal implements Planilla {
         }
     }
 
-    public boolean isVencida(LocalDateTime now) {
+    private boolean isVencida(LocalDateTime now) {
         Validate.notNull(now, "now no puede ser null");
 
         LocalDateTime inicioPartido = this.partido.getInicio();

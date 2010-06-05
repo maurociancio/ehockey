@@ -107,8 +107,14 @@ public class Club {
         return jugadores;
     }
 
-    public Set<Equipo> getEquipos() {
-        return equipos;
+    public Set<Equipo> getEquiposActivos() {
+        Set<Equipo> activos = new HashSet<Equipo>();
+        for (Equipo e : equipos) {
+            if (e.isActivo()) {
+                activos.add(e);
+            }
+        }
+        return activos;
     }
 
     public String getNombreCompleto() {

@@ -4,15 +4,15 @@ import ar.noxit.ehockey.exception.JugadorSinTarjetasException;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.Planilla;
 import ar.noxit.ehockey.model.TarjetasPartido;
+import ar.noxit.ehockey.web.pages.models.JugadorLocalModelItem;
+import ar.noxit.ehockey.web.pages.models.JugadorVisitanteModelItem;
 import ar.noxit.web.wicket.model.AbstractLocalDateTimeFormatModel;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.Loop;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.joda.time.LocalDateTime;
@@ -43,9 +43,9 @@ public class PlanillaPanel extends Panel {
         add(new Label("goles_visitante", new PropertyModel<Integer>(planillaModel, "datosVisitante.goles")));
 
         IModel<LocalDateTime> modelTime = new PropertyModel<LocalDateTime>(planillaModel, "partido.inicio");
-        add(new Label("dia", new DiaAdapterModel(modelTime)));
-        add(new Label("mes", new MesAdapterModel(modelTime)));
-        add(new Label("año", new AnoAdapterModel(modelTime)));
+        add(new Label("dia", new PatternLocalDateTimeModel(modelTime, "dd")));
+        add(new Label("mes", new PatternLocalDateTimeModel(modelTime, "MM")));
+        add(new Label("año", new PatternLocalDateTimeModel(modelTime, "YYYY")));
         add(new Label("lugar", "Paseo Colón"));
         add(new Label("nombreLocal", new PropertyModel<String>(planillaModel, "local.nombre")));
         add(new Label("nombreVisitante", new PropertyModel<String>(planillaModel, "visitante.nombre")));
@@ -74,73 +74,18 @@ public class PlanillaPanel extends Panel {
         add(new Label("observaciones", new PropertyModel<String>(planillaModel, "observaciones")));
     }
 
-    private class JugadorLocalModelItem extends
-            LoadableDetachableModel<List<Jugador>> {
+    private class PatternLocalDateTimeModel extends AbstractLocalDateTimeFormatModel {
 
-        private IModel<? extends Planilla> planillaModel;
+        private String pattern;
 
-        public JugadorLocalModelItem(IModel<? extends Planilla> planillaModel) {
-            this.planillaModel = planillaModel;
-        }
-
-        @Override
-        protected List<Jugador> load() {
-            List<Jugador> result = new ArrayList<Jugador>();
-            result.addAll(planillaModel.getObject().getJugadoresL());
-            return (result);
-        }
-    }
-
-    private class JugadorVisitanteModelItem extends
-            LoadableDetachableModel<List<Jugador>> {
-
-        private IModel<? extends Planilla> planillaModel;
-
-        public JugadorVisitanteModelItem(IModel<? extends Planilla> planillaModel) {
-            this.planillaModel = planillaModel;
-        }
-
-        @Override
-        protected List<Jugador> load() {
-            List<Jugador> result = new ArrayList<Jugador>();
-            result.addAll(planillaModel.getObject().getJugadoresV());
-            return result;
-        }
-    }
-
-    private class DiaAdapterModel extends AbstractLocalDateTimeFormatModel {
-
-        public DiaAdapterModel(IModel<LocalDateTime> delegate) {
+        public PatternLocalDateTimeModel(IModel<LocalDateTime> delegate, String pattern) {
             super(delegate);
+            this.pattern = pattern;
         }
 
         @Override
         protected DateTimeFormatter getFormatter() {
-            return DateTimeFormat.forPattern("dd");
-        }
-    }
-
-    private class MesAdapterModel extends AbstractLocalDateTimeFormatModel {
-
-        public MesAdapterModel(IModel<LocalDateTime> delegate) {
-            super(delegate);
-        }
-
-        @Override
-        protected DateTimeFormatter getFormatter() {
-            return DateTimeFormat.forPattern("MM");
-        }
-    }
-
-    private class AnoAdapterModel extends AbstractLocalDateTimeFormatModel {
-
-        public AnoAdapterModel(IModel<LocalDateTime> delegate) {
-            super(delegate);
-        }
-
-        @Override
-        protected DateTimeFormatter getFormatter() {
-            return DateTimeFormat.forPattern("YYYY");
+            return DateTimeFormat.forPattern(pattern);
         }
     }
 

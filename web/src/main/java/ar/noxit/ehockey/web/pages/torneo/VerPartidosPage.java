@@ -8,10 +8,9 @@ import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
-import ar.noxit.exceptions.NoxitException;
+import ar.noxit.ehockey.web.pages.models.PartidoModel;
 import ar.noxit.utils.Collections;
 import ar.noxit.web.wicket.column.AbstractLabelColumn;
-import ar.noxit.web.wicket.model.LDM;
 import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
@@ -106,48 +105,6 @@ public class VerPartidosPage extends AbstractHeaderPage {
         add(dataTable);
     }
 
-    private static final class PartidoModel extends LDM<Partido> {
-
-        private Integer id;
-        private IPartidoService partidoService;
-
-        private PartidoModel(IPartidoService partidoService, Partido object) {
-            super(object);
-            this.id = object.getId();
-            this.partidoService = partidoService;
-        }
-
-        @Override
-        protected Partido doLoad() throws NoxitException {
-            return partidoService.get(id);
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + ((id == null) ? 0 : id.hashCode());
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            PartidoModel other = (PartidoModel) obj;
-            if (id == null) {
-                if (other.id != null)
-                    return false;
-            } else if (!id.equals(other.id))
-                return false;
-            return true;
-        }
-    }
-
     private final class PartidosFromTorneoDataProvider extends DataProvider<Partido> {
 
         private IModel<Torneo> torneo;
@@ -167,7 +124,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
 
         @Override
         public IModel<Partido> model(Partido object) {
-            return new PartidoModel(partidoService, object);
+            return new PartidoModel(Model.of(object.getId()), partidoService);
         }
     }
 

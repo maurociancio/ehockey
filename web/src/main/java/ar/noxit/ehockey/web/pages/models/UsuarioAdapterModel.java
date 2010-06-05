@@ -10,7 +10,8 @@ import ar.noxit.ehockey.web.pages.usuarios.UsuarioDTO;
 import ar.noxit.web.wicket.model.AdapterModel;
 
 public class UsuarioAdapterModel extends AdapterModel<UsuarioDTO, Usuario> {
-    UsuarioDTO usuario;
+
+    private UsuarioDTO usuario;
 
     public UsuarioAdapterModel(IModel<Usuario> delegate) {
         super(delegate);
@@ -18,7 +19,7 @@ public class UsuarioAdapterModel extends AdapterModel<UsuarioDTO, Usuario> {
 
     @Override
     protected UsuarioDTO getObject(IModel<Usuario> original) {
-        //la primera vez lo crea
+        // la primera vez lo crea
         if (usuario == null) {
             usuario = new UsuarioDTO(new TipoUsuario(original.getObject().getClass()));
             usuario.setApellido(original.getObject().getApellido());

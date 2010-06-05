@@ -66,7 +66,7 @@ public class ClubService implements IClubService {
     @Transactional(readOnly = true)
     public List<Equipo> getEquiposPorClub(Integer clubId) throws NoxitException {
         Club club = clubDao.get(clubId);
-        return new ArrayList<Equipo>(club.getEquipos());
+        return new ArrayList<Equipo>(club.getEquiposActivos());
     }
 
     @Override

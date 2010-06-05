@@ -73,18 +73,15 @@ public class UsuarioService implements IUsuarioService {
     @Override
     @Transactional
     public void update(UsuarioDTO usuario) throws NoxitException {
-        if (usuario.getTipo().equals(Administrador.class)) {
-            Administrador original = (Administrador) get(usuario.getUser());
-            original.setNombre(usuario.getNombre());
-            original.setApellido(usuario.getApellido());
-            if (usuario.getPassword() != null) {
-                original.setPassword(usuario.getPassword(), hasher);
-            }
-        } else if (usuario.getTipo().equals(Representante.class)) {
-            Representante original = (Representante) get(usuario.getUser());
-            original.setNombre(usuario.getNombre());
-            original.setApellido(usuario.getApellido());
-            original.setCargo(usuario.getCargo());
+        Usuario original  = get(usuario.getUser());
+        original.setNombre(usuario.getNombre());
+        original.setApellido(usuario.getApellido());
+        if (usuario.getPassword() != null) {
+            original.setPassword(usuario.getPassword(), hasher);
+        }
+        if (usuario.getTipo().equals(Representante.class)) {
+            Representante representante = (Representante) get(usuario.getUser());
+            representante.setCargo(usuario.getCargo());
         }
     }
 

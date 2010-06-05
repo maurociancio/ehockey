@@ -14,6 +14,7 @@ import org.apache.wicket.validation.validator.StringValidator.MinimumLengthValid
 
 public class UsuarioBasePanel extends Panel {
 
+    @SuppressWarnings("unused")
     private String password;
     private IFormValidator passwordValidator;
     private boolean estadoUsuarioEditable = true;

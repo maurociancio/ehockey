@@ -6,12 +6,12 @@ import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.ISectorService;
-import ar.noxit.ehockey.web.pages.models.ClubListModel;
+import ar.noxit.ehockey.web.pages.models.ClubesListModel;
 import ar.noxit.ehockey.web.pages.models.DivisionListModel;
-import ar.noxit.ehockey.web.pages.models.IdClubModel;
-import ar.noxit.ehockey.web.pages.models.IdDivisionModel;
-import ar.noxit.ehockey.web.pages.models.IdSectorModel;
-import ar.noxit.ehockey.web.pages.models.SectorListModel;
+import ar.noxit.ehockey.web.pages.models.ClubModel;
+import ar.noxit.ehockey.web.pages.models.DivisionModel;
+import ar.noxit.ehockey.web.pages.models.SectorModel;
+import ar.noxit.ehockey.web.pages.models.SectoresListModel;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
 import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
@@ -114,8 +114,8 @@ public abstract class JugadorForm extends Panel {
                 form));
 
         FormComponent<Club> club = new DropDownChoice<Club>("club",
-                new IdClubModel(new PropertyModel<Integer>(jugador, "clubId"),
-                        clubService), new ClubListModel(clubService),
+                new ClubModel(new PropertyModel<Integer>(jugador, "clubId"),
+                        clubService), new ClubesListModel(clubService),
                 new ClubRenderer()) {
 
             @Override
@@ -129,7 +129,7 @@ public abstract class JugadorForm extends Panel {
                 "onchange"));
 
         FormComponent<Division> division = new DropDownChoice<Division>(
-                "division", new IdDivisionModel(new PropertyModel<Integer>(
+                "division", new DivisionModel(new PropertyModel<Integer>(
                         jugador, "divisionId"), divisionService),
                 new DivisionListModel(divisionService), new DivisionRenderer()) {
 
@@ -144,8 +144,8 @@ public abstract class JugadorForm extends Panel {
                 division, form, "onchange"));
 
         FormComponent<Sector> sector = new RadioChoice<Sector>("sector",
-                new IdSectorModel(new PropertyModel<Integer>(jugador,
-                        "sectorId"), sectorService), new SectorListModel(
+                new SectorModel(new PropertyModel<Integer>(jugador,
+                        "sectorId"), sectorService), new SectoresListModel(
                         sectorService), new SectorRenderer()) {
 
             @Override

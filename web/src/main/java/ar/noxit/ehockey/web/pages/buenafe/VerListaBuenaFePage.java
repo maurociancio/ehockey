@@ -2,16 +2,9 @@ package ar.noxit.ehockey.web.pages.buenafe;
 
 import static ar.noxit.utils.Collections.toList;
 
-import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.service.IEquiposService;
-import ar.noxit.ehockey.web.pages.models.EquipoModel;
-import ar.noxit.ehockey.web.pages.models.TodosEquiposModel;
-import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
-import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.List;
+
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
@@ -24,22 +17,25 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.web.pages.components.EquipoSelectorPanel;
+import ar.noxit.ehockey.web.pages.models.EquipoModel;
+import ar.noxit.web.wicket.provider.DataProvider;
+
 public class VerListaBuenaFePage extends AbstractListaBuenaFePage {
 
     @SpringBean
-    private IEquiposService equiposService;
+    private IEquipoService equipoService;
 
     public VerListaBuenaFePage() {
         add(new FeedbackPanel("feedback"));
 
         Form<Void> form = new Form<Void>("equipos");
 
-        final IModel<Equipo> equipo = new EquipoModel(new Model<Integer>(), equiposService);
-        form.add(new DropDownChoice<Equipo>("equipos",
-                equipo,
-                new TodosEquiposModel(equiposService),
-                EquipoRenderer.get())
-                .setRequired(true));
+        final IModel<Equipo> equipo = new EquipoModel(new Model<Integer>(), equipoService);
+        form.add(new EquipoSelectorPanel("equipo", equipo));
 
         add(form);
 

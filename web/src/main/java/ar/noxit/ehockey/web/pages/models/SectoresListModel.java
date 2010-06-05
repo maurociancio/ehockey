@@ -10,11 +10,11 @@ import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.exceptions.NoxitRuntimeException;
 
-public class SectorListModel extends LoadableDetachableModel<List<Sector>> {
+public class SectoresListModel extends LoadableDetachableModel<List<Sector>> {
 
     private ISectorService sectorService;
 
-    public SectorListModel(ISectorService sectorService) {
+    public SectoresListModel(ISectorService sectorService) {
         Validate.notNull(sectorService);
 
         this.sectorService = sectorService;

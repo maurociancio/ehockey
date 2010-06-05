@@ -1,25 +1,30 @@
 package ar.noxit.ehockey.service.impl;
 
+import ar.noxit.ehockey.dao.IClubDao;
+import ar.noxit.ehockey.dao.IDivisionDao;
 import ar.noxit.ehockey.dao.IEquipoDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
+import ar.noxit.ehockey.dao.ISectorDao;
+import ar.noxit.ehockey.model.Club;
+import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.model.Sector;
+import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.service.transfer.EquipoPlano;
 import ar.noxit.exceptions.NoxitException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.Validate;
 import org.springframework.transaction.annotation.Transactional;
 
-public class EquipoService implements IEquiposService {
+public class EquipoService implements IEquipoService {
 
     private IEquipoDao equipoDao;
     private IJugadorDao jugadorDao;
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Equipo> getAll() throws NoxitException {
-        return equipoDao.getAll();
-    }
+    private IClubDao clubDao;
+    private ISectorDao sectorDao;
+    private IDivisionDao divisionDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -41,8 +46,45 @@ public class EquipoService implements IEquiposService {
     }
 
     @Override
+    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
+    public void add(EquipoPlano equipoPlano) throws NoxitException {
+        Validate.notNull(equipoPlano);
+
+        Club club = clubDao.get(equipoPlano.getClubId());
+        Division division = divisionDao.get(equipoPlano.getDivisionId());
+        Sector sector = sectorDao.get(equipoPlano.getSectorId());
+
+        club.crearNuevoEquipo(equipoPlano.getNombre(), division, sector);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Equipo> getEquiposDe(Integer sector, Integer division) throws NoxitException {
         return equipoDao.getEquiposDe(sector, division);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Equipo> getAll() throws NoxitException {
+        return equipoDao.getAllActivo();
+    }
+
+    @Override
+    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
+    public void update(EquipoPlano modelObject) throws NoxitException {
+        Validate.notNull(modelObject);
+
+        Equipo equipo = equipoDao.get(modelObject.getId());
+        equipo.setNombre(modelObject.getNombre());
+    }
+
+    @Override
+    @Transactional(rollbackFor = { RuntimeException.class, NoxitException.class })
+    public void baja(Integer id) throws NoxitException {
+        Validate.notNull(id);
+
+        Equipo equipo = equipoDao.get(id);
+        equipo.darDeBaja();
     }
 
     public void setEquipoDao(IEquipoDao equipoDao) {
@@ -51,5 +93,17 @@ public class EquipoService implements IEquiposService {
 
     public void setJugadorDao(IJugadorDao jugadorDao) {
         this.jugadorDao = jugadorDao;
+    }
+
+    public void setClubDao(IClubDao clubDao) {
+        this.clubDao = clubDao;
+    }
+
+    public void setDivisionDao(IDivisionDao divisionDao) {
+        this.divisionDao = divisionDao;
+    }
+
+    public void setSectorDao(ISectorDao sectorDao) {
+        this.sectorDao = sectorDao;
     }
 }

@@ -1,20 +1,23 @@
 package ar.noxit.ehockey.web.pages.providers;
 
 import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.service.IEquiposService;
+import ar.noxit.ehockey.service.IEquipoService;
 import ar.noxit.ehockey.web.pages.models.EquipoModel;
 import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.NoxitRuntimeException;
 import ar.noxit.web.wicket.provider.DataProvider;
-import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.Validate;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-public class EquipoDataProvider extends DataProvider<Equipo> {
+public class EquiposDataProvider extends DataProvider<Equipo> {
 
-    private IEquiposService equipoService;
+    private IEquipoService equipoService;
 
-    public EquipoDataProvider(IEquiposService equipoService) {
+    public EquiposDataProvider(IEquipoService equipoService) {
+        Validate.notNull(equipoService);
+
         this.equipoService = equipoService;
     }
 
@@ -23,7 +26,7 @@ public class EquipoDataProvider extends DataProvider<Equipo> {
         try {
             return equipoService.getAll();
         } catch (NoxitException e) {
-            return new ArrayList<Equipo>();
+            throw new NoxitRuntimeException(e);
         }
     }
 

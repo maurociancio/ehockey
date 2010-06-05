@@ -16,6 +16,8 @@ package ar.noxit.ehockey.web.pages.jugadores;
  *
  */
 
+import java.io.Serializable;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.basic.Label;
@@ -88,8 +90,7 @@ public class FeedbackLabel extends Label {
      *            The custom model to show when the {@link FormComponent} has a
      *            FeedbackMessage
      */
-    public FeedbackLabel(String id, FormComponent<?> component,
-            IModel<String> iModel) {
+    public FeedbackLabel(String id, FormComponent<?> component, IModel<String> iModel) {
         super(id);
         this.component = component;
         this.text = iModel;
@@ -117,15 +118,11 @@ public class FeedbackLabel extends Label {
             if (this.text != null) {
                 this.setDefaultModel(text);
             } else {
-                this.setDefaultModel(new Model(component.getFeedbackMessage()
-                        .getMessage()));
+                this.setDefaultModel(new Model<Serializable>(component.getFeedbackMessage().getMessage()));
             }
 
-            this
-                    .add(new AttributeModifier("class", true, new Model(
-                            "feedbacklabel "
-                                    + component.getFeedbackMessage()
-                                            .getLevelAsString())));
+            this.add(new AttributeModifier("class", true, new Model<Serializable>("feedbacklabel "
+                    + component.getFeedbackMessage().getLevelAsString())));
         } else {
             this.setDefaultModel(null);
         }

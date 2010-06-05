@@ -45,10 +45,11 @@ public class JugadorService implements IJugadorService {
 
     @Override
     @Transactional
-    public void remove(Jugador jugador) throws NoxitException {
-        if (jugador == null) {
+    public void remove(Integer jugadorId) throws NoxitException {
+        if (jugadorId == null) {
             throw new IllegalArgumentException();
         }
+        Jugador jugador = jugadorDao.get(jugadorId);
         // No se elimina el jugador, solo se deja en estado inactivo.
         jugador.bajaJugador();
     }

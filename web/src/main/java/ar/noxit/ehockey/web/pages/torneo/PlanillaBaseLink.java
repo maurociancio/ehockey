@@ -28,7 +28,7 @@ public abstract class PlanillaBaseLink extends Link<Partido> implements IRendera
 
     @Override
     public final void onClick() {
-        setResponsePage(new PlanillaPage(getModel()));
+        setResponsePage(createNewPage(getModel()));
     }
 
     protected abstract boolean isEnabled(Partido partido, LocalDateTime localDateTime);

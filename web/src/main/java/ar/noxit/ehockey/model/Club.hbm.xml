@@ -22,7 +22,7 @@
             <key column="club_id" not-null="true"/>
             <one-to-many entity-name="Jugador"/>
         </set>
-        <set name="equipos" inverse="true">
+        <set name="equipos" inverse="true" cascade="save-update">
             <key column="club_id" not-null="true"/>
             <one-to-many entity-name="Equipo"/>
         </set>

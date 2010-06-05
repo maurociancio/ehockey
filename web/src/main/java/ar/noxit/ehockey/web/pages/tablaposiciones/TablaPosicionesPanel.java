@@ -1,10 +1,17 @@
 package ar.noxit.ehockey.web.pages.tablaposiciones;
 
+import ar.noxit.ehockey.model.DatosTabla;
+import ar.noxit.ehockey.model.Torneo;
+import ar.noxit.ehockey.service.ITablaPosicionesService;
+import ar.noxit.ehockey.service.ITorneoService;
+import ar.noxit.ehockey.web.pages.components.AjaxHybridSingleAndMultipleChoicePanel;
+import ar.noxit.ehockey.web.pages.models.TorneoListModel;
+import ar.noxit.ehockey.web.pages.models.TorneoModel;
+import ar.noxit.ehockey.web.pages.providers.TablaPosicionesDataProvider;
+import ar.noxit.ehockey.web.pages.renderers.TorneoRenderer;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
@@ -16,24 +23,14 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import ar.noxit.ehockey.model.DatosTabla;
-import ar.noxit.ehockey.model.Torneo;
-import ar.noxit.ehockey.service.ITablaPosicionesService;
-import ar.noxit.ehockey.service.ITorneoService;
-import ar.noxit.ehockey.web.pages.components.HybridSingleAndMultipleChoicePanel;
-import ar.noxit.ehockey.web.pages.models.IdTorneoModel;
-import ar.noxit.ehockey.web.pages.models.TorneoListModel;
-import ar.noxit.ehockey.web.pages.providers.TablaPosicionesDataProvider;
-import ar.noxit.ehockey.web.pages.renderers.TorneoRenderer;
-
 public class TablaPosicionesPanel extends Panel {
 
     @SpringBean
     private ITorneoService torneoService;
     @SpringBean
     private ITablaPosicionesService tablaService;
-    TablaPosicionesDataProvider tablaPosicionesDataProvider;
-    WebMarkupContainer contenedorTabla;
+    private TablaPosicionesDataProvider tablaPosicionesDataProvider;
+    private WebMarkupContainer contenedorTabla;
 
     public TablaPosicionesPanel() {
         this(Model.of(new TablaTransfer()));
@@ -44,7 +41,7 @@ public class TablaPosicionesPanel extends Panel {
 
         List<IColumn<DatosTabla>> columnas = new ArrayList<IColumn<DatosTabla>>();
 
-        IModel<Torneo> torneoModel = new IdTorneoModel(new PropertyModel<Integer>(tablaTransferModel, "torneoId"),
+        IModel<Torneo> torneoModel = new TorneoModel(new PropertyModel<Integer>(tablaTransferModel, "torneoId"),
                 torneoService);
 
         columnas.add(new PropertyColumn<DatosTabla>(Model.of("Nombre"), "nombre"));
@@ -63,6 +60,7 @@ public class TablaPosicionesPanel extends Panel {
         tablaPosicionesDataProvider = new TablaPosicionesDataProvider(tablaService, torneoModel);
         DataTable<DatosTabla> tabla = new AjaxFallbackDefaultDataTable<DatosTabla>("tablaposiciones", columnas,
                 tablaPosicionesDataProvider, 10) {
+
             @Override
             public boolean isVisible() {
                 return !(tablaPosicionesDataProvider.size() == 0);
@@ -71,13 +69,15 @@ public class TablaPosicionesPanel extends Panel {
         contenedorTabla.add(tabla);
         add(contenedorTabla);
 
-        add(new HybridSingleAndMultipleChoicePanel<Torneo>("panelhibrido", torneoModel, new TorneoListModel(
-                torneoService), new TorneoRenderer()).add(new AjaxFormComponentUpdatingBehavior("onchange") {
+        add(new AjaxHybridSingleAndMultipleChoicePanel<Torneo>("panelhibrido",
+                torneoModel,
+                new TorneoListModel(torneoService),
+                new TorneoRenderer()) {
 
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
                 target.addComponent(contenedorTabla);
             }
-        }));
+        });
     }
 }

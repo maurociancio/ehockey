@@ -7,12 +7,11 @@ import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
 
-public class IdDivisionModel extends IdLDM<Division, Integer> {
+public class DivisionModel extends IdLDM<Division, Integer> {
 
     private IDivisionService divisionService;
 
-    public IdDivisionModel(IModel<Integer> idModel,
-            IDivisionService divisionService) {
+    public DivisionModel(IModel<Integer> idModel, IDivisionService divisionService) {
         super(idModel);
         this.divisionService = divisionService;
     }
@@ -26,5 +25,4 @@ public class IdDivisionModel extends IdLDM<Division, Integer> {
     protected Integer getObjectId(Division object) {
         return object.getId();
     }
-
 }

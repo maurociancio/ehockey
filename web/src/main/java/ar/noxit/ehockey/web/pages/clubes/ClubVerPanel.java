@@ -19,7 +19,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.web.pages.models.IdClubModel;
+import ar.noxit.ehockey.web.pages.models.ClubModel;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.provider.DataProvider;
 
@@ -87,7 +87,7 @@ public class ClubVerPanel extends Panel {
 
         @Override
         public IModel<Club> model(Club object) {
-            return new IdClubModel(new Model<Integer>(object.getId()), clubService);
+            return new ClubModel(new Model<Integer>(object.getId()), clubService);
         }
     }
 

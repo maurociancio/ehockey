@@ -10,7 +10,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.web.pages.models.IdClubModel;
+import ar.noxit.ehockey.web.pages.models.ClubModel;
 
 public class InfoRepresentantePanel extends Panel {
 
@@ -23,7 +23,7 @@ public class InfoRepresentantePanel extends Panel {
         Validate.notNull(usuario, "El usuario no puede ser null");
         this.usuario = usuario;
 
-        IModel<Club> clubModel = new IdClubModel(new PropertyModel<Integer>(usuario, "clubId"), clubService);
+        IModel<Club> clubModel = new ClubModel(new PropertyModel<Integer>(usuario, "clubId"), clubService);
         add(new Label("club", new PropertyModel<String>(clubModel, "nombre")));
         add(new Label("cargo", new PropertyModel<String>(usuario, "cargo")));
     }

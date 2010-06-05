@@ -34,8 +34,6 @@ public class ReprogramacionPartidoPage extends AbstractColorBasePage {
                 }
             }
         }.setSubmitLabel("Reprogramar")
-                .setLocalActivo(false)
-                .setVisitanteActivo(false)
                 .setNumeroFechaActivo(false)
                 .setRuedaActivo(false));
     }
