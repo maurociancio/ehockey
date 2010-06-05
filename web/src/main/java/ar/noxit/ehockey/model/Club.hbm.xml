@@ -10,6 +10,7 @@
         <property name="nombreCompleto" not-null="true"/>
         <property name="nombre"/>
         <property name="direccion"/>
+        <property name="ciudad"/>
         <property name="codigoPostal"/>
         <property name="provincia"/>
         <property name="email"/>

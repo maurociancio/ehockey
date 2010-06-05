@@ -1,5 +1,13 @@
 package ar.noxit.ehockey.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.springframework.beans.BeanUtils;
+import org.springframework.transaction.annotation.Transactional;
+
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.dao.IEquipoDao;
 import ar.noxit.ehockey.dao.IJugadorDao;
@@ -7,11 +15,8 @@ import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IClubService;
-import ar.noxit.ehockey.web.pages.jugadores.ClubPlano;
+import ar.noxit.ehockey.web.pages.clubes.ClubPlano;
 import ar.noxit.exceptions.NoxitException;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
 public class ClubService implements IClubService {
 
@@ -79,6 +84,29 @@ public class ClubService implements IClubService {
         clb.setId(club.getId());
         clb.setNombre(club.getNombre());
         return clb;
+    }
+
+    @Override
+    @Transactional
+    public void save(ClubPlano clubPlano) throws NoxitException {
+        Club club = new Club(clubPlano.getNombreCompleto());
+        BeanUtils.copyProperties(clubPlano, club);
+        clubDao.save(club);
+    }
+
+    @Override
+    @Transactional
+    public void update(ClubPlano clubPlano) throws NoxitException {
+        Club club = clubDao.get(clubPlano.getId());
+        // Modifico los valores del club.
+        BeanUtils.copyProperties(clubPlano, club);
+    }
+
+    @Override
+    public IModel<ClubPlano> aplanar(IModel<Club> model) {
+        ClubPlano clubPlano = new ClubPlano();
+        BeanUtils.copyProperties(model.getObject(), clubPlano);
+        return new Model<ClubPlano>(clubPlano);
     }
 
     public void setClubDao(IClubDao clubDao) {
