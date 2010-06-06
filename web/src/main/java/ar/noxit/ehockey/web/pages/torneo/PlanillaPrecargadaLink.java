@@ -17,7 +17,7 @@ public class PlanillaPrecargadaLink extends PlanillaBaseLink {
     }
 
     @Override
-    protected boolean isEnabled(Partido partido, LocalDateTime localDateTime) {
+    protected boolean isVisible(Partido partido, LocalDateTime localDateTime) {
         return partido.puedeVersePlanillaPrecargada(localDateTime);
     }
 

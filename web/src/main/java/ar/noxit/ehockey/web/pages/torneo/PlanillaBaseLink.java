@@ -19,10 +19,10 @@ public abstract class PlanillaBaseLink extends Link<Partido> implements IRendera
     }
 
     @Override
-    public final boolean isEnabled() {
+    public final boolean isVisible() {
         LocalDateTime localDateTime = dateTimeProvider.getLocalDateTime();
         Partido partido = getModelObject();
-        return isEnabled(partido, localDateTime);
+        return isVisible(partido, localDateTime);
     }
 
     @Override
@@ -30,7 +30,7 @@ public abstract class PlanillaBaseLink extends Link<Partido> implements IRendera
         setResponsePage(createNewPage(getModel()));
     }
 
-    protected abstract boolean isEnabled(Partido partido, LocalDateTime localDateTime);
+    protected abstract boolean isVisible(Partido partido, LocalDateTime localDateTime);
 
     protected abstract Page createNewPage(IModel<Partido> model);
 }
