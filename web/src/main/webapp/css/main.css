@@ -410,3 +410,6 @@ dl#news dd span.date {
 table.fixture tr.odd {
     background:#dddddd;
 }
+table.fixture tr {
+    height: 30px;
+}

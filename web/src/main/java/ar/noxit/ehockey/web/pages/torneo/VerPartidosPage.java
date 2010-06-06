@@ -4,13 +4,17 @@ import static java.util.Collections.sort;
 
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PartidosComparator;
+import ar.noxit.ehockey.model.PlanillaFinal;
 import ar.noxit.ehockey.model.Torneo;
+import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IPartidoService;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.models.PartidoModel;
+import ar.noxit.ehockey.web.pages.planilla.PlanillaFinalModel;
 import ar.noxit.utils.Collections;
 import ar.noxit.web.wicket.column.AbstractLabelColumn;
+import ar.noxit.web.wicket.model.AdapterModel;
 import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
@@ -41,6 +45,8 @@ public class VerPartidosPage extends AbstractHeaderPage {
     @SpringBean
     private IPartidoService partidoService;
     private DefaultDataTable<Partido> dataTable;
+    @SpringBean
+    private IDateTimeProvider dateTimeProvider;
 
     public VerPartidosPage(IModel<Torneo> torneo) {
         Validate.notNull(torneo, "torneo no puede ser null");
@@ -74,6 +80,17 @@ public class VerPartidosPage extends AbstractHeaderPage {
                 cellItem.add(new PlanillasPanel(componentId, "planillas", getPage(), rowModel));
             }
         });
+        columns.add(new AbstractColumn<Partido>(Model.of("Estado Planilla")) {
+
+            @Override
+            public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
+                    IModel<Partido> rowModel) {
+
+                IModel<PlanillaFinal> planillaFinalModel = new PlanillaFinalModel(rowModel, dateTimeProvider);
+                cellItem.add(new Label(componentId, new EstadoPlanillaAdapterModel(planillaFinalModel)));
+            }
+
+        });
 
         this.dataTable = new DefaultDataTable<Partido>("partidos", columns, new PartidosFromTorneoDataProvider(torneo),
                 20) {
@@ -94,6 +111,27 @@ public class VerPartidosPage extends AbstractHeaderPage {
         this.dataTable.setItemReuseStrategy(new ReuseIfModelsEqualStrategy());
         this.dataTable.setOutputMarkupId(true);
         add(dataTable);
+    }
+
+    private class EstadoPlanillaAdapterModel extends AdapterModel<String, PlanillaFinal> {
+
+        public EstadoPlanillaAdapterModel(IModel<PlanillaFinal> delegate) {
+            super(delegate);
+        }
+
+        @Override
+        protected String getObject(IModel<PlanillaFinal> delegate) {
+            try {
+                PlanillaFinal object = delegate.getObject();
+                return object.getEstado();
+            } catch (Exception e) {
+                return "No disponible.";
+            }
+        }
+
+        @Override
+        protected void setObject(String object, IModel<PlanillaFinal> delegate) {
+        }
     }
 
     private final class PartidosFromTorneoDataProvider extends DataProvider<Partido> {
