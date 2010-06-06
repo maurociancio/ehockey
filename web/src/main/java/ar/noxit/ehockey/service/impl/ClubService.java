@@ -18,6 +18,7 @@ import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.service.IClubService;
 import ar.noxit.ehockey.web.pages.clubes.ClubPlano;
 import ar.noxit.exceptions.NoxitException;
+import ar.noxit.exceptions.persistence.PersistenceException;
 
 public class ClubService implements IClubService {
 
@@ -111,11 +112,28 @@ public class ClubService implements IClubService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void verificarNombreClub(ClubPlano clubPlano) throws ClubYaExistenteException {
         String nombre = clubPlano.getNombre();
         String nombreCompleto = clubPlano.getNombreCompleto();
         if (clubDao.getClubPorNombre(nombre, nombreCompleto).size() != 0)
             throw new ClubYaExistenteException("Club de nombre: " + nombre + " ya existente.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void verificarCambioNombre(ClubPlano clubPlano) throws ClubYaExistenteException {
+        try {
+            Club club = clubDao.get(clubPlano.getId());
+            String nombre = clubPlano.getNombre();
+            String nombreCompleto = clubPlano.getNombreCompleto();
+            if (!club.getNombre().equals(nombre) || !club.getNombreCompleto().equals(nombreCompleto)) {
+                if (clubDao.getClubPorNombre(nombre, nombreCompleto).size() != 0)
+                    throw new ClubYaExistenteException("Club de nombre: " + nombre + " ya existente.");
+            }
+        } catch (PersistenceException e) {
+            throw new ClubYaExistenteException(e);
+        }
     }
 
     public void setClubDao(IClubDao clubDao) {

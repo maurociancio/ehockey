@@ -38,4 +38,6 @@ public interface IClubService {
     public IModel<ClubPlano> aplanar(IModel<Club> model);
 
     public void verificarNombreClub(ClubPlano clubPlano) throws ClubYaExistenteException;
+
+    public void verificarCambioNombre(ClubPlano clubPlano) throws ClubYaExistenteException;
 }
