@@ -17,7 +17,6 @@ public class ClubDao extends HibernateDao<Club, Integer> implements IClubDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Jugador> getClubPorNombre(String nombre, String nombreCompleto) {
         Session session = getSession();
         return session.createQuery(
