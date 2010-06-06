@@ -18,4 +18,9 @@ public class EstadoPlanillaRechazada extends EstadoPlanillaCargada {
     public EstadoPlanilla verificarVencimiento(PlanillaVencible vencible, LocalDateTime now) {
         return vencerPlanillaCargada(vencible, now);
     }
+
+    @Override
+    public String toStringReducido() {
+        return "Rechazada";
+    }
 }

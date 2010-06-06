@@ -39,6 +39,11 @@ public class EstadoPlanillaFinalizada extends EstadoPlanilla {
     }
 
     @Override
+    public String toStringReducido() {
+        return "Validada";
+    }
+
+    @Override
     public EstadoPlanilla verificarVencimiento(PlanillaVencible vencible, LocalDateTime now) {
         return this;
     }

@@ -20,7 +20,8 @@ public abstract class EstadoPlanilla {
 
     public abstract EstadoPlanilla verificarVencimiento(PlanillaVencible vencible, LocalDateTime now);
 
-    public EstadoPlanilla cerrarPlanillaVencida(PlanillaPublicable publicable, PlanillaFinalizable finalizable) throws ReglaNegocioException {
+    public EstadoPlanilla cerrarPlanillaVencida(PlanillaPublicable publicable, PlanillaFinalizable finalizable)
+            throws ReglaNegocioException {
         throw new TransicionEstadoInvalidaException("la planilla no puede ser cerrada");
     }
 
@@ -77,4 +78,6 @@ public abstract class EstadoPlanilla {
     public boolean estaVencida() {
         return false;
     }
+
+    public abstract String toStringReducido();
 }

@@ -394,4 +394,8 @@ public class PlanillaFinal implements Planilla {
     public boolean isPublicada() {
         return this.estado.estaPublicada();
     }
+
+    public String getEstadoReducido() {
+        return this.estado.toStringReducido();
+    }
 }

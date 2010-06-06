@@ -23,6 +23,11 @@ public class EstadoPlanillaVencida extends EstadoPlanilla {
     }
 
     @Override
+    public String toStringReducido() {
+        return "Vencida";
+    }
+
+    @Override
     public EstadoPlanilla validar(PlanillaFinalizable finalizable) throws ReglaNegocioException {
         throw new TransicionEstadoInvalidaException("la planilla no puede ser validada");
     }
@@ -33,7 +38,8 @@ public class EstadoPlanillaVencida extends EstadoPlanilla {
     }
 
     @Override
-    public EstadoPlanilla cerrarPlanillaVencida(PlanillaPublicable publicable, PlanillaFinalizable finalizable) throws ReglaNegocioException {
+    public EstadoPlanilla cerrarPlanillaVencida(PlanillaPublicable publicable, PlanillaFinalizable finalizable)
+            throws ReglaNegocioException {
         Validate.notNull(publicable);
         publicable.checkPublicable();
         finalizable.finalizarPlanilla();

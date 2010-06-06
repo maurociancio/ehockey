@@ -40,6 +40,11 @@ public class EstadoPlanillaPublicada extends EstadoPlanilla {
     }
 
     @Override
+    public String toStringReducido() {
+        return "Publicada";
+    }
+
+    @Override
     public EstadoPlanilla verificarVencimiento(PlanillaVencible vencible, LocalDateTime now) {
         try {
             vencible.checkVencimiento(now);

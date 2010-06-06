@@ -137,7 +137,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
         protected String getObject(IModel<PlanillaFinal> delegate) {
             try {
                 PlanillaFinal object = delegate.getObject();
-                return object.getEstado();
+                return object.getEstadoReducido();
             } catch (Exception e) {
                 return "No disponible.";
             }

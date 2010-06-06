@@ -39,4 +39,9 @@ public class EstadoPlanillaCargada extends EstadoPlanilla {
     public boolean esEditable() {
         return true;
     }
+
+    @Override
+    public String toStringReducido() {
+        return "Carga Parcial";
+    }
 }

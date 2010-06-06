@@ -200,7 +200,7 @@ public class Partido {
         planillaFinal.rechazar(comentario);
     }
 
-    public void finalizarPlanilla() throws ReglaNegocioException{
+    public void finalizarPlanilla() throws ReglaNegocioException {
         planillaFinal.finalizar();
     }
 
@@ -315,6 +315,10 @@ public class Partido {
 
     public String getEstadoPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
         return getPlanilla(now).getEstado();
+    }
+
+    public String getEstadoReducidoPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
+        return getPlanilla(now).getEstadoReducido();
     }
 
     protected Partido() {
