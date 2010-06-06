@@ -179,6 +179,8 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy.authorize(EquipoModificarPage.class, Rol.MODIF_EQUIPOS);
         MetaDataRoleAuthorizationStrategy.authorize(EquipoBajaPage.class, Rol.BAJA_EQUIPOS);
 
+        MetaDataRoleAuthorizationStrategy.authorize(ReportPage.class, Rol.REPORTES);
+        
         MetaDataRoleAuthorizationStrategy.authorize(MensajePage.class, Rol.MENSAJE);
 
         MetaDataRoleAuthorizationStrategy.authorize(FechaHoraPage.class, Rol.FECHA_HORA);
