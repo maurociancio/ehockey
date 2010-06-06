@@ -27,7 +27,6 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Fragment;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.model.AbstractReadOnlyModel;
@@ -65,14 +64,6 @@ public class VerPartidosPage extends AbstractHeaderPage {
             public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
                     IModel<Partido> rowModel) {
                 cellItem.add(new PartidoJugadoFragment(componentId, "jugado", getPage(), rowModel));
-            }
-        });
-        columns.add(new AbstractColumn<Partido>(Model.of("Reprogramar")) {
-
-            @Override
-            public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
-                    IModel<Partido> rowModel) {
-                cellItem.add(new ReprogramarPartidoPanel(componentId, rowModel));
             }
         });
         columns.add(new AbstractColumn<Partido>(Model.of("Planillas")) {
@@ -128,36 +119,6 @@ public class VerPartidosPage extends AbstractHeaderPage {
         }
     }
 
-    private final class ReprogramarPartidoPanel extends Panel {
-
-        public ReprogramarPartidoPanel(String id, final IModel<Partido> partido) {
-            super(id);
-
-            final ModalWindow modalWindow = new ModalWindow("modal");
-            modalWindow.setPageMapName("modal-1");
-            modalWindow.setCookieName("modal-1");
-            add(modalWindow);
-
-            final ReprogramarPartidoLink reprogramarPartidoLink = new ReprogramarPartidoLink("reprogramar",
-                    modalWindow, partido, dataTable);
-            add(reprogramarPartidoLink);
-            add(new WebMarkupContainer("no_reprogramar") {
-
-                @Override
-                public boolean isVisible() {
-                    return partido.getObject().isJugado() && !reprogramarPartidoLink.determineVisibility();
-                }
-            });
-            add(new WebMarkupContainer("no_acciones") {
-
-                @Override
-                public boolean isVisible() {
-                    return !partido.getObject().isJugado() && !reprogramarPartidoLink.determineVisibility();
-                }
-            });
-        }
-    }
-
     private class PlanillasPanel extends Fragment {
 
         public PlanillasPanel(String id, String markupId, MarkupContainer markupProvider, final IModel<Partido> rowModel) {
@@ -190,18 +151,28 @@ public class VerPartidosPage extends AbstractHeaderPage {
     private class PartidoJugadoFragment extends Fragment {
 
         public PartidoJugadoFragment(String id, String markupId, MarkupContainer markupProvider,
-                final IModel<Partido> rowModel) {
+                final IModel<Partido> partido) {
             super(id, markupId, markupProvider);
 
             add(new Label("jugado", new AbstractReadOnlyModel<String>() {
 
                 @Override
                 public String getObject() {
-                    return rowModel.getObject().isJugado() ? "Si" : "No";
+                    return partido.getObject().isJugado() ? "Si" : "No";
                 }
             }));
 
-            add(new TerminarPartidoLink("terminar", rowModel));
+            add(new TerminarPartidoLink("terminar", partido));
+
+            // Reprogramación
+            final ModalWindow modalWindow = new ModalWindow("modal");
+            modalWindow.setPageMapName("modal-1");
+            modalWindow.setCookieName("modal-1");
+            add(modalWindow);
+
+            final ReprogramarPartidoLink reprogramarPartidoLink =
+                    new ReprogramarPartidoLink("reprogramar", modalWindow, partido, dataTable);
+            add(reprogramarPartidoLink);
         }
     }
 
