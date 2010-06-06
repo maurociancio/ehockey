@@ -80,6 +80,13 @@
                        <util:constant static-field="ar.noxit.ehockey.model.Rol.FECHA_HORA"/>
                    </constructor-arg>
                </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Reporte"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.report.ReportPage"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.FECHA_HORA"/>
+                   </constructor-arg>
+               </bean>
 	       </list>
 	   </property>
 	</bean>
