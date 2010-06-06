@@ -44,4 +44,9 @@ public class TerminarPartidoLink extends Link<Void> {
         LocalDateTime now = dateTimeProvider.getLocalDateTime();
         return !partido.isJugado() && partido.puedeTerminarPartido(now);
     }
+
+    @Override
+    protected CharSequence getOnClickScript(CharSequence url) {
+        return "return confirm('Está seguro que desea terminar el partido?');";
+    }
 }
