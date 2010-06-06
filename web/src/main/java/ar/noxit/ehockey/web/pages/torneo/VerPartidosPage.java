@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.MarkupContainer;
+import org.apache.wicket.ResourceReference;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
@@ -30,6 +32,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColu
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
@@ -47,6 +50,8 @@ public class VerPartidosPage extends AbstractHeaderPage {
     private DefaultDataTable<Partido> dataTable;
     @SpringBean
     private IDateTimeProvider dateTimeProvider;
+    private final static ResourceReference CHECK = new ResourceReference(VerPartidosPage.class, "check.png");
+    private final static ResourceReference CALENDAR = new ResourceReference(VerPartidosPage.class, "calendar.png");
 
     public VerPartidosPage(IModel<Torneo> torneo) {
         Validate.notNull(torneo, "torneo no puede ser null");
@@ -77,7 +82,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
             @Override
             public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
                     IModel<Partido> rowModel) {
-                cellItem.add(new PlanillasPanel(componentId, "planillas", getPage(), rowModel));
+                cellItem.add(new PlanillasFragment(componentId, "planillas", getPage(), rowModel));
             }
         });
         columns.add(new AbstractColumn<Partido>(Model.of("Estado Planilla")) {
@@ -87,9 +92,18 @@ public class VerPartidosPage extends AbstractHeaderPage {
                     IModel<Partido> rowModel) {
 
                 IModel<PlanillaFinal> planillaFinalModel = new PlanillaFinalModel(rowModel, dateTimeProvider);
-                cellItem.add(new Label(componentId, new EstadoPlanillaAdapterModel(planillaFinalModel)));
+                cellItem.add(new Label(componentId, new EstadoPlanillaAdapterModel(planillaFinalModel))
+                        .setRenderBodyOnly(true));
             }
 
+        });
+        columns.add(new AbstractColumn<Partido>(Model.of("Acciones")) {
+
+            @Override
+            public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
+                    IModel<Partido> rowModel) {
+                cellItem.add(new AccionesFragment(componentId, "acciones", getPage(), rowModel));
+            }
         });
 
         this.dataTable = new DefaultDataTable<Partido>("partidos", columns, new PartidosFromTorneoDataProvider(torneo),
@@ -157,9 +171,13 @@ public class VerPartidosPage extends AbstractHeaderPage {
         }
     }
 
-    private class PlanillasPanel extends Fragment {
+    private class PlanillasFragment extends Fragment {
 
-        public PlanillasPanel(String id, String markupId, MarkupContainer markupProvider, final IModel<Partido> rowModel) {
+        public PlanillasFragment(String id,
+                String markupId,
+                MarkupContainer markupProvider,
+                final IModel<Partido> rowModel) {
+
             super(id, markupId, markupProvider);
 
             final PlanillaPrecargadaLink planillaPrecargadaLink = new PlanillaPrecargadaLink("precargada", rowModel);
@@ -186,10 +204,38 @@ public class VerPartidosPage extends AbstractHeaderPage {
         }
     }
 
+    private class AccionesFragment extends Fragment {
+
+        public AccionesFragment(String id,
+                String markupId,
+                MarkupContainer markupProvider,
+                final IModel<Partido> partido) {
+
+            super(id, markupId, markupProvider);
+
+            // Reprogramación
+            ModalWindow modal = new ModalWindow("modal");
+            modal.setPageMapName("modal-1");
+            modal.setCookieName("modal-1");
+            add(modal);
+
+            AjaxLink<Void> reprogramar = new ReprogramarPartidoLink("reprogramar", modal, partido, dataTable);
+            reprogramar.add(new Image("reprogramar", CALENDAR));
+            add(reprogramar);
+
+            TerminarPartidoLink terminar = new TerminarPartidoLink("terminar", partido);
+            terminar.add(new Image("terminar", CHECK));
+            add(terminar);
+        }
+    }
+
     private class PartidoJugadoFragment extends Fragment {
 
-        public PartidoJugadoFragment(String id, String markupId, MarkupContainer markupProvider,
+        public PartidoJugadoFragment(String id,
+                String markupId,
+                MarkupContainer markupProvider,
                 final IModel<Partido> partido) {
+
             super(id, markupId, markupProvider);
 
             add(new Label("jugado", new AbstractReadOnlyModel<String>() {
@@ -199,18 +245,6 @@ public class VerPartidosPage extends AbstractHeaderPage {
                     return partido.getObject().isJugado() ? "Si" : "No";
                 }
             }));
-
-            add(new TerminarPartidoLink("terminar", partido));
-
-            // Reprogramación
-            final ModalWindow modalWindow = new ModalWindow("modal");
-            modalWindow.setPageMapName("modal-1");
-            modalWindow.setCookieName("modal-1");
-            add(modalWindow);
-
-            final ReprogramarPartidoLink reprogramarPartidoLink =
-                    new ReprogramarPartidoLink("reprogramar", modalWindow, partido, dataTable);
-            add(reprogramarPartidoLink);
         }
     }
 
