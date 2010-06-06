@@ -47,6 +47,7 @@ import ar.noxit.ehockey.web.pages.planilla.ModificarPlanillaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrecargadaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrinterFriendly;
+import ar.noxit.ehockey.web.pages.report.ReportPage;
 import ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage;
 import ar.noxit.ehockey.web.pages.torneo.ListadoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
@@ -57,20 +58,6 @@ import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.EditarUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
 import ar.noxit.ehockey.web.pages.usuarios.PerfilUsuarioPage;
-import org.apache.commons.lang.Validate;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.authentication.AuthenticatedWebApplication;
-import org.apache.wicket.authentication.AuthenticatedWebSession;
-import org.apache.wicket.authorization.strategies.role.RoleAuthorizationStrategy;
-import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.protocol.http.WebResponse;
-import org.apache.wicket.request.IRequestCycleProcessor;
-import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
-import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 /**
  * Application object for your web application. If you want to run this application without deploying, run the Start
@@ -132,6 +119,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/clubes/ver", ClubVerPage.class, false));
         mount(new HybridUrlCodingStrategy("/clubes/editar", ClubEditarPage.class, false));
         mount(new HybridUrlCodingStrategy("/perfil", PerfilUsuarioPage.class, false));
+        mount(new HybridUrlCodingStrategy("/reporte", ReportPage.class, false));
 
         getApplicationSettings().setAccessDeniedPage(ForbiddenAccessPage.class);
         getSessionSettings().setPageFactory(new EHockeyPageFactory());
