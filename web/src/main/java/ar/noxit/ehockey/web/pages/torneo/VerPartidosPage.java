@@ -59,9 +59,9 @@ public class VerPartidosPage extends AbstractHeaderPage {
         List<IColumn<Partido>> columns = new ArrayList<IColumn<Partido>>();
         columns.add(new PropertyColumn<Partido>(Model.of("Local"), "local.nombre"));
         columns.add(new PropertyColumn<Partido>(Model.of("Visitante"), "visitante.nombre"));
-        columns.add(new PropertyColumn<Partido>(Model.of("Rueda"), "rueda"));
-        columns.add(new PropertyColumn<Partido>(Model.of("Fecha"), "fechaDelTorneo"));
-        columns.add(new PropertyColumn<Partido>(Model.of("Partido"), "partido"));
+        columns.add(new PropertyColumn<Partido>(Model.of("R"), "rueda"));
+        columns.add(new PropertyColumn<Partido>(Model.of("F"), "fechaDelTorneo"));
+        columns.add(new PropertyColumn<Partido>(Model.of("P"), "partido"));
         columns.add(new AbstractLabelColumn<Partido>(Model.of("Inicio")) {
 
             @Override
