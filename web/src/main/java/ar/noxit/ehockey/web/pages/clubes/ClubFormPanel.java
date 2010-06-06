@@ -8,10 +8,17 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.validation.validator.EmailAddressValidator;
+import org.apache.wicket.validation.validator.PatternValidator;
+import org.apache.wicket.validation.validator.UrlValidator;
 
 public abstract class ClubFormPanel extends Panel {
 
     private IModel<ClubPlano> clubPlano;
+    // #TODO @repetido
+    private final static String textPattern = "([a-zñáéíóúA-ZÑÁÉÍÓÚ ])+";
+    private static final String textAndNumberPattern = "([\\da-zñáéíóúA-ZÑÁÉÍÓÚ ])+";
+    private static final String phonePattern = "\\d{4,12}";
 
     public ClubFormPanel(String id, IModel<ClubPlano> clubModel) {
         super(id);
@@ -23,18 +30,26 @@ public abstract class ClubFormPanel extends Panel {
             }
         };
 
-        clubForm.add(new RequiredTextField<ClubPlano>("nombre", new PropertyModel<ClubPlano>(clubPlano, "nombre")));
-        clubForm.add(new RequiredTextField<ClubPlano>("nombrecompleto", new PropertyModel<ClubPlano>(clubPlano,
-                "nombreCompleto")));
-        clubForm.add(new RequiredTextField<ClubPlano>("direccion", new PropertyModel<ClubPlano>(clubPlano, "direccion")));
-        clubForm.add(new RequiredTextField<ClubPlano>("ciudad", new PropertyModel<ClubPlano>(clubPlano, "ciudad")));
-        clubForm.add(new RequiredTextField<ClubPlano>("codigopostal", new PropertyModel<ClubPlano>(clubPlano,
-                "codigoPostal")));
-        clubForm.add(new RequiredTextField<ClubPlano>("provincia", new PropertyModel<ClubPlano>(clubPlano, "provincia")));
-        clubForm.add(new RequiredTextField<ClubPlano>("telefono", new PropertyModel<ClubPlano>(clubPlano, "telefono")));
-        clubForm.add(new TextField<ClubPlano>("email", new PropertyModel<ClubPlano>(clubPlano, "email")));
-        clubForm.add(new TextField<ClubPlano>("web", new PropertyModel<ClubPlano>(clubPlano, "web")));
-        clubForm.add(new TextArea<ClubPlano>("observaciones", new PropertyModel<ClubPlano>(clubPlano, "observaciones")));
+        clubForm.add(new RequiredTextField<String>("nombre", new PropertyModel<String>(clubPlano, "nombre"))
+                .add(new PatternValidator(textPattern)));
+        clubForm.add(new RequiredTextField<String>("nombrecompleto", new PropertyModel<String>(clubPlano,
+                "nombreCompleto")).add(new PatternValidator(textPattern)));
+        clubForm.add(new RequiredTextField<String>("direccion", new PropertyModel<String>(clubPlano, "direccion"))
+                .add(new PatternValidator(textAndNumberPattern)));
+        clubForm.add(new RequiredTextField<String>("ciudad", new PropertyModel<String>(clubPlano, "ciudad"))
+                .add(new PatternValidator(textAndNumberPattern)));
+        clubForm
+                .add(new RequiredTextField<String>("codigopostal", new PropertyModel<String>(clubPlano, "codigoPostal"))
+                        .add(new PatternValidator(textAndNumberPattern)));
+        clubForm.add(new RequiredTextField<String>("provincia", new PropertyModel<String>(clubPlano, "provincia"))
+                .add(new PatternValidator(textAndNumberPattern)));
+        clubForm.add(new RequiredTextField<String>("telefono", new PropertyModel<String>(clubPlano, "telefono"))
+                .add(new PatternValidator(phonePattern)));
+        clubForm.add(new TextField<String>("email", new PropertyModel<String>(clubPlano, "email"))
+                .add(EmailAddressValidator.getInstance()));
+        clubForm.add(new TextField<String>("web", new PropertyModel<String>(clubPlano, "web")).add(new UrlValidator(
+                UrlValidator.ALLOW_2_SLASHES)));
+        clubForm.add(new TextArea<String>("observaciones", new PropertyModel<String>(clubPlano, "observaciones")));
 
         add(clubForm);
         add(new FeedbackPanel("feedback"));
