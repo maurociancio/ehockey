@@ -25,7 +25,6 @@ public class ClubesListModel extends LoadableDetachableModel<List<Club>> {
         try {
             return clubService.getAll();
         } catch (NoxitException ex) {
-            // #TODO
             throw new NoxitRuntimeException(ex);
         }
     }

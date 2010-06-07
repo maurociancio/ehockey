@@ -47,7 +47,6 @@ public class DatosEquipoPlanilla {
 
     private void check(CompositeReglaDeNegocioException composite, boolean condicion, String mensaje) {
         if (condicion) {
-            // TODO MEJORAR
             composite.add(new ReglaNegocioException(mensaje).setMensaje(mensaje));
         }
     }

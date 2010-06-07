@@ -24,9 +24,6 @@ public class PlanillaFinal implements Planilla {
 
     private String observaciones;
 
-    // TODO definir el atributo fecha
-    // TODO definir el resto de los atributos que son: Torneo, Rueda, Partido,
-    // Sector(damas/caballeros), categoría, división, zona
     private Partido partido;
     private String comentario;
     private EstadoPlanilla estado;

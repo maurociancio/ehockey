@@ -25,7 +25,6 @@ public class DivisionListModel extends LoadableDetachableModel<List<Division>> {
         try {
             return divisionService.getAll();
         } catch (NoxitException ex) {
-            // #TODO
             throw new NoxitRuntimeException(ex);
         }
     }
