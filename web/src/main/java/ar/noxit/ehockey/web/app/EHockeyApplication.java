@@ -1,5 +1,7 @@
 package ar.noxit.ehockey.web.app;
 
+import ar.noxit.ehockey.web.pages.AdministracionPage;
+
 import org.apache.commons.lang.Validate;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
@@ -60,8 +62,8 @@ import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
 import ar.noxit.ehockey.web.pages.usuarios.PerfilUsuarioPage;
 
 /**
- * Application object for your web application. If you want to run this application without deploying, run the Start
- * class.
+ * Application object for your web application. If you want to run this
+ * application without deploying, run the Start class.
  * 
  * @see StartJetty.myproject.Start#main(String[])
  */
@@ -120,6 +122,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/clubes/editar", ClubEditarPage.class, false));
         mount(new HybridUrlCodingStrategy("/perfil", PerfilUsuarioPage.class, false));
         mount(new HybridUrlCodingStrategy("/reporte", ReportPage.class, false));
+        mount(new HybridUrlCodingStrategy("/admin", AdministracionPage.class, false));
 
         getApplicationSettings().setAccessDeniedPage(ForbiddenAccessPage.class);
         getSessionSettings().setPageFactory(new EHockeyPageFactory());
@@ -164,6 +167,8 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
 
         MetaDataRoleAuthorizationStrategy.authorize(TablaPosicionesPage.class, Rol.TABLA_POSICIONES);
 
+        MetaDataRoleAuthorizationStrategy.authorize(AdministracionPage.class, Rol.ADMINISTRACION);
+
         MetaDataRoleAuthorizationStrategy.authorize(ListaUsuariosPage.class, Rol.USUARIOS);
         MetaDataRoleAuthorizationStrategy.authorize(AltaUsuarioPage.class, Rol.ALTA_USUARIOS);
         MetaDataRoleAuthorizationStrategy.authorize(EditarUsuarioPage.class, Rol.MODIF_USUARIOS);
@@ -180,7 +185,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy.authorize(EquipoBajaPage.class, Rol.BAJA_EQUIPOS);
 
         MetaDataRoleAuthorizationStrategy.authorize(ReportPage.class, Rol.REPORTES);
-        
+
         MetaDataRoleAuthorizationStrategy.authorize(MensajePage.class, Rol.MENSAJE);
 
         MetaDataRoleAuthorizationStrategy.authorize(FechaHoraPage.class, Rol.FECHA_HORA);
