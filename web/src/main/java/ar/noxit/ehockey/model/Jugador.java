@@ -256,6 +256,10 @@ public class Jugador {
         return nombre;
     }
 
+    public String getNombreApellido() {
+        return String.format("%s %s", nombre, apellido);
+    }
+
     public Sector getSector() {
         return sector;
     }
