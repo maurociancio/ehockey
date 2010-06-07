@@ -1,14 +1,11 @@
 package ar.noxit.ehockey.dao.impl;
 
-import java.util.List;
-
-import org.hibernate.Session;
-import org.springframework.transaction.annotation.Transactional;
-
 import ar.noxit.dataaccessobject.hibernate.HibernateDao;
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Jugador;
+import java.util.List;
+import org.hibernate.Session;
 
 public class ClubDao extends HibernateDao<Club, Integer> implements IClubDao {
 
@@ -16,6 +13,7 @@ public class ClubDao extends HibernateDao<Club, Integer> implements IClubDao {
         super(Club.class);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Jugador> getClubPorNombre(String nombre, String nombreCompleto) {
         Session session = getSession();

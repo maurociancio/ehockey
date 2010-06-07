@@ -59,9 +59,9 @@ public class ClubVerPanel extends Panel {
                 public void onClick() {
                     setResponsePage(new ClubEditarPage(clubService.aplanar(model)));
                 }
-            }.add(new Label("label", new AbstractReadOnlyModel() {
+            }.add(new Label("label", new AbstractReadOnlyModel<String>() {
                 @Override
-                public Object getObject() {
+                public String getObject() {
                     return model.getObject().getNombre();
                 }
             })));
