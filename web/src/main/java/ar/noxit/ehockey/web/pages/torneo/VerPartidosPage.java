@@ -2,12 +2,15 @@ package ar.noxit.ehockey.web.pages.torneo;
 
 import static java.util.Collections.sort;
 
+import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PartidosComparator;
 import ar.noxit.ehockey.model.PlanillaFinal;
 import ar.noxit.ehockey.model.Torneo;
+import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IDateTimeProvider;
 import ar.noxit.ehockey.service.IPartidoService;
+import ar.noxit.ehockey.web.pages.authentication.AuthSession;
 import ar.noxit.ehockey.web.pages.base.AbstractHeaderPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.models.PartidoModel;
@@ -97,14 +100,7 @@ public class VerPartidosPage extends AbstractHeaderPage {
             }
 
         });
-        columns.add(new AbstractColumn<Partido>(Model.of("Acciones")) {
-
-            @Override
-            public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
-                    IModel<Partido> rowModel) {
-                cellItem.add(new AccionesFragment(componentId, "acciones", getPage(), rowModel));
-            }
-        });
+        agregarColumnaAcciones(columns);
 
         this.dataTable = new DefaultDataTable<Partido>("partidos", columns, new PartidosFromTorneoDataProvider(torneo),
                 20) {
@@ -125,6 +121,20 @@ public class VerPartidosPage extends AbstractHeaderPage {
         this.dataTable.setItemReuseStrategy(new ReuseIfModelsEqualStrategy());
         this.dataTable.setOutputMarkupId(true);
         add(dataTable);
+    }
+
+    private void agregarColumnaAcciones(List<IColumn<Partido>> columns) {
+        Usuario userLogged = AuthSession.get().getUserLogged();
+        if (userLogged instanceof Administrador) {
+            columns.add(new AbstractColumn<Partido>(Model.of("Acciones")) {
+
+                @Override
+                public void populateItem(Item<ICellPopulator<Partido>> cellItem, String componentId,
+                        IModel<Partido> rowModel) {
+                    cellItem.add(new AccionesFragment(componentId, "acciones", getPage(), rowModel));
+                }
+            });
+        }
     }
 
     private class EstadoPlanillaAdapterModel extends AdapterModel<String, PlanillaFinal> {
@@ -219,13 +229,21 @@ public class VerPartidosPage extends AbstractHeaderPage {
             modal.setCookieName("modal-1");
             add(modal);
 
-            AjaxLink<Void> reprogramar = new ReprogramarPartidoLink("reprogramar", modal, partido, dataTable);
+            final AjaxLink<Void> reprogramar = new ReprogramarPartidoLink("reprogramar", modal, partido, dataTable);
             reprogramar.add(new Image("reprogramar", CALENDAR));
             add(reprogramar);
 
-            TerminarPartidoLink terminar = new TerminarPartidoLink("terminar", partido);
+            final TerminarPartidoLink terminar = new TerminarPartidoLink("terminar", partido);
             terminar.add(new Image("terminar", CHECK));
             add(terminar);
+
+            add(new WebMarkupContainer("no_acciones") {
+
+                @Override
+                public boolean isVisible() {
+                    return !(reprogramar.determineVisibility() || terminar.determineVisibility());
+                }
+            }.setRenderBodyOnly(true));
         }
     }
 
