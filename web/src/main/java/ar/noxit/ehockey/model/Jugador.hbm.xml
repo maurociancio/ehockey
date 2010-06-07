@@ -22,11 +22,11 @@
         <many-to-one name="division" entity-name="Division" column="division_id" not-null="true" cascade="save-update,persist"/>
         <many-to-one name="sector" entity-name="Sector" column="sector_id" not-null="true" cascade="save-update,persist"/>
 
-        <set name="tarjetas" inverse="true">
+        <set name="tarjetas" cascade="all">
             <key column="jugador_id" not-null="true"/>
             <one-to-many entity-name="Tarjeta"/>
         </set>
-        <set name="sanciones" inverse="true">
+        <set name="sanciones" cascade="all">
             <key column="jugador_id" not-null="true"/>
             <one-to-many entity-name="SancionPartidosInhabilitados"/>
         </set>

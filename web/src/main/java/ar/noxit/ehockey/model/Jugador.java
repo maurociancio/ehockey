@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Jugador {
 
-    public static final int CANTIDADTARJETASROJASSANCION = 4;
+    public static final int CANTIDADTARJETASROJASSANCION = 1;
     public static final int CANTIDADTARJETASAMARILLASSANCION = 3;
-    public static final int CANTIDADTARJETASVERDESSANCION = 1;
+    public static final int CANTIDADTARJETASVERDESSANCION = 4;
     /**
      * Ficha del Jugador
      */
@@ -156,7 +156,7 @@ public class Jugador {
      * @param sancion
      *            sancion aplicada al jugador
      */
-    public void sancionar(ISancion sancion) {
+    private void sancionar(ISancion sancion) {
         Validate.notNull(sancion);
         sanciones.add(sancion);
     }
