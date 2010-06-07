@@ -39,24 +39,10 @@
                    </constructor-arg>
                </bean>
                <bean parent="menuItem">
-                   <constructor-arg value="Clubes"/>
-                   <constructor-arg value="ar.noxit.ehockey.web.pages.clubes.ClubPage"/>
-                   <constructor-arg>
-                       <util:constant static-field="ar.noxit.ehockey.model.Rol.CLUBES"/>
-                   </constructor-arg>
-               </bean>
-               <bean parent="menuItem">
                    <constructor-arg value="Jugadores"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.jugadores.JugadorPage"/>
                    <constructor-arg>
                        <util:constant static-field="ar.noxit.ehockey.model.Rol.JUGADORES"/>
-                   </constructor-arg>
-               </bean>
-               <bean parent="menuItem">
-                   <constructor-arg value="Equipos"/>
-                   <constructor-arg value="ar.noxit.ehockey.web.pages.equipos.EquiposPage"/>
-                   <constructor-arg>
-                       <util:constant static-field="ar.noxit.ehockey.model.Rol.EQUIPOS"/>
                    </constructor-arg>
                </bean>
                <bean parent="menuItem">
@@ -67,17 +53,24 @@
                    </constructor-arg>
                </bean>
                <bean parent="menuItem">
-                   <constructor-arg value="Usuarios"/>
-                   <constructor-arg value="ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage"/>
-                   <constructor-arg>
-                       <util:constant static-field="ar.noxit.ehockey.model.Rol.USUARIOS"/>
-                   </constructor-arg>
-               </bean>
-               <bean parent="menuItem">
                    <constructor-arg value="Fecha y Hora"/>
                    <constructor-arg value="ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage"/>
                    <constructor-arg>
                        <util:constant static-field="ar.noxit.ehockey.model.Rol.FECHA_HORA"/>
+                   </constructor-arg>
+               </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Reporte"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.report.ReportPage"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.REPORTES"/>
+                   </constructor-arg>
+               </bean>
+               <bean parent="menuItem">
+                   <constructor-arg value="Administración"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.AdministracionPage"/>
+                   <constructor-arg>
+                       <util:constant static-field="ar.noxit.ehockey.model.Rol.ADMINISTRACION"/>
                    </constructor-arg>
                </bean>
 	       </list>

@@ -2,6 +2,7 @@ package ar.noxit.ehockey.web.app;
 
 import ar.noxit.ehockey.main.StartJetty;
 import ar.noxit.ehockey.model.Rol;
+import ar.noxit.ehockey.web.pages.AdministracionPage;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.authentication.AuthSession;
 import ar.noxit.ehockey.web.pages.authentication.EHockeyPageFactory;
@@ -32,6 +33,7 @@ import ar.noxit.ehockey.web.pages.planilla.ModificarPlanillaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrecargadaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrinterFriendly;
+import ar.noxit.ehockey.web.pages.report.ReportPage;
 import ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage;
 import ar.noxit.ehockey.web.pages.torneo.ListadoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
@@ -58,8 +60,8 @@ import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 /**
- * Application object for your web application. If you want to run this application without deploying, run the Start
- * class.
+ * Application object for your web application. If you want to run this
+ * application without deploying, run the Start class.
  * 
  * @see StartJetty.myproject.Start#main(String[])
  */
@@ -117,6 +119,8 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/clubes/ver", ClubVerPage.class, false));
         mount(new HybridUrlCodingStrategy("/clubes/editar", ClubEditarPage.class, false));
         mount(new HybridUrlCodingStrategy("/perfil", PerfilUsuarioPage.class, false));
+        mount(new HybridUrlCodingStrategy("/reporte", ReportPage.class, false));
+        mount(new HybridUrlCodingStrategy("/admin", AdministracionPage.class, false));
 
         getApplicationSettings().setAccessDeniedPage(ForbiddenAccessPage.class);
         getSessionSettings().setPageFactory(new EHockeyPageFactory());
@@ -161,6 +165,8 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
 
         MetaDataRoleAuthorizationStrategy.authorize(TablaPosicionesPage.class, Rol.TABLA_POSICIONES);
 
+        MetaDataRoleAuthorizationStrategy.authorize(AdministracionPage.class, Rol.ADMINISTRACION);
+
         MetaDataRoleAuthorizationStrategy.authorize(ListaUsuariosPage.class, Rol.USUARIOS);
         MetaDataRoleAuthorizationStrategy.authorize(AltaUsuarioPage.class, Rol.ALTA_USUARIOS);
         MetaDataRoleAuthorizationStrategy.authorize(EditarUsuarioPage.class, Rol.MODIF_USUARIOS);
@@ -175,6 +181,8 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy.authorize(EquipoListadoPage.class, Rol.LISTADO_EQUIPOS);
         MetaDataRoleAuthorizationStrategy.authorize(EquipoModificarPage.class, Rol.MODIF_EQUIPOS);
         MetaDataRoleAuthorizationStrategy.authorize(EquipoBajaPage.class, Rol.BAJA_EQUIPOS);
+
+        MetaDataRoleAuthorizationStrategy.authorize(ReportPage.class, Rol.REPORTES);
 
         MetaDataRoleAuthorizationStrategy.authorize(MensajePage.class, Rol.MENSAJE);
 
