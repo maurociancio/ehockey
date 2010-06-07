@@ -18,4 +18,8 @@ public class PlanillaYaFinalizadaException extends ReglaNegocioException {
         super(message, cause);
     }
 
+    @Override
+    public String getDescripcion() {
+        return "La planilla ya está finalizada";
+    }
 }

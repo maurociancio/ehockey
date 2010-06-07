@@ -16,4 +16,9 @@ public class EquipoInexistenteException extends ReglaNegocioException {
     public EquipoInexistenteException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "El equipo no existe";
+    }
 }

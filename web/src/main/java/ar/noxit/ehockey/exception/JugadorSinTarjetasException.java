@@ -18,4 +18,8 @@ public class JugadorSinTarjetasException extends ReglaNegocioException {
         super(message, cause);
     }
 
+    @Override
+    public String getDescripcion() {
+        return "El jugador no tiene tarjetas";
+    }
 }

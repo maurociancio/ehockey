@@ -6,6 +6,7 @@ import ar.noxit.ehockey.model.Representante;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IPlanillaService;
+import ar.noxit.ehockey.service.IReportable;
 import ar.noxit.ehockey.web.pages.authentication.AuthSession;
 import ar.noxit.ehockey.web.pages.authentication.IRenderable;
 import ar.noxit.exceptions.NoxitException;
@@ -35,7 +36,13 @@ public class PublicarPlanillaButton extends Button implements IRenderable {
             Integer id = partido.getObject().getId();
             planillaService.publicarPlanilla(id);
         } catch (NoxitException e) {
-            error(exceptionConverter.convert(e));
+            exceptionConverter.reportar(new IReportable() {
+
+                @Override
+                public void reportar(String error) {
+                    PublicarPlanillaButton.this.error(error);
+                }
+            }, e);
         }
     }
 

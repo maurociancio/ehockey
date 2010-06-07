@@ -36,4 +36,8 @@ public class PartidoYaPerteneceATorneoExcepcion extends ReglaNegocioException {
         super(message, cause);
     }
 
+    @Override
+    public String getDescripcion() {
+        return "El partido ya está en el torneo";
+    }
 }

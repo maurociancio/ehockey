@@ -35,4 +35,9 @@ public class TorneoNoCoincideException extends ReglaNegocioException {
     public TorneoNoCoincideException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "El partido no coincide con el torneo";
+    }
 }

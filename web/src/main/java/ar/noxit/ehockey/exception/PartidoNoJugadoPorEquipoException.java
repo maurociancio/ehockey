@@ -28,4 +28,9 @@ public class PartidoNoJugadoPorEquipoException extends ReglaNegocioException {
     public PartidoNoJugadoPorEquipoException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "El partido no ha sido jugador por el equipo";
+    }
 }

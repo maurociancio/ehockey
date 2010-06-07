@@ -29,18 +29,18 @@ public class DatosEquipoPlanilla {
         return jugadores.contains(jugador);
     }
 
-    public void checkCompleta() throws ReglaNegocioException {
+    public void checkCompleta(String equipo) throws ReglaNegocioException {
         CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
 
-        check(composite, dT == null, "DT no puede ser null");
-        check(composite, capitan == null, "Capitan no puede ser null");
-        check(composite, pFisico == null, "Preparador Físico no puede ser null");
-        check(composite, medico == null, "Médico no puede ser null");
-        check(composite, juezDeMesa == null, "Juez de Mesa no puede ser null");
-        check(composite, arbitro == null, "Arbitro no puede ser null");
-        check(composite, goles == null, "Goles no puede ser null");
-        check(composite, jugadores.size() < 8, "Pocos jugadores");
-        check(composite, jugadores.size() > 18, "Muchos jugadores");
+        check(composite, dT == null, String.format("DT %s no puede estar vacío", equipo));
+        check(composite, capitan == null, String.format("Capitan %s no puede estar vacío", equipo));
+        check(composite, pFisico == null, String.format("Preparador Físico %s no puede estar vacío", equipo));
+        check(composite, medico == null, String.format("Médico %s no puede estar vacío", equipo));
+        check(composite, juezDeMesa == null, String.format("Juez de Mesa %s no puede estar vacío", equipo));
+        check(composite, arbitro == null, String.format("Arbitro %s no puede estar vacío", equipo));
+        check(composite, goles == null, String.format("Goles %s no puede estar vacío", equipo));
+        check(composite, jugadores.size() < 8, String.format("Pocos jugadores en %s. Mínimo 8 jugadores.", equipo));
+        check(composite, jugadores.size() > 18, String.format("Muchos jugadores en %s. Máximo 18 jugadores.", equipo));
 
         composite.throwsIfNotEmpty();
     }
@@ -48,7 +48,7 @@ public class DatosEquipoPlanilla {
     private void check(CompositeReglaDeNegocioException composite, boolean condicion, String mensaje) {
         if (condicion) {
             // TODO MEJORAR
-            composite.add(new ReglaNegocioException(mensaje));
+            composite.add(new ReglaNegocioException(mensaje).setMensaje(mensaje));
         }
     }
 

@@ -16,4 +16,9 @@ public class TransicionEstadoInvalidaException extends ReglaNegocioException {
     public TransicionEstadoInvalidaException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "No se puede cambiar el estado a la planilla";
+    }
 }

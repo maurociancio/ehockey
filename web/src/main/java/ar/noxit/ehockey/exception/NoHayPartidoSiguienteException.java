@@ -17,4 +17,9 @@ public class NoHayPartidoSiguienteException extends ReglaNegocioException {
     public NoHayPartidoSiguienteException(Throwable cause) {
         super(cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "No existe un siguiente partido";
+    }
 }

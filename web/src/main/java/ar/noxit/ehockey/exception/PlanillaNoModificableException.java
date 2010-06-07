@@ -28,4 +28,9 @@ public class PlanillaNoModificableException extends ReglaNegocioException {
     public PlanillaNoModificableException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "La planilla no se puede modificar";
+    }
 }

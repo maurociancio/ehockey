@@ -36,4 +36,8 @@ public class EquiposInvalidosException extends ReglaNegocioException {
         super(message, cause);
     }
 
+    @Override
+    public String getDescripcion() {
+        return "Equipos inválidos";
+    }
 }

@@ -35,4 +35,9 @@ public class PartidoYaTerminadoException extends ReglaNegocioException {
     public PartidoYaTerminadoException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "El partido ya está terminado";
+    }
 }

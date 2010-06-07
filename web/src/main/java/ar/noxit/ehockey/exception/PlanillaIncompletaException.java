@@ -16,4 +16,9 @@ public class PlanillaIncompletaException extends ReglaNegocioException {
     public PlanillaIncompletaException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "La planilla está incompleta";
+    }
 }

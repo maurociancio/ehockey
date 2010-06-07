@@ -35,4 +35,9 @@ public class JugadorYaPerteneceAListaException extends ReglaNegocioException {
     public JugadorYaPerteneceAListaException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "El jugador ya se encuentra en la lista de buena fe";
+    }
 }

@@ -16,4 +16,9 @@ public class PlanillaNoVencidaException extends ReglaNegocioException {
     public PlanillaNoVencidaException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "La planilla no está vencida";
+    }
 }

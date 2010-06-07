@@ -16,4 +16,9 @@ public class PlanillaNoDisponibleException extends ReglaNegocioException {
     public PlanillaNoDisponibleException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "La planilla no está disponible";
+    }
 }

@@ -36,4 +36,8 @@ public class ClubNoCoincideException extends ReglaNegocioException {
         super(message, cause);
     }
 
+    @Override
+    public String getDescripcion() {
+        return "El club del jugador no coincide con el club de la lista de la buena fe";
+    }
 }

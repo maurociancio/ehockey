@@ -16,4 +16,9 @@ public class SinClubException extends ReglaNegocioException {
     public SinClubException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "El jugador no tiene club asignado";
+    }
 }

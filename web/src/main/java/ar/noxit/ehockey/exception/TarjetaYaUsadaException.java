@@ -16,4 +16,9 @@ public class TarjetaYaUsadaException extends ReglaNegocioException {
     public TarjetaYaUsadaException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "La tarjeta ya ha sido usada";
+    }
 }

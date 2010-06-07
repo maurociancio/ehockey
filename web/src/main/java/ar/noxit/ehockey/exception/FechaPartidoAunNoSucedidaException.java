@@ -17,4 +17,8 @@ public class FechaPartidoAunNoSucedidaException extends ReglaNegocioException {
         super(message, cause);
     }
 
+    @Override
+    public String getDescripcion() {
+        return "La fecha de inicio del partido aún no ha sucedido";
+    }
 }

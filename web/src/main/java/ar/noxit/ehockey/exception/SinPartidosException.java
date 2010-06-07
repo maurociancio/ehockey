@@ -17,4 +17,9 @@ public class SinPartidosException extends ReglaNegocioException {
     public SinPartidosException(Throwable cause) {
         super(cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "Se necesita al menos un partido para sancionar";
+    }
 }

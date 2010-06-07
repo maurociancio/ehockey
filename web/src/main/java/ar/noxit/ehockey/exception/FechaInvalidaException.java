@@ -34,4 +34,9 @@ public class FechaInvalidaException extends ReglaNegocioException {
     public FechaInvalidaException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "Fecha Inválida";
+    }
 }

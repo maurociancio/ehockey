@@ -1,6 +1,7 @@
 package ar.noxit.ehockey.model;
 
 import ar.noxit.ehockey.exception.ReglaNegocioException;
+import ar.noxit.ehockey.service.IReportable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.apache.commons.lang.Validate;
 
 public class CompositeReglaDeNegocioException extends ReglaNegocioException implements Iterable<ReglaNegocioException> {
 
+    private String descripcionBase = "";
     private List<ReglaNegocioException> exceptions = new ArrayList<ReglaNegocioException>();
 
     public CompositeReglaDeNegocioException() {
@@ -48,13 +50,27 @@ public class CompositeReglaDeNegocioException extends ReglaNegocioException impl
         return this;
     }
 
-    @Override
-    public String getMessage() {
-        String message = new String();
-        for (ReglaNegocioException ex : exceptions) {
-            message = message + " | " + ex.getMessage();
-        }
+    protected String getDescripcionBase() {
+        return descripcionBase;
+    }
 
+    public void setDescripcionBase(String descripcionBase) {
+        this.descripcionBase = descripcionBase;
+    }
+
+    @Override
+    public String getDescripcion() {
+        String message = getDescripcionBase() + "\n";
+        for (ReglaNegocioException ex : exceptions) {
+            message = message + "\n" + ex.getDescripcion() + ".";
+        }
         return message;
+    }
+
+    @Override
+    public void reportar(IReportable reportable) {
+        for (ReglaNegocioException ex : exceptions) {
+            ex.reportar(reportable);
+        }
     }
 }

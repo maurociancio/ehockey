@@ -28,4 +28,9 @@ public class PartidoNoTerminadoException extends ReglaNegocioException {
     public PartidoNoTerminadoException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getDescripcion() {
+        return "El partido no ha terminado";
+    }
 }

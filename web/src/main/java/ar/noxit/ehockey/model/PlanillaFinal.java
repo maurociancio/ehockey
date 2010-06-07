@@ -143,13 +143,16 @@ public class PlanillaFinal implements Planilla {
         public void checkPublicable() throws ReglaNegocioException {
             CompositeReglaDeNegocioException composite = new CompositeReglaDeNegocioException();
 
+            String equipo[] = { "Local", "Visitante" };
             DatosEquipoPlanilla datos[] = { datosLocal, datosVisitante };
+            int i = 0;
             for (DatosEquipoPlanilla dep : datos) {
                 try {
-                    dep.checkCompleta();
+                    dep.checkCompleta(equipo[i]);
                 } catch (ReglaNegocioException e) {
                     composite.add(e);
                 }
+                i++;
             }
 
             composite.throwsIfNotEmpty();
