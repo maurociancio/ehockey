@@ -7,7 +7,11 @@
         <id name="id" column="id">
             <generator class="increment"/>
         </id>
-        <property name="tipo" not-null="true"/>
+        <property name="tipo">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">ar.noxit.ehockey.model.Tarjeta$TipoTarjeta</param>
+            </type>
+        </property>
         <property name="usada" not-null="true"/>
         <many-to-one name="partido" entity-name="Partido" column="partido_id" not-null="true" cascade="save-update,persist"/>
     </class>

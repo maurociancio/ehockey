@@ -108,7 +108,7 @@ public class PlanillaEquipoPanel extends Panel {
             @Override
             protected IModel<String> createDisplayModel(IModel<AmonestacionInfo> rowModel) {
                 IModel<Integer> id = new PropertyModel<Integer>(rowModel, "jugadorId");
-                return new PropertyModel<String>(new JugadorModel(id, jugadorService), "apellido");
+                return new PropertyModel<String>(new JugadorModel(id, jugadorService), "nombreApellido");
             }
         });
         columns.add(new PropertyColumn<AmonestacionInfo>(Model.of("Rojas"), "rojas"));
