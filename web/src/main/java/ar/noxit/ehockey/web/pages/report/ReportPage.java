@@ -74,6 +74,7 @@ public class ReportPage extends AbstractReportPage {
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
                     target.addComponent(dropDownJugador);
+                    target.addComponent(jugadorFragment);
                 }
 
             };
@@ -87,8 +88,11 @@ public class ReportPage extends AbstractReportPage {
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
+                    ReportPage.this.idEquipo.setObject(null);
+                    ReportPage.this.idJugador.setObject(null);
                     target.addComponent(dropDownEquipo);
                     target.addComponent(dropDownJugador);
+                    target.addComponent(jugadorFragment);
                 };
             });
         }
