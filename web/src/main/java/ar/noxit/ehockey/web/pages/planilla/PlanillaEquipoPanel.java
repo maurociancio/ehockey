@@ -184,6 +184,19 @@ public class PlanillaEquipoPanel extends Panel {
 
                 @Override
                 protected void onSubmit(AmonestacionInfo amonestacionInfo) {
+                    List<AmonestacionInfo> lista = info.getObject().getAmonestaciones();
+                    Iterator<AmonestacionInfo> it = lista.iterator();
+                    boolean encontrado = false;
+
+                    //borra las amonestaciones si ya existia una entrada para ese jugador
+                    while (!encontrado && it.hasNext()) {
+                        AmonestacionInfo val = it.next();
+                        if (val.getJugadorId().equals(amonestacionInfo.getJugadorId())) {
+                            it.remove();
+                            encontrado = true;
+                        }
+                    }
+
                     info.getObject().getAmonestaciones().add(amonestacionInfo);
                 }
             };
