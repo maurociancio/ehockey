@@ -5,12 +5,12 @@ import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.FormComponentPanel;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
-public class HybridSingleAndMultipleChoicePanel<T> extends Panel {
+public class HybridSingleAndMultipleChoicePanel<T> extends FormComponentPanel<T> {
 
     private static final String SINGLE = "single";
     private FormComponent<T> multipleChoice;
@@ -30,7 +30,7 @@ public class HybridSingleAndMultipleChoicePanel<T> extends Panel {
             final IModel<? extends List<? extends T>> choices,
             IChoiceRenderer<? super T> renderer) {
 
-        super(id);
+        super(id, model);
 
         this.model = model;
         this.choices = choices;
@@ -128,16 +128,14 @@ public class HybridSingleAndMultipleChoicePanel<T> extends Panel {
         };
     }
 
-    public void setOutputMarkupId() {
-        uniqueChoice.setOutputMarkupId(true);
-        multipleChoice.setOutputMarkupId(true);
-    }
-
-    public void setRequired(boolean estado) {
-        multipleChoice.setRequired(estado);
-    }
-
-    protected IModel<Boolean> getMultipleChoices() {
-        return multipleChoices;
+    @Override
+    protected void convertInput() {
+        T object = null;
+        if (uniqueChoice.isVisible()) {
+            object = model.getObject();
+        } else if (multipleChoice.isVisible()) {
+            object = multipleChoice.getConvertedInput();
+        }
+        setConvertedInput(object);
     }
 }

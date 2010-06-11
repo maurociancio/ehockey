@@ -1,11 +1,5 @@
 package ar.noxit.ehockey.web.pages.components;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Equipo;
 import ar.noxit.ehockey.service.IClubService;
@@ -14,17 +8,23 @@ import ar.noxit.ehockey.web.pages.models.ClubesListModel;
 import ar.noxit.ehockey.web.pages.models.EquiposPorClubListModel;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.form.FormComponentPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class EquipoSelectorPanel extends Panel {
+public class EquipoSelectorPanel extends FormComponentPanel<Equipo> {
 
     @SpringBean
     private IClubService clubService;
+    private HybridSingleAndMultipleChoicePanel<Equipo> dropDownEquipo;
 
     public EquipoSelectorPanel(String id, IModel<Equipo> equipo) {
-        super(id);
+        super(id, equipo);
         IModel<Integer> idClub = new Model<Integer>();
 
-        final HybridSingleAndMultipleChoicePanel<Equipo> dropDownEquipo =
+        this.dropDownEquipo =
                 new HybridSingleAndMultipleChoicePanel<Equipo>(
                         "equipo",
                         equipo,
@@ -45,6 +45,12 @@ public class EquipoSelectorPanel extends Panel {
                 target.addComponent(dropDownEquipo);
             };
         });
+    }
+
+    @Override
+    protected void convertInput() {
+        Equipo convertedInput = dropDownEquipo.getConvertedInput();
+        setConvertedInput(convertedInput);
     }
 
     @Override
