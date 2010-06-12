@@ -4,7 +4,7 @@
     <h2 class="content-title">Reporte</h2>
     <div class="content-in">
     <div wicket:id="selectorClubEquipoJugador" />
-    <div wicket:id="jugador" />
+    <div wicket:id="jugadorpanel" />
     <wicket:fragment wicket:id="fragment">
         <table>
 	        <tr>
@@ -23,33 +23,6 @@
 	        </tr>
 	    </table>
     </wicket:fragment>
-    <wicket:fragment wicket:id="jugadorFragment">
-        <wicket:enclosure child="ficha">
-        <table>
-            <tr>
-                <td>Ficha:</td>
-                <td><span wicket:id="ficha"/></td>
-            </tr>
-            <tr>
-                <td>Nombre:</td>
-                <td><span wicket:id="nombre"/></td>
-            </tr>
-            <tr>
-                <td>Apellido:</td>
-                <td><span wicket:id="apellido"/></td>
-            </tr>
-            <tr>
-                <td>
-                    <table wicket:id="tarjetas"/>
-                </td>
-                <td>
-                    <table wicket:id="sanciones"/>
-                </td>
-            </tr>
-        </table>
-        </wicket:enclosure>
-    </wicket:fragment>
+    </div><!-- /cols -->
     </div>
-    </div>
-    <!-- /cols -->
 </wicket:extend>
