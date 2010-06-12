@@ -33,12 +33,11 @@ public class ReportPage extends AbstractReportPage {
 
             @Override
             protected void onUpdateJugador(AjaxRequestTarget target) {
-                super.onUpdateJugador(target);
-                idJugador.setObject(null);
+                //idJugador.setObject(null);
                 target.addComponent(jugadorPanel);
             }
         });
-        
+
         jugadorPanel = new JugadorReportePanel("jugadorpanel", jugadorService, idJugador);
         jugadorPanel.setOutputMarkupId(true);
         add(jugadorPanel);

@@ -22,7 +22,7 @@ import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.ehockey.web.pages.report.ReportePrinterFriendly;
 
-public class JugadorSelectorPanel extends Panel {
+public abstract class JugadorSelectorPanel extends Panel {
 
     @SpringBean
     private IEquipoService equipoService;
@@ -49,7 +49,7 @@ public class JugadorSelectorPanel extends Panel {
                 new JugadoresPorEquipoListModel(idEquipo, clubService), JugadorRenderer.get()) {
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
-                onUpdateClub(target);
+                onUpdateJugador(target);
             }
         };
 
@@ -76,25 +76,24 @@ public class JugadorSelectorPanel extends Panel {
 
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
-                onUpdateJugador(target);
+                onUpdateClub(target);
             }
 
         });
     }
 
     protected void onUpdateClub(AjaxRequestTarget target) {
-        idClub.setObject(null);
-    }
-
-    protected void onUpdateEquipo(AjaxRequestTarget target) {
-        idEquipo.setObject(null);
-        target.addComponent(dropDownJugador);
-    }
-
-    protected void onUpdateJugador(AjaxRequestTarget target) {
+        //idClub.setObject(null);
         target.addComponent(dropDownEquipo);
         target.addComponent(dropDownJugador);
     }
+
+    protected void onUpdateEquipo(AjaxRequestTarget target) {
+        //idEquipo.setObject(null);
+        target.addComponent(dropDownJugador);
+    }
+
+    protected abstract void onUpdateJugador(AjaxRequestTarget target);
 
     @Override
     protected boolean getStatelessHint() {
