@@ -8,8 +8,8 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataT
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Fragment;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -30,6 +30,7 @@ import ar.noxit.ehockey.web.pages.models.EquipoModel;
 import ar.noxit.ehockey.web.pages.models.EquiposPorClubListModel;
 import ar.noxit.ehockey.web.pages.models.JugadorModel;
 import ar.noxit.ehockey.web.pages.models.JugadoresParaEquipoListModel;
+import ar.noxit.ehockey.web.pages.providers.SancionProvider;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
@@ -65,6 +66,14 @@ public class ReportPage extends AbstractReportPage {
 
         public JugadorSelectorPanel(String id, String fragmentId, IModel<Jugador> jugador) {
             super(id, fragmentId, ReportPage.this);
+            
+            add(new Link<Void>("htmlreporte") {
+
+                @Override
+                public void onClick() {
+                    setResponsePage(new ReportePrinterFriendly());
+                }
+            });
 
             dropDownJugador = new AjaxHybridSingleAndMultipleChoicePanel<Jugador>("jugador", jugador,
                     new JugadoresPorEquipoListModel(idEquipo, clubService), JugadorRenderer.get()) {
@@ -157,49 +166,14 @@ public class ReportPage extends AbstractReportPage {
 
             List<IColumn<ISancion>> columnasSancion = new ArrayList<IColumn<ISancion>>();
             columnasSancion.add(new PropertyColumn<ISancion>(Model.of("Sanciones"), "partidosInhabilitados.size"));
-            add(new DefaultDataTable<ISancion>("sanciones", columnasSancion, new SancionProvider(), 10));
+            add(new DefaultDataTable<ISancion>("sanciones", columnasSancion, new SancionProvider(jugadorService,
+                    idJugador), 10));
         }
 
         // @Override
         // public boolean isVisible() {
         // return idJugador.getObject() != null;
         // }
-    }
-
-    private class SancionProvider extends DataProvider<ISancion> {
-
-        @Override
-        protected List<ISancion> loadList() {
-            try {
-                if (idJugador.getObject() == null)
-                    return new ArrayList<ISancion>();
-                Jugador jugador = jugadorService.get(idJugador.getObject());
-                return jugador.getSanciones();
-            } catch (NoxitException e) {
-                return new ArrayList<ISancion>();
-            }
-        }
-
-        @Override
-        public IModel<ISancion> model(ISancion object) {
-            final Integer id = object.getId();
-            return new AbstractReadOnlyModel<ISancion>() {
-
-                @Override
-                public ISancion getObject() {
-                    if (idJugador.getObject() == null) {
-                        return null;
-                    }
-                    Jugador jugador;
-                    try {
-                        jugador = jugadorService.get(idJugador.getObject());
-                        return jugador.getSancion(id);
-                    } catch (NoxitException e) {
-                        return null;
-                    }
-                }
-            };
-        }
     }
 
     private class TarjetasProvider extends DataProvider<Tarjeta> {
