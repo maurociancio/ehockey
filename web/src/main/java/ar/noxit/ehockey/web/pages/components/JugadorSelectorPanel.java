@@ -82,14 +82,14 @@ public abstract class JugadorSelectorPanel extends Panel {
         });
     }
 
+    
     protected void onUpdateClub(AjaxRequestTarget target) {
-        //idClub.setObject(null);
+        idEquipo.setObject(null);
         target.addComponent(dropDownEquipo);
         target.addComponent(dropDownJugador);
     }
 
     protected void onUpdateEquipo(AjaxRequestTarget target) {
-        //idEquipo.setObject(null);
         target.addComponent(dropDownJugador);
     }
 

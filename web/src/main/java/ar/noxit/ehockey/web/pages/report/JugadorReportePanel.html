@@ -1,26 +1,33 @@
 <wicket:panel>
         <wicket:enclosure child="ficha">
         <table>
-            <tr>
-                <td>Ficha:</td>
-                <td><span wicket:id="ficha"/></td>
-            </tr>
-            <tr>
-                <td>Nombre:</td>
-                <td><span wicket:id="nombre"/></td>
-            </tr>
-            <tr>
-                <td>Apellido:</td>
-                <td><span wicket:id="apellido"/></td>
-            </tr>
-            <tr>
-                <td>
-                    <table wicket:id="tarjetas"/>
-                </td>
-                <td>
-                    <table wicket:id="sanciones"/>
-                </td>
-            </tr>
+            <thead>
+		        <tr>
+		           <th><span> Reporte </span></th>
+		        </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	                <td>Ficha:</td>
+	                <td><span wicket:id="ficha"/></td>
+	            </tr>
+	            <tr>
+	                <td>Nombre:</td>
+	                <td><span wicket:id="nombre"/></td>
+	            </tr>
+	            <tr>
+	                <td>Apellido:</td>
+	                <td><span wicket:id="apellido"/></td>
+	            </tr>
+	            <tr>
+	                <td>
+	                    <table wicket:id="tarjetas"/>
+	                </td>
+	                <td>
+	                    <table wicket:id="sanciones"/>
+	                </td>
+	            </tr>
+            </tbody>
         </table>
         </wicket:enclosure>
 </wicket:panel>

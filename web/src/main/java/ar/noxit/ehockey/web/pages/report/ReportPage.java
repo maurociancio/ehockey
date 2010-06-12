@@ -22,18 +22,19 @@ public class ReportPage extends AbstractReportPage {
             @Override
             protected void onUpdateClub(AjaxRequestTarget target) {
                 super.onUpdateClub(target);
+                idJugador.setObject(null);
                 target.addComponent(jugadorPanel);
             }
 
             @Override
             protected void onUpdateEquipo(AjaxRequestTarget target) {
                 super.onUpdateEquipo(target);
+                idJugador.setObject(null);
                 target.addComponent(jugadorPanel);
             }
 
             @Override
             protected void onUpdateJugador(AjaxRequestTarget target) {
-                //idJugador.setObject(null);
                 target.addComponent(jugadorPanel);
             }
         });

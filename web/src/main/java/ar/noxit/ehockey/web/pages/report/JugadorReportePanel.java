@@ -7,7 +7,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataT
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -24,7 +23,6 @@ public class JugadorReportePanel extends Panel {
 
     public JugadorReportePanel(String id, IJugadorService jugadorService, IModel<Integer> idJugador) {
         super(id);
-
         add(new Label("ficha", new PropertyModel<Integer>(new JugadorModel(idJugador, jugadorService), "ficha")));
         add(new Label("nombre", new PropertyModel<String>(new JugadorModel(idJugador, jugadorService), "nombre")));
         add(new Label("apellido", new PropertyModel<String>(new JugadorModel(idJugador, jugadorService), "apellido")));
