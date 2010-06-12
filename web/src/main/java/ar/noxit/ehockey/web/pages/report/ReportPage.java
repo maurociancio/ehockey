@@ -31,12 +31,11 @@ import ar.noxit.ehockey.web.pages.models.EquiposPorClubListModel;
 import ar.noxit.ehockey.web.pages.models.JugadorModel;
 import ar.noxit.ehockey.web.pages.models.JugadoresParaEquipoListModel;
 import ar.noxit.ehockey.web.pages.providers.SancionProvider;
+import ar.noxit.ehockey.web.pages.providers.TarjetasProvider;
 import ar.noxit.ehockey.web.pages.renderers.ClubRenderer;
 import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
 import ar.noxit.ehockey.web.pages.renderers.JugadorRenderer;
 import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.model.IdLDM;
-import ar.noxit.web.wicket.provider.DataProvider;
 
 public class ReportPage extends AbstractReportPage {
 
@@ -66,7 +65,7 @@ public class ReportPage extends AbstractReportPage {
 
         public JugadorSelectorPanel(String id, String fragmentId, IModel<Jugador> jugador) {
             super(id, fragmentId, ReportPage.this);
-            
+
             add(new Link<Void>("htmlreporte") {
 
                 @Override
@@ -162,7 +161,8 @@ public class ReportPage extends AbstractReportPage {
                     new PropertyModel<String>(new JugadorModel(idJugador, jugadorService), "apellido")));
             List<IColumn<Tarjeta>> columnasTarjeta = new ArrayList<IColumn<Tarjeta>>();
             columnasTarjeta.add(new PropertyColumn<Tarjeta>(Model.of("Tarjetas"), "tipo"));
-            add(new DefaultDataTable<Tarjeta>("tarjetas", columnasTarjeta, new TarjetasProvider(), 10));
+            add(new DefaultDataTable<Tarjeta>("tarjetas", columnasTarjeta, new TarjetasProvider(jugadorService,
+                    idJugador), 10));
 
             List<IColumn<ISancion>> columnasSancion = new ArrayList<IColumn<ISancion>>();
             columnasSancion.add(new PropertyColumn<ISancion>(Model.of("Sanciones"), "partidosInhabilitados.size"));
@@ -175,45 +175,4 @@ public class ReportPage extends AbstractReportPage {
         // return idJugador.getObject() != null;
         // }
     }
-
-    private class TarjetasProvider extends DataProvider<Tarjeta> {
-
-        @Override
-        protected List<Tarjeta> loadList() {
-            try {
-                if (idJugador.getObject() == null)
-                    return new ArrayList<Tarjeta>();
-                Jugador jugador = jugadorService.get(idJugador.getObject());
-                return jugador.getTarjetas();
-            } catch (NoxitException e) {
-                return new ArrayList<Tarjeta>();
-            }
-        }
-
-        @Override
-        public IModel<Tarjeta> model(Tarjeta object) {
-            return new TarjetaModel(Model.of(object.getId()));
-        }
-
-    }
-
-    // Puede ser un readonlymodel
-    private class TarjetaModel extends IdLDM<Tarjeta, Integer> {
-
-        public TarjetaModel(IModel<Integer> model) {
-            super(model);
-        }
-
-        @Override
-        protected Tarjeta doLoad(Integer id) throws NoxitException {
-            Jugador jugador = jugadorService.get(idJugador.getObject());
-            return jugador.getTarjeta(id);
-        }
-
-        @Override
-        protected Integer getObjectId(Tarjeta object) {
-            return object.getId();
-        }
-    }
-
 }
