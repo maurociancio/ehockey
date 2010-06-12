@@ -1,5 +1,16 @@
 package ar.noxit.ehockey.model;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ar.noxit.ehockey.exception.JugadorInactivoInmutableException;
 import ar.noxit.ehockey.exception.JugadorYaActivoException;
 import ar.noxit.ehockey.exception.JugadorYaBajaException;
@@ -8,14 +19,7 @@ import ar.noxit.ehockey.exception.SinClubException;
 import ar.noxit.ehockey.exception.SinPartidosException;
 import ar.noxit.ehockey.exception.TarjetaYaUsadaException;
 import ar.noxit.ehockey.model.Tarjeta.TipoTarjeta;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ar.noxit.utils.Collections;
 
 /**
  * Jugador
@@ -150,8 +154,8 @@ public class Jugador {
     }
 
     /**
-     * Permite cargar una sanción al jugador que lo inhabilite a jugar los
-     * partidos que le corresponda según las reglas de la sanción.
+     * Permite cargar una sanción al jugador que lo inhabilite a jugar los partidos que le corresponda según las reglas
+     * de la sanción.
      * 
      * @param sancion
      *            sancion aplicada al jugador
@@ -279,8 +283,7 @@ public class Jugador {
     }
 
     /**
-     * Verifica en runtime si se quiere modificar un jugador que se ha dado de
-     * baja
+     * Verifica en runtime si se quiere modificar un jugador que se ha dado de baja
      */
     private void validarInmutabilidadJugadorInactivo() {
         if (!this.activo)
@@ -288,8 +291,7 @@ public class Jugador {
     }
 
     /**
-     * Constructor default para la persistencia. No debe ser llamado por los
-     * clientes.
+     * Constructor default para la persistencia. No debe ser llamado por los clientes.
      */
     protected Jugador() {
     }
@@ -391,6 +393,30 @@ public class Jugador {
 
     public boolean estaActivo() {
         return this.activo;
+    }
+
+    public Tarjeta getTarjeta(Integer id) {
+        for (Tarjeta each : tarjetas) {
+            if (each.getId().equals(id))
+                return each;
+        }
+        return null;
+    }
+
+    public List<Tarjeta> getTarjetas() {
+        return Collections.toList(tarjetas.iterator());
+    }
+
+    public List<ISancion> getSanciones() {
+        return Collections.toList(sanciones.iterator());
+    }
+
+    public ISancion getSancion(Integer id) {
+        for (ISancion each : sanciones) {
+            if (each.getId().equals(id))
+                return each;
+        }
+        return null;
     }
 
 }
