@@ -184,7 +184,9 @@ public class Jugador {
                 Integer cantidad = cantidades[i];
 
                 while (sumarTarjetas(tipoTarjeta) >= cantidad) {
-                    partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
+                    while (!puedeJugar(partidoActual)) {
+                        partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
+                    }
                     suspendidos.add(partidoActual);
                     descontarTarjetas(tipoTarjeta, cantidad);
                 }
