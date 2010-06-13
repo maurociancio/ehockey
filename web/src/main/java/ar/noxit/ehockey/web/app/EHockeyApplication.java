@@ -1,5 +1,20 @@
 package ar.noxit.ehockey.web.app;
 
+import org.apache.commons.lang.Validate;
+import org.apache.wicket.Request;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Response;
+import org.apache.wicket.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authorization.strategies.role.RoleAuthorizationStrategy;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.request.IRequestCycleProcessor;
+import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+
 import ar.noxit.ehockey.main.StartJetty;
 import ar.noxit.ehockey.model.Rol;
 import ar.noxit.ehockey.web.pages.AdministracionPage;
@@ -34,6 +49,7 @@ import ar.noxit.ehockey.web.pages.planilla.PlanillaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrecargadaPage;
 import ar.noxit.ehockey.web.pages.planilla.PlanillaPrinterFriendly;
 import ar.noxit.ehockey.web.pages.report.ReportPage;
+import ar.noxit.ehockey.web.pages.report.ReportePrinterFriendly;
 import ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage;
 import ar.noxit.ehockey.web.pages.torneo.ListadoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
@@ -44,24 +60,10 @@ import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.EditarUsuarioPage;
 import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
 import ar.noxit.ehockey.web.pages.usuarios.PerfilUsuarioPage;
-import org.apache.commons.lang.Validate;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.authentication.AuthenticatedWebApplication;
-import org.apache.wicket.authentication.AuthenticatedWebSession;
-import org.apache.wicket.authorization.strategies.role.RoleAuthorizationStrategy;
-import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.protocol.http.WebResponse;
-import org.apache.wicket.request.IRequestCycleProcessor;
-import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
-import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 /**
- * Application object for your web application. If you want to run this
- * application without deploying, run the Start class.
+ * Application object for your web application. If you want to run this application without deploying, run the Start
+ * class.
  * 
  * @see StartJetty.myproject.Start#main(String[])
  */
@@ -120,6 +122,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/clubes/editar", ClubEditarPage.class, false));
         mount(new HybridUrlCodingStrategy("/perfil", PerfilUsuarioPage.class, false));
         mount(new HybridUrlCodingStrategy("/reporte", ReportPage.class, false));
+        mount(new HybridUrlCodingStrategy("/reporte/print", ReportePrinterFriendly.class, false));
         mount(new HybridUrlCodingStrategy("/admin", AdministracionPage.class, false));
 
         getApplicationSettings().setAccessDeniedPage(ForbiddenAccessPage.class);
@@ -183,6 +186,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
         MetaDataRoleAuthorizationStrategy.authorize(EquipoBajaPage.class, Rol.BAJA_EQUIPOS);
 
         MetaDataRoleAuthorizationStrategy.authorize(ReportPage.class, Rol.REPORTES);
+        MetaDataRoleAuthorizationStrategy.authorize(ReportePrinterFriendly.class, Rol.REPORTES_IMP);
 
         MetaDataRoleAuthorizationStrategy.authorize(MensajePage.class, Rol.MENSAJE);
 
