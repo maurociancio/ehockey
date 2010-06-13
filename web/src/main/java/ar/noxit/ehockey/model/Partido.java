@@ -36,14 +36,15 @@ public class Partido {
 
     private static final Duration TIEMPO_PREVIO_PLANILLA = Duration.standardDays(7);
 
-    public Partido(Torneo torneo, Equipo local, Equipo visitante,
-            Integer fechaDelTorneo, Integer rueda, Integer partido, LocalDateTime inicio, LocalDateTime now)
-            throws EquiposInvalidosException, FechaInvalidaException {
+    private static final String DATEFORMAT = "dd/MM/yyyy";
+
+    public Partido(Torneo torneo, Equipo local, Equipo visitante, Integer fechaDelTorneo, Integer rueda,
+            Integer partido, LocalDateTime inicio, LocalDateTime now) throws EquiposInvalidosException,
+            FechaInvalidaException {
 
         Validate.notNull(local, "No se puede crear un partido sin equipos");
         Validate.notNull(visitante, "No se puede crear un partido sin equipos");
-        Validate.notNull(fechaDelTorneo,
-                "La fecha del partido no puede ser null");
+        Validate.notNull(fechaDelTorneo, "La fecha del partido no puede ser null");
         Validate.notNull(inicio, "la fecha de inicio no puede ser null");
         Validate.notNull(torneo, "el torneo no puede ser null");
         Validate.notNull(now, "el instante actual no puede ser null");
@@ -51,8 +52,7 @@ public class Partido {
         Validate.notNull(partido, "el partido no puede ser null");
 
         if (local.equals(visitante)) {
-            throw new EquiposInvalidosException(
-                    "equipo local y visitante no pueden ser el mismo");
+            throw new EquiposInvalidosException("equipo local y visitante no pueden ser el mismo");
         }
 
         validarFechaInicio(inicio, now);
@@ -68,9 +68,8 @@ public class Partido {
     }
 
     /**
-     * La primera vez se crea la planilla, luego se devuelve siempre la misma.
-     * Esto asegura que la planilla del partido sea la misma en cualquier
-     * momento.
+     * La primera vez se crea la planilla, luego se devuelve siempre la misma. Esto asegura que la planilla del partido
+     * sea la misma en cualquier momento.
      * 
      * @return planilla del partido precargada. No es editable.
      * @throws PlanillaNoFinalizadaException
@@ -210,8 +209,8 @@ public class Partido {
         }
     }
 
-    public void reprogramar(LocalDateTime nuevaFecha, LocalDateTime now)
-            throws FechaInvalidaException, PartidoYaTerminadoException {
+    public void reprogramar(LocalDateTime nuevaFecha, LocalDateTime now) throws FechaInvalidaException,
+            PartidoYaTerminadoException {
 
         Validate.notNull(nuevaFecha, "la nueva fecha no puede ser null");
         Validate.notNull(now, "la fecha actual no puede ser null");
@@ -238,16 +237,13 @@ public class Partido {
 
     private void validarPartidoNoJugado() throws PartidoYaTerminadoException {
         if (this.jugado) {
-            throw new PartidoYaTerminadoException(
-                    "el partido ya está terminado");
+            throw new PartidoYaTerminadoException("el partido ya está terminado");
         }
     }
 
-    private void validarFechaInicio(LocalDateTime inicio, LocalDateTime now)
-            throws FechaInvalidaException {
+    private void validarFechaInicio(LocalDateTime inicio, LocalDateTime now) throws FechaInvalidaException {
         if (!inicio.isAfter(now)) {
-            throw new FechaInvalidaException(
-                    "la fecha de inicio del partido es anterior a la fecha actual");
+            throw new FechaInvalidaException("la fecha de inicio del partido es anterior a la fecha actual");
         }
     }
 
@@ -319,6 +315,12 @@ public class Partido {
 
     public String getEstadoReducidoPlanilla(LocalDateTime now) throws PlanillaNoDisponibleException {
         return getPlanilla(now).getEstadoReducido();
+    }
+
+    @Override
+    public String toString() {
+        return rueda + " " + fechaDelTorneo + " " + partido + " " + local.getNombre() + " vs " + visitante.getNombre()
+                + " dia: " + inicio.toString(DATEFORMAT);
     }
 
     protected Partido() {
