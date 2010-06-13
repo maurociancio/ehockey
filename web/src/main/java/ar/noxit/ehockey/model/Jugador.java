@@ -1,16 +1,5 @@
 package ar.noxit.ehockey.model;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ar.noxit.ehockey.exception.JugadorInactivoInmutableException;
 import ar.noxit.ehockey.exception.JugadorYaActivoException;
 import ar.noxit.ehockey.exception.JugadorYaBajaException;
@@ -20,6 +9,15 @@ import ar.noxit.ehockey.exception.SinPartidosException;
 import ar.noxit.ehockey.exception.TarjetaYaUsadaException;
 import ar.noxit.ehockey.model.Tarjeta.TipoTarjeta;
 import ar.noxit.utils.Collections;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Jugador
@@ -59,7 +57,7 @@ public class Jugador {
     private Set<Tarjeta> tarjetas = new HashSet<Tarjeta>();
     private Set<ISancion> sanciones = new HashSet<ISancion>();
 
-    private static final Logger logger = LoggerFactory.getLogger(TablaPosiciones.class);
+    private static final Logger logger = LoggerFactory.getLogger(Jugador.class);
 
     /**
      * Construye un nuevo jugador
