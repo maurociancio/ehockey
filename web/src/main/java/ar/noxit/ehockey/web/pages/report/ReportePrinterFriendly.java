@@ -10,6 +10,6 @@ import ar.noxit.ehockey.web.pages.base.AbstractColorLessBasePage;
 public class ReportePrinterFriendly extends AbstractColorLessBasePage {
 
     public ReportePrinterFriendly(IModel<Jugador> jugadorModel) {
-        add(new JugadorReportePanel("jugadorpanel", jugadorModel));
+        add(new JugadorReportePanel("paneljugador", jugadorModel));
     }
 }
