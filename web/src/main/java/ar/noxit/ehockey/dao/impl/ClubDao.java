@@ -15,7 +15,7 @@ public class ClubDao extends HibernateDao<Club, Integer> implements IClubDao {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Jugador> getClubPorNombre(String nombre, String nombreCompleto) {
+    public List<Club> getClubPorNombre(String nombre, String nombreCompleto) {
         Session session = getSession();
         return session.createQuery(
                 "FROM Club c WHERE c.nombre = :nombre OR c.nombreCompleto = :nombre_completo AND c.activo = TRUE")

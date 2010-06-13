@@ -8,5 +8,5 @@ import ar.noxit.ehockey.model.Jugador;
 
 public interface IClubDao extends IDao<Club, Integer> {
 
-    public List<Jugador> getClubPorNombre(String nombre, String nombreCompleto);
+    public List<Club> getClubPorNombre(String nombre, String nombreCompleto);
 }
