@@ -47,7 +47,7 @@ public class EstadoPlanillaPublicada extends EstadoPlanilla {
     @Override
     public EstadoPlanilla verificarVencimiento(PlanillaVencible vencible, LocalDateTime now) {
         try {
-            vencible.checkVencimiento(now);
+            vencible.checkVencimiento(now.minusHours(6));
             // TODO
             // aca colocar sancion al visitante por que no valido la planilla
             return new EstadoPlanillaFinalizada();

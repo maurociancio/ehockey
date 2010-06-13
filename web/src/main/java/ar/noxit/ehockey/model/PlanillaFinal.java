@@ -106,7 +106,7 @@ public class PlanillaFinal implements Planilla {
         while (sigLunes.getDayOfWeek() != DateTimeConstants.MONDAY) {
             sigLunes = sigLunes.plusDays(1);
         }
-        sigLunes = sigLunes.withHourOfDay(18).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+        sigLunes = sigLunes.withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
         return now.isAfter(sigLunes) || now.isEqual(sigLunes);
     }
 
