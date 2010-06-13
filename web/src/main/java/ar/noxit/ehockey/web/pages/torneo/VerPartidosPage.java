@@ -60,6 +60,8 @@ public class VerPartidosPage extends AbstractHeaderPage {
     public VerPartidosPage(IModel<Torneo> torneo) {
         Validate.notNull(torneo, "torneo no puede ser null");
 
+        add(new Label("torneo", new PropertyModel<String>(torneo, "nombre")));
+
         List<IColumn<Partido>> columns = new ArrayList<IColumn<Partido>>();
         columns.add(new PropertyColumn<Partido>(Model.of("Local"), "local.nombre"));
         columns.add(new PropertyColumn<Partido>(Model.of("Visitante"), "visitante.nombre"));
