@@ -183,7 +183,9 @@ public class Jugador {
                 TipoTarjeta tipoTarjeta = tiposTarjetas[i];
                 Integer cantidad = cantidades[i];
 
-                while (sumarTarjetas(tipoTarjeta) >= cantidad) {
+                while (sumarTarjetas(tipoTarjeta, partido) >= cantidad) {
+                    partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
+                    //hace que solo cargue sanciones en partidos en los que no haya cargados.
                     while (!puedeJugar(partidoActual)) {
                         partidoActual = torneo.getProximoPartidoDe(partidoActual, equipo);
                     }
@@ -210,10 +212,10 @@ public class Jugador {
         return juega;
     }
 
-    private int sumarTarjetas(TipoTarjeta tipo) {
+    private int sumarTarjetas(TipoTarjeta tipo, Partido actual) {
         int suma = 0;
         for (Tarjeta tarjeta : tarjetas) {
-            if (tarjeta.getTipo().equals(tipo) && !tarjeta.isUsada())
+            if (tarjeta.getTipo().equals(tipo) && !tarjeta.isUsada() && tarjeta.getPartido().equals(actual))
                 suma++;
         }
         return suma;
