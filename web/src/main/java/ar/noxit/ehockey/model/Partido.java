@@ -11,7 +11,6 @@ import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.Duration;
 import org.joda.time.LocalDateTime;
 
 public class Partido {
@@ -32,8 +31,6 @@ public class Partido {
     private Integer partido;
 
     private boolean jugado;
-
-    private static final Duration TIEMPO_PREVIO_PLANILLA = Duration.standardDays(7);
 
     private static final String DATEFORMAT = "dd/MM/yyyy";
 
