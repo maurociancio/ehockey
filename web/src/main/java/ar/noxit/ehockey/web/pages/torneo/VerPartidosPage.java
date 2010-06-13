@@ -2,6 +2,7 @@ package ar.noxit.ehockey.web.pages.torneo;
 
 import static java.util.Collections.sort;
 
+import ar.noxit.ehockey.exception.PlanillaNoDisponibleException;
 import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Partido;
 import ar.noxit.ehockey.model.PartidosComparator;
@@ -194,6 +195,67 @@ public class VerPartidosPage extends AbstractHeaderPage {
             add(planillaPrecargadaLink);
 
             final PlanillaFinalLink planillaFinalLink = new PlanillaFinalLink("final", rowModel);
+            planillaFinalLink.add(new Label("desc_final", new AbstractReadOnlyModel<String>() {
+
+                @Override
+                public String getObject() {
+                    try {
+                        Partido partido = rowModel.getObject();
+                        PlanillaFinal planilla = partido.getPlanilla(dateTimeProvider.getLocalDateTime());
+                        Usuario userLogged = AuthSession.get().getUserLogged();
+
+                        if (userLogged instanceof Administrador) {
+                            if (planilla.isFinalizada()) {
+                                return "Final";
+                            }
+                            if (!planilla.isVencida()) {
+                                return "Ver parcial...";
+                            }
+                            if (planilla.isVencida()) {
+                                return "Finalizar...";
+                            }
+                        } else {
+                            // local
+                            if (userLogged.puedeVer(partido.getLocal().getClub())) {
+                                if (planilla.isRechazada()) {
+                                    return "Publicar...";
+                                }
+                                if (planilla.isEditable()) {
+                                    return "Publicar...";
+                                }
+                                if (planilla.isFinalizada()) {
+                                    return "Final";
+                                }
+                                if (planilla.isPublicada()) {
+                                    return "Ver parcial...";
+                                }
+                                if (planilla.isVencida()) {
+                                    return "Ver parcial...";
+                                }
+                            } else {
+                                if (planilla.isRechazada()) {
+                                    return "Ver parcial...";
+                                }
+                                if (planilla.isEditable()) {
+                                    return "Vista parcial...";
+                                }
+                                if (planilla.isFinalizada()) {
+                                    return "Final";
+                                }
+                                if (planilla.isPublicada()) {
+                                    return "Validar...";
+                                }
+                                if (planilla.isVencida()) {
+                                    return "Ver parcial...";
+                                }
+                            }
+                        }
+                    } catch (PlanillaNoDisponibleException e) {
+                        return "Final";
+                    }
+                    return null;
+                }
+            }));
             add(planillaFinalLink);
 
             add(new WebMarkupContainer("separator") {
