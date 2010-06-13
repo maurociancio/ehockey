@@ -32,6 +32,7 @@ public class Club {
         Validate.notNull(nombreCompleto, "nombre completo no puede ser null");
 
         this.nombreCompleto = nombreCompleto;
+        activo = true;
     }
 
     public Equipo crearNuevoEquipo(String nombreEquipo, Division division, Sector sector) {
@@ -92,7 +93,11 @@ public class Club {
     }
 
     public String getNombre() {
-        return nombreCompleto;
+        return nombre;
+    }
+    
+    public void setNombre(String nombre){
+        this.nombre = nombre;
     }
 
     public Integer getId() {
@@ -191,10 +196,6 @@ public class Club {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public void setEquipos(Set<Equipo> equipos) {
