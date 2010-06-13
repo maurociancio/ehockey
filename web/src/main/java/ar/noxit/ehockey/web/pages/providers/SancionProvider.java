@@ -1,24 +1,18 @@
 package ar.noxit.ehockey.web.pages.providers;
 
+import ar.noxit.ehockey.model.ISancion;
+import ar.noxit.ehockey.model.Jugador;
+import ar.noxit.web.wicket.provider.DataProvider;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
-import ar.noxit.ehockey.model.ISancion;
-import ar.noxit.ehockey.model.Jugador;
-import ar.noxit.ehockey.service.IJugadorService;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.provider.DataProvider;
-
 public class SancionProvider extends DataProvider<ISancion> {
 
-    private IJugadorService jugadorService;
     private IModel<Jugador> jugadorModel;
 
-    public SancionProvider(IJugadorService jugadorService, IModel<Jugador> jugadorModel) {
-        this.jugadorService = jugadorService;
+    public SancionProvider(IModel<Jugador> jugadorModel) {
         this.jugadorModel = jugadorModel;
     }
 

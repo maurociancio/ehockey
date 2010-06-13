@@ -1,25 +1,20 @@
 package ar.noxit.ehockey.web.pages.providers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-
 import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.Tarjeta;
-import ar.noxit.ehockey.service.IJugadorService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.IdLDM;
 import ar.noxit.web.wicket.provider.DataProvider;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 public class TarjetasProvider extends DataProvider<Tarjeta> {
 
-    private IJugadorService jugadorService;
     private IModel<Jugador> jugadorModel;
 
-    public TarjetasProvider(IJugadorService jugadorService, IModel<Jugador> jugadorModel) {
-        this.jugadorService = jugadorService;
+    public TarjetasProvider(IModel<Jugador> jugadorModel) {
         this.jugadorModel = jugadorModel;
     }
 

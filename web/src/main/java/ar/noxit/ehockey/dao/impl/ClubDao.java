@@ -3,7 +3,6 @@ package ar.noxit.ehockey.dao.impl;
 import ar.noxit.dataaccessobject.hibernate.HibernateDao;
 import ar.noxit.ehockey.dao.IClubDao;
 import ar.noxit.ehockey.model.Club;
-import ar.noxit.ehockey.model.Jugador;
 import java.util.List;
 import org.hibernate.Session;
 

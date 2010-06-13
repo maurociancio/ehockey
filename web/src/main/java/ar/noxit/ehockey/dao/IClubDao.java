@@ -1,10 +1,8 @@
 package ar.noxit.ehockey.dao;
 
-import java.util.List;
-
 import ar.noxit.dataaccessobject.IDao;
 import ar.noxit.ehockey.model.Club;
-import ar.noxit.ehockey.model.Jugador;
+import java.util.List;
 
 public interface IClubDao extends IDao<Club, Integer> {
 
