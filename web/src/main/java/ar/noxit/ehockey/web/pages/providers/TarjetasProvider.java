@@ -16,23 +16,18 @@ import ar.noxit.web.wicket.provider.DataProvider;
 public class TarjetasProvider extends DataProvider<Tarjeta> {
 
     private IJugadorService jugadorService;
-    private IModel<Integer> idJugador;
+    private IModel<Jugador> jugadorModel;
 
-    public TarjetasProvider(IJugadorService jugadorService, IModel<Integer> idJugador) {
+    public TarjetasProvider(IJugadorService jugadorService, IModel<Jugador> jugadorModel) {
         this.jugadorService = jugadorService;
-        this.idJugador = idJugador;
+        this.jugadorModel = jugadorModel;
     }
 
     @Override
     protected List<Tarjeta> loadList() {
-        try {
-            if (idJugador.getObject() == null)
-                return new ArrayList<Tarjeta>();
-            Jugador jugador = jugadorService.get(idJugador.getObject());
-            return jugador.getTarjetas();
-        } catch (NoxitException e) {
+        if (jugadorModel.getObject() == null)
             return new ArrayList<Tarjeta>();
-        }
+        return jugadorModel.getObject().getTarjetas();
     }
 
     @Override
@@ -48,8 +43,7 @@ public class TarjetasProvider extends DataProvider<Tarjeta> {
 
         @Override
         protected Tarjeta doLoad(Integer id) throws NoxitException {
-            Jugador jugador = jugadorService.get(idJugador.getObject());
-            return jugador.getTarjeta(id);
+            return jugadorModel.getObject().getTarjeta(id);
         }
 
         @Override

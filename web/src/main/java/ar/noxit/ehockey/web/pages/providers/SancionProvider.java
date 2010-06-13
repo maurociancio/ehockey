@@ -15,23 +15,18 @@ import ar.noxit.web.wicket.provider.DataProvider;
 public class SancionProvider extends DataProvider<ISancion> {
 
     private IJugadorService jugadorService;
-    private IModel<Integer> idJugador;
+    private IModel<Jugador> jugadorModel;
 
-    public SancionProvider(IJugadorService jugadorService, IModel<Integer> idJugador) {
+    public SancionProvider(IJugadorService jugadorService, IModel<Jugador> jugadorModel) {
         this.jugadorService = jugadorService;
-        this.idJugador = idJugador;
+        this.jugadorModel = jugadorModel;
     }
 
     @Override
     protected List<ISancion> loadList() {
-        try {
-            if (idJugador.getObject() == null)
-                return new ArrayList<ISancion>();
-            Jugador jugador = jugadorService.get(idJugador.getObject());
-            return jugador.getSanciones();
-        } catch (NoxitException e) {
+        if (jugadorModel.getObject() == null)
             return new ArrayList<ISancion>();
-        }
+        return jugadorModel.getObject().getSanciones();
     }
 
     @Override
@@ -41,16 +36,10 @@ public class SancionProvider extends DataProvider<ISancion> {
 
             @Override
             public ISancion getObject() {
-                if (idJugador.getObject() == null) {
+                if (jugadorModel.getObject() == null) {
                     return null;
                 }
-                Jugador jugador;
-                try {
-                    jugador = jugadorService.get(idJugador.getObject());
-                    return jugador.getSancion(id);
-                } catch (NoxitException e) {
-                    return null;
-                }
+                return jugadorModel.getObject().getSancion(id);
             }
         };
     }

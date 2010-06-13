@@ -17,7 +17,8 @@ public class ReportPage extends AbstractReportPage {
     private JugadorReportePanel jugadorPanel;
 
     public ReportPage() {
-        add(new JugadorSelectorPanel("selectorClubEquipoJugador", new JugadorModel(idJugador, jugadorService)) {
+        JugadorModel jugadorModel = new JugadorModel(idJugador, jugadorService);
+        add(new JugadorSelectorPanel("selectorClubEquipoJugador", jugadorModel) {
 
             @Override
             protected void onUpdateClub(AjaxRequestTarget target) {
@@ -39,7 +40,7 @@ public class ReportPage extends AbstractReportPage {
             }
         });
 
-        jugadorPanel = new JugadorReportePanel("jugadorpanel", jugadorService, idJugador);
+        jugadorPanel = new JugadorReportePanel("jugadorpanel", jugadorModel);
         jugadorPanel.setOutputMarkupId(true);
         add(jugadorPanel);
     }

@@ -34,14 +34,14 @@ public abstract class JugadorSelectorPanel extends Panel {
     private AjaxHybridSingleAndMultipleChoicePanel<Jugador> dropDownJugador;
     private AjaxHybridSingleAndMultipleChoicePanel<Equipo> dropDownEquipo;
 
-    public JugadorSelectorPanel(String id, IModel<Jugador> jugador) {
+    public JugadorSelectorPanel(String id, final IModel<Jugador> jugador) {
         super(id);
 
         add(new Link<Void>("htmlreporte") {
 
             @Override
             public void onClick() {
-                setResponsePage(new ReportePrinterFriendly());
+                setResponsePage(new ReportePrinterFriendly(jugador));
             }
         });
 
@@ -82,7 +82,6 @@ public abstract class JugadorSelectorPanel extends Panel {
         });
     }
 
-    
     protected void onUpdateClub(AjaxRequestTarget target) {
         idEquipo.setObject(null);
         target.addComponent(dropDownEquipo);
