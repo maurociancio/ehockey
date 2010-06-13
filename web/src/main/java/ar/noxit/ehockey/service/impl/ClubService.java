@@ -130,8 +130,7 @@ public class ClubService implements IClubService {
             List<Club> clubPorNombre = clubDao.getClubPorNombre(nombre, nombreCompleto);
             boolean actualizando = false;
             for (Club each : clubPorNombre) {
-                if ((each.getNombre().equals(nombre) && !each.getNombreCompleto().equals(nombreCompleto))
-                        || (!each.getNombre().equals(nombre) && each.getNombreCompleto().equals(nombreCompleto))) {
+                if (each.getId().equals(club.getId())) {
                     actualizando = true;
                 }
             }
