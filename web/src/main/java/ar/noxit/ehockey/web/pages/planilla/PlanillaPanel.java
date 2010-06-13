@@ -106,7 +106,16 @@ public class PlanillaPanel extends Panel {
             final Integer iteration = item.getIteration();
             final IModel<Jugador> jugadorModel = new JugadorListModel(iteration);
             item.add(new Label("fichas", new PropertyModel<Integer>(jugadorModel, "ficha")));
-            item.add(new Label("nombres", new PropertyModel<String>(jugadorModel, "nombre")));
+            item.add(new Label("nombres", new AbstractReadOnlyModel<String>() {
+
+                @Override
+                public String getObject() {
+                    Jugador object = jugadorModel.getObject();
+                    if (object == null)
+                        return null;
+                    return String.format("%S, %s", object.getApellido(), object.getNombre());
+                }
+            }));
             item.add(new Label("numeros", new PropertyModel<String>(jugadorModel, "letraJugador")));
             IModel<TarjetasPartido> tarjetasModel = new TarjetasPartidosModel(planillaModel, jugadorModel);
             item.add(new Label("rojas", new PropertyModel<Integer>(tarjetasModel, "rojas")));
