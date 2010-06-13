@@ -10,8 +10,7 @@ import ar.noxit.ehockey.exception.PlanillaNoFinalizadaException;
 import ar.noxit.ehockey.exception.PlanillaYaFinalizadaException;
 import ar.noxit.ehockey.exception.ReglaNegocioException;
 import org.apache.commons.lang.Validate;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalDateTime;
 
@@ -68,8 +67,9 @@ public class Partido {
     }
 
     /**
-     * La primera vez se crea la planilla, luego se devuelve siempre la misma. Esto asegura que la planilla del partido
-     * sea la misma en cualquier momento.
+     * La primera vez se crea la planilla, luego se devuelve siempre la misma.
+     * Esto asegura que la planilla del partido sea la misma en cualquier
+     * momento.
      * 
      * @return planilla del partido precargada. No es editable.
      * @throws PlanillaNoFinalizadaException
@@ -139,12 +139,12 @@ public class Partido {
     private void verificarTiempoPlanillaPrecargada(LocalDateTime now) throws PlanillaNoDisponibleException {
         Validate.notNull(now);
 
-        DateTime nowUTC = now.toDateTime(DateTimeZone.UTC);
-        DateTime inicioPartidoUTC = inicio.toDateTime(DateTimeZone.UTC);
+        LocalDateTime miercolesAnterior = inicio.minusDays(1);
+        while (miercolesAnterior.getDayOfWeek() != DateTimeConstants.WEDNESDAY) {
+            miercolesAnterior = miercolesAnterior.minusDays(1);
+        }
 
-        // now - inicio partido
-        Duration duration = new Duration(nowUTC, inicioPartidoUTC);
-        if (duration.isLongerThan(TIEMPO_PREVIO_PLANILLA)) {
+        if (now.isBefore(miercolesAnterior)) {
             throw new PlanillaNoDisponibleException("la planilla no está disponible");
         }
     }
