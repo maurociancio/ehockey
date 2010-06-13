@@ -140,7 +140,8 @@ public class Partido {
         while (miercolesAnterior.getDayOfWeek() != DateTimeConstants.WEDNESDAY) {
             miercolesAnterior = miercolesAnterior.minusDays(1);
         }
-
+        miercolesAnterior = miercolesAnterior.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0)
+                .withMillisOfSecond(0);
         if (now.isBefore(miercolesAnterior)) {
             throw new PlanillaNoDisponibleException("la planilla no está disponible");
         }
