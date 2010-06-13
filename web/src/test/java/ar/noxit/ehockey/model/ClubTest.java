@@ -17,7 +17,7 @@ public class ClubTest {
         Club club = new Club("club");
 
         // chequeamos
-        assertEquals(club.getNombre(), "club");
+        assertEquals(club.getNombreCompleto(), "club");
     }
 
     @Test(expectedExceptions = SinClubException.class)
