@@ -49,7 +49,7 @@ public abstract class ClubFormPanel extends Panel {
                 .add(EmailAddressValidator.getInstance()));
         clubForm.add(new TextField<String>("web", new PropertyModel<String>(clubPlano, "web")).add(new UrlValidator(
                 UrlValidator.ALLOW_2_SLASHES)));
-        clubForm.add(new TextArea<String>("observaciones", new PropertyModel<String>(clubPlano, "observaciones")));
+        clubForm.add(new TextField<String>("observaciones", new PropertyModel<String>(clubPlano, "observaciones")));
 
         add(clubForm);
         add(new FeedbackPanel("feedback"));
