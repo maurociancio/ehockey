@@ -10,9 +10,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Duration;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDateTime;
 
 public class PlanillaFinal implements Planilla {
@@ -27,8 +25,6 @@ public class PlanillaFinal implements Planilla {
     private Partido partido;
     private String comentario;
     private EstadoPlanilla estado;
-
-    private static final Duration DURACION_VENCIMIENTO = Duration.standardDays(2);
 
     protected PlanillaFinal() {
     }
@@ -106,14 +102,12 @@ public class PlanillaFinal implements Planilla {
     private boolean isVencida(LocalDateTime now) {
         Validate.notNull(now, "now no puede ser null");
 
-        LocalDateTime inicioPartido = this.partido.getInicio();
-
-        DateTime inicioPartidoUTC = inicioPartido.toDateTime(DateTimeZone.UTC);
-        DateTime nowUTC = now.toDateTime(DateTimeZone.UTC);
-
-        // diferencia = now - inicio
-        Duration diferencia = new Duration(inicioPartidoUTC, nowUTC);
-        return diferencia.isLongerThan(DURACION_VENCIMIENTO);
+        LocalDateTime sigLunes = this.partido.getInicio().plusDays(1);
+        while (sigLunes.getDayOfWeek() != DateTimeConstants.MONDAY) {
+            sigLunes = sigLunes.plusDays(1);
+        }
+        sigLunes = sigLunes.withHourOfDay(18).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+        return now.isAfter(sigLunes) || now.isEqual(sigLunes);
     }
 
     private class PlanillaFinalVencible implements PlanillaVencible {
