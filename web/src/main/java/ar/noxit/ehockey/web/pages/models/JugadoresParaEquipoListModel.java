@@ -23,4 +23,8 @@ public class JugadoresParaEquipoListModel extends LDM<List<Jugador>> {
     protected List<Jugador> doLoad() throws NoxitException {
         return clubService.getJugadoresParaEquipo(equipoId.getObject());
     }
+
+    protected IModel<Integer> getIdEquipoModel() {
+        return equipoId;
+    }
 }

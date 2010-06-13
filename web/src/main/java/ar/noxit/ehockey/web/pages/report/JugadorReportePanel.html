@@ -1,0 +1,59 @@
+<wicket:panel>
+        <wicket:enclosure child="ficha">
+        <table class="reporte">
+            <thead>
+		        <tr>
+		           <th colspan="2"><span> Reporte </span></th>
+		        </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	                <td>Ficha:</td>
+	                <td><span wicket:id="ficha"/></td>
+	            </tr>
+	            <tr>
+	                <td>Nombre:</td>
+	                <td><span wicket:id="nombre"/></td>
+	            </tr>
+	            <tr>
+	                <td>Apellido:</td>
+	                <td><span wicket:id="apellido"/></td>
+	            </tr>
+	            <tr>
+                    <td>Tipo Doc:</td>
+                    <td><span wicket:id="tipodoc"/></td>
+                </tr>
+                <tr>
+                    <td>Nro Doc:</td>
+                    <td><span wicket:id="nrodoc"/></td>
+                </tr>
+                <tr>
+                    <td>Fecha Nac:</td>
+                    <td><span wicket:id="fechanac"/></td>
+                </tr>
+                <tr>
+                    <td>Telefono:</td>
+                    <td><span wicket:id="telefono"/></td>
+                </tr>
+                <tr>
+                    <td>Fecha Alta:</td>
+                    <td><span wicket:id="fechaalta"/></td>
+                </tr>
+                <tr>
+                    <td>Club:</td>
+                    <td><span wicket:id="club"/></td>
+                </tr>
+                <tr>
+                    <td>División:</td>
+                    <td><span wicket:id="division"/></td>
+                </tr>
+                <tr>
+                    <td>Sector:</td>
+                    <td><span wicket:id="sector"/></td>
+                </tr>
+            </tbody>
+        </table>
+        <table wicket:id="tarjetas" class="reporte" />
+        <table wicket:id="sanciones" class="reporte" />
+        </wicket:enclosure>
+</wicket:panel>
