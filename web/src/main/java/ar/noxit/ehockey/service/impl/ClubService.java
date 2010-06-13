@@ -127,9 +127,21 @@ public class ClubService implements IClubService {
             Club club = clubDao.get(clubPlano.getId());
             String nombre = clubPlano.getNombre();
             String nombreCompleto = clubPlano.getNombreCompleto();
+            List<Club> clubPorNombre = clubDao.getClubPorNombre(nombre, nombreCompleto);
+            boolean actualizando = false;
+            for (Club each : clubPorNombre) {
+                if ((each.getNombre().equals(nombre) && !each.getNombreCompleto().equals(nombreCompleto))
+                        || (!each.getNombre().equals(nombre) && each.getNombreCompleto().equals(nombreCompleto))) {
+                    actualizando = true;
+                }
+            }
             if (!club.getNombre().equals(nombre) || !club.getNombreCompleto().equals(nombreCompleto)) {
-                if (clubDao.getClubPorNombre(nombre, nombreCompleto).size() != 0)
+                if (clubPorNombre.size() != 0 && !actualizando)
                     throw new ClubYaExistenteException("Club de nombre: " + nombre + " ya existente.");
+            } else {
+                if (actualizando) {
+                    throw new ClubYaExistenteException("Club de nombre: " + nombre + " ya existente.");
+                }
             }
         } catch (PersistenceException e) {
             throw new ClubYaExistenteException(e);
