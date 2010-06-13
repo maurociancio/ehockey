@@ -1,12 +1,35 @@
 package ar.noxit.ehockey.web.pages.torneo;
 
+import ar.noxit.ehockey.model.Division;
+import ar.noxit.ehockey.model.Equipo;
+import ar.noxit.ehockey.model.Sector;
+import ar.noxit.ehockey.service.IDivisionService;
+import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.service.IExceptionConverter;
+import ar.noxit.ehockey.service.ISectorService;
+import ar.noxit.ehockey.service.ITorneoService;
+import ar.noxit.ehockey.service.transfer.PartidoInfo;
+import ar.noxit.ehockey.web.pages.models.DivisionListModel;
+import ar.noxit.ehockey.web.pages.models.DivisionModel;
+import ar.noxit.ehockey.web.pages.models.EquipoModel;
+import ar.noxit.ehockey.web.pages.models.EquiposDeSectorYDivisionListModel;
+import ar.noxit.ehockey.web.pages.models.EquiposSeleccionadosListModel;
+import ar.noxit.ehockey.web.pages.models.SectorModel;
+import ar.noxit.ehockey.web.pages.models.SectoresListModel;
+import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
+import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
+import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
+import ar.noxit.exceptions.NoxitException;
+import ar.noxit.web.wicket.model.Date2LocalDateTimeAdapterModel;
+import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.wicket.Page;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.datetime.PatternDateConverter;
+import org.apache.wicket.datetime.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
@@ -16,6 +39,7 @@ import org.apache.wicket.extensions.wizard.IWizardStep;
 import org.apache.wicket.extensions.wizard.Wizard;
 import org.apache.wicket.extensions.wizard.WizardModel;
 import org.apache.wicket.extensions.wizard.WizardStep;
+import org.apache.wicket.extensions.yui.calendar.DateTimeField;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -30,32 +54,10 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ar.noxit.ehockey.model.Division;
-import ar.noxit.ehockey.model.Equipo;
-import ar.noxit.ehockey.model.Sector;
-import ar.noxit.ehockey.service.IDateTimeProvider;
-import ar.noxit.ehockey.service.IDivisionService;
-import ar.noxit.ehockey.service.IEquipoService;
-import ar.noxit.ehockey.service.IExceptionConverter;
-import ar.noxit.ehockey.service.ISectorService;
-import ar.noxit.ehockey.service.ITorneoService;
-import ar.noxit.ehockey.service.transfer.PartidoInfo;
-import ar.noxit.ehockey.web.pages.models.DivisionListModel;
-import ar.noxit.ehockey.web.pages.models.EquipoModel;
-import ar.noxit.ehockey.web.pages.models.EquiposDeSectorYDivisionListModel;
-import ar.noxit.ehockey.web.pages.models.EquiposSeleccionadosListModel;
-import ar.noxit.ehockey.web.pages.models.DivisionModel;
-import ar.noxit.ehockey.web.pages.models.SectorModel;
-import ar.noxit.ehockey.web.pages.models.SectoresListModel;
-import ar.noxit.ehockey.web.pages.renderers.DivisionRenderer;
-import ar.noxit.ehockey.web.pages.renderers.EquipoRenderer;
-import ar.noxit.ehockey.web.pages.renderers.SectorRenderer;
-import ar.noxit.exceptions.NoxitException;
-import ar.noxit.web.wicket.model.LocalDateTimeFormatModel;
 
 public class NuevoTorneoWizard extends Wizard {
 
@@ -69,8 +71,6 @@ public class NuevoTorneoWizard extends Wizard {
     private IDivisionService divisionService;
     @SpringBean
     private ISectorService sectorService;
-    @SpringBean
-    private IDateTimeProvider dateTimeProvider;
     private static final Logger logger = LoggerFactory.getLogger(NuevoTorneoWizard.class);
 
     private String nombre;
@@ -80,6 +80,18 @@ public class NuevoTorneoWizard extends Wizard {
     private IModel<Integer> division = new Model<Integer>();
     private IModel<Integer> sector = new Model<Integer>();
     private IModel<? extends List<Integer>> equipos = new Model<ArrayList<Integer>>(new ArrayList<Integer>());
+
+    private LocalDateTime inicioTorneo;
+    private String diaInicio;
+    private static final String DOMINGO = "Domingo";
+    private static final String SABADO = "Sábado";
+    private final static List<String> dias;
+    static {
+        dias = new ArrayList<String>();
+        dias.add(SABADO);
+        dias.add(DOMINGO);
+    }
+
     private static final ResourceReference EDITIMAGE = new ResourceReference(NuevoTorneoWizard.class, "edit.png");
 
     public NuevoTorneoWizard(String id) {
@@ -112,6 +124,7 @@ public class NuevoTorneoWizard extends Wizard {
         wizardModel.add(new NombreTorneoStep());
         wizardModel.add(new CaracteristicasEquiposStep());
         wizardModel.add(new EquiposDisponiblesStep());
+        wizardModel.add(new FechasPartidos());
         wizardModel.add(new CrearPartidosStep());
 
         wizardModel.addListener(new IWizardModelListener() {
@@ -141,7 +154,7 @@ public class NuevoTorneoWizard extends Wizard {
                             { 2, 3, 1, 4, 1 },
                             { 2, 3, 2, 2, 3 } };
 
-                    LocalDateTime now = dateTimeProvider.getLocalDateTime();
+                    LocalDateTime now = getInicioTorneo();
 
                     List<PartidoInfo> infoPartidos = partidos.getObject();
                     infoPartidos.clear();
@@ -164,7 +177,7 @@ public class NuevoTorneoWizard extends Wizard {
                         pi.setEquipoLocalId(local);
                         pi.setEquipoVisitanteId(visitante);
                         pi.setRueda(rueda);
-                        pi.setFecha(now.plusDays(ruedaYFecha * 7));
+                        pi.setFecha(now.plusDays((ruedaYFecha-1) * 7));
                         pi.setPartido(partido);
                         infoPartidos.add(pi);
                     }
@@ -200,6 +213,28 @@ public class NuevoTorneoWizard extends Wizard {
                     sector,
                     sectorService), new SectoresListModel(sectorService),
                     new SectorRenderer()).setRequired(true));
+        }
+    }
+
+    public class FechasPartidos extends WizardStep {
+
+        public FechasPartidos() {
+            setTitleModel(Model.of("Fechas de los Partidos"));
+            setSummaryModel(Model
+                    .of("Defina la fecha de inicio del torneo y los días en los que se juegan los partidos"));
+
+            IModel<LocalDateTime> delegate = new PropertyModel<LocalDateTime>(NuevoTorneoWizard.this, "inicioTorneo");
+            add(new DateTimeField("fechainicio", new Date2LocalDateTimeAdapterModel(delegate)) {
+
+                @SuppressWarnings("unchecked")
+                @Override
+                protected DateTextField newDateTextField(String id, PropertyModel dateFieldModel) {
+                    return new DateTextField(id, dateFieldModel, new PatternDateConverter("dd/MM/yyyy", false));
+                }
+            }.setRequired(true));
+
+            add(new DropDownChoice<String>("dia", new PropertyModel<String>(NuevoTorneoWizard.this, "diaInicio"), dias)
+                    .setRequired(true));
         }
     }
 
@@ -330,5 +365,22 @@ public class NuevoTorneoWizard extends Wizard {
                 }
             });
         }
+    }
+
+    private LocalDateTime getInicioTorneo() {
+        LocalDateTime inicioActual = inicioTorneo;
+        while (!matchaDia(inicioActual)) {
+            inicioActual = inicioActual.plusDays(1);
+        }
+        return inicioActual;
+    }
+
+    private boolean matchaDia(LocalDateTime inicioActual) {
+        if (diaInicio.equals(DOMINGO)) {
+            return inicioActual.getDayOfWeek() == DateTimeConstants.SUNDAY;
+        } else if (diaInicio.equals(SABADO)) {
+            return inicioActual.getDayOfWeek() == DateTimeConstants.SATURDAY;
+        }
+        throw new IllegalStateException();
     }
 }
