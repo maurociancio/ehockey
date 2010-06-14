@@ -2,6 +2,8 @@ package ar.noxit.ehockey.web.pages.usuarios;
 
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
+import ar.noxit.ehockey.web.pages.authentication.AuthSession;
+import ar.noxit.ehockey.web.pages.authentication.LoginPage;
 import ar.noxit.ehockey.web.pages.base.AbstractContentPage;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
 import ar.noxit.ehockey.web.pages.models.UsuarioAdapterModel;
@@ -44,9 +46,19 @@ public class ListaUsuariosPage extends AbstractUsuariosPage {
                     @Override
                     public void onClick() {
                         try {
-                            usuarioService.remove(item.getModelObject().getUser());
-                            setResponsePage(new MensajePage("Baja de usuario", String.format(
-                                    "El usuario %s ha sido dado de baja", item.getModelObject().getUser())));
+                            Usuario modelObject = item.getModelObject();
+                            Usuario loggedUser = AuthSession.get().getUserLogged();
+                            boolean desloguear = modelObject.equals(loggedUser);
+
+                            usuarioService.remove(modelObject.getUser());
+
+                            if (!desloguear) {
+                                setResponsePage(new MensajePage("Baja de usuario", String.format(
+                                        "El usuario %s ha sido dado de baja", modelObject.getUser())));
+                            } else {
+                                AuthSession.get().signOut();
+                                setResponsePage(LoginPage.class);
+                            }
                         } catch (NoxitException e) {
                             setResponsePage(new MensajePage("Baja de usuario",
                                     "No se pudo dar de baja el usuario, ocurrió un error durante la operación"));
