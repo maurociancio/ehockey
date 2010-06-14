@@ -31,7 +31,7 @@ import com.ttdev.wicketpagetest.MockableBeanInjector;
 /**
  * Simple test using the WicketTester
  */
-public class TestHomePage extends BaseSpringWicketTest {
+public class TestRenderPage extends BaseSpringWicketTest {
 
     @Test
     public void testRenderHomePage() {
