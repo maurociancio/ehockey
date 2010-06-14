@@ -24,6 +24,10 @@ public class Sector {
         return sector;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     protected Sector() {
     }
 }

@@ -25,6 +25,10 @@ public class Division {
         return division;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     protected Division() {
     }
 }

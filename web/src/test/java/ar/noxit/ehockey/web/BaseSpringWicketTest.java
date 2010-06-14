@@ -1,5 +1,9 @@
 package ar.noxit.ehockey.web;
 
+import org.apache.wicket.util.tester.ITestPageSource;
+
+import org.apache.wicket.util.tester.ITestPageSource;
+
 import com.ttdev.wicketpagetest.MockableSpringBeanInjector;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -33,5 +37,16 @@ public abstract class BaseSpringWicketTest {
 
         // test rendered
         tester.assertRenderedPage(pageClass);
+    }
+
+    protected void startPageAndTestRendered(final Page page) {
+        // start
+        tester.startPage(new ITestPageSource() {
+
+            @Override
+            public Page getTestPage() {
+                return page;
+            }
+        });
     }
 }

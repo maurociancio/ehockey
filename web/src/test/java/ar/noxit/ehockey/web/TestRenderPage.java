@@ -8,6 +8,7 @@ import ar.noxit.ehockey.configuration.MenuItem;
 import ar.noxit.ehockey.exception.SessionClosedException;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
+import ar.noxit.ehockey.model.Jugador;
 import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.model.Usuario;
@@ -21,13 +22,22 @@ import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.IUsuarioService;
+import ar.noxit.ehockey.web.pages.AdministracionPage;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.authentication.LoginPage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
+import ar.noxit.ehockey.web.pages.clubes.ClubPage;
+import ar.noxit.ehockey.web.pages.equipos.EquiposPage;
+import ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.header.IMenuItemProvider;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorAltaPage;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorBajaPage;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorModificarPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorPage;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorPlano;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorVerPage;
+import ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage;
 import ar.noxit.ehockey.web.pages.torneo.ListadoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
@@ -35,7 +45,9 @@ import ar.noxit.exceptions.NoxitException;
 import com.ttdev.wicketpagetest.MockableBeanInjector;
 import java.util.ArrayList;
 import org.apache.wicket.Session;
+import org.apache.wicket.model.Model;
 import org.easymock.EasyMock;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -97,14 +109,97 @@ public class TestRenderPage extends BaseSpringWicketTest {
         startPageAndTestRendered(JugadorAltaPage.class);
     }
 
-    private void mockJugadoresService() {
+    @Test
+    public void testBajaJugadorPage() throws NoxitException {
+        mockJugadoresService();
+        mockClubService();
+
+        startPageAndTestRendered(JugadorBajaPage.class);
+    }
+
+    @Test
+    public void testRenderVerListaBuenaFe() throws NoxitException {
+        mockEquipoService();
+        mockClubService();
+
+        startPageAndTestRendered(VerListaBuenaFePage.class);
+    }
+
+    @Test
+    public void testVerJugadorPage() throws NoxitException {
+        mockJugadoresService();
+        mockClubService();
+        mockDivisionService();
+        mockSectorService();
+
+        startPageAndTestRendered(JugadorVerPage.class);
+    }
+
+    @Test
+    public void testModificarJugadorPage() throws NoxitException {
+        mockJugadoresService();
+        mockClubService();
+        mockDivisionService();
+        mockSectorService();
+
+        JugadorPlano object = new JugadorPlano();
+        object.setApellido("lla");
+        object.setNombre("lla");
+        object.setClubId(1);
+        object.setDivisionId(1);
+        object.setFechaAlta(new LocalDate());
+        object.setFechaNacimiento(new LocalDate());
+        object.setFicha(1);
+        object.setLetraJugador("a");
+        object.setNumeroDocumento("3232323");
+        object.setSectorId(1);
+        object.setTelefono("4444");
+        object.setTipoDocumento("dni");
+        startPageAndTestRendered(new JugadorModificarPage(Model.of(object)));
+    }
+
+    @Test
+    public void testTablaPosiciones() throws NoxitException {
+        mockTorneoService();
+        mockTablaService();
+
+        startPageAndTestRendered(TablaPosicionesPage.class);
+    }
+
+    @Test
+    public void testFechaHoraPage() throws NoxitException {
+        mockHorarioService();
+        startPageAndTestRendered(FechaHoraPage.class);
+    }
+
+    @Test
+    public void testAdminPage() throws NoxitException {
+        startPageAndTestRendered(AdministracionPage.class);
+    }
+
+    @Test
+    public void testClubPage() throws NoxitException {
+        startPageAndTestRendered(ClubPage.class);
+    }
+
+    @Test
+    public void testEquipoPage() throws NoxitException {
+        startPageAndTestRendered(EquiposPage.class);
+    }
+
+    private void mockJugadoresService() throws NoxitException {
         IJugadorService jugadorService = createMock(IJugadorService.class);
+        expect(jugadorService.getAllByClubDivisionSector(null, null, null)).andReturn(new ArrayList<Jugador>())
+                .anyTimes();
         MockableBeanInjector.mockBean("jugadorService", jugadorService);
         replay(jugadorService);
     }
 
     private void mockDivisionService() throws NoxitException {
         IDivisionService divisionService = createMock(IDivisionService.class);
+        Division value = new Division("");
+        value.setId(1);
+        expect(divisionService.get(1)).andReturn(value);
         expect(divisionService.getAll()).andReturn(new ArrayList<Division>()).anyTimes();
         replay(divisionService);
         MockableBeanInjector.mockBean("divisionService", divisionService);
@@ -112,6 +207,9 @@ public class TestRenderPage extends BaseSpringWicketTest {
 
     private void mockSectorService() throws NoxitException {
         ISectorService sectorService = createMock(ISectorService.class);
+        Sector value = new Sector("");
+        value.setId(1);
+        expect(sectorService.get(1)).andReturn(value);
         expect(sectorService.getAll()).andReturn(new ArrayList<Sector>()).anyTimes();
         replay(sectorService);
         MockableBeanInjector.mockBean("sectorService", sectorService);
@@ -123,17 +221,12 @@ public class TestRenderPage extends BaseSpringWicketTest {
         MockableBeanInjector.mockBean("exceptionConverter", exceptionConverter);
     }
 
-    @Test
-    public void testRenderVerListaBuenaFe() throws NoxitException {
-        mockEquipoService();
-        mockClubService();
-
-        startPageAndTestRendered(VerListaBuenaFePage.class);
-    }
-
     private void mockClubService() throws NoxitException {
         IClubService clubService = createMock(IClubService.class);
-        expect(clubService.getAll()).andReturn(new ArrayList<Club>()).times(3);
+        Club value = new Club("");
+        value.setId(1);
+        expect(clubService.get(1)).andReturn(value);
+        expect(clubService.getAll()).andReturn(new ArrayList<Club>()).anyTimes();
         replay(clubService);
         MockableBeanInjector.mockBean("clubService", clubService);
     }
@@ -165,7 +258,7 @@ public class TestRenderPage extends BaseSpringWicketTest {
     private void mockHorarioService() throws NoxitException {
         // horario service
         IHorarioService horarioService = createMock(IHorarioService.class);
-        expect(horarioService.getHoraSistema()).andReturn(new LocalDateTime());
+        expect(horarioService.getHoraSistema()).andReturn(new LocalDateTime()).anyTimes();
         MockableBeanInjector.mockBean("horarioService", horarioService);
         replay(horarioService);
     }
