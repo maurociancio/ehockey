@@ -6,6 +6,7 @@ import static org.easymock.EasyMock.replay;
 
 import ar.noxit.ehockey.configuration.MenuItem;
 import ar.noxit.ehockey.exception.SessionClosedException;
+import ar.noxit.ehockey.model.Administrador;
 import ar.noxit.ehockey.model.Club;
 import ar.noxit.ehockey.model.Division;
 import ar.noxit.ehockey.model.Jugador;
@@ -26,7 +27,9 @@ import ar.noxit.ehockey.web.pages.AdministracionPage;
 import ar.noxit.ehockey.web.pages.HomePage;
 import ar.noxit.ehockey.web.pages.authentication.LoginPage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
+import ar.noxit.ehockey.web.pages.clubes.ClubAltaPage;
 import ar.noxit.ehockey.web.pages.clubes.ClubPage;
+import ar.noxit.ehockey.web.pages.clubes.ClubVerPage;
 import ar.noxit.ehockey.web.pages.equipos.EquiposPage;
 import ar.noxit.ehockey.web.pages.fechahora.FechaHoraPage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
@@ -37,11 +40,16 @@ import ar.noxit.ehockey.web.pages.jugadores.JugadorModificarPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorPage;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorPlano;
 import ar.noxit.ehockey.web.pages.jugadores.JugadorVerPage;
+import ar.noxit.ehockey.web.pages.report.ReportPage;
 import ar.noxit.ehockey.web.pages.tablaposiciones.TablaPosicionesPage;
 import ar.noxit.ehockey.web.pages.torneo.ListadoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
 import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
+import ar.noxit.ehockey.web.pages.usuarios.AltaUsuarioPage;
+import ar.noxit.ehockey.web.pages.usuarios.IUsuarioDTOProvider;
+import ar.noxit.ehockey.web.pages.usuarios.ListaUsuariosPage;
 import ar.noxit.exceptions.NoxitException;
+import ar.noxit.hasher.MD5Hasher;
 import com.ttdev.wicketpagetest.MockableBeanInjector;
 import java.util.ArrayList;
 import org.apache.wicket.Session;
@@ -68,6 +76,43 @@ public class TestRenderPage extends BaseSpringWicketTest {
     @Test
     public void testLoginPage() {
         startPageAndTestRendered(LoginPage.class);
+    }
+
+    @Test
+    public void testUsuariosPage() {
+        startPageAndTestRendered(ListaUsuariosPage.class);
+    }
+
+    @Test
+    public void testReportPage() throws NoxitException {
+        mockJugadoresService();
+        mockEquipoService();
+        mockClubService();
+
+        startPageAndTestRendered(ReportPage.class);
+    }
+
+    @Test
+    public void testNewUser() throws NoxitException {
+        mockClubService();
+        IUsuarioDTOProvider provider = createMock(IUsuarioDTOProvider.class);
+        expect(provider.getListaTipos()).andReturn(new ArrayList<String>());
+        replay(provider);
+        MockableBeanInjector.mockBean("provider", provider);
+
+        startPageAndTestRendered(AltaUsuarioPage.class);
+    }
+
+    @Test
+    public void testClubAltaPage() throws NoxitException {
+        mockClubService();
+        startPageAndTestRendered(ClubAltaPage.class);
+    }
+
+    @Test
+    public void testClubVerPage() throws NoxitException {
+        mockClubService();
+        startPageAndTestRendered(ClubVerPage.class);
     }
 
     @Test
@@ -248,7 +293,11 @@ public class TestRenderPage extends BaseSpringWicketTest {
         // usuarios service
         IUsuarioService usuariosService = createMock(IUsuarioService.class);
         expect(usuariosService.getUsuarioConectado((Session) EasyMock.anyObject())).andReturn(null).anyTimes();
-        expect(usuariosService.getAll()).andReturn(new ArrayList<Usuario>()).anyTimes();
+        ArrayList<Usuario> value = new ArrayList<Usuario>();
+        Administrador e = new Administrador("a", "a", new MD5Hasher());
+        value.add(e);
+        expect(usuariosService.get("a")).andReturn(e).anyTimes();
+        expect(usuariosService.getAll()).andReturn(value).anyTimes();
         MockableBeanInjector.mockBean("usuarioService", usuariosService);
 
         // replay

@@ -1,12 +1,9 @@
 package ar.noxit.ehockey.web;
 
-import org.apache.wicket.util.tester.ITestPageSource;
-
-import org.apache.wicket.util.tester.ITestPageSource;
-
 import com.ttdev.wicketpagetest.MockableSpringBeanInjector;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.util.tester.ITestPageSource;
 import org.apache.wicket.util.tester.WicketTester;
 import org.apache.wicket.util.tester.WicketTester.DummyWebApplication;
 import org.testng.annotations.BeforeMethod;

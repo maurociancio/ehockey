@@ -360,17 +360,16 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
+                  <version>2.4</version> 
                 <configuration>
                     <formats>
                         <format>html</format>
                     </formats>
                   <instrumentation>
-                      <ignores>
-                          <ignore>ar.noxit.ehockey.main.*</ignore>
-                      </ignores>
-                      <excludes>
-                          <exclude>ar/noxit/ehockey/main/*.class</exclude>
-                       </excludes>
+                    <excludes>
+                        <exclude>ar/noxit/ehockey/exception/**.class</exclude>
+                        <exclude>ar/noxit/ehockey/main/**.class</exclude>
+                    </excludes>
                   </instrumentation>
                 </configuration>
             </plugin>
