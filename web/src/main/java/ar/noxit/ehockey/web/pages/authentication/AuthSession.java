@@ -5,6 +5,7 @@ import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.exceptions.NoxitException;
 import ar.noxit.web.wicket.model.LDM;
+import java.util.Locale;
 import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
@@ -23,6 +24,8 @@ public class AuthSession extends AuthenticatedWebSession {
         super(request);
         InjectorHolder.getInjector().inject(this);
         usuarioModel = new UsuarioIdModel();
+
+        setLocale(new Locale("es", "ar"));
     }
 
     public void setUsuarioService(IUsuarioService usuarioService) {
