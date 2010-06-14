@@ -80,13 +80,16 @@ public abstract class EquipoFormPanel extends Panel {
         IModel<List<Club>> clubes = new ClubesListModel(clubService);
         IChoiceRenderer<Club> clubRenderer = new ClubRenderer();
 
-        return new RequiredHybridSingleAndMultipleChoicePanel<Club>(id, club, clubes, clubRenderer) {
+        RequiredHybridSingleAndMultipleChoicePanel<Club> hybrid = new RequiredHybridSingleAndMultipleChoicePanel<Club>(
+                id, club, clubes, clubRenderer) {
 
             @Override
             public boolean isEnabled() {
                 return clubActivo;
             }
         };
+        hybrid.setRequired(true);
+        return hybrid;
     }
 
     protected HybridSingleAndMultipleChoicePanel<Division> crearHybridDivisionChoice(
@@ -97,13 +100,16 @@ public abstract class EquipoFormPanel extends Panel {
         IModel<List<Division>> divisiones = new DivisionListModel(divisionService);
         IChoiceRenderer<Division> divisionRenderer = new DivisionRenderer();
 
-        return new RequiredHybridSingleAndMultipleChoicePanel<Division>(id, division, divisiones, divisionRenderer) {
+        RequiredHybridSingleAndMultipleChoicePanel<Division> hyb = new RequiredHybridSingleAndMultipleChoicePanel<Division>(
+                id, division, divisiones, divisionRenderer) {
 
             @Override
             public boolean isEnabled() {
                 return divisionActivo;
             }
         };
+        hyb.setRequired(true);
+        return hyb;
     }
 
     protected HybridSingleAndMultipleChoicePanel<Sector> crearHybridSectorChoice(String id, IModel<EquipoPlano> equipo) {
@@ -112,13 +118,16 @@ public abstract class EquipoFormPanel extends Panel {
         IModel<List<Sector>> divisiones = new SectoresListModel(sectorService);
         IChoiceRenderer<Sector> divisionRenderer = new SectorRenderer();
 
-        return new RequiredHybridSingleAndMultipleChoicePanel<Sector>(id, sector, divisiones, divisionRenderer) {
+        RequiredHybridSingleAndMultipleChoicePanel<Sector> hyb = new RequiredHybridSingleAndMultipleChoicePanel<Sector>(
+                id, sector, divisiones, divisionRenderer) {
 
             @Override
             public boolean isEnabled() {
                 return sectorActivo;
             }
         };
+        hyb.setRequired(true);
+        return hyb;
     }
 
     public EquipoFormPanel setClubActivo(boolean clubActivo) {
