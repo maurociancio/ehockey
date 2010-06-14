@@ -4,19 +4,20 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 
-import ar.noxit.ehockey.exception.SessionClosedException;
-
-import org.apache.wicket.Session;
-
-import org.easymock.EasyMock;
-
 import ar.noxit.ehockey.configuration.MenuItem;
+import ar.noxit.ehockey.exception.SessionClosedException;
 import ar.noxit.ehockey.model.Club;
+import ar.noxit.ehockey.model.Division;
+import ar.noxit.ehockey.model.Sector;
 import ar.noxit.ehockey.model.Torneo;
 import ar.noxit.ehockey.model.Usuario;
 import ar.noxit.ehockey.service.IClubService;
+import ar.noxit.ehockey.service.IDivisionService;
 import ar.noxit.ehockey.service.IEquipoService;
+import ar.noxit.ehockey.service.IExceptionConverter;
 import ar.noxit.ehockey.service.IHorarioService;
+import ar.noxit.ehockey.service.IJugadorService;
+import ar.noxit.ehockey.service.ISectorService;
 import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.IUsuarioService;
@@ -25,10 +26,16 @@ import ar.noxit.ehockey.web.pages.authentication.LoginPage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.header.IMenuItemProvider;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorAltaPage;
+import ar.noxit.ehockey.web.pages.jugadores.JugadorPage;
+import ar.noxit.ehockey.web.pages.torneo.ListadoTorneoPage;
+import ar.noxit.ehockey.web.pages.torneo.NuevoTorneoPage;
+import ar.noxit.ehockey.web.pages.torneo.TorneoPage;
 import ar.noxit.exceptions.NoxitException;
 import com.ttdev.wicketpagetest.MockableBeanInjector;
 import java.util.ArrayList;
-import java.util.List;
+import org.apache.wicket.Session;
+import org.easymock.EasyMock;
 import org.joda.time.LocalDateTime;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -52,19 +59,89 @@ public class TestRenderPage extends BaseSpringWicketTest {
     }
 
     @Test
+    public void testTorneoPage() {
+        startPageAndTestRendered(TorneoPage.class);
+    }
+
+    @Test
+    public void testCrearTorneoPage() throws NoxitException {
+        mockEquipoService();
+        mockClubService();
+        mockTorneoService();
+        mockExceptionConverter();
+        mockDivisionService();
+        mockSectorService();
+
+        startPageAndTestRendered(NuevoTorneoPage.class);
+    }
+
+    @Test
+    public void testListadoTorneoPage() throws NoxitException {
+        mockTorneoService();
+
+        startPageAndTestRendered(ListadoTorneoPage.class);
+    }
+
+    @Test
+    public void testJugadoresPage() {
+        startPageAndTestRendered(JugadorPage.class);
+    }
+
+    @Test
+    public void testJugadoresAltaPage() throws NoxitException {
+        mockJugadoresService();
+        mockClubService();
+        mockDivisionService();
+        mockSectorService();
+
+        startPageAndTestRendered(JugadorAltaPage.class);
+    }
+
+    private void mockJugadoresService() {
+        IJugadorService jugadorService = createMock(IJugadorService.class);
+        MockableBeanInjector.mockBean("jugadorService", jugadorService);
+        replay(jugadorService);
+    }
+
+    private void mockDivisionService() throws NoxitException {
+        IDivisionService divisionService = createMock(IDivisionService.class);
+        expect(divisionService.getAll()).andReturn(new ArrayList<Division>()).anyTimes();
+        replay(divisionService);
+        MockableBeanInjector.mockBean("divisionService", divisionService);
+    }
+
+    private void mockSectorService() throws NoxitException {
+        ISectorService sectorService = createMock(ISectorService.class);
+        expect(sectorService.getAll()).andReturn(new ArrayList<Sector>()).anyTimes();
+        replay(sectorService);
+        MockableBeanInjector.mockBean("sectorService", sectorService);
+    }
+
+    private void mockExceptionConverter() {
+        IExceptionConverter exceptionConverter = createMock(IExceptionConverter.class);
+        replay(exceptionConverter);
+        MockableBeanInjector.mockBean("exceptionConverter", exceptionConverter);
+    }
+
+    @Test
     public void testRenderVerListaBuenaFe() throws NoxitException {
-        IEquipoService equipoService = createMock(IEquipoService.class);
-        IClubService clubService = createMock(IClubService.class);
-        List<Club> value = new ArrayList<Club>();
-
-        expect(clubService.getAll()).andReturn(value).times(3);
-        replay(equipoService);
-        replay(clubService);
-
-        MockableBeanInjector.mockBean("equipoService", equipoService);
-        MockableBeanInjector.mockBean("clubService", clubService);
+        mockEquipoService();
+        mockClubService();
 
         startPageAndTestRendered(VerListaBuenaFePage.class);
+    }
+
+    private void mockClubService() throws NoxitException {
+        IClubService clubService = createMock(IClubService.class);
+        expect(clubService.getAll()).andReturn(new ArrayList<Club>()).times(3);
+        replay(clubService);
+        MockableBeanInjector.mockBean("clubService", clubService);
+    }
+
+    private void mockEquipoService() {
+        IEquipoService equipoService = createMock(IEquipoService.class);
+        MockableBeanInjector.mockBean("equipoService", equipoService);
+        replay(equipoService);
     }
 
     @BeforeMethod

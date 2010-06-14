@@ -62,7 +62,7 @@ import org.slf4j.LoggerFactory;
 public class NuevoTorneoWizard extends Wizard {
 
     @SpringBean
-    private IEquipoService equiposService;
+    private IEquipoService equipoService;
     @SpringBean
     private ITorneoService torneoService;
     @SpringBean
@@ -177,7 +177,7 @@ public class NuevoTorneoWizard extends Wizard {
                         pi.setEquipoLocalId(local);
                         pi.setEquipoVisitanteId(visitante);
                         pi.setRueda(rueda);
-                        pi.setFecha(now.plusDays((ruedaYFecha-1) * 7));
+                        pi.setFecha(now.plusDays((ruedaYFecha - 1) * 7));
                         pi.setPartido(partido);
                         infoPartidos.add(pi);
                     }
@@ -245,8 +245,8 @@ public class NuevoTorneoWizard extends Wizard {
             setSummaryModel(Model.of("Elija cuatro equipos para conformar el torneo"));
 
             final Palette<Equipo> palette = new Palette<Equipo>("equipos",
-                    new EquiposSeleccionadosListModel(equiposService, equipos),
-                    new EquiposDeSectorYDivisionListModel(equiposService, sector, division),
+                    new EquiposSeleccionadosListModel(equipoService, equipos),
+                    new EquiposDeSectorYDivisionListModel(equipoService, sector, division),
                     EquipoRenderer.get(),
                     6,
                     true);
@@ -324,7 +324,7 @@ public class NuevoTorneoWizard extends Wizard {
 
                 private IModel<String> getEquipoModel(IModel<PartidoInfo> model, String expression) {
                     return new PropertyModel<String>(
-                            new EquipoModel(new PropertyModel<Integer>(model, expression), equiposService),
+                            new EquipoModel(new PropertyModel<Integer>(model, expression), equipoService),
                             "nombre");
                 }
             });
