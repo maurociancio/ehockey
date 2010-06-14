@@ -7,6 +7,6 @@ public abstract class AbstractListaBuenaFePage extends AbstractContentPage {
 
     @Override
     public boolean shouldBeSelected(IMenuItem menuItem) {
-        return menuItem.getPageLink().equals(ListaBuenaFePage.class);
+        return menuItem.getPageLink().equals(VerListaBuenaFePage.class);
     }
 }

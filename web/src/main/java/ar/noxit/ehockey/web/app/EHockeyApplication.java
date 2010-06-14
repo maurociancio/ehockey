@@ -25,8 +25,6 @@ import ar.noxit.ehockey.web.pages.authentication.ForbiddenAccessPage;
 import ar.noxit.ehockey.web.pages.authentication.LoginPage;
 import ar.noxit.ehockey.web.pages.authentication.RolRenderableStrategy;
 import ar.noxit.ehockey.web.pages.base.MensajePage;
-import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
-import ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.clubes.ClubAltaPage;
 import ar.noxit.ehockey.web.pages.clubes.ClubEditarPage;
@@ -85,9 +83,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
 
         addComponentInstantiationListener(new SpringComponentInjector(this));
 
-        mount(new HybridUrlCodingStrategy("/listabuenafe", ListaBuenaFePage.class, false));
-        mount(new HybridUrlCodingStrategy("/listabuenafe/ver", VerListaBuenaFePage.class, false));
-        mount(new HybridUrlCodingStrategy("/listabuenafe/editar", EditarListaBuenaFePage.class, false));
+        mount(new HybridUrlCodingStrategy("/listabuenafe", VerListaBuenaFePage.class, false));
         mount(new HybridUrlCodingStrategy("/planillas/final", PlanillaPage.class, false));
         mount(new HybridUrlCodingStrategy("/planillas/print", PlanillaPrinterFriendly.class, false));
         mount(new HybridUrlCodingStrategy("/planillas/precargada", PlanillaPrecargadaPage.class, false));
@@ -138,9 +134,7 @@ public class EHockeyApplication extends AuthenticatedWebApplication {
     private void authorizationStrategy() {
         MetaDataRoleAuthorizationStrategy.authorize(HomePage.class, Rol.HOME);
 
-        MetaDataRoleAuthorizationStrategy.authorize(ListaBuenaFePage.class, Rol.BUENA_FE);
         MetaDataRoleAuthorizationStrategy.authorize(VerListaBuenaFePage.class, Rol.VER_BUENA_FE);
-        MetaDataRoleAuthorizationStrategy.authorize(EditarListaBuenaFePage.class, Rol.EDITAR_BUENA_FE);
 
         MetaDataRoleAuthorizationStrategy.authorize(TorneoPage.class, Rol.TORNEOS);
         MetaDataRoleAuthorizationStrategy.authorize(NuevoTorneoPage.class, Rol.CREAR_TORNEOS);

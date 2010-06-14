@@ -25,11 +25,16 @@ public class EquipoSelectorPanel extends FormComponentPanel<Equipo> {
         IModel<Integer> idClub = new Model<Integer>();
 
         this.dropDownEquipo =
-                new HybridSingleAndMultipleChoicePanel<Equipo>(
+                new AjaxHybridSingleAndMultipleChoicePanel<Equipo>(
                         "equipo",
                         equipo,
                         new EquiposPorClubListModel(idClub, clubService),
-                        EquipoRenderer.get());
+                        EquipoRenderer.get()) {
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+                EquipoSelectorPanel.this.onUpdate(target);
+            }
+        };
 
         dropDownEquipo.setRequired(true);
         dropDownEquipo.setOutputMarkupId(true);
@@ -43,6 +48,7 @@ public class EquipoSelectorPanel extends FormComponentPanel<Equipo> {
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
                 target.addComponent(dropDownEquipo);
+                EquipoSelectorPanel.this.onUpdate(target);
             };
         });
     }
@@ -56,5 +62,9 @@ public class EquipoSelectorPanel extends FormComponentPanel<Equipo> {
     @Override
     protected boolean getStatelessHint() {
         return false;
+    }
+
+    //Redefinir si se quiere hacer algo en el update
+    protected void onUpdate(AjaxRequestTarget target) {
     }
 }

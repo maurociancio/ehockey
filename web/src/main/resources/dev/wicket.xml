@@ -26,7 +26,7 @@
 	           </bean>
                <bean parent="menuItem">
                    <constructor-arg value="Lista de Buena Fe"/>
-                   <constructor-arg value="ar.noxit.ehockey.web.pages.buenafe.ListaBuenaFePage"/>
+                   <constructor-arg value="ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage"/>
                    <constructor-arg>
                        <util:constant static-field="ar.noxit.ehockey.model.Rol.BUENA_FE"/>
                    </constructor-arg>

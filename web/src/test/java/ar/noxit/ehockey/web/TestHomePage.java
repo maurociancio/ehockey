@@ -21,7 +21,6 @@ import ar.noxit.ehockey.service.ITablaPosicionesService;
 import ar.noxit.ehockey.service.ITorneoService;
 import ar.noxit.ehockey.service.IUsuarioService;
 import ar.noxit.ehockey.web.pages.HomePage;
-import ar.noxit.ehockey.web.pages.buenafe.EditarListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.buenafe.VerListaBuenaFePage;
 import ar.noxit.ehockey.web.pages.header.IMenuItem;
 import ar.noxit.ehockey.web.pages.header.IMenuItemProvider;
@@ -53,22 +52,6 @@ public class TestHomePage extends BaseSpringWicketTest {
         MockableBeanInjector.mockBean("clubService", clubService);
 
         startPageAndTestRendered(VerListaBuenaFePage.class);
-    }
-
-    @Test
-    public void testRenderEditarListaBuenaFe() throws NoxitException {
-        IEquipoService equiposService = createMock(IEquipoService.class);
-        replay(equiposService);
-        MockableBeanInjector.mockBean("equipoService", equiposService);
-
-        IClubService clubService = createMock(IClubService.class);
-        List<Club> value = new ArrayList<Club>();
-
-        expect(clubService.getAll()).andReturn(value).times(3);
-        replay(clubService);
-        MockableBeanInjector.mockBean("clubService", clubService);
-
-        startPageAndTestRendered(EditarListaBuenaFePage.class);
     }
 
     @BeforeMethod
