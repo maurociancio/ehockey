@@ -31,12 +31,9 @@ public class PlanillaPanel extends Panel {
         add(new Label("rueda", new PropertyModel<Integer>(planillaModel, "partido.rueda")));
         add(new Label("fecha", new PropertyModel<Integer>(planillaModel, "partido.fechaDelTorneo")));
         add(new Label("partido", new PropertyModel<Integer>(planillaModel, "partido.partido")));
-        // TODO GUARDAR NUMERO DE PARTIDO
-        add(new Label("sector", "Sector"));
-        // TODO GUARDAR EL SECTOR EN TORNEOBase
+        add(new Label("sector", new PropertyModel<String>(planillaModel, "partido.local.sector.sector")));
         add(new Label("categoria", "Campeonato"));
-        add(new Label("division", "Division"));
-        // TODO GUARDAR LA DIVISION EN EL TORNEO
+        add(new Label("division", new PropertyModel<String>(planillaModel, "partido.local.division")));
         add(new Label("zona", ""));
 
         add(new Label("goles_local", new PropertyModel<Integer>(planillaModel, "datosLocal.goles")));
