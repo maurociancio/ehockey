@@ -26,6 +26,7 @@ public class PlanillaPage extends AbstractHeaderPage {
         add(new RechazoAceptacionPlanillaForm("acciones_form", planillaModel, partido));
         add(new PlanillaEstadosForm("planillaForm", planillaModel, partido));
         add(new PlanillaPanel("panelPlanilla", planillaModel));
+        add(new VerPartidosLink("volver", partido));
 
         crearLabelEstado(partido, planillaModel);
         crearLinkHTML(planillaModel);

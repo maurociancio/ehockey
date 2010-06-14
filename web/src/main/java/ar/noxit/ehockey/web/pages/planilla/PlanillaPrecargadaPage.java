@@ -29,6 +29,7 @@ public class PlanillaPrecargadaPage extends AbstractHeaderPage {
             }
         });
 
+        add(new VerPartidosLink("volver", partido));
         add(new PlanillaPanel("panelPlanilla", new PlanillaPrecargadaModel(partido, dateTimeProvider, planillaService)));
 
         add(new Label("estado_partido", new AbstractReadOnlyModel<String>() {
