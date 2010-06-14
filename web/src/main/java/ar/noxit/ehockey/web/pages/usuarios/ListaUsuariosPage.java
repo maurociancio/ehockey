@@ -52,6 +52,11 @@ public class ListaUsuariosPage extends AbstractUsuariosPage {
                                     "No se pudo dar de baja el usuario, ocurrió un error durante la operación"));
                         }
                     }
+
+                    @Override
+                    protected CharSequence getOnClickScript(CharSequence url) {
+                        return "return confirm('Está seguro que desea borrar este usuario?');";
+                    }
                 });
             }
         };
